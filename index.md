@@ -1,2 +1,1 @@
-﻿# 可燃ごみ箱
-### kanengomibako
+﻿(ブログ)[https://drugscore.blog.fc2.com/]から移行予定
