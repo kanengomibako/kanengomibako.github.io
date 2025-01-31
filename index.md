@@ -1,1 +1,1 @@
-﻿(ブログ)[https://drugscore.blog.fc2.com/]から移行予定
+﻿[ブログ](https://drugscore.blog.fc2.com/)から移行予定
