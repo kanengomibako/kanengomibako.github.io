@@ -78,21 +78,29 @@
 </ul>
   <h2>使い方</h2>
 <ol>
-  <li>Chlorine本体にUSBケーブル接続します。LEDが青に点灯します。</li>
-  <li>電源ケーブルを接続します。起動しますが、本体の画面は白いままになります。</li>
+  <li>Chlorine本体に、データ通信可能なUSBケーブルを接続します。LEDが青に点灯します。</li>
+  <li>電源ケーブルを接続します。プログラム更新モードで起動し、本体の画面は白いままになります。</li>
+  <li>Windows環境では初回にドライバーのインストールが必要です。Chlorine本体を接続したまま、下記「Zadigを使ったドライバーインストール」操作を行ってください。</li>
   <li><strong>Connect</strong>ボタンを押します。ダイアログが出るので、「DFU in FS Mode」を選択します。2回目以降は、「DFU in FS Mode - ペア設定済み」と表示されます。</li>
-  <li>選択画面が出てきたら、上側（@Internal Flash）の方を選択します。</li>
+  <li>選択画面が出てきたら、上側（～@Internal Flash～）の方を選択します。</li>
   <li><strong>ファイルを選択</strong>ボタンを押します。書き込みたいbinファイルを選択します。</li>
   <li><strong>Download</strong>ボタンを押します。「Done!」と表示されると終了です。エラーが表示されても、書き込みは成功していることがあります。</li>
   <li>Chlorine本体からUSBケーブルと電源ケーブルを抜きます。</li>
 </ol>
+<h2>Zadigを使ったドライバーインストール</h2>
+<ul>
+  <li><a href="https://zadig.akeo.ie/" target="_blank">Zadigのサイト (https://zadig.akeo.ie/)</a>より、実行ファイルをダウンロードします。</li>
+  <li>ダウンロードしたexeファイルを実行します。アップデートをチェックするかどうかのメッセージが出ますが、Yes・Noどちらでも構いません。</li>
+  <li>ドロップダウンリストに「DFU in FS Mode」が選択されているのを確認します。</li>
+  <li>Driverに「WinUSB(v～)」と表示されているのを確認し、Install Driverボタンをクリックします。</li>
+</ul>
 <h2>STM32CubeIDEでbinファイルを生成する方法</h2>
 <ul>
-  <li>メニューバー Project → Properties</li>
-  <li>C/C++ Build → Settings</li>
-  <li>Tool Settingsタブ → MCU/MPU Post build outputs</li>
-  <li>Convert to binary file (-O binary) にチェック</li>
-  <li>Apply and Closeボタンをクリック後ビルドすると、Debugフォルダ内にbinファイルが生成されている</li>
+  <li>メニューバー Project → Properties をクリックします。</li>
+  <li>C/C++ Build → Settings をクリックします。</li>
+  <li>右側の Tool Settings タブ → MCU/MPU Post build outputs をクリックします。</li>
+  <li>Convert to binary file (-O binary) にチェックを入れます。</li>
+  <li>Apply and Close ボタンをクリック後、ビルドするとDebugフォルダ内にbinファイルが生成されます。</li>
 </ul>
 <br/>
 <small>本ページの作成には、Devan Lai氏の<a href="https://github.com/devanlai/webdfu">webdfu</a>を使用させていただきました。
