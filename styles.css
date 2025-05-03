@@ -49,6 +49,7 @@ footer {
 }
 
 .search-container {
+    background: #4a488e;
     margin: 0em;
     display: flex;
     align-items: center;
