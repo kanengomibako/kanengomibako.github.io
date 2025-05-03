@@ -55,7 +55,7 @@ footer {
     margin-right: auto;
 }
 
-.gsc-control-cse {
-    border: none;
+.gsc-search-box {
     background: transparent;
+    padding: 2px;
 }
