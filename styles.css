@@ -55,3 +55,7 @@ footer {
     margin-right: auto;
 }
 
+.gsc-control-cse {
+    border: none;
+    background: transparent;
+}
