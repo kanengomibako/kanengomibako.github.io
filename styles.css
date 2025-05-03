@@ -49,11 +49,16 @@ footer {
 }
 
 .search-container {
-    background: transparent;
     margin: 0em;
     display: flex;
     align-items: center;
     justify-content: center
+}
+
+.gsc-search-box {
+    background: #4a488e;
+    border: 0px;
+    padding: 0px;
 }
 
 .search-label {
