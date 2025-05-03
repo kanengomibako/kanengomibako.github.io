@@ -1,0 +1,49 @@
+﻿body {
+    margin: 0;
+    line-height: 1.2;
+    background: #4a488e; /* 紺藍 */
+    a { 
+      text-decoration: none;
+    }
+
+}
+
+header {
+    background: #4a488e;
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    background: #ffffff;
+    color: #333333;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    a:link {color: #007bbb; }
+    a:visited {color: #824880; }
+    a:focus,
+    a:hover,
+    a:active { color: #ee7800; }
+
+}
+
+footer {
+    background: #4a488e;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.5rem;
+
+    a:link {color: #ffffff; }
+    a:visited {color: #ffffff; }
+    a:focus,
+    a:hover,
+    a:active { color: #ffffff; }
+}
+
+.sikaku {
+    color: #ee7800; /* 橙色 */
+    font-size: 100%;
+}
