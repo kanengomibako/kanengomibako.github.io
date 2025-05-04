@@ -12,6 +12,12 @@ header {
     color: #ffffff;
     text-align: center;
     padding: 1rem;
+
+    a:link {color: #ffffff; }
+    a:visited {color: #ffffff; }
+    a:focus,
+    a:hover,
+    a:active { color: #ffffff; }
 }
 
 main {
