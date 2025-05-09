@@ -67,3 +67,8 @@ footer {
     padding: 0px;
     margin: 5px;
 }
+
+hr.title {
+    border: none;
+    border-top: 3px #ee7800 dashed;
+}
