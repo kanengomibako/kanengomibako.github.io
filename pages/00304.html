@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Nusora</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Nusora</h1>
+  <p align="right">2022年12月17日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_304_01_nsrP.jpg" target="_blank"><img border="0" height="320" src="img/02_304_01_nsrP.jpg" width="320"/></a><br>
+「Nutube自作エフェクターコンテスト」第3弾に向けて製作したオーバードライブで、読み方は「ニュソラ」です。第1回、第2回のコンテストで出ていないアイデアは何かよく考えた末、Nutubeの蛍光を利用したものにしました。ケースはNutubeの蛍光体の色とCdSセルの波線をイメージしています。<br>
+<br>
+最初は光学式コンプレッサーを作ろうとしていましたが、圧縮が小さい上歪みが大きく失敗しました。Nutubeのアノード抵抗としてCdSセルを配置していたのが原因ですが、他の部分にCdSセルがあっても面白みがないかなと思い、敢えて配置はそのままで歪ませる方向へと転換しました。<br>
+<br>
+<a href="img/02_304_02_nsrPi.jpg" target="_blank"><img border="0" height="240" src="img/02_304_02_nsrPi.jpg" width="240"/></a><br>
+今まで製作した<a href="00155.html" target="_blank">Nuverdrive</a>や<a href="00245.html" target="_blank">Nuzz</a>がHAMMOND1590Aサイズだったので、今回も同じサイズにしました。CdSセルをNutubeに密着させる必要があるため、表面実装部品を使った小型の基板となっています。Nutube部分でのゲインがあまり高くないためか、スイッチング時のマイクロフォニックノイズは少なかったです。<br>
+<br>
+▽回路図<br>
+<a href="img/02_304_03_nusora_schematic.png" target="_blank"><img alt="nusora schematic" border="0" height="362" src="img/02_304_03_nusora_schematic.png" width="477"/></a><br>
+回路図上側は理想ダイオード回路を使った全波整流で、音量を検出します（<a href="https://umbrella-company.jp/contents/sidechain/" target="_blank">サイドチェイン</a>）。入力音量が大きい程Nutubeのアノード電圧が高くなり、蛍光が強くなります。そして、CdSセルの抵抗値が低下しゲインが下がります。Nutubeのアノード抵抗の値が変わると、動作点が変わりやや歪みが増えるようです。また、CdSセルに並列にコンデンサを入れているため、高音域も変化するということになります。<br>
+<br>
+トリマーT2はコンプレッサー動作の強さを調節します。コンテスト応募時は最大（100kΩ）にしましたが、Gainポットの影響を受けてしまうので、コンプレッサーの効果はわかりにくいかもしれません。出音はやはり<a href="00155.html" target="_blank">Nuverdrive</a>に似ており、そこまで奇抜な音という感じではないかなと思います。ただスタンダードな音の方が評価が高くなる可能性もあり、加減が難しいところですね。<br>
+<br>
+まだまだ回路に検討の余地はあるのですが、今回は時間が足りず……。サイドチェイン部分自体を別経路にし、Compポットを設けるというのも試したかったです。また、Nutubeの片方を蛍光用のみに使うのは贅沢すぎるので、増幅動作させつつ蛍光を利用できればよかったのですが、蛍光の変化が大きくなる最適な条件が見つからず断念しました。外部からの光の影響を受けないようにCdSセルとNutubeを遮光した状態で調整しなければならないので、完璧なものを目指すには専用の開発モジュールが必要になりそうです。<br>
+<br>
+<hr size="1"/><br>
+<span style="color:#999999">▽不採用案 Nudora<br>
+<a href="img/02_304_04_nudora_schematic.png" target="_blank"><img alt="nudora schematic" border="0" height="275" src="img/02_304_04_nudora_schematic.png" width="361"/></a><br>
+<a href="https://www.freestompboxes.org/viewtopic.php?t=2949" target="_blank">Bixonic Expandora</a>のように、コンプレッサーとは逆のエクスパンダーの動作をするものも試していました。ダイオードの向きが逆になり、音量が大きい程Nutubeのアノード電圧が低くなります。歪みとしてはなかなか面白いと感じたのですが、いかんせん強く弾く方がゲインが上がるというのはコントロールが難しすぎるため、不採用となりました。</span><br>
+<br>
+<hr size="1"/><br>
+---2023年12月5日追記---<br>
+<br>
+第3回Nutube自作エフェクター・コンテストで、最優秀賞をいただきました！THE EFFECTOR BOOK Vol.59にインタビュー記事が掲載されています。<br>
+<a href="img/02_304_10_nsrA.jpg" target="_blank"><img alt="02_304_10_nsrA.jpg" border="0" height="300" src="img/02_304_10_nsrA.jpg" width="400"/></a><br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

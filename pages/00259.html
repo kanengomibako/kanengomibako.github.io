@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Elecrowのレーザーカットサービス注文用メモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Elecrowのレーザーカットサービス注文用メモ</h1>
+  <p align="right">2020年10月23日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  Elecrowの<a href="https://www.elecrow.com/acrylic-cutting.html" target="_blank">アクリルカット</a>や<a href="https://www.elecrow.com/5pcs-wood-laser-cutting-service.html" target="_blank">木材カット</a>注文時の自分用メモです。<br>
+＜利用例＞<br>
+・<a href="00258.html" target="_blank">Ibanez TS9 TUBE SCREAMER アクリル製ケース &amp; 木製ケース</a><br>
+・<a href="00260.html" target="_blank">Fuzz Face 積層アクリル筐体</a><br>
+※2020年9月時点での情報です。仕様変更にご注意ください。<br>
+<br>
+<hr size="1"/><ul>【特徴・注意点】<li>使えるデータの種類はEPS、DXF、CDR、PDF（木材カットのページにはDWGも記載あり）</li><li>注文数1で5枚分となる</li><li>PCBのように面付というものはなく、指定寸法内にいくらでも図を入れてよい（ただし、細かいパーツが多いと忘れられるかも）</li><li>注文ページに記載されている厚みより実物は0.1～0.25mm程度薄い</li><li>レーザーの幅（太さ）は約0.2mm→線の両側0.1mmが余計に削られることになるのでそれを計算に入れて設計</li><li>木材カットの場合、プラモデルのように一部切り取られていない状態で配送される（毎回この状態なのかどうかは不明）<br>
+<a href="img/20_259_1elw1.png" target="_blank"><img border="0" height="240" src="img/20_259_1elw1.png" width="240"/></a><a href="img/20_259_2elw2.png" target="_blank"><img border="0" height="240" src="img/20_259_2elw2.png" width="240"/></a></li></ul><hr size="1"/><br>
+【KiCadでのデータ作成】<br>
+基板上のジャック等の位置に合わせてアクリルのデータを作成したい場合、元のPCBデータ（.kicad_pcb）をコピーして編集します。ただしカーソルがグリッド単位になるので、円の接線等作図しにくい場面が出てきます。<br>
+<br>
+<a href="img/20_259_3el.png" target="_blank"><img alt="20_259_3el.png" border="0" height="336" src="img/20_259_3el.png" width="450"/></a><br>
+Edge.Cutsレイヤーに作図します。線が途切れているかどうかをDRCでチェックできます。3D表示もできますが、複数枚分のデータがあると穴部分が表示されないようです。Cmts.Userレイヤーに提出ファイル用の寸法線を入れます。その他の寸法線や下書き等はDwgs.Userレイヤーに描いています。<br>
+<br>
+（1） DXFファイル出力<br>
+<a href="img/20_259_4els.png" target="_blank"><img alt="20_259_4els.png" border="0" height="438" src="img/20_259_4els.png" width="524"/></a><br>
+プロットの出力フォーマットをDXFとし、Edge.Cutsレイヤーのみ出力します。DXFオプションはチェックを外し、Export units: をmmにします。<br>
+<br>
+（2） PDFファイル出力<br>
+Elecrowの注文ページに外形寸法を伝えるよう記載があります。TXTファイルでもよいらしいですが、念のため寸法線が入ったPDFファイルを準備することにしています。<br>
+<a href="img/20_259_5elss.png" target="_blank"><img alt="20_259_5elss.png" border="0" height="305" src="img/20_259_5elss.png" width="386"/></a><br>
+印刷からEdge.Cuts、Cmts.Userレイヤーを選択し、Microsoft Print to PDFでPDFファイルを出力します。<br>
+<br>
+(1) (2) で出力したDXFファイルとPDFファイルをまとめてzipに圧縮し、注文ページでアップロードします。<br>
+<br>
+<hr size="1"/><br>
+【Jw_cadでのデータ作成】<br>
+私は昔から製図関係はJw_cadというフリーソフトを使っています（今は他に使いやすいフリーソフトがあるかもしれません）。このソフトでDXFファイルをそのまま編集します。<br>
+<br>
+<a href="img/20_259_6elsj.png" target="_blank"><img alt="20_259_6elsj.png" border="0" height="384" src="img/20_259_6elsj.png" width="372"/></a><br>
+印刷→Microsoft Print to PDFで外形寸法を入れたPDFファイルを出力します。このPDFファイルとDXFファイル本体をまとめてzipに圧縮し、注文ページでアップロードします。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

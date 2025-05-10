@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>FF108B & FF1815（FFM1風ファズフェイス）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>FF108B & FF1815（FFM1風ファズフェイス）</h1>
+  <p align="right">2023年06月23日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_311_01_fffP.jpg" target="_blank"><img border="0" height="320" src="img/02_311_01_fffP.jpg" width="665"/></a><br>
+<a href="00310.html" target="_blank">Jim Dunlop SILICON FUZZ FACE MINI（FFM1）</a>はトランジスタが選別されていたわけですが、個人で大量にトランジスタを買って選別するというのはあまり現実的ではありません。今回は無選別のBC108Bや2SC1815-GRを使ってファズフェイスを製作し、FFM1の音に近づけられるのかどうか検証してみます。<br>
+<br>
+<hr size="1"/><br>
+現在手に入りやすいトランジスタは、hFEが250より高いものだと思います。各トランジスタで動作点をシミュレーションすると以下のようになります。<br>
+<br>
+＜BC108B hFE=250＞（<a href="00310.html" target="_blank">FFM1解析</a>の再掲載）<br>
+<a href="img/09_310_07_ffm1S1.png" target="_blank"><img border="0" height="135" src="img/09_310_07_ffm1S1.png" width="120"/></a> <a href="img/09_310_08_ffm1S2.png" target="_blank"><img border="0" height="125" src="img/09_310_08_ffm1S2.png" width="282"/></a> <a href="img/09_310_10_ffm1S4.png" target="_blank"><img border="0" height="125" src="img/09_310_10_ffm1S4.png" width="282"/></a><br>
+<br>
+＜BC108B hFE=400＞<br>
+<a href="img/02_311_10_ff108b-dc.png" target="_blank"><img border="0" height="135" src="img/02_311_10_ff108b-dc.png" width="120"/></a> <a href="img/02_311_11_ff108b-Ic-q1.png" target="_blank"><img border="0" height="125" src="img/02_311_11_ff108b-Ic-q1.png" width="282"/></a> <a href="img/02_311_12_ff108b-Ic-q2.png" target="_blank"><img border="0" height="125" src="img/02_311_12_ff108b-Ic-q2.png" width="282"/></a><br>
+<br>
+＜2SC1815-GR hFE=300＞<br>
+<a href="img/02_311_20_ff1815-dc.png" target="_blank"><img border="0" height="135" src="img/02_311_20_ff1815-dc.png" width="120"/></a> <a href="img/02_311_21_ff1815-Ic-q1.png" target="_blank"><img border="0" height="125" src="img/02_311_21_ff1815-Ic-q1.png" width="282"/></a> <a href="img/02_311_22_ff1815-Ic-q2.png" target="_blank"><img border="0" height="125" src="img/02_311_22_ff1815-Ic-q2.png" width="282"/></a><br>
+<br>
+抵抗値がそのままだと、基準となる電圧がFFM1からズレることが分かります。このズレを修正し音質を補正するため、可変抵抗（トリマー）を設けます。いわゆるバイアス調整です。<br>
+<br>
+▽回路図<br>
+<a href="img/02_311_02_fffS.png" target="_blank"><img border="0" height="324" src="img/02_311_02_fffS.png" width="304"/></a><br>
+回路は普通のファズフェイスです。FF1815ではトランジスタを<a href="https://akizukidenshi.com/catalog/g/g117089/" target="_blank">2SC1815-GR（JCET製）</a>に置き換えています。シリコントランジスタを使っている場合、一般的な定数で製作してもそこまで破綻した音になるということはないようです。<br>
+<br>
+T1はQ1での歪み方を調整できます。ただ、Q1では元々かなり偏ったクリッピングになっている（<a href="00310.html" target="_blank">FFM1解説参照</a>）ので、音質変化はややわかりにくいです。R3+T1を22k～33kΩ程度の固定抵抗としてもよいでしょう。<br>
+<br>
+T2でもQ1での歪み方やゲインが変化しますが、他のトリマーの設定が定まらなくなる原因になりがちです。結局ほとんど調整せず、R2+T2を100kΩとしています。<br>
+<br>
+T3はQ2の動作点を調整できます。クリッピングの対称性、倍音構成が変わるということになります。ゲルマニウムトランジスタを使ったファズフェイスでは、Vc2が4.5Vになるように調整するとされていることがあります。もちろん、好きな音色になるよう自由に設定して問題ありません。<br>
+<br>
+▽周波数特性（VOLUME 100% FUZZ 100%）<br>
+<a href="img/02_311_40_fffF.png" target="_blank"><img border="0" height="201" src="img/02_311_40_fffF.png" width="444"/></a><br>
+高音域が微妙に違っています。C2やC3を微調整することにより、もっと近づけることもできるかもしれません。<br>
+<br>
+<hr size="1"/><br>
+【バイアス調整】<br>
+<br>
+FFM1ではVc1=1.34V Vc2=4.12Vだったので、単純に考えるとバイアス電圧をこれと同じにするとよさそうです。実際やってみると、同じ歪率の時の倍音構成は近くなります。しかし、同じ音量を入力した場合hFEが高い方がゲインが高く歪みやすいので、同じ動作にはなりません。FUZZコントロールを下げたり、入力に抵抗を入れることでゲインを下げることもできますが、そうすると微妙に周波数特性が変わってしまいます。結論としては、hFEを同じにしないと厳密に同じ音にすることはできないということになります。<br>
+<br>
+以下は歪率や倍音構成がFFM1に近づくように調整し、測定したものです。hFEにより最適な調整値は変わってくるため、あまり参考にならないかもしれません。<br>
+<br>
+＜FFM1  hFE(Q1)=247 hFE(Q2)=245 Vc1=1.34V Vc2=4.12V＞<br>
+<a href="img/02_311_41_ffm1-22(pc11).png" target="_blank"><img border="0" height="187" src="img/02_311_41_ffm1-22(pc11).png" width="335"/></a><a href="img/02_311_42_ffm1-45(pc50).png" target="_blank"><img border="0" height="187" src="img/02_311_42_ffm1-45(pc50).png" width="335"/></a><br>
+<br>
+＜FF108B  hFE(Q1)=303 hFE(Q2)=312 Vc1=1.39V Vc2=4.33V R2+T2=100kΩ＞<br>
+<a href="img/02_311_43_ff108b-23(pc11).png" target="_blank"><img border="0" height="187" src="img/02_311_43_ff108b-23(pc11).png" width="335"/></a><a href="img/02_311_44_ff108b-47(pc50).png" target="_blank"><img border="0" height="187" src="img/02_311_44_ff108b-47(pc50).png" width="335"/></a><br>
+<br>
+＜FF1815  hFE(Q1)=306 hFE(Q2)=305 Vc1=1.35V Vc2=4.35V R2+T2=100kΩ＞<br>
+<a href="img/02_311_45_ff1815-22(pc11).png" target="_blank"><img border="0" height="187" src="img/02_311_45_ff1815-22(pc11).png" width="335"/></a><a href="img/02_311_46_ff1815-46(pc50).png" target="_blank"><img border="0" height="187" src="img/02_311_46_ff1815-46(pc50).png" width="335"/></a><br>
+<br>
+個人的にはそれぞれかなり近い音で、判別するのは困難だと感じました。<s>そのうち動画にまとめたいと思います。</s>（2023年10月16日 動画を追加）<br>
+<br>
+<iframe allowfullscreen="" data-id="jjw9cZTAQGg" frameborder="0" height="180" src="//www.youtube.com/embed/jjw9cZTAQGg" width="320"></iframe><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>電源分岐接続時のノイズ測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>電源分岐接続時のノイズ測定</h1>
+  <p align="right">2024年09月13日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  今までいろいろな電源について調べてきました（<a href="https://drugscore.blog.fc2.com/?tag=%E3%83%91%E3%83%AF%E3%83%BC%E3%82%B5%E3%83%97%E3%83%A9%E3%82%A4" target="_blank">タグ : パワーサプライ </a>）が、アイソレート式パワーサプライは一般的に高価で、アイソレート式ではないパワーサプライや電源分岐ケーブルで済ませたい場合があるかと思います。アイソレート式ではない電源の場合、グラウンドループやノイズの問題があるといわれることが多いので、実際にどうなるか測定しました。<br>
+<br>
+使用した機材は以下の通りです。<br>
+・デジタルエフェクター：<a href="00345.html" target="_blank">LINE 6 HX Stomp</a>　<a href="00346.html" target="_blank">BOSS GT-1000CORE</a>　<a href="00340.html" target="_blank">ZOOM MS-50G+</a><br>
+・アナログエフェクター：<a href="00347.html" target="_blank">EP Booster V2（クローン）</a>　<a href="00348.html" target="_blank">MXR Micro Amp</a>（電源部の抵抗100Ω→0Ω）<br>
+・パワーサプライ：<a href="00317.html" target="_blank">Caline CP-205</a>（改造品） ※ポート4つを並列接続<br>
+<br>
+<hr size="1"/><br>
+＜電源のみ接続＞<br>
+<a href="img/14_354_01_ps_bunki.png" target="_blank"><img border="0" height="160" src="img/14_354_01_ps_bunki.png" width="260"/></a><br>
+まず電源だけを分岐接続し、音声信号はデジタルエフェクターを通らない状態にしました。<br>
+<br>
+<a href="img/14_354_02-ps-bunki-ep.png" target="_blank"><img border="0" height="209" src="img/14_354_02-ps-bunki-ep.png" width="477"/></a><br>
+<a href="img/14_354_03-ps-bunki-ma.png" target="_blank"><img border="0" height="209" src="img/14_354_03-ps-bunki-ma.png" width="477"/></a><br>
+デジタルエフェクターを電源に接続するだけで、低音域側のノイズが増えることがわかります。電源ノイズに弱いエフェクターは、特に影響を受けやすいようです。この低音域のノイズは、ボボボ…という風が吹くようなノイズで、実際にはあまり目立ちません。アンプから出ていても気づかないことも多いと思われます。<br>
+<br>
+<hr size="1"/><br>
+＜グラウンドループとグラウンドリフト＞<br>
+<a href="img/14_354_11_ps_loop.png" target="_blank"><img border="0" height="160" src="img/14_354_11_ps_loop.png" width="260"/></a><br>
+アナログエフェクターとデジタルエフェクターを直列接続し、グラウンドループ状態を発生させます。そして、スイッチでグラウンド接続を切り離した時の変化を確認します。<br>
+<br>
+・HX Stomp<br>
+<a href="img/14_354_12-ps-bunki-hx.png" target="_blank"><img border="0" height="209" src="img/14_354_12-ps-bunki-hx.png" width="477"/></a><br>
+3kHzの目立つノイズが現れており、これはグラウンドループ由来のノイズのようです。そして、このノイズはループを解除することで解消されています。<br>
+<br>
+・GT-1000CORE<br>
+<a href="img/14_354_13-ps-bunki-gt.png" target="_blank"><img border="0" height="209" src="img/14_354_13-ps-bunki-gt.png" width="477"/></a><br>
+低音域側のノイズがありますが、ループ解除による変化がありません。このノイズはグラウンドループ由来のものではないようです。<br>
+<br>
+・MS-50G+<br>
+<a href="img/14_354_14-ps-bunki-ms.png" target="_blank"><img border="0" height="209" src="img/14_354_14-ps-bunki-ms.png" width="477"/></a><br>
+ほとんどノイズに変化がありません。<br>
+<br>
+<hr size="1"/><br>
+電源を単純に分岐した場合、機器の組み合わせによっては目立つノイズが発生することがわかりました。グラウンド接続がないDCケーブルにより、このノイズは解消される可能性があります。一方で、グラウンドループが要因ではないノイズが出ることもあります。このようなノイズを解消したい場合には、結局はデジタルエフェクター専用にACアダプターを準備するか、アイソレート式パワーサプライに頼るしかないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

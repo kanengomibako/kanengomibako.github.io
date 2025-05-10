@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>STM32 I2C接続OLEDディスプレイを使う</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>STM32 I2C接続OLEDディスプレイを使う</h1>
+  <p align="right">2019年04月23日　カテゴリー：<a href="00236.html">STM32</a></p>
+  <hr class="title"><br>
+  <a href="img/03s_241_1oled.jpg" target="_blank"><img alt="03s_241_1oled.jpg" border="0" height="280" src="img/03s_241_1oled.jpg" width="320"/></a><br>
+秋月電子等で取り扱いがある、128×64ドットのI2C制御有機ELディスプレイモジュールを使ってみます。使われているSSD1306は定番の制御ICらしいです。接続は上写真の通り、GND、VCC(3.3V)、SCL、SDAをつなぎます。SCL、SDAのプルアップ抵抗はモジュールに搭載されているようです。<br>
+<br>
+<hr size="1"/><br>
+＜STM32CubeMX（5.1.0）　Pinout &amp; Configurationタブ＞<br>
+左側列のConnectivity→I2C1を開く<br>
+<br>
+・中央列上側 Mode<br>
+　I2C : I2C<br>
+<br>
+・中央列下側 Configuration→Parameter Settingsタブ<br>
+　Rise Time (ns) : 1000<br>
+　Fall Time (ns) : 300<br>
+<br>
+・右側列 IC画像<br>
+　ピン位置を変更<br>
+　　(61)-PB8 : I2C1_SCL<br>
+　　(62)-PB9 : I2C1_SDA<br>
+<br>
+<hr size="1"/><br>
+＜TrueSTUDIO（9.3.0）＞<br>
+下記ページのライブラリを利用します。必要最小限となっているので使いやすいと思います。<br>
+　<a href="https://github.com/4ilo/ssd1306-stm32HAL">github.com/4ilo/ssd1306-stm32HAL</a>（右側の[Clone or download]ボタンから全ファイルをダウンロードできます。）<br>
+<br>
+以下の4ファイルを自分のプロジェクトへコピーします。<br>
+　Incフォルダ→fonts.h　ssd1306.h<br>
+　Srcフォルダ→fonts.c　ssd1306.c<br>
+<br>
+私のNucleoボードはSTM32F3シリーズなので、fonts.hとssd1306.h最上部に記載されている"stm32f4xx_hal.h"を"stm32f<strong><span style="color:#ff0000">3</span></strong>xx_hal.h"へ変更します。STM32F4シリーズを使う場合は、そのままでOKです。<br>
+<br>
+ライブラリのmain.cから以下の2箇所のコードを自分のmain.cへコピーします。<br>
+　/* USER CODE BEGIN Includes */〜/* USER CODE END Includes */<br>
+　/* USER CODE BEGIN 2 */〜/* USER CODE END 2 */<br>
+<br>
+実行しディスプレイに文字が表示されれば成功です。以下は各関数の簡単な説明です。円などの図形を描く関数はないので、必要なものはssd1306_DrawPixel関数を使って描画することになります。<br>
+　ssd1306_Init…初期化<br>
+　ssd1306_Fill…画面全体塗りつぶし<br>
+　ssd1306_DrawPixel…1ピクセル描画<br>
+　ssd1306_SetCursor…文字描画位置を設定<br>
+　ssd1306_WriteString…文字列を描画<br>
+　ssd1306_UpdateScreen…描画を反映して画面を更新<br>
+<br>
+<hr size="1"/><br>
+＜画面端の文字を強制描画＞<br>
+ディスプレイ端のピクセル数が足りない場合、文字描画しないようになっていますが、文字が切れてでも描画するようにします。ssd1306_DrawPixel関数で画面外は描画しないよう制限されているので、たぶん問題ないでしょう。<br>
+<br>
+ssd1306.c内、ssd1306_WriteChar関数の以下の記述を削除<br>
+<code><pre>// Check remaining space on current line<br>
+if (SSD1306_WIDTH &lt;= (SSD1306.CurrentX + Font.FontWidth) ||<br>
+  SSD1306_HEIGHT &lt;= (SSD1306.CurrentY + Font.FontHeight))<br>
+{<br>
+  // Not enough space on current line<br>
+  return 0;<br>
+}<br>
+</pre></code><br>
+<hr size="1"/><br>
+＜フォント自作＞<br>
+font.cにフォントのデータが入っており、自分で文字データを作成することができます。例として7x10ピクセルの「2」を0と1で描きます。横は左側7列だけ使いますが、後々のために16列準備します。<br>
+<code><pre style="border:0px">0011100000000000<br>
+0100010000000000<br>
+0100010000000000<br>
+0000010000000000<br>
+0000100000000000<br>
+0001000000000000<br>
+0010000000000000<br>
+0111110000000000<br>
+0000000000000000<br>
+0000000000000000</pre></code>1行ずつを16桁の2進数とみなし、16進数へ変換します。<br>
+→0x3800, 0x4400, 0x4400, 0x0400, 0x0800, 0x1000, 0x2000, 0x7C00, 0x0000, 0x0000<br>
+これを「2」のフォントデータとすればOKです。自動計算できる表計算ファイル（LibreOfficeやOpenOfficeで開けるodsファイル）を<a href="https://github.com/kanengomibako/misc">GitHub</a>に置いています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

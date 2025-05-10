@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Noah'sark GREEN 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Noah'sark GREEN 解析</h1>
+  <p align="right">2023年08月16日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_321_01_noahgr_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_321_01_noahgr_pic.jpg" width="390"/></a><br>
+Noah'sarkのエフェクターは、基板裏面がモールドされています。このモールドを剥がすのに挑戦してみたくなったため、中古で「GREEN」を入手し解析することにしました。KiCadデータは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Noahsark/GREEN" target="_blank">GitHub</a>にあります。<br>
+<br>
+<a href="img/09_321_05_noahgr_pic2.jpg" target="_blank"><img border="0" height="270" src="img/09_321_05_noahgr_pic2.jpg" width="390"/></a><br>
+まず燃料用アルコール（主成分メタノール）に1日つけておきました。すると、基板裏を覆っていた樹脂状のものは爪で剥がせる程に軟化しました。あっけなく回路トレースは完了しましたが、別の問題が発生しました。何も考えずにポットがついたままの基板を丸ごと燃料用アルコールに漬けておいたため、ポットの抵抗値が数倍に増えていました。おそらく導体成分が溶け出してしまうのだと思われます。メタノールはポットに付着しないようにすると共に、他の部品も何らかの性質変化が起こるリスクがあることを覚悟しておかなければいけません。<br>
+<br>
+<a href="img/09_321_06_noahgr_pic3.jpg" target="_blank"><img border="0" height="280" src="img/09_321_06_noahgr_pic3.jpg" width="210"/></a><br>
+ポットはDシャフトのものを購入し交換しました。内部スペースがギリギリになったので、小型ジャックに交換したりコネクタなしで直付けにしたりするなど、結構手間がかかってしまいました。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_321_02_noahsark_green_schematic.png" target="_blank"><img alt="noahsark　green　schematic" border="0" height="324" src="img/09_321_02_noahsark_green_schematic.png" width="531"/></a><br>
+少し定数を変えてありますが、バッファなしのチューブスクリーマーという感じです。型番不明のダイオードD2は、ゲルマニウムダイオードと思われます。<br>
+<br>
+・参考ページ→ <a href="https://www.electrosmash.com/tube-screamer-analysis" target="_blank">ElectroSmash - Tube Screamer Analysis</a><br>
+<br>
+▽シミュレーション<br>
+<br>
+・TONE周辺<br>
+<a href="img/09_321_11_noahgr_s1.png" target="_blank"><img border="0" height="208" src="img/09_321_11_noahgr_s1.png" width="450"/></a><br>
+チューブスクリーマーとの比較です。高音域のカットが少し多くなっています。<br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

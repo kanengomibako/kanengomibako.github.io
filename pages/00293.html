@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS WAZA CRAFT BD-2W Blues Driver 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS WAZA CRAFT BD-2W Blues Driver 解析</h1>
+  <p align="right">2022年07月02日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_293_01_bdwP.jpg" target="_blank"><img border="0" height="320" src="img/09_293_01_bdwP.jpg" width="480"/></a><br>
+<a href="00291.html" target="_blank">BOSS BD-2</a>に引き続き、WAZA CRAFTのBD-2Wではどのように変わったのか解析していくことにしました。解析に使ったのは2022年製の個体（上写真）で、日精電機製の黄色いフィルムコンデンサが使われています。KiCadとLTspiceの回路図データ、基板画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/BOSS/BD2W" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_293_02_bdwB.jpg" target="_blank"><img border="0" height="408" src="img/09_293_02_bdwB.jpg" width="215"/></a><br>
+部品番号があり、小さな表面実装部品がないためそこまで難易度が高くありません。抵抗値が読めるので、取り外すのは一部のコンデンサだけで済みました。<br>
+<br>
+▽回路図<br>
+<a href="img/09_293_03_BOSS_BD-2W_schematic.png" target="_blank"><img alt="BOSS BD-2W schematic" border="0" height="329" src="img/09_293_03_BOSS_BD-2W_schematic.png" width="690"/></a><br>
+<a href="https://www.boss.info/jp/products/bd-2w/" target="_blank">公式サイト</a>の説明に完全ディスクリート構成とある通りオペアンプはありませんが、スタンダードモードの特性は通常のBD-2とほぼ同じです。8ピンのICはアナログスイッチTC7W66FKで、2回路入りのものが4つ使われています。<br>
+<ul><li>入力バッファ<br>
+バイアス電圧が入力部だけ別になっており、他の部分からのバイパス音への影響を排除していると思われます。画像検索で確認すると、SD-1Wでも同様の措置がしてあるようです。<a href="00291.html" target="_blank">SMDバージョンのBD-2</a>と同様に、FETのソースには定電流回路があります。時期的には2014年発売のBD-2Wに先に採用され、その後他の機種にも使われていったのではないかと思います。<br>
+</li><br>
+<li>未実装の抵抗 R9 R32 R41<br>
+FETスイッチ部のダイオードに並列に入っている抵抗は未実装となっていますが、<a href="00291.html" target="_blank">SMDバージョンのBD-2</a>では100MΩ抵抗が実装されています。<a href="https://diystompboxes.com/smfforum/index.php?topic=95789.0" target="_blank">DIYstompboxes.comのFETスイッチに関するスレッド</a>には、スイッチオン時のFETのゲート電位は、ダイオードとFETのリーク電流の差により設定されると掲載されています。あくまで推測ですが、ダイオードに並列接続された抵抗の役割は、この電流をある程度確保することではないかと思います。通常はなくても問題ない抵抗ですが、FETやダイオードの個体差によっては動作が不安定になることがあったのかもしれません。<br>
+</li></ul><br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+スタンダードモード（s）とカスタムモード（c）の違いについて、周波数特性を貼り付けておきます。※アナログスイッチのオン抵抗（50Ω程度）は省略しています。<br>
+<br>
+<a href="img/09_293_12_bdwF2.png" target="_blank"><img border="0" height="208" src="img/09_293_12_bdwF2.png" width="450"/></a><br>
+<br>
+<a href="img/09_293_13_bdwF3.png" target="_blank"><img border="0" height="208" src="img/09_293_13_bdwF3.png" width="450"/></a><br>
+<br>
+<a href="img/09_293_14_bdwF4.png" target="_blank"><img border="0" height="208" src="img/09_293_14_bdwF4.png" width="450"/></a><br>
+<br>
+<a href="img/09_293_15_bdwF5.png" target="_blank"><img border="0" height="208" src="img/09_293_15_bdwF5.png" width="450"/></a><br>
+ピークの周波数が125Hzから135Hzへと変わっています。<br>
+<br>
+下図は回路全体を通しての特性です。<br>
+<a href="img/09_293_16_bdwF0.png" target="_blank"><img border="0" height="208" src="img/09_293_16_bdwF0.png" width="450"/></a><br>
+<a href="https://www.boss.info/jp/products/bd-2w/" target="_blank">公式サイト</a>には、カスタムモードは「繊細なピッキング･ニュアンスに反応する図太く粘りある極上のサウンド」と説明があります。確かに周波数特性としては中音域がやや盛り上がった形になっています。また、クリッピングの前後のフィルタ調整により、歪みの質感を変更するという意図もありそうです。あまりに変化が大きいと通常のBD-2とかけ離れてしまうので、絶妙な加減の調整となっていると思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

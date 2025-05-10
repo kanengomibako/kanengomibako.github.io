@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Srempy</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Srempy</h1>
+  <p align="right">2019年05月20日　カテゴリー：<a href="00236.html">STM32</a></p>
+  <hr class="title"><br>
+  <a href="img/03s_242_1srempy.jpg" target="_blank"><img alt="03s_242_1srempy.jpg" border="0" height="284" src="img/03s_242_1srempy.jpg" width="320"/></a><br>
+デジタルエフェクターというとディスプレイをつけたくなるもので、ポットなしでスイッチのみを使って操作するというエフェクターを製作しました。精度よく角穴加工するのはかなり大変なので、<a href="https://twitter.com/Tabbys_kobo">Tabby's工房</a>さんにお願いしました。<br>
+<br>
+▽ディスプレイ・スイッチ基板レイアウト<br>
+<a href="img/03s_242_2srempyL.png" target="_blank"><img alt="03s_242_2srempyL.png" border="0" height="209" src="img/03s_242_2srempyL.png" width="180"/></a><br>
+いつものようにチャタリング防止を行っています。OLEDディスプレイ・基板用押ボタンスイッチは秋月電子で購入しました。<br>
+<br>
+DSP基板は<a href="00237.html">Owm Pedal</a>と同じものを使用しています。下写真のように合体させます。<br>
+<a href="img/03s_242_3srempyi.jpg" target="_blank"><img alt="03s_242_3srempyi.jpg" border="0" height="240" src="img/03s_242_3srempyi.jpg" width="240"/></a><br>
+<br>
+ディスプレイの詳細は<a href="00241.html">前回記事</a>をご覧ください。スイッチ操作は割り込みではなくメインループで処理しています（<a href="https://github.com/kanengomibako/Srempy">GitHubはこちら</a>）。エフェクトオフ時にはスイッチの反応が速くなりますが、実用上問題ないので特に対処していません。▲▼スイッチ長押しでフラッシュメモリにパラメータ保存できます。下記ページの内容を使わせていただきました。<br>
+・<a href="https://garberas.com/">sora lab</a> - <a href="https://garberas.com/archives/362">STM + HAL Flashの書き込み・読み込み</a><br>
+<br>
+エフェクトプログラムはもちろん変え放題ですが、今回私が考えたものを紹介したいと思います。※信号処理は旧処理方法（TxRxCpltCallback関数利用なし、16ビット）のままです。<br>
+<br>
+<hr size="1"/><br>
+アナログ回路でのフィルタ設計は複雑になる場合が多く、コンデンサの容量値も限られています。また、リアルタイムに動かすとなると可変抵抗やフォトカプラを使うぐらいしか選択肢がありません。デジタル信号処理でのフィルタについては計算方法が確立しているため、専門知識がなくとも設計可能で、任意の定数を動かすこともできます。計算式は下記ページのものを利用させていただきました。<br>
+・<a href="https://vstcpp.wpblog.jp/">C++でVST作り</a> - <a href="https://vstcpp.wpblog.jp/?page_id=523">簡単なデジタルフィルタの実装</a><br>
+<br>
+フェイザーはノッチフィルタがかかったような周波数特性で、谷となる周波数が動いています（参考ページ→<a href="https://www.electrosmash.com/mxr-phase90">MXR Phase 90 Analysis</a>）。今回はこの特性をピーキングフィルタを使って再現、発展させたエフェクトを考えました。フェイザーとワウを合わせたような効果で、5つのモード（STD、SOFT、INV、HIGH、LOW）があります。名前の由来は3つ（Three）のピーキングフィルタ（Peaking Filter）です。<br>
+<br>
+＜STD・SOFTモード＞<br>
+<a href="img/03s_242_4srempyF1.png" target="_blank"><img alt="03s_242_4srempyF1.png" border="0" height="195" src="img/03s_242_4srempyF1.png" width="295"/></a><br>
+SOFTモードでは、単純に谷となるフィルタを2つかけています。谷と谷の間は減衰し、スッキリとした感じとなります。STD（スタンダード）モードは、Phase 90の特性に近づけています。うねり感を得るためには、2つの谷の間に山が必要なようです。ちなみに2つの谷の間隔が広いとユニヴァイブのコーラスモードっぽい音になります。谷となる周波数の揺れ幅や高低は、出音への影響は少なかったです。<br>
+<br>
+＜INV・HIGH・LOWモード＞<br>
+<a href="img/03s_242_5srempyF2.png" target="_blank"><img alt="03s_242_5srempyF2.png" border="0" height="195" src="img/03s_242_5srempyF2.png" width="295"/></a><br>
+フィルタを谷ではなく山にした場合、山が1つだとオートワウのようになります。山を2つにすると、クセは強いもののフェイザーっぽいシュワシュワ感が現れます。INV（インバース）モードでは、2つの山の間にさらに谷を追加しています。HIGH／LOWモードは谷と山を混ぜており、通常のフェイザーの高音域／低音域が強調された感じとなります。<br>
+<br>
+＜計算高速化＞<br>
+BiQuadフィルタの係数は三角関数の計算が入っていて、そのままでは処理に時間がかかり過ぎると思われます。そのため表計算ソフトで近似式を算出するなどして対応しています。それでも実際のCPU使用率は70%程度となってしまいましたので、計算高速化についてはもう少し検討していく予定です。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

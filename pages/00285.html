@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Tech 21 SansAmp Bass Driver DI V2 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Tech 21 SansAmp Bass Driver DI V2 解析</h1>
+  <p align="right">2022年05月03日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_285_01_bdv2P.jpg" target="_blank"><img border="0" height="240" src="img/09_285_01_bdv2P.jpg" width="640"/></a><br>
+Tech 21 SansAmp Bass Driver DI（以下BDDI） <a href="00283.html" target="_blank">V1初期型</a>と<a href="00284.html" target="_blank">V1後期型</a>に引き続き、V2ではどのように変わったのか解析していくことにしました。上写真は2022年1月に購入した個体です。V2販売開始から間もない2016年頃は、V1後期型と同じ高さが低くないフットスイッチだったようです。<br>
+<br>
+<hr size="1"/><br>
+<strong><span style="font-size:large;">＜モールドとの闘い＞</span></strong><br>
+<br>
+<a href="img/09_285_02_bdv2M1.jpg" target="_blank"><img border="0" height="180" src="img/09_285_02_bdv2M1.jpg" width="500"/></a><br>
+<a href="00284.html" target="_blank">V1後期型</a>と同じように謎モジュールが使用されており、「CH40」と印字してあります。モールドは固く、燃料用アルコール（メタノール）に浸けてもほとんど変化がありません。周辺回路や各ピン間の抵抗値から、中の回路はV1後期型のものと似ていると予測できました。地道に削っていきましたが、小さなモジュールなのでそれほど時間はかかりませんでした。基板はセラミックではなく普通の素材で、チップ抵抗やシルク印刷が確認できました。<br>
+<br>
+慎重に削ったつもりでしたが、クリッピングダイオードと思われる部品のマーキングはわかりませんでした。測定してみると、やはり3.3Vのツェナーダイオードが向かい合わせになった部品でした。パッケージはSOT-663で、該当するツェナーダイオードは「BZB984-C3V3」だけしかなく、これを使い謎モジュールのクローンを製作しました。<br>
+<a href="img/09_285_03_bdv2M2.jpg" target="_blank"><img border="0" height="180" src="img/09_285_03_bdv2M2.jpg" width="360"/></a><br>
+ブレッドボード上で周辺回路を組み、元のモジュールと特性が一致することを確認しました。写真左側はついでに作ったV1後期型用のモジュールです。<br>
+<br>
+<hr size="1"/><br>
+<strong><span style="font-size:large;">＜基板画像・回路図＞</span></strong>（KiCadデータ・高解像度画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Tech21/BDDI_v2" target="_blank">GitHub</a>へ）<br>
+<br>
+<a href="img/09_285_06_bdv2K.jpg" target="_blank"><img border="0" height="409" src="img/09_285_06_bdv2K.jpg" width="568"/></a><br>
+ほとんどの表面実装部品が2.0mm×1.2mmサイズになっており、部品番号がシルク印刷されています。クワッドオペアンプの方がローコストに済むはずですが、なぜか全てデュアルオペアンプです。プッシュスイッチは<a href="https://www.toneluckswitches.com/ltv-button-switch/" target="_blank">TONELUCK LTV</a>という印字がありました。<br>
+<br>
+<a href="img/09_285_05_tech21_sansamp_bass_driver_di_v2_schematic.png" target="_blank"><img alt="tech21_sansamp_bass_driver_di_v2_schematic" border="0" height="428" src="img/09_285_05_tech21_sansamp_bass_driver_di_v2_schematic.png" width="656"/></a><br>
+<a href="00284.html" target="_blank">V1後期型</a>（<a href="img/09_284_05_tech21_sansamp_bass_driver_di_v1l_schematic.png" target="_blank">回路図：<img border="0" height="18" src="img/09_284_05_tech21_sansamp_bass_driver_di_v1l_schematic.png" width="30"/></a>）と比較すると、スイッチ追加はもちろん、その他の部分も変更が加えられています。基本的にはV1後期型をより使いやすくしたという方向性だと思います。<br>
+<ul><li>チューブアンプエミュレーション回路<br>
+<a href="img/09_285_08_bdv2F.png" target="_blank"><img border="0" height="195" src="img/09_285_08_bdv2F.png" width="285"/></a><br>
+PRESENCE 0% DRIVE 0% BLEND 100% でのシミュレーションです。<a href="00284.html" target="_blank">V1後期型</a>より低音域・高音域共に下がっています。特にR47とC42によるローパスフィルタの影響（高音域低下）が大きいです。また、V1初期・後期型では下図のミッドカット回路で430Hzあたりが削られていましたが、それがなくなっています。これは別途ミッドコントロールが追加されたされたための措置だと思われます。<br>
+<a href="img/09_285_09_bdv2Fmc.png" target="_blank"><img border="0" height="195" src="img/09_285_09_bdv2Fmc.png" width="285"/></a><br>
+</li><br>
+<li>MID<br>
+<a href="img/09_285_10_bdv2Fm.png" target="_blank"><img border="0" height="195" src="img/09_285_10_bdv2Fm.png" width="285"/></a><br>
+「SHIFT 500/1000Hz」という記載ですが、実際は400～450Hzと800～900Hz付近です。<a href="https://koichizikan.seesaa.net/article/sansamp_bddi_v2.html" target="_blank">こいち時間</a>でサンプルセッティングが比較されている通り、少しミッドカットすると<a href="00284.html" target="_blank">V1後期型</a>に近づくということになります。厳密にいうと、V1初期・後期型ではチューブアンプエミュレーション回路側のみミッドカットされていたのが、V2では原音がブレンドされた状態でミッドコントロールされるため、効き方が異なっています。メーカーとしてはBLENDは100%が基本という考えのようなので、問題ないということでしょう。サンプルセッティング比較をさらによく見ると、V2ではTREBLEを少し上げてあります。先の解析の通り、V2では高音域が下がっていることを考慮してのことだと思われます。<br>
+</li><br>
+<li>PRESENCE DRIVE<br>
+<a href="img/09_285_11_bdv2Fd.png" target="_blank"><img border="0" height="195" src="img/09_285_11_bdv2Fd.png" width="550"/></a><br>
+増幅部分のみのシミュレーションです。PRESENCEは<a href="00284.html" target="_blank">V1後期型</a>と同じです。DRIVEは、カップリングコンデンサの容量変更の影響で低音域が少し下がっているのと、クリッピング用ツェナーダイオードの端子間容量の違いで高音域が下がっています。<br>
+<br>
+ツェナーダイオードによるクリッピングは今まで試したことがなかったのですが、端子間容量が結構大きめだとわかりました。パッケージ、メーカーやロットでもバラつきが大きそうなので、他の歪みエフェクターに応用する場合には注意が必要だと思います。<br>
+<a href="img/09_285_20_bdv2Pd.jpg" target="_blank"><img alt="09_285_20_bdv2Pd.jpg" border="0" height="108" src="img/09_285_20_bdv2Pd.jpg" width="210"/></a><br>
+</li><br>
+<li>BASS TREBLE<br>
+<a href="img/09_285_12_bdv2Fb.png" target="_blank"><img border="0" height="195" src="img/09_285_12_bdv2Fb.png" width="550"/></a><br>
+BASS 80Hz時とTREBLEは<a href="00284.html" target="_blank">V1後期型</a>と同じです。BASS 40Hz時では増減幅が大きくなります。<br>
+</li><br>
+<li>電源部<br>
+<a href="https://koichizikan.seesaa.net/article/sansamp_bddi_v2.html" target="_blank">こいち時間掲載の個体</a>では、電源部のR54が黒焦げになっています。リセッタブルヒューズが使われていたら、このような焦げ方にはならないでしょうし、部品番号は「F」となるはずです。なのでR54は、最初は抵抗器が実装されていて、後からリセッタブルヒューズに変更になったと考えられます。故障のクレームか修理案件が多かったのかもしれません。<br>
+</li><br>
+<li>スイッチ周辺回路<br>
+V1初期・後期型ではHEF4013Bの2回路が使ってありましたが、V2では1回路のみとなりました。基板上の「START ON」「START BYPASS」という表示は、電源投入時にエフェクトオンにするかバイパスにするかの選択用です。DRIVE部分にはFETスイッチがあり、バイパス時にゲインが下がるようになっていて、エフェクト音が漏れるのを防いでいます。（一応<a href="00284.html" target="_blank">V1後期型</a>での音漏れがどうなのか調べてみましたが、3.5kHzで-80dB、10kHzで-60dB程度だったので、特に問題ないレベルだと思います。）<br>
+</li></ul><hr size="1"/><br>
+<strong>＜解析を終えて＞</strong><br>
+ベーシストにとって最も有名なペダルの一つであるBDDIの回路図が出回っていなかったのは不思議だったわけですが、ようやく解析を終えることができてスッキリしました。部品や回路等の変更過程には、おおらかさというか、アメリカンというか、そんな感じの考え方がある気がして面白かったです。結局のところ、V2は使いやすくなりつつもサンズアンプらしさがあるという完成形といってよいと思います。今後も末永く愛され続けて欲しいです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

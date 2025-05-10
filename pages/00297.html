@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>OpAmp Blues Driver</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>OpAmp Blues Driver</h1>
+  <p align="right">2022年10月18日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_297_01_bdopP.jpg" target="_blank"><img border="0" height="320" src="img/02_297_01_bdopP.jpg" width="500"/></a><br>
+数年前、BOSS BD-2をオペアンプのみで構成してみようとシミュレーションしていたことがありました。そのときはうまくいかず断念しましたが、<a href="00291.html" target="_blank">BD-2の解析</a>をきっかけに再挑戦し完成までこぎつけることができました。今回も<a href="00262.html" target="_blank">以前製作したRAT</a>のようにスライドボリュームを使っています。<br>
+<br>
+<a href="img/02_297_02_bdopP2.jpg" target="_blank"><img border="0" height="320" src="img/02_297_02_bdopP2.jpg" width="270"/></a><br>
+基本的には<a href="00290.html" target="_blank">SansAmp Bass Driver DI V1E Lite</a>と同じで、六角スペーサーを支柱として使うという構造です。今回はバッファードバイパスなので、<a href="https://www.sengoku.co.jp/mod/sgk_cart/detail.php?code=EEHD-5NZU" target="_blank">アクチュエータースイッチ</a>のバネで基板上のタクトスイッチを押すようになっています。<br>
+<br>
+<a href="img/02_297_03_bdopP3.jpg" target="_blank"><img border="0" height="180" src="img/02_297_03_bdopP3.jpg" width="270"/></a><br>
+フットスイッチキャップが必要になりますが、アクリル板を高く取り付けるとスライドボリュームのノブを保護することができます。ノブは<a href="https://ja.aliexpress.com/item/1005004087140016.html" target="_blank">AliExpressで購入したもの</a>で、いろいろなスライドボリュームに適合するよう穴の形状が工夫されているタイプです。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/BD2opamp" target="_blank">GitHub</a>へ）<br>
+<a href="img/02_297_05_bdopSch.png" target="_blank"><img alt="OpAmp Blues Driver schematic" border="0" height="370" src="img/02_297_05_bdopSch.png" width="623"/></a><br>
+BD-2はGAINが250kAの2連ボリュームですが、適当なスライドボリュームが見つからず、<a href="https://eleshop.jp/shop/g/gE25122/" target="_blank">共立エレショップにある100kAのもの</a>を使うことにしました。それに伴い周辺の値を細かく調整しています。2段目の増幅ではオペアンプでの歪みが入るので、IC変更の可能性を考えてソケットにしておきました。<br>
+<br>
+<a href="img/02_297_04_bdopSim.png" target="_blank"><img alt="02_297_04_bdopSim.png" border="0" height="208" src="img/02_297_04_bdopSim.png" width="640"/></a><br>
+BD-2の差動増幅回路をそのままオペアンプに置き換えると、ゲインが高いところで周波数特性がズレてきます。上図のように、可変抵抗と並列に抵抗とコンデンサを入れるとほぼ一致させることができました。ただ現実的には可変抵抗の誤差やJFETの個体差があるため、厳密に一致させる必要はないと考え採用していません。<br>
+<br>
+IC3B周辺はシミュレーテッドインダクタ（ジャイレータ）ですが、TL072を使うと発振しました。<a href="https://olivierjambois.com/whawha/" target="_blank">同様の例が報告されているの</a>を見つけましたが、はっきりとした原因はわかりません（容量負荷が関係しているのだと思いますが…）。TL072はよくバッファとして使われていますし、万能なイメージがあったので驚きました。コストパフォーマンスが高いからといって漫然と使ってはいけないとわかりました。<br>
+<br>
+フリップフロップ回路は<a href="00256.html" target="_blank">DS-1</a>や<a href="00258.html" target="_blank">TS9</a>の時と同様4027というロジックICを使ったものです。最初はパッケージが小さい<a href="https://www.ti.com/product/ja-jp/CD4027B" target="_blank">CD4027BPWR</a>を付けていましたが、なぜかモーメンタリ動作（スイッチを押している間だけエフェクトオフ）となりました。以前と同じ<a href="https://www.nexperia.com/products/analog-logic-ics/synchronous-interface-logic/flip-flops/j-k-type-flip-flops/series/HEF4027B.html" target="_blank">HEF4027B</a>を使う必要があるようです。CD4027BとHEF4027Bはデータシートのロジック図が微妙に違うのですが、深く追求はしていません。<br>
+<a href="img/02_297_06_bdopIc.jpg" target="_blank"><img border="0" height="240" src="img/02_297_06_bdopIc.jpg" width="240"/></a><br>
+SOP16→TSSOP16の変換基板のようなものを発注して取り付けました。さすがに弱々しいので、後からホットボンドで固定しています。<br>
+<br>
+▽周波数特性（TONE 50%）<br>
+<a href="img/02_297_07_bdopF.png" target="_blank"><img border="0" height="300" src="img/02_297_07_bdopF.png" width="400"/></a><br>
+本家<a href="00291.html" target="_blank">BD-2（SMDバージョン）</a>との比較です。ゲイン最大の時はそれなりにズレがありますが、想定通りです。<br>
+<br>
+▽波形・倍音（TONE 100% 歪率20%）<br>
+<a href="img/02_297_08_bdopDbd.png" target="_blank"><img border="0" height="199" src="img/02_297_08_bdopDbd.png" width="442"/></a><br>
+<a href="img/02_297_09_bdopDop.png" target="_blank"><img border="0" height="199" src="img/02_297_09_bdopDop.png" width="442"/></a><br>
+オペアンプでの歪みは、基準電圧のプラス側とマイナス側でクリップされる電圧が違うため非対称なクリップになり、偶数次倍音が多く出る傾向があります。ただ、聴感上はあまり差はないように感じました。歪率や周波数特性が同じだと、かなり近いニュアンスの歪み方になるのではないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

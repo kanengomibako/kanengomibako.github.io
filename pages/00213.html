@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd4 ハードウェア編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd4 ハードウェア編</h1>
+  <p align="right">2018年01月31日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03_213_1raspd4p.jpg" target="_blank"><img alt="03_213_1raspd4p.jpg" border="0" height="267" src="img/03_213_1raspd4p.jpg" width="400"/></a><br>
+微妙に不安定な面があった<a href="00187.html">RasPd2</a>を作り直しました。「3」を飛ばして「4」になっていますが、奇数番号は多機能タイプで、偶数番号はコンパクトタイプということにしておきます。スイッチやポットの基板についてはRasPd2のものを流用しており、外観は変わりません。初めてPCBを基板製造業者に注文しましたが、まぁまぁ納得の出来栄えでした。Raspberry Piは「zero W」です。<br>
+<br>
+▽回路図<br>
+<a href="img/03_213_2raspd4s.png" target="_blank"><img alt="03_213_2raspd4s.png" border="0" height="280" src="img/03_213_2raspd4s.png" width="540"/></a><br>
+入力にローパスフィルターを追加し、出力はヘッドフォン出力ではなくライン出力を使っています。ステレオ入力や出力バッファー追加も考えていたのですが、チップ部品でないと入らなさそうだったので諦めました。ダンピング抵抗は22Ωから47Ωへ上げて様子を見てみます。電源は9Vではなく5Vにしたので、大きな降圧レギュレータが不要となりました。DCジャックには間違えて9Vのプラグを挿さないように、秋月電子で買った「電圧区分4」というものを使用しています。<br>
+<br>
+▽レイアウト<br>
+<a href="img/03_213_3raspd4l.png" target="_blank"><img alt="03_213_3raspd4l.png" border="0" height="270" src="img/03_213_3raspd4l.png" width="220"/></a><br>
+あまり意味はないかと思いますが、一応レイアウトも載せておきます。<s><span style="color:#999999">GNDはアナログ（右側）とデジタル（左側）に分けていて、中央下のあたりの一点で接続するようにしました。</span></s>（このGNDの取り方は間違いですので参考にしないようお願いします。2020年1月15日追記）<br>
+<br>
+GPIOの番号は「*」印で示しており、使わないGPIOについては左端に引き出してあります。Raspberry Piが重なる部分は高さ7mmの電解コンデンサを使いましたが、スペースがあるので横に倒してもなんとか入りそうです。注文した基板は1M（R1）と1K(R2)の印字位置を逆にするというミスがあり、危ないところでした…<br>
+<br>
+ノイズについては<a href="00187.html">RasPd2</a>とほぼ同じくらいです。ギターが拾うノイズの方が大きいので、まぁOKということにしておきます。最大入出力レベルは0.9Vrms程度で、これも問題ないと思います。以前あったエラー音のような音については、起動して数十秒の間に短くビッと鳴ることがありますが、それ以外では今のところ大丈夫なようです。<br>
+<br>
+WM8731より性能がよいIC（CS4272が候補）を使うとさらに高品質になると思われます。自作するとなると情報が少ないのですが、今後取り組んでみたいところです。<br>
+<br>
+<hr size="1"/><br>
+<a href="00214.html">RasPd4 プログラミング編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

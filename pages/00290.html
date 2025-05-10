@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Tech 21 SansAmp Bass Driver DI V1E Lite</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Tech 21 SansAmp Bass Driver DI V1E Lite</h1>
+  <p align="right">2022年05月23日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_290_1bdelP.jpg" target="_blank"><img border="0" height="320" src="img/02_290_1bdelP.jpg" width="350"/></a><br>
+<a href="00283.html" target="_blank">Tech 21 SansAmp Bass Driver DI</a> （以下BDDI）の解析を終え、自分用にシンプルなものがあるといいかなと思い製作しました。見た目のインパクトを考え、<a href="00262.html" target="_blank">以前製作したRAT</a>のようにスライドボリュームを使っています。<br>
+<br>
+<a href="img/02_290_2bdelPP.jpg" target="_blank"><img border="0" height="288" src="img/02_290_2bdelPP.jpg" width="495"/></a><br>
+本体は、半田付けやネジ止めで接続した基板で構成されています。KIという表記はKIBAN（基板）が由来です。基板製造費用が上がらないように10cm四方に納めたかったのですが、<a href="https://www.taydaelectronics.com/" target="_blank">Tayda Electronics</a>にあった小型のスライドボリュームを使うことで何とか実現できました。<a href="https://www.elecrow.com/" target="_blank">Elecrow</a>では基板にスリットを入れても複数デザイン費がかからないので助かっています。後から気付きましたが、側面を嚙み合わせ構造にした方が組み立てやすいです。<br>
+<br>
+<a href="00262.html" target="_blank">スライドボリュームRAT</a>はメンテナンス性や耐久性を考えた構造ではありませんでしたが、今回はそのあたりのことも考慮しているので、完成度が上がっています。底板をつけているので、半田付け部分が手に触れることもありません。<br>
+<a href="img/02_290_5bdelI1.jpg" target="_blank"><img alt="02_290_5bdelI1.jpg" border="0" height="280" src="img/02_290_5bdelI1.jpg" width="560"/></a><br>
+六角スペーサーを柱のように使っており、踏んだ時の力が底板に伝わります。筐体部分は強く踏んでも簡単には壊れませんが、残念ながらスライドボリューム自体を保護することはできていません。フットスイッチは基板直付けにすることも可能でしたが、中の基板に力が加わるのを避けるため配線で接続するようにしています（フットスイッチ故障時に交換しやすくなるという利点もあり）。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/BDDI_v1el" target="_blank">GitHub</a>へ）<br>
+<a href="img/02_290_3bdelS.png" target="_blank"><img border="0" height="277" src="img/02_290_3bdelS.png" width="646"/></a><br>
+元になっているのは<a href="00283.html" target="_blank">BDDI V1初期型</a>ですが、DI機能なしでトゥルーバイパス仕様の「Lite」バージョンです。トゥルーバイパスにしたことで発振しやすくなっていますが、よほど高音域を上げるセッティングでなければ問題ないと思います。<br>
+<br>
+<a href="00049.html" target="_blank">BD21 Lite</a>と同じやり方で回路を簡略化しています。出力バッファを省くのと、チューブアンプエミュレーション回路部分の最後のミッドカット回路を前段に移動することにより、オペアンプを2回路分減らしています。そしてローパスフィルタの定数を調整し、元の回路と同じ特性になるようにしています。<br>
+<br>
+<a href="00288.html" target="_blank">BDDI V1E+製作の時</a>と同様、今回もC0G特性の積層セラミックコンデンサ（MLCC）を使っているため、Tech21製BDDIとは少し周波数特性が異なります。後から考えると、実験的に全て高誘電率系MLCCを使ってみるのも面白かったかもしれません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

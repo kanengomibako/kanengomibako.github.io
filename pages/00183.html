@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuverdrive+</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Nuverdrive+</h1>
+  <p align="right">2017年05月07日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_183_1nuverdrive_P.jpg" target="_blank"><img alt="02_183_1nuverdrive_P.jpg" border="0" height="267" src="img/02_183_1nuverdrive_P.jpg" width="400"/></a><br>
+<a href="00171.html">「Nutubeで作る自作エフェクター・コンテスト」で佳作を受賞</a>した<a href="00155.html">Nuverdrive</a>ですが、フットスイッチを押したときのマイクロフォニックノイズが大きかったため作り直しました。もともとNuverdriveを小さいサイズにしたのはコンテスト審査でインパクトを与えるためだったので、今回の「プラス」バージョンが本来の姿といえます。<br>
+<br>
+▽回路図<br>
+<a href="img/02_183_2nuverdrive_S.gif" target="_blank"><img alt="02_183_2nuverdrive_S.gif" border="0" height="225" src="img/02_183_2nuverdrive_S.gif" width="550"/></a><br>
+変更点は以下の通りです。<br>
+＜トーン追加＞<br>
+この形のトーン回路（ただのローパスフィルタ）はCカーブのポットがよさそうです。ただちょうどいい値（2kCカーブ）が手に入りにくそうなので、1kBカーブにしました。可変幅は少ない感じです。<br>
+<s>＜トリマーを固定抵抗化＞<br>
+歪みエフェクターなので、細かな調整は必要ないと考えました。Nutubeの個体差によってはほんの少しゲインが下がるかもしれません。</s>※修正しました（追記参照）。<br>
+＜オペアンプ＞<br>
+高音質な印象を与えるためOPA2134を使っていましたが、TL072でも全然問題ありません。<br>
+＜3.3Vレギュレータ追加＞<br>
+フィラメントにかかる電圧が安定するため、電池駆動が可能になりました。何Vまで低下しても大丈夫なのかはテストしていません。<br>
+<br>
+▽レイアウト<br>
+<a href="img/02_183_3nuverdrive_L.png" target="_blank"><img alt="02_183_3nuverdrive_L.png" border="0" height="315" src="img/02_183_3nuverdrive_L.png" width="355"/></a><br>
+▽PCB（横55.9mm縦22.9mm）<br>
+<a href="img/02_183_4nuverdrive_LP.gif" target="_blank"><img alt="02_183_4nuverdrive_LP.gif" border="0" height="27" src="img/02_183_4nuverdrive_LP.gif" width="66"/></a><br>
+<br>
+マイクロフォニックノイズはまだ少しだけ出ている状態ですが、演奏中切り替えても特に気にならないレベルになりました。以下のような対策をしていますが、HAMMOND 1590Bサイズではこれが限界だろうと思います。<br>
+＜シリコンワイヤー＞<br>
+<a href="https://korgnutube.com/jp/guide/" target="_blank">Nutube使用ガイド</a>で柔らかい線材が推奨されていたため、シリコンワイヤーという線材を試しました。茹でたスパゲッティのような感触です。<br>
+＜適度なスポンジ＞<br>
+ぎゅうぎゅうにスポンジを詰めると振動がNutubeに伝わりやすくなる気がするため、ほんのり位置を固定する程度に詰めています。<br>
+＜フジソクのスイッチ＞<br>
+見た目は頼りない感じで、本来は足踏み用ではなさそうです。スイッチを押したときの感覚がかなりソフトになります。ただし、荒っぽく踏んだ場合は他のフットスイッチとあまり変わらないかなと思います。<br>
+<br>
+トーン約半分の位置でNuverdriveと同じになります。Nuverdriveの音は下記イベント・レポートの動画で聴くことができます。<br>
+・<a href="https://www.digimart.net/magazine/article/2017022702429.html" target="_blank">KORG / Nutube BUILDER SUMMITイベント・レポート</a><br>
+<br>
+---以下2017年5月14日追記---<br>
+Nutubeを別の個体に差し替えたところ、変な歪み方になりました。たまたま今まで使っていた個体が大丈夫だっただけで、バイアス調整トリマーは必要なようです。回路図・レイアウト・PCB画像を修正しました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

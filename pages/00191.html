@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>積層セラミックコンデンサの特性メモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>積層セラミックコンデンサの特性メモ</h1>
+  <p align="right">2017年07月25日　カテゴリー：<a href="00164.html">○○で音は変わるのか</a></p>
+  <hr class="title"><br>
+  積層セラミックコンデンサ(MLCC)の特性については村田製作所ウェブサイトの<a href="https://www.murata.com/ja-jp/products/emiconfun/capacitor" target="_blank">コンデンサPLAZA</a>に記載されています。それによると、高誘電率系MLCCは温度・時間経過・DCバイアス・AC電圧といった各条件により容量が変化してしまうということです。電源部分によく使われるMLCCですが、今回はハイパスフィルタ(HPF)・ローパスフィルタ(LPF)で使用し、さらにDCバイアス電圧をかけて特性を測定してみます。<br>
+<br>
+<a href="img/10_191_1mlccp.jpg" target="_blank"><img alt="10_191_1mlccp.jpg" border="0" height="90" src="img/10_191_1mlccp.jpg" width="180"/></a><br>
+今回使用したMLCCは高誘電率系の耐圧50V、F特性（JIS規格）のものです。たぶんEIA規格ではY5V特性に近いだろうと思います。実測値約94nFのもの2個を使いましたが、測定値はすぐ変動するためあまりあてになりません。比較用にフィルムコンデンサも準備しました。実測値はそれぞれ103nF、103nF、82nF（34nF+48nF並列）、82nFです。<br>
+<br>
+▽回路図<br>
+<a href="img/10_191_2mlccs.gif" target="_blank"><img alt="10_191_2mlccs.gif" border="0" height="109" src="img/10_191_2mlccs.gif" width="499"/></a><br>
+C1とC2を変更します。電圧は0V(GND)、4.5V、9Vの3パターンですが、フィルムコンデンサは電圧による容量変化がほとんどないので、0Vのみの測定です。電圧を変えてすぐは値が安定しないため、数分放置してから測定しました。PCの出力は約1Vrmsです。<br>
+<br>
+▽結果<br>
+<a href="img/10_191_3mlcc.gif" target="_blank"><img alt="10_191_3mlcc.gif" border="0" height="232" src="img/10_191_3mlcc.gif" width="311"/></a><br>
+＜周波数特性＞<br>
+0V、4.5Vの場合は103nFのフィルムコンデンサと比較すると高域側(LPF)で差がやや大きくなっています。9Vだと82nFのフィルムコンデンサよりズレていて、かなりの容量低下となるようです。X7R特性であればもっと容量変化は少なくなると思います。<br>
+＜歪率＞<br>
+バイアス電圧が高い方が歪率が悪化しています。低域は特に悪化していますが、もともとレベルが下がっている部分なので音への影響はそれほどないかもしれません。むしろ倍音が増えていい感じになるかもと思いMLCC10個直列や並列での測定もしてみましたが、歪率はほとんど変わりませんでした。<br>
+<br>
+エフェクターに使うコンデンサとしてはやはりフィルムコンデンサが無難で、無理にMLCCを使う必要はないでしょう。一応省スペースで若干安いという利点はあるので、自分用のエフェクターには適宜使っていくと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

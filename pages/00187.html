@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd2 ハードウェア編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd2 ハードウェア編</h1>
+  <p align="right">2017年07月17日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03_187_1raspd2p.jpg" target="_blank"><img alt="03_187_1raspd2p.jpg" border="0" height="267" src="img/03_187_1raspd2p.jpg" width="400"/></a><br>
+Raspberry Pi Zeroを使い、コンパクトなデジタルエフェクターを作りました。今回はLCDがなく、単機能エフェクターとして使うことを想定しています。オーディオインターフェイスはUSBではなくI2Sで通信するとレイテンシーが低減できるようで、WM8731というICを使用しました。レイテンシー実測値は7msとほとんどリアルタイムに近いレベルとなりました。<br>
+<br>
+WM8731については、別記事に記載しています。<br>
+→<a href="00180.html">WM8731 設定メモ</a><br>
+Raspberry Pi Zeroでもほとんど設定は同じですが、ADC High Pass Filterはオンにするとノイズが増えたためオフにしました。音量は Master 56(-9dB) Capture 87(+9dB) です。<br>
+<br>
+SN比を稼ぐため、<a href="00174.html">RasPd1</a>のときには外部回路で入力前増幅→出力後減衰を行っていました。WM8731のデータシートを見てみると、IC内部でアナログな増幅・減衰ができるため外部回路は入力バッファのみとしました。電源電圧が3.3Vと低いですが、+9dB（2.8倍）程度までは歪まないだろうと思います。<br>
+<br>
+▽回路図<br>
+<a href="img/03_187_2raspd2s.gif" target="_blank"><img alt="03_187_2raspd2s.gif" border="0" height="425" src="img/03_187_2raspd2s.gif" width="600"/></a><br>
+出力のコンデンサが100uFと大きい値なのはイヤホンを直接繋ぐためでしたが、誤って大出力になったとき危険なのでイヤホンでのテストはしない方がいいでしょう。各スイッチには少し面倒ですがチャタリング防止の抵抗やコンデンサを入れています。とりあえずたくさんコントロールを準備したという感じで、割り当てをどうするかは未定です。WM8731への接続に入っている抵抗（ダンピング抵抗）はありあわせの22Ωにしましたが、役割はあまり理解していません。<br>
+<br>
+ノイズ対策のため、電源・GNDは4系統に分かれています。<br>
+　[アナログ9V電源・GND（バッファ用）]<br>
+　　　↓<br>
+　[デジタル5V電源・GND(Raspberry Pi用)]　→　[アナログ3.3V電源・GND(WM8731用）]<br>
+　　　↓<br>
+　[デジタル3.3V電源・GND(WM8731用）]<br>
+<br>
+▽レイアウト<br>
+<a href="img/03_187_3raspd2l.png" target="_blank"><img alt="03_187_3raspd2l.png" border="0" height="367" src="img/03_187_3raspd2l.png" width="460"/></a><br>
+▽PCB（横111.8mm縦73.7mm）<br>
+<a href="img/03_187_4raspd2lp.png" target="_blank"><img alt="03_187_4raspd2lp.png" border="0" height="87" src="img/03_187_4raspd2lp.png" width="132"/></a><br>
+あまり見慣れない水晶振動子というパーツがありますが、ケースが金属なので基板から少し浮かせて取り付けています。周波数の値はそんなに高精度のものでなくていいようです。WM8731には、シングルタイプのピンソケットを使うことでICの下にパーツを配置できるようにしています。レイアウト上部の基板間の配線は、着脱式にして後からの修正をしやすくしました。また、GND等のいくつかのジャンパーは基板の裏側（半田面）で配線しています。<br>
+<br>
+今回もノイズには悩まされました。まずサーというホワイトノイズがRasPd1より多く出ていました。Raspberry Pi自体から電磁波的ノイズが出ているのかと思いアルミホイルでシールドしてみましたが効果なしでした。<a href="https://www.electrosmash.com/pedalshield" target="_blank">pedalSHIELD DUE</a>のようにRチャネルに位相反転した入力を入れて、ノイズキャンセルしようとしましたがこれもダメでした（LとRでノイズの乗り方が違うようです）。結局電源を分離すると解決したため、ノイズ源はWM8731用アナログ電源だったようです。<br>
+<br>
+その他にもギターを繋いだときに少しキーン&amp;プツプツというノイズが出ていました。RasPd2内蔵のバッファを一旦外し、別電源のバッファを前段に繋いだ場合はほとんどノイズが消えたため、電源とGNDの取り方が原因と考えました。試行錯誤の結果、絶縁型のDC-DCコンバータを使用し、その出力部に各GNDを集めるというレイアウトになっています。<br>
+<br>
+下写真のように基板を2枚重ねにしています。<br>
+<img alt="03_187_5raspd2g.jpg" border="0" height="240" src="img/03_187_5raspd2g.jpg" width="240"/><br>
+ケースは高さがあるHAMMOND1590BSです。発熱が心配ですが、裏フタをあけた状態ではCPU温度50℃程度で安定しているようです。そのうち無線接続可能なRaspberry Pi Zero Wに変更し、改めて長時間使用時の安定性を調べようと思います。<br>
+<br>
+---以下2017年12月24日追記---<br>
+現状以下の問題点があるので、作り直す必要がありそうです。<br>
+・微妙にノイズが残っている<br>
+・ダイナミックレンジが狭い<br>
+<strong>・たまにビーというエラー音のような音が入る</strong><br>
+<br>
+<hr size="1"/><br>
+<a href="00188.html">ソフトウェア編</a>へ　　<a href="00190.html">プログラミング編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

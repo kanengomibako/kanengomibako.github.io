@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Empress Effects Distortion 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Empress Effects Distortion 解析</h1>
+  <p align="right">2023年08月15日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_319_01_empdist_pic.jpg" target="_blank"><img alt="09_319_01_empdist_pic.jpg" border="0" height="320" src="img/09_319_01_empdist_pic.jpg" width="390"/></a><br>
+技術力が高そうなメーカーのエフェクターということで、<a href="https://empresseffects.com/products/distortion" target="_blank">Empress Effects Distortion</a>を中古で入手し解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Empress/Distortion" target="_blank">GitHub</a>にあります。<br>
+<br>
+まず気づいた点として、ケースのグラウンド接続がありません。また、なぜか出力ジャックに向かう基板上のパターンがカットされ、青い配線材が直付けされています。これらについては前の持ち主が何らかの改造を行った可能性があるので何とも言えません。基板上は全て表面実装部品で、高誘電率系積層セラミックコンデンサと思われるものが多く使われています。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_319_02_Empress_Effects_Distortion_Schematic.png" target="_blank"><img alt="Empress Distortion Schematic" border="0" height="226" src="img/09_319_02_Empress_Effects_Distortion_Schematic.png" width="611"/></a><br>
+オペアンプだけではなく、トランジスタやFETも使われています。Q1やQ3ではほとんど増幅されていないので、過大入力による歪みが狙いなのかもしれません。<br>
+<ul><li>Q2上側の抵抗R30<br>
+ダイオードに直列に入っている抵抗R30の役割がよくわからなかったのですが、X（旧Twitter）で歪みの質感を変えるために採用されていることがあるという情報をいただきました。<a href="https://guitar-gear.ru/forum/topic/3952-way-huge-swollen-pickle-silicon-fuzzzzzzzz/" target="_blank">WAY HUGE Swollen Pickle MkII</a>では、同様の箇所に470kΩAカーブのポットがあるようです。今回は1MΩという大きな抵抗値ですが、シミュレーションでクリッピングが電源の8Vではなく7.8V付近になるという影響が確認できました。<br>
+</li><br>
+<li>電源<br>
+高電圧が入力された時の対策だと思われる8Vのレギュレータが入っています。そして負電圧がオペアンプに供給されますが、トランジスタの部分には負電圧は使われていません。</li></ul><br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>入力部<br>
+<a href="img/09_319_11_empdist_s1.png" target="_blank"><img border="0" height="208" src="img/09_319_11_empdist_s1.png" width="450"/></a><br>
+抵抗値を固定したBaxandall（BAX型）トーンコントロール回路となっていて、低音域と高音域を減衰させています。<br>
+</li><br>
+<li>増幅部<br>
+<a href="img/09_319_12_empdist_s2.png" target="_blank"><img border="0" height="208" src="img/09_319_12_empdist_s2.png" width="450"/></a><br>
+crunch／mild／lead切替により、オペアンプU3Aでの増幅率と低音域が変化します。<br>
+</li><br>
+<li>低音域補強<br>
+<a href="img/09_319_13_empdist_s3.png" target="_blank"><img border="0" height="208" src="img/09_319_13_empdist_s3.png" width="450"/></a><br>
+増幅部の後にあるフィルターです。回路としては高音域側を減衰させる形に見えますが、ここまでにカットされた低音域を補う目的があると考えられます。<br>
+</li><br>
+<li>bass treble<br>
+<a href="img/09_319_14_empdist_s4.png" target="_blank"><img border="0" height="208" src="img/09_319_14_empdist_s4.png" width="450"/></a><br>
+再びBAX型トーン回路が出てきます。C6の影響で少しだけ高音域が減衰しています。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

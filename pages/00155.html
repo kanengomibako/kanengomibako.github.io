@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Nuverdrive</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Nuverdrive</h1>
+  <p align="right">2017年01月17日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_155_1nuverdriveP.jpg" target="_blank"><img alt="02_155_1nuverdriveP.jpg" border="0" height="240" src="img/02_155_1nuverdriveP.jpg" width="270"/></a><br>
+<a href="https://korgnutube.com/jp/" target="_blank">Nutube</a>という新しい真空管が発売されましたので、久々にエフェクターを作りました。Nutubeを使ったオーバードライブなので、Nuverdrive（ニューバードライブ）という安直な名前です。<br>
+<br>
+<a href="https://korgnutube.com/jp/contest/" target="_blank">Nutubeで作る自作エフェクター・コンテスト</a>に応募してみようと思っています。回路図等の詳細はコンテスト審査後に公開する予定です。<br>
+<br>
+---以上2016年11月27日記載、以下2017年1月17日追記---<br>
+<br>
+▽回路図<br>
+※あまりオススメできる回路ではないので、参考程度としていただきたいと思います。<br>
+<a href="img/02_155_2nuverdriveS.gif" target="_blank"><img alt="02_155_2nuverdriveS.gif" border="0" height="225" src="img/02_155_2nuverdriveS.gif" width="525"/></a><br>
+まずせっかくの小型真空管なので、小さいケースに入れてみようと考えました。回路をできるだけシンプルにするため、<a href="https://korgnutube.com/jp/guide/" target="_blank">使用ガイド</a>のFETを省いて無理やり2段直結にしてみます。試行錯誤の結果、アノード抵抗1MΩぐらいでうまく動作してくれました。それでもゲインがトータルで10倍程度にしかならなかったため、前段にブースターを組み込みました。オペアンプはFET入力のもの（TL072等）であれば大丈夫です。バイアス調整トリマーは最もゲインが高くなる位置に調整しましたが、大体真ん中で問題ありません。<br>
+<br>
+＜フィラメントについて＞<br>
+<a href="https://korgnutube.com/jp/guide/" target="_blank">使用ガイド</a>では、わざわざレギュレータで3.3Vを作ってから抵抗→フィラメントとつないであります。この理由は、電源電圧が多少変動してもフィラメントにかかる電圧が変わらないようにするためだと思います。今回のエフェクターはレギュレータを使用していませんので、必ず安定化された9V電源を使用します（新品の電池を使用した場合、おそらくフィラメントの定格を超えてしまいます）。<br>
+<br>
+▽レイアウト<br>
+<a href="img/02_155_3nuverdriveL.png" target="_blank"><img alt="02_155_3nuverdriveL.png" border="0" height="330" src="img/02_155_3nuverdriveL.png" width="310"/></a><br>
+▽PCB（横35.6mm縦30.5mm）<br>
+<a href="img/02_155_4nuverdriveLP.gif" target="_blank"><img alt="02_155_4nuverdriveLP.gif" border="0" height="36" src="img/02_155_4nuverdriveLP.gif" width="42"/></a><br>
+ケースはGarrettaudioのSize S（HAMMOND 1590A類似サイズ）です。一応Nutubeをスポンジではさんだのですが、フットスイッチのカチッという振動が伝わってマイクロフォニックノイズがかなり出てしまいます。Nutubeへの配線が短いのが原因だろうと思います。どうやらこの小さいケースでは無理があったようです。<br>
+<br>
+音については確かに真空管っぽい歪みになっているように思います。しかしながら本当ならNutubeのみでゲインを稼ぎたいところです。<a href="https://korgnutube.com/jp/contest/" target="_blank">エンドウ.氏の作例</a>のようにNutubeを2個使えばよいのですが、それだとあまり小型にできないし、費用もかかります。ということで、新たにハイゲインタイプのNutubeが開発されることを期待したいです。<br>
+<br>
+---以下2017年3月6日追記---<br>
+<br>
+<a href="00171.html" target="_blank">「Nutubeで作る自作エフェクター・コンテスト」で佳作を受賞</a>しました。下記イベント・レポートの動画で音を聴くことができます。スイッチオン時にキーンというマイクロフォニックノイズも出ています。<br>
+・<a href="https://www.digimart.net/magazine/article/2017022702429.html" target="_blank">KORG / Nutube BUILDER SUMMITイベント・レポート</a><br>
+<br>
+Nutubeとスポンジを取り出した内部写真を撮りました。<br>
+<a href="img/02_155_5nuverdrivePP.jpg" target="_blank"><img alt="02_155_5nuverdrivePP.jpg" border="0" height="240" src="img/02_155_5nuverdrivePP.jpg" width="180"/></a><br>
+Nutubeの向きを変えて配線を長くし、配線材を柔らかいものにすると少しはマイクロフォニックノイズが減るかもしれません。<br>
+<br>
+波形も測定しました。<br>
+<a href="img/02_155_6nuverdriveW.gif" target="_blank"><img alt="02_155_6nuverdriveW.gif" border="0" height="219" src="img/02_155_6nuverdriveW.gif" width="435"/></a><br>
+丸みを帯びた波形です。思ったより奇数次倍音が出ていました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

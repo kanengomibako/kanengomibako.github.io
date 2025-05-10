@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>FZ-1WVL</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>FZ-1WVL</h1>
+  <p align="right">2023年11月08日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_313_01_fz1wvl_pic.jpg" target="_blank"><img border="0" height="300" src="img/02_313_01_fz1wvl_pic.jpg" width="600"/></a><br>
+以前<a href="00260.html" target="_blank">アクリル筐体のFuzz Face</a>を製作したのですが、ファズに関する知識があまりない頃に作ったものなので、何となく中身を作り直したくなりました。そこで、最近解析した<a href="00312.html" target="_blank">BOSS FZ-1W</a>を簡略化したものを入れることにしました。「VL」はヴィンテージモード、ライトバージョンという意味合いです。<br>
+<br>
+▽回路図<br>
+<a href="img/02_313_02_fz1wvl_sch.png" target="_blank"><img border="0" height="416" src="img/02_313_02_fz1wvl_sch.png" width="641"/></a><br>
+内部スペースがあまりないため、トゥルーバイパスでヴィンテージモードのみとしました。トーンは省くことも考えましたが、やはり必要だろうと思い、トリマーで調整できるようにしています。電源はできるだけ簡略化せず、誤って18Vを入力しても大丈夫なように配慮しました（参考→<a href="00293.html" target="_blank">BD-2W</a>）。ラッチングリレー周辺は<a href="https://www.geofex.com/tektips.htm" target="_blank">GEOのLatching Relay Bypass Circuit</a>を元にしたものです。以前は9V仕様でしたが、電池の減りで安定動作しなくなる可能性を考え5Vとしました。<br>
+<br>
+メインのトランジスタ2SC5395Fは<a href="https://www.maroon.dti.ne.jp/satodenki/" target="_blank">サトー電気</a>で100個購入していたのですが、運が悪かったのかhFEが340以上のものがありませんでした。仕方なく320～330程度のものを使用しています。<br>
+<br>
+一番問題だったのがポットで、Cカーブ5kΩのネジ部がない小型ポットがなかなか見つかりません。<a href="https://www.digikey.jp/ja/products/detail/cui-devices/PT01-D120D-A502/15903926" target="_blank">PT01-D120D-A502</a>というものがあったのですが、逆対数という表記なのに実際はAカーブ（対数）となっています（そのうち表記が修正されるかもしれません）。とりあえず、AliExpressにあったメーカー不明のものを購入しました。少しカーブの変化が急な気がするものの、問題なく使えています。<br>
+<br>
+基本的にはFZ-1Wと同じ音で、筐体が円形になったことで何となくファズフェイスに近くなったような気がします。ファズとしては部品点数がなかなか多いですが、トランジスタを選別せずR21をトリマーにするといった対応をすればクローン製作もやりやすいのではないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

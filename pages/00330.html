@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Caline CP-60 WINE CELLAR 解析・改造</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Caline CP-60 WINE CELLAR 解析・改造</h1>
+  <p align="right">2024年01月06日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_330_01_cp60_pic.jpg" target="_blank"><img border="0" height="350" src="img/09_330_01_cp60_pic.jpg" width="545"/></a><br>
+Tech 21 SansAmp Bass Driver DI （以下BDDI）関連の解析や製作を今までいろいろと行ってきました（タグ：<a href="https://drugscore.blog.fc2.com/?tag=SansAmpBDDI" target="_blank">SansAmpBDDI</a>）。そして最近新たに<a href="https://www.calinemusic.com/index.php?m=home&amp;c=View&amp;a=index&amp;aid=67" target="_blank">Caline CP-60 WINE CELLAR</a>というBDDIのクローンらしきエフェクターを見つけたので、解析することにしました。KiCadデータ（基板画像入り）は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Caline/CP-60" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_330_02_Caline_CP-60_WINE_CELLAR_schematic.png" target="_blank"><img alt="Caline CP-60 WINE CELLAR schematic" border="0" height="356" src="img/09_330_02_Caline_CP-60_WINE_CELLAR_schematic.png" width="548"/></a><br>
+C1、C25の値やバランス出力部への接続が同じなため、<a href="https://drugscore.blog.fc2.com/00282.html" target="_blank">BEHRINGER BDI21</a>を元にしていると考えられます。意図は不明ですが、バイパス部にトランジスタ2つを使ってバッファが組んであったり、ハイパスフィルタが追加されていたりする等の変更点があります。また、いくつかのコンデンサ（C9、C12、C13、C22、C23）がBDI21より大きい値になっています（発振対策かもしれません）。<br>
+<br>
+気になるのが低音域の減衰です。バイパス音がどうなるかシミュレーションしました。<br>
+<a href="img/09_330_11_cp60_fb.png" target="_blank"><img border="0" height="208" src="img/09_330_11_cp60_fb.png" width="450"/></a><br>
+<a href="00283.html" target="_blank">BDDI V1初期型</a>でも少しは低音域の減衰がありますが、CP-60ではさらにカットされています。<br>
+<br>
+<hr size="1"/><br>
+<strong>【改造】</strong><br>
+<a href="00283.html" target="_blank">BDDI V1初期型</a>に近づける改造を行いました。オペアンプは手持ちのものを使いましたが、他はほぼ同じです。<br>
+<a href="img/09_330_21_cp60mod_sch.png" target="_blank"><img border="0" height="356" src="img/09_330_21_cp60mod_sch.png" width="548"/></a><br>
+ファンタム電源対応のバランス出力は、定格電圧が高く容量が大きい両極性電解コンデンサを使用するのが望ましいです。ただ、そこまでやろうとすると別基板の追加が必要となり手間がかかり過ぎるので、バランス出力自体を使用しないようにしました。<br>
+<br>
+周波数特性を<a href="00283.html" target="_blank">BDDI V1初期型</a>と比較しました。<br>
+<a href="img/09_330_22_cp60mod_f.png" target="_blank"><img border="0" height="209" src="img/09_330_22_cp60mod_f.png" width="477"/></a><br>
+谷となる周波数が少しズレています。BDDI V1初期型に使われている高誘電率系積層セラミックコンデンサは20年以上前のものなので、特性変化や経年変化が大きいと考えられます。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd1 ソフトウェア編その1</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd1 ソフトウェア編その1</h1>
+  <p align="right">2017年04月26日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  Pure DataやUSBオーディオを優先的に動かすため、下準備をしていきます（太字表記はコマンド）。<br>
+<a href="00177.html" target="_blank">Raspberry Pi 3の基本設定はこちら</a><br>
+参考サイト（英語）→<a href="https://wiki.linuxaudio.org/wiki/raspberrypi" target="_blank">Raspberry Pi and realtime, low-latency audio</a><br>
+<br>
+<hr size="1"/><br>
+＜CPU周波数スケーリング＞<br>
+CPUのクロック周波数は基本600MHz動作の設定となっていますが、常に1200MHzで動作するよう設定変更します。<br>
+$ <strong>sudo apt-get install cpufrequtils</strong>（cpufrequtilsインストール）<br>
+$ <strong>sudo nano /etc/init.d/cpufrequtils</strong><br>
+43行目あたり　GOVERNOR="performance"<br>
+※オーバークロックは試していません。<br>
+<br>
+<hr size="1"/><br>
+＜不要なプログラムを停止＞<br>
+自動起動するサービスプログラムのうち、不要なものを停止します。<br>
+$ <strong>sudo apt-get install chkconfig</strong>（chkconfigインストール）<br>
+とりあえず以下を停止しましたが、現状不具合はありません。<br>
+$ <strong>sudo chkconfig motd off</strong> （ログイン時メッセージ）<br>
+$ <strong>sudo chkconfig ntp off</strong> （時刻合わせ）<br>
+$ <strong>sudo chkconfig plymouth off</strong> （起動画面）<br>
+$ <strong>sudo chkconfig dphys-swapfile off</strong> （swap）<br>
+$ <strong>sudo chkconfig triggerhappy off</strong> （キーボードショートカット）<br>
+$ <strong>sudo chkconfig avahi-daemon off</strong> （ローカルネットワーク関係？）<br>
+$ <strong>sudo chkconfig dbus off</strong> （プロセス間通信）<br>
+$ <strong>sudo chkconfig bluetooth off</strong> （Bluetooth）<br>
+再起動後、停止しているか確認します。<br>
+$ <strong>chkconfig -l</strong><br>
+上記だけではBluetoothが停止しないらしく、削除してしまいます。<br>
+$ <strong>sudo apt-get purge pi-bluetooth</strong><br>
+$ <strong>sudo apt-get autoremove</strong><br>
+さらに念のため追加で停止設定をしておきます。<br>
+$ <strong>sudo nano /boot/config.txt</strong><br>
+最後に追加　dtoverlay=pi3-disable-bt-overlay<br>
+<br>
+<hr size="1"/><br>
+＜USBオーディオ設定＞<br>
+USBオーディオをデフォルトのサウンドデバイスとするように設定します。<br>
+$ <strong>sudo nano /etc/modprobe.d/alsa-base.conf</strong> （新しく作成、以下を記載）<br>
+options snd slots=snd_usb_audio,snd_bcm2835<br>
+options snd_usb_audio index=0<br>
+options snd_bcm2835 index=1<br>
+<br>
+USB2.0では問題が起こる場合があるらしいので、USB1.1に変更します。また、イーサネットコントローラーのターボモードを停止することにより、USBが効率的に通信できるそうです。<br>
+$ <strong>sudo nano /boot/cmdline.txt</strong><br>
+改行せずに追加　dwc_otg.speed=1 smsc95xx.turbo_mode=N<br>
+※参考サイトには載っていますが、イーサネットコントローラーを停止させる下記コマンドは失敗するようです。<br>
+$ echo -n “1-1.1:1.0” | sudo tee /sys/bus/usb/drivers/smsc95xx/unbind<br>
+<br>
+再起動し、オーディオ認識を確認します。<br>
+$ <strong>aplay -l</strong><br>
+<br>
+<hr size="1"/><br>
+＜音量設定＞<br>
+$ <strong>alsamixer</strong> （音量設定プログラムを起動）<br>
+F5で全表示、スペースキーかmキーで機能オン(OO)・オフ(MM)です。以下のコマンドで設定保存できます。<br>
+$ <strong>sudo alsactl store</strong><br>
+<br>
+Plugable USBオーディオ変換アダプタの場合は以下の設定で入出力がほぼ同じ音量となります。<br>
+[Speaker オン 100]　[Mic オフ 0]　[Mic CAPTURE 35]　[Auto Gain Control オフ]<br>
+コマンドで上記と同じ設定にする場合は以下のようになります。<br>
+$ <strong>amixer controls</strong> （設定ID番号確認）<br>
+$ <strong>amixer cset numid=3 off ; amixer cset numid=4 0 ; amixer cset numid=7 on ; amixer cset numid=8 18 ; amixer cset numid=9 off ; amixer cset numid=5 on ; amixer cset numid=6 37</strong><br>
+<br>
+<hr size="1"/><br>
+<a href="00174.html">ハードウェア編</a>へ　　<a href="00179.html">ソフトウェア編その2</a>へ　　<a href="00181.html">プログラミング編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

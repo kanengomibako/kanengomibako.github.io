@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>VITAL AUDIO POWER CARRIER VA-08 Mk-II 分解・測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>VITAL AUDIO POWER CARRIER VA-08 Mk-II 分解・測定</h1>
+  <p align="right">2024年07月26日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_353_01_va08_pic.jpg" target="_blank"><img border="0" height="225" src="img/09_353_01_va08_pic.jpg" width="400"/></a><br>
+前回の<a href="00350.html" target="_blank">VITAL AUDIO POWER CARRIER VA-05 Mk-II</a>に引き続き、<a href="https://hookup.co.jp/products/vital-audio/va-08mk2" target="_blank">VA-08 Mk-II</a>についてどのようになっているか調べました。※VA-08 Mk-IIは2017年4月発売で、VA-05 Mk-IIより古い機種です。<br>
+<br>
+<hr size="1"/><br>
+▽VA-08 MkII 基板画像<br>
+<a href="img/09_353_02_va08i1.jpg" target="_blank"><img border="0" height="320" src="img/09_353_02_va08i1.jpg" width="340"/></a><a href="img/09_353_03_va08ic.jpg" target="_blank"><img border="0" height="240" src="img/09_353_03_va08ic.jpg" width="240"/></a><br>
+＜主なIC＞<br>
+<a href="https://www.lcsc.com/product-detail/MOSFET_Techcode-Semicon-TDM3478_C105508.html" target="_blank">TDM3478</a>：N-Channel MOSFET<br>
+VITOOS ISO8：特注IC？<br>
+<a href="https://www.lcsc.com/product-detail/Gate-Drive-ICs_EG-Micro-EG3013_C81710.html" target="_blank">EG3013</a>：ハーフブリッジドライバ<br>
+AAP6034A：DC-DCコンバータ<br>
+<a href="https://www.lcsc.com/product-detail/Voltage-Regulators-Linear-Low-Drop-Out-LDO-Regulators_UMW-Youtai-Semiconductor-Co-Ltd-LM317T_C3014307.html" target="_blank">LM317T</a>：リニアレギュレータ<br>
+2SD1804：NPNトランジスタ<br>
+<br>
+ICや基板に印字がある通り、製造は<a href="https://www.vitoos.com/" target="_blank">VITOOS</a>のようです。ハーフブリッジ方式のDC-DCコンバータと思われます。9V固定ポートではリニアレギュレータ、電圧可変ポートはDC-DCコンバータICとトランジスタのリップルフィルタが使われています。このDC-DCコンバータはMXR MINI Iso-Brick Power Supplyと同じです（参考：<a href="https://gsmcustomeffects.hatenablog.com/entry/2020/10/18/022146" target="_blank">MXR mini iso-brickの解析</a>）。<br>
+<br>
+<hr size="1"/><br>
+【電圧測定】<br>
+<table border="1"><tr align="center"><td>　</td><td>9V 30mA</td><td>9V 250mA</td><td>9V 500mA</td><td>9V 750mA</td><td>12V 40mA</td><td>12V 333mA</td><td>12V 667mA</td><td>18V 60mA</td><td>18V 500mA</td></tr><tr align="center"><td>A</td><td>9.21V</td><td>9.08V</td><td>8.97V</td><td>8.86V</td><td>12.28V</td><td>12.15V</td><td>11.99V</td><td>18.38V</td><td>18.17V</td></tr><tr align="center"><td>B</td><td>9.31V</td><td>9.17V</td><td>9.06V</td><td>8.95V</td><td>12.41V</td><td>12.30V</td><td>12.17V</td><td>18.58V</td><td>18.37V</td></tr><br>
+<tr align="center"><td>1</td><td>9.26V</td><td>9.15V</td><td>9.02V</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td>2</td><td>9.23V</td><td>9.12V</td><td>9.01V</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td>3</td><td>9.28V</td><td>9.17V</td><td>9.05V</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td>4</td><td>9.24V</td><td>9.14V</td><td>9.02V</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td>5</td><td>9.27V</td><td>9.17V</td><td>9.05V</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td>6</td><td>9.26V</td><td>9.15V</td><td>9.03V</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr></table><br>
+それなりにズレがあるため、<a href="00316.html" target="_blank">カレントダブラーケーブル</a>は使わない方がよいでしょう。18V出力は、高めの電圧となることがあるようです。<br>
+<br>
+<hr size="1"/><br>
+【ノイズ測定】<br>
+<a href="00317.html" target="_blank">以前</a>と同様オーディオインターフェイスに接続して測定しています。<br>
+<a href="img/09_353_11_va08p.png" target="_blank"><img border="0" height="209" src="img/09_353_11_va08p.png" width="477"/></a><br>
+9V固定ポートでは低音域のノイズが少なく、ポート間の差がありません。電圧可変ポートでは、低音域のノイズは多めとなっています。VA-05 Mk-IIの方が低ノイズなのは、リップルフィルタのコンデンサ容量が大きくなっているためではないかと考えられます。<br>
+<br>
+・電流、電圧を変更した場合<br>
+<a href="img/09_353_12_va08c.png" target="_blank"><img border="0" height="157" src="img/09_353_12_va08c.png" width="358"/></a><a href="img/09_353_13_va08v.png" target="_blank"><img border="0" height="157" src="img/09_353_13_va08v.png" width="358"/></a><br>
+9V固定ポートでは、電流を増やすとスイッチングノイズだけが増えています。電圧可変ポートでは、電流・電圧を変えた場合のノイズ増加があります。なぜか18Vよりも12Vの方がノイズが多めです（ポートAでも同様の結果でした）。<br>
+<br>
+<hr size="1"/><br>
+【温度測定】<br>
+室温28度、木の床に直に置いた状態、ポート1～6合計1.5Aという条件で1時間通電しました。筐体の温度は41度、ACアダプターの温度は52度となりました。大電流で使用する場合、やはり温度上昇に注意した方がよさそうです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

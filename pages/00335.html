@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS SD-1 WAZA Mod</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS SD-1 WAZA Mod</h1>
+  <p align="right">2024年02月27日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_335_01_sd1m_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_335_01_sd1m_pic.jpg" width="465"/></a><br>
+<a href="00334.html" target="_blank">BOSS SD-1Wの解析</a>により、WAZA CRAFTでのカスタムモードの内容が明らかになりました。これを参考に、スルーホール部品版SD-1をSD-1W風にモディファイしてみました。やってみたいと思われる方は他にいないかもしれませんが、勝手に「WAZA Mod」と呼ぶことにします。（BD-2のWAZA Modは<a href="00299.html" target="_blank">こちらのページ</a>へ）<br>
+<br>
+<hr size="1"/><br>
+値を変更したり部品を追加したりした部分を下図の赤字で示しています。<br>
+<a href="img/09_335_02_sd1m_sch.png" target="_blank"><img border="0" height="238" src="img/09_335_02_sd1m_sch.png" width="634"/></a><br>
+JFET（Q5、Q99）は基本的に何を使っても問題なさそうですが、現行品のスルーホール部品なら2SK2881が低雑音・低オン抵抗でよさそうです。<br>
+<br>
+<strong>【Bleed Fix】</strong><br>
+スルーホール版SD-1では、DRIVEを上げている状態だとバイパス音に歪み音がわずかに混ざることが知られています。<br>
+・参考ページ→<a href="https://stinkfoot.se/archives/4678" target="_blank">The Boss SD-1 Super Overdrive bleed issue</a><br>
+この問題を解決するために、<a href="00334.html" target="_blank">SD-1W</a>に倣ってオペアンプの入力前にFETスイッチを追加しました（R98、Q99、D99追加）。500Hzの正弦波を入力し、効果を確認しました。<br>
+<a href="img/09_335_03_sd1m_f1.png" target="_blank"><img border="0" height="157" src="img/09_335_03_sd1m_f1.png" width="358"/></a><a href="img/09_335_03_sd1m_f2.png" target="_blank"><img border="0" height="157" src="img/09_335_03_sd1m_f2.png" width="358"/></a><br>
+歪み音が混ざっていた影響による倍音成分がありましたが、それがなくなったのがわかります。※1kHzは入力バッファでの歪み<br>
+<br>
+<strong>【入力バッファ・ハイパスフィルタ等の変更】</strong><br>
+・C1: 47nF → 1μF<br>
+・R2: 470kΩ → 1MΩ<br>
+・Q5: 2SC2240-GR → 2SK880-GR<br>
+・C8, C9: 47nF → 10uF<br>
+・R12, R13: 1MΩ → 100kΩ<br>
+・C7: 1μF → 10μF<br>
+・R11, R14: 22kΩ → 0Ω<br>
+<br>
+<strong>【S←→C切替】</strong><br>
+R99、C99、R96、R97、C98を追加し、<a href="00334.html" target="_blank">SD-1W</a>のカスタム・モードへDPDTのスイッチで切り替えできるようにします。R96、R97、C98では高音域を落とすことにより、カスタム・モードで後段に追加された増幅部の周波数特性を再現しています。<br>
+<br>
+下写真がモディファイ後の基板です。電源部の電解コンデンサC11、C17もついでに新品に交換してあります。10μFの電解コンデンサは手持ちの関係で無極性のものが使ってありますが、特別な意図はありません。<br>
+<a href="img/09_335_04_sd1m_pi1.jpg" target="_blank"><img border="0" height="320" src="img/09_335_04_sd1m_pi1.jpg" width="240"/></a><br>
+部品、配線材が動きやすい所は後でホットボンドで覆いました。<br>
+<br>
+DRIVEポットの向きを変えると、スイッチを入れるスペースができます。ポットの端子がケースに接触しそうになるので、熱収縮チューブ等で対策しておきます。<br>
+<a href="img/09_335_05_sd1m_pi2.jpg" target="_blank"><img border="0" height="240" src="img/09_335_05_sd1m_pi2.jpg" width="240"/></a><br>
+たまたま3PDTのトグルスイッチを持っていたので、モードでLEDインジケータの色も変わるようにしました。<br>
+<br>
+<hr size="1"/><br>
+実測した周波数特性は下図です（DRIVE 0% TONE 100% LEVEL 100%）。<br>
+<a href="img/09_335_06_sd1m_f3.png" target="_blank"><img border="0" height="261" src="img/09_335_06_sd1m_f3.png" width="590"/></a><br>
+音量は少し違っていますが、かなり近い周波数特性の形を得ることができました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>デシベル計算の高速化</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>デシベル計算の高速化</h1>
+  <p align="right">2019年10月10日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  <a href="00247.html">前回記事</a>でべき乗（pow）や対数（log）の演算は遅いということが分かりました。デジタルエフェクターではデシベル計算をよく使うため、これらの演算を高速化することを考えます。（以下、C言語を前提とした記述となっています。）<br>
+<br>
+<hr size="1"/><br>
+＜ dB x → 電圧比（倍率） y ＞<br>
+<br>
+通常の計算は　y = powf( 10.0f, x / 20.0f )　ですが、500サイクル程度かかります。そこでテーブル引きという方法を使います。あらかじめ表（ルックアップテーブル）を用意しておき、そこから値を取り出して計算する方法です。<br>
+<br>
+今回テーブルは-128dB～+128dBの範囲で1dBステップとしました。小数点以下の部分については線形補間（2点間を一次関数に当てはめる）で近似します。コードは下記の通りです。dbtovolTable.hファイルは<a href="https://github.com/kanengomibako/misc">GitHub</a>に置いています。<br>
+<br>
+<code><pre>#include "dbtovolTable.h"<br>
+<br>
+float dbtovol(float x)<br>
+{<br>
+  x += 128.0f;<br>
+  uint8_t xi = (uint8_t) x;<br>
+  return dbtormsTable[xi] + (dbtormsTable[xi+1] - dbtormsTable[xi]) * (x - xi);<br>
+}<br>
+</pre></code><br>
+xiにはuint8_tの0～255が入るので、テーブル配列のサイズは257にすればよいです。もちろん入力値が範囲外の場合は正しい値が出力されません。誤差は最大0.015dBで、実用には充分だと思います。サイクル数は約30となり大幅に高速化できました。<br>
+<br>
+<hr size="1"/><br>
+＜ 電圧比（倍率） x → dB y ＞<br>
+<br>
+通常の計算は　y = 20.0f * log10f( x )　ですが、230サイクル程度かかります。こちらもテーブル引きを利用したいところですが、等比級数的なテーブルを準備する方法がわかりませんでした。膨大な量の配列を準備している例もありますが、メモリが少ない場合には無理があります。<br>
+<br>
+今回はsqrtf演算（＝1/2乗）が高速なことを利用することにしました。以下のように式を変形します。<br>
+log x<br>
+= log ( x<sup>1/2</sup> )<sup>2</sup><br>
+= 2 log x<sup>1/2</sup><br>
+・・・<br>
+= 32 log x<sup>1/32</sup><br>
+あとは x<sup>1/32</sup> とdBの関係を三次関数で近似します。コードは以下の通りです。<br>
+<br>
+<code><pre>#include &lt;math.h&gt;<br>
+<br>
+float voltodb(float x)<br>
+{<br>
+  x = sqrtf(sqrtf(sqrtf(sqrtf(sqrtf(x)))));<br>
+  return - 559.57399f + 995.83468f * x<br>
+         - 591.85129f * x * x + 155.60596f * x * x * x;<br>
+}<br>
+</pre></code><br>
+使用範囲は0.00001(-100dB)～1(0dB) 推奨、最大誤差0.016dBです。電圧比というより音量変換を見据えた範囲としています。範囲を超えると誤差が増えますが、極端に外れた値にはなりません。サイクル数は約90で、効果はそれなりでした。<br>
+<br>
+他にもいろいろな方法を試したのですが、条件分岐を入れると意外とサイクル数が増えてしまう等、なかなかこれといった方法が見つかりませんでした。場合によっては通常のlog10fを使うことになりそうです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

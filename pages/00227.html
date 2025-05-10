@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MOOER Micro Preamp 006 分解</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MOOER Micro Preamp 006 分解</h1>
+  <p align="right">2018年08月01日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_227_1mp006p.jpg" target="_blank"><img border="0" height="240" src="img/09_227_1mp006p.jpg" width="390"/></a><br>
+<a href="00226.html">前回特性測定したMOOER Micro Preamp 006</a>ですが、ろくに弾きもせずに分解してしまいました。中身がどんなものか記録しておきます。<br>
+<br>
+フットスイッチはバネで基板上のスイッチを押すタイプです。長押し機能が実装されている関係で、オンオフ切替やチャンネル切替はフットスイッチを押した時ではなく離した時になっています。DCジャックは基板直付けではなくコネクタが使われていました。ケースのみの大きさは縦91mm横37mm高さ31mmで、縦横はHAMMOND 1590Aより1.5mmほど小さいです。基板は2枚重ねで、はんだ付けされたピンヘッダを取り除かないと分解できません。無事に元に戻せましたが、結構大変でリスクが高いと思います。<br>
+<br>
+▽基板写真<br>
+<a href="img/09_227_2mp006p.jpg" target="_blank"><img border="0" height="240" src="img/09_227_2mp006p.jpg" width="207"/></a>　<a href="img/09_227_4mp006p.jpg" target="_blank"><img border="0" height="240" src="img/09_227_4mp006p.jpg" width="193"/></a><br>
+左側基板には黒いゴムの円柱があり、基板同士の隙間を保つために取り付けてあるようです。ジャック上側にはバイパス用と思われるリレー（HFD4/3）があります。定電圧レギュレータはμPC29M08とAMS1117です。<br>
+<br>
+▽IC類写真<br>
+<a href="img/09_227_3mp006p.jpg" target="_blank"><img border="0" height="180" src="img/09_227_3mp006p.jpg" width="240"/></a>　<a href="img/09_227_5mp006p.jpg" target="_blank"><img border="0" height="180" src="img/09_227_5mp006p.jpg" width="320"/></a><br>
+左写真右上のIC（印字「415 XTFM」）は415の左隣の文字がかすれていて役割がわかりませんでした。その他のICは下記の通りです。<br>
+・MC33078　→　オペアンプ<br>
+・TLC2262　→　オペアンプ<br>
+・CS4272　→　オーディオコーデック（ADC/DAC）<br>
+・GD25Q41BT　→　フラッシュメモリ<br>
+・ADSP-21477　→　DSP<br>
+・STM32F030F4P6　→　マイコン<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Owm Pedal ハードウェア編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Owm Pedal ハードウェア編</h1>
+  <p align="right">2019年02月08日　カテゴリー：STM32 エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03s_237_1owmp.jpg" target="_blank"><img alt="03s_237_1owmp.jpg" border="0" height="266" src="img/03s_237_1owmp.jpg" width="400"/></a><br>
+STM32F405という32ビットマイコンを搭載した自作デジタルエフェクター「Owm Pedal」です。名前は同じマイコンを搭載した既存のペダル「<a href="https://www.rebeltech.org/product/owl-pedal/">OWL Pedal</a>」をもじってつけました。（<a href="00238.html">Owm Pedal ソフトウェア編はこちら</a>）<br>
+<br>
+オーディオコーデックはCS4220のセカンドソース品<a href="https://www.coolaudio.com/features-page.php?product=V4220">V4220M</a>です。サンプリングレートが48kHzまでですが差動入出力で価格が安く（秋月電子で240円）、エフェクターに最適だと考えました。<br>
+<br>
+▽回路図<br>
+<a href="img/03s_237_2owms.png" target="_blank"><img alt="03s_237_2owms.png" border="0" height="367" src="img/03s_237_2owms.png" width="493"/></a><br>
+＜V4220M周辺＞<br>
+データシートに入出力の回路が記載してあるのですが、抵抗値はよく使う値へと変更しました。バイアス電圧用に8.25kΩの抵抗があるところは、10kΩと100kΩ2個を並列にして8.33kΩとしています。<br>
+<br>
+V4220Mのデータシートでは音量等をコントロールできそうに書いてありますが、実際はできないようです。マスターモードで動作させる場合は8番(DOUT)ピンに47kΩのプルダウン抵抗を入れます。また、CS4220のデータシートには電源オン時に27番（RSTN）ピンを10msの間LOWにしておくように書いてあるため、10uFのコンデンサを入れました。4・5・8・9番ピンからマイコンへ接続しますが、通信線の長さが短いためダンピング抵抗は不要かと思います。<br>
+<br>
+＜電源＞<br>
+電源はレギュレータで以下のように分けました。<br>
+・マイコン用→デジタル3.3V(100mA)<br>
+・V4220M用→デジタル5V(20mA)　デジタル3.3V(5mA)　アナログ5V(60mA)<br>
+・OPA1678×3用→アナログ5V(20mA)<br>
+アナログ5V電源は通常分離する必要はありませんが、万一問題があったとき基板発注し直すのが嫌なので分けています。<br>
+<br>
+▽DSP基板（Owm Board）レイアウトについて（KiCadデータは<a href="https://github.com/kanengomibako/OwmPedal">GitHub</a>へ）<br>
+真ん中あたりに電源、上側がデジタル、下側がアナログという配置となっています。GNDは裏面を一面プレーンにしました。入力のカップリングコンデンサは<a href="https://www.rubycon.co.jp/products/pmlcap/">PMLCAP</a>を使っており、やや大きくて高価ですが歪率は下がるでしょう。残念ながらBIASに接続すべきところをGNDにつなぐというありがちな間違いをしてしまいましたので、内部写真では妙なジャンパー線が写っています（KiCadデータは修正済）。<br>
+<br>
+ピン間隔が狭いICはパッドを1mm程度長くすると半田付けしやすいです。マイコンのピンはほとんど使えるように引き出しました。一応I2C用にプルアップ抵抗の取り付けもできます。マイコン上側のLEDはデバッグ用のつもりです。水晶振動子周りのパターン設計は下記ページを参考にしました。<br>
+・<a href="https://jp.rs-online.com/web/generalDisplay.html?id=ideas-and-advice/crystal-oscillators-guide">水晶振動子 ガイド</a> - RSオンライン<br>
+<br>
+▽ポット類基板レイアウト<br>
+<a href="img/03s_237_3owml.png" target="_blank"><img alt="03s_237_3owml.png" border="0" height="288" src="img/03s_237_3owml.png" width="215"/></a><br>
+ポット類基板と筐体は<a href="00213.html">RasPd4</a>のものを使いまわしました。回路図は描いていません。無理やりジャンパーを飛ばしてチャタリング対策の抵抗やコンデンサを入れました。下写真のように基板を合体させます。<br>
+<a href="img/03s_237_4owmpp.jpg" target="_blank"><img alt="03s_237_4owmpp.jpg" border="0" height="200" src="img/03s_237_4owmpp.jpg" width="200"/></a><br>
+<br>
+とりあえず何もエフェクトをかけないスルー音が出るようにプログラミングし、周波数特性と歪率を測定しました。歪率は、クリップしない最大入力約0.7Vrmsでの結果です。<br>
+<a href="img/03s_237_5owmf.png" target="_blank"><img alt="03s_237_5owmf.png" border="0" height="185" src="img/03s_237_5owmf.png" width="542"/></a><br>
+100Hzの歪率が思ったより悪いですが問題ないでしょう。ノイズも測定限界以下だったので、歪み系エフェクトでもおそらく大丈夫だと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

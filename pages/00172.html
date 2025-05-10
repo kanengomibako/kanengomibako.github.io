@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>コンデンサで音は変わるのか ギタートーン編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>コンデンサで音は変わるのか ギタートーン編</h1>
+  <p align="right">2017年03月14日　カテゴリー：<a href="00164.html">○○で音は変わるのか</a></p>
+  <hr class="title"><br>
+  <span style="font-size:x-small;color:#999999;">※<a href="00164.html">他の測定</a>でわかった通り、歪率や周波数特性の測定はあまり意味がない気がしますが、失敗例として記事にしていこうと思います。音の変化には歪率や周波数特性以外の何らかの特性が関係していて、それは結局自分の耳で確かめるしかないのだろうと思います。</span><br>
+<br>
+<a href="00160.html" target="_blank">「擬似ギター出力」</a>を使って、ギタートーンに使われるコンデンサの比較を行いました。コンデンサは以下の4種類です。<br>
+<a href="img/10_172_2capGTP.jpg" target="_blank"><img alt="10_172_2capGTP.jpg" border="0" height="180" src="img/10_172_2capGTP.jpg" width="240"/></a><br>
+・東一電機　ビタミンQレプリカ オイルペーパーコンデンサ 1000V（1個600円?） 実測値0.0255μF<br>
+・Garrettaudio セラミックコンデンサ 50V（1個15円） 実測値0.0218μF<br>
+・（たぶん）ニッセイ電機 ポリエステルフィルムコンデンサ（1個10円） 実測値0.0239μF<br>
+・SBE Orange Drop 715P ポリプロピレンフィルムコンデンサ 600V（1個190円） 実測値0.0237μF<br>
+<br>
+普通のギタートーン回路のように、下図の通り接続します。トーンポットは500kΩAカーブのものを想定して、フルの場合（抵抗値470kΩ）と3割ぐらいの場合（抵抗値22kΩ）で測定しました。<br>
+<img alt="10_172_1capGTs.gif" border="0" height="219" src="img/10_172_1capGTs.gif" width="289"/><br>
+<br>
+▽音源　トーン3（22kΩ）<br>
+<a href="https://drugscore.web.fc2.com/10/1.wav" target="_blank">【1.wav】</a> <a href="https://drugscore.web.fc2.com/10/2.wav" target="_blank">【2.wav】</a> <a href="https://drugscore.web.fc2.com/10/3.wav" target="_blank">【3.wav】</a> <a href="https://drugscore.web.fc2.com/10/4.wav" target="_blank">【4.wav】</a><br>
+それぞれがどのコンデンサなのか、よかったらテストしてみてください。正解は、この記事の最後の方にあります。<br>
+<br>
+▽結果1　ギタートーン10（470kΩ） ※今回から表計算ソフトで処理<br>
+<a href="img/10_172_3capGT10.gif" target="_blank"><img alt="10_172_3capGT10.gif" border="0" height="232" src="img/10_172_3capGT10.gif" width="311"/></a><br>
+全く重なっています。歪率も特に違いはなさそうです。<br>
+<br>
+▽結果2　ギタートーン3（22kΩ）<br>
+<a href="img/10_172_4capGT3.gif" target="_blank"><img alt="10_172_4capGT3.gif" border="0" height="232" src="img/10_172_4capGT3.gif" width="311"/></a><br>
+静電容量の違いのせいだと思いますが、ビタミンQとセラミックは少しズレがあります。また、セラミックコンデンサでは歪率が悪化しています。<br>
+<br>
+セラミックコンデンサとニッセイのコンデンサに下写真のフィルムコンデンサを並列に追加して、静電容量を約0.025μFに補正しました。<br>
+<a href="img/10_172_5capGTP2.jpg" target="_blank"><img alt="10_172_5capGTP2.jpg" border="0" height="120" src="img/10_172_5capGTP2.jpg" width="160"/></a><br>
+<br>
+▽結果3　ギタートーン3（22kΩ）　静電容量補正後<br>
+<a href="img/10_172_6capGT3h.gif" target="_blank"><img alt="10_172_6capGT3h.gif" border="0" height="232" src="img/10_172_6capGT3h.gif" width="311"/></a><br>
+当たり前かもしれませんが、ほとんど重なりました。<br>
+<br>
+音源の正解→<a href="img/10_172_7capGTwav.gif" target="_blank">こちら（それぞれの波形の画像です）</a><br>
+波形をよく見ると所々違っていますが、残念ながら私は違いを聴き取れませんでした……<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

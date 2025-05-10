@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Owm Pedal H7 ハードウェア編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Owm Pedal H7 ハードウェア編</h1>
+  <p align="right">2020年01月23日　カテゴリー：STM32 エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03s_253_1owmHp.jpg" target="_blank"><img alt="03s_253_1owmHp.jpg" border="0" height="320" src="img/03s_253_1owmHp.jpg" width="475"/></a><br>
+STM32F405を搭載した「<a href="00237.html">Owm Pedal</a>」に引き続き、STM32H753とタッチパネル付ディスプレイを備えたデジタルエフェクターを製作しました。今回も穴加工は<a href="https://twitter.com/Tabbys_kobo">Tabby's工房</a>さんにお願いしました。（<a href="00254.html">Owm Pedal H7 ソフトウェア編はこちら</a>）<br>
+<br>
+▽入出力・電源部　回路図<br>
+<a href="img/03s_253_2owmHas.png" target="_blank"><img alt="03s_253_2owmHas.png" border="0" height="210" src="img/03s_253_2owmHas.png" width="590"/></a><br>
+4回路入りオペアンプOPA1679を使用することにしたので、以前と違い入力部のローパスフィルタが2次になっています。デジタル電源は絶縁型DC-DCコンバータで分離するようにしました。コンバータなしにもできるようにしましたが、ノイズ面でよくないと思われるので非推奨です。<br>
+<br>
+▽マイコン・オーディオコーデック部　回路図<br>
+<a href="img/03s_253_3owmHds.png" target="_blank"><img alt="03s_253_3owmHds.png" border="0" height="300" src="img/03s_253_3owmHds.png" width="443"/></a><br>
+当初はSTM32F722を使っていたのですが、さらなる発展を見据えSTM32H7を使うことにしました。注文時の在庫の関係でSTM32H753にしましたが、STM32H743でも問題ないと思います。今回はオーディオサンプリングレート44.1kHzで、SAIペリフェラルを使います。<br>
+<br>
+▽基板レイアウトについて（KiCadデータは<a href="https://github.com/kanengomibako/OwmPedalH7">GitHub</a>へ）<br>
+上側のマイコン基板は4層にしてみました。JLCPCBの場合、50mm×50mm以内であれば4層でも13ドルで済みます。マイコンは可能な限りピンを引き出していますが、全部は使わないので内側は小さいパッドです。GNDは基本一面プレーンで、基板が2枚に分かれているのでコネクタ部分でGNDを接続することになります。DC-DCコンバータは高さを低くするため寝かせて配置しました。<br>
+<br>
+▽ディスプレイ・スイッチ基板レイアウト<br>
+<a href="img/03s_253_4owmHl.png" target="_blank"><img alt="03s_253_4owmHl.png" border="0" height="389" src="img/03s_253_4owmHl.png" width="219"/></a><br>
+念のためダンピング抵抗を入れています。消費電流がそれなりにあるので、マイコン用とは別に3.3Vを準備しました。ディスプレイの詳細は<a href="00246.html">以前の記事（STM32 SPI接続タッチパネル付ディスプレイを使う）</a>をご参照ください。下写真のように基板を合体させます。<br>
+<a href="img/03s_253_5owmHi.jpg" target="_blank"><img alt="03s_253_5owmHi.jpg" border="0" height="315" src="img/03s_253_5owmHi.jpg" width="240"/></a><br>
+<br>
+▽周波数特性・ノイズ<br>
+ZOOM MS-50Gと特性を比較しました。MS-50GはParaEQを6個並べて+20dBになるよう調節しています。ノイズは1kHz正弦波入力時のものです。<br>
+<a href="img/03s_253_6owmHf.gif" target="_blank"><img alt="03s_253_6owmHf.gif" border="0" height="348" src="img/03s_253_6owmHf.gif" width="467"/></a><br>
+Owm PedalはMS-50Gより高域のノイズが多いように見えますが、MS-50Gはもともと高域が下がっているので、それを加味するとほぼ同じノイズレベルといってよいと思います。Owm Pedal H7では1dB程度ノイズが多いですが原因はよくわかりません。基板設計としては、部品配置に注意すればOwm PedalのようにGNDを1面プレーンにしても問題ないとわかりました。入出力のフィルタも、簡単な1次ローパスフィルタで充分かもしれません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

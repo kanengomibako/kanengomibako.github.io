@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>VEMURAM Karen 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>VEMURAM Karen 解析</h1>
+  <p align="right">2024年01月14日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_326_01_karen_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_326_01_karen_pic.jpg" width="390"/></a><br>
+VEMURAMのエフェクターは、基板の一部がモールドされていることが知られています。今回は比較的部品数が少ない<a href="https://www.vemuram.com/product.html?No=14" target="_blank">Karen</a>が手に入ったので、解析に挑戦してみることにしました。<br>
+<br>
+基板は4層で、トップ面と底面は一面ベタグラウンドになっています。おそらく配線を隠すためでしょう。トップ面と底面の銅箔を削り取るのはなかなか大変な作業でした。KiCadデータ（基板画像入り）、LTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Vemuram/Karen" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+<strong>＜モールドとの闘い＞</strong><br>
+<br>
+<a href="img/09_326_11_karen_k01.jpg" target="_blank"><img border="0" height="260" src="img/09_326_11_karen_k01.jpg" width="320"/></a><br>
+ICやFETらしきもの、クリッピングダイオード周辺回路が黒いモールドに覆われています。このモールドは、燃料用アルコールに漬けると少し柔らかくなりました。<br>
+<br>
+ICは燃料用アルコールに漬けた後に爪で削るとうっすらと文字が見え、RC4558Pだとわかりました。<br>
+<a href="img/09_326_12_karen_k02.jpg" target="_blank"><img border="0" height="105" src="img/09_326_12_karen_k02.jpg" width="200"/></a><br>
+FETらしきものも同様に表面を慎重に削りましたが、型番は出てきませんでした。パーツアナライザで調べると、NPNトランジスタだとわかりました。このトランジスタはグラウンドだけに繋がっていて（下写真）、特に意味はないようです。<a href="https://www.vemuram.com/product.html?No=14" target="_blank">公式ページ</a>でも「Transistors: N/A」という記載となっています。<br>
+<a href="img/09_326_16_karen_k06.jpg" target="_blank"><img border="0" height="150" src="img/09_326_16_karen_k06.jpg" width="270"/></a><br>
+<br>
+モールドは熱で溶け、ニオイはキツくなかったので、半田ごてを使って削り取っていきました。しかしこれは失敗で、抵抗の表面が削れたりダイオードが破損したりしてしまいました。<br>
+<a href="img/09_326_13_karen_k03.jpg" target="_blank"><img border="0" height="160" src="img/09_326_13_karen_k03.jpg" width="160"/></a><br>
+抵抗はジャンパーで、破損がなかったダイオードはBAT85Sという印字が見えました。破損したダイオードは「AT」の文字が見えたので、破損がなかったダイオードと同じ型番と判断しました。回路図の記号を変更し忘れていますが、ショットキーダイオードです。<br>
+<a href="img/09_326_14_karen_k04.jpg" target="_blank"><img border="0" height="120" src="img/09_326_14_karen_k04.jpg" width="160"/></a><br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_326_02_vemuram_karen_schematic.png" target="_blank"><img alt="Vemuram Karen schematic" border="0" height="261" src="img/09_326_02_vemuram_karen_schematic.png" width="615"/></a><br>
+オペアンプの非反転増幅で構成されています。C6は「Tri-sound」表記のコンデンサ（下写真）で、特注品のようです。回路図には実測した容量を記載しました。<br>
+<a href="img/09_326_15_karen_k05.jpg" target="_blank"><img border="0" height="160" src="img/09_326_15_karen_k05.jpg" width="160"/></a><br>
+<br>
+Gain widthトリマーは、Gainポットに並列に抵抗を入れて調整幅を変えるという仕組みです。この場合、Cカーブのように最小値側でゲインがすぐに上がる状態になるため、あまり調整しやすくないように思います。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>回路全体 （Gain width 100% Tone 50% Gain 0%→50%→100%）<br>
+<a href="img/09_326_21_karen_s01.png" target="_blank"><img border="0" height="208" src="img/09_326_21_karen_s01.png" width="450"/></a><br>
+TUBE SCREAMER（DRIVE 100% TONE 50%）、ProCo RAT（DISTORTION 100% FILTER 50%）を参考として掲載しました。Karenは少し低音域側に寄った特性となっています。<br>
+</li><br>
+<li>Tone 0%→50%→100%<br>
+<a href="img/09_326_22_karen_s02.png" target="_blank"><img border="0" height="208" src="img/09_326_22_karen_s02.png" width="450"/></a><br>
+BJF設計のペダル（→<a href="00303.html" target="_blank">ANODIZED BROWN DISTORTION 4K</a>）等で見られるトーンコントロール回路の形ですが、C12があることにより高音域が盛り上がった特性になっています。<br>
+</li></ul><br>
+---2024年1月30日追記---<br>
+<br>
+<a href="https://forum.pedalpcb.com/" target="_blank">PedalPCBのフォーラム</a>で、別の個体のクリッピングダイオードもBAT85Sであることが確認されました。ただ、ダイオードの片方が最初から壊れていたとのことでした。実は私が解析した個体も、分解前からD1が壊れていました。これは偶然の一致なのでしょうか…。<br>
+<br>
+そこでさらに別の個体を入手しました。ロット番号からすると初期に近い個体のようです。<br>
+<a href="img/09_326_31_karen_2.jpg" target="_blank"><img border="0" height="180" src="img/09_326_31_karen_2.jpg" width="240"/></a><br>
+この個体はダイオードは壊れていませんでしたが、R5が22kΩでした。考えられるのは、あるロット以降では片方のダイオードが意図的に破壊され、歪みにくくなったためにR5が150kΩに変更されたという可能性です。意味のないトランジスタを実装するくらいなので、このようなことが行われるのもあり得るように思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

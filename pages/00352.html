@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>USB PDでGT-1000COREとHX STOMPを動かす</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>USB PDでGT-1000COREとHX STOMPを動かす</h1>
+  <p align="right">2024年07月29日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  <a href="img/14_352_01_pd_pic.jpg" target="_blank"><img border="0" height="210" src="img/14_352_01_pd_pic.jpg" width="240"/></a><br>
+USB Power Delivery（以下USB PD）のACアダプターからBOSS GT-1000COREやLINE 6 HX STOMPへ電源供給し、問題がないかどうか検証します。今回使用したものは以下の通りです。<br>
+<br>
+・GT-1000CORE 純正ACアダプター PSB-1U<br>
+・HX STOMP 純正ACアダプター NSA27EP-090300<br>
+・<a href="https://www.amazon.co.jp/Anker-20W-Wall-Charger-Ports/dp/B0C8JY6S4V/" target="_blank">Anker Charger (20W, 2-Port) </a><br>
+・<a href="https://akizukidenshi.com/catalog/g/g117092/" target="_blank">秋月電子 スイッチングACアダプター(USB ACアダプター) PD20W Type-A/Type-C</a><br>
+・<a href="https://www.amazon.co.jp/%E3%82%A8%E3%83%95%E3%82%A7%E3%82%AF%E3%82%BF%E3%83%BC-%E6%80%A5%E9%80%9F%E5%85%85%E9%9B%BB%E5%B0%82%E7%94%A8-PD%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB-%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%9E%E3%82%A4%E3%83%8A%E3%82%B9-PDC-09VM%EF%BC%88DC9V%EF%BC%89/dp/B08RCZZP4Y" target="_blank">USB Type-C PDトリガーケーブル センターマイナス PDC-09VM</a><br>
+・<a href="https://akizukidenshi.com/catalog/g/g113429/" target="_blank">2.5mmプラグ⇔2.1mmジャック DC変換ケーブル</a>（HX STOMP用）<br>
+<br>
+<hr size="1"/><br>
+【電圧・電流測定】<ul><li>GT-1000CORE<br>
+純正：9.26V 376mA　Anker：8.96V 426mA　秋月：9.18V 421mA<br>
+</li><li>HX STOMP<br>
+純正：9.03V 923mA　Anker：8.95V 908mA　秋月：9.17V 904mA<br>
+</li></ul><br>
+【ノイズ測定】<br>
+<ul><li>それぞれの電源を直接オーディオインターフェイスに接続<br>
+<a href="img/14_352_11_pd_gt1.png" target="_blank"><img border="0" height="157" src="img/14_352_11_pd_gt1.png" width="358"/></a><a href="img/14_352_12_pd_hx1.png" target="_blank"><img border="0" height="157" src="img/14_352_12_pd_hx1.png" width="358"/></a><br>
+</li><br>
+<li>オシロスコープ（ADALM2000）で計測した波形<br>
+<a href="img/14_352_15_pd_gt2.png" target="_blank"><img border="0" height="200" src="img/14_352_15_pd_gt2.png" width="349"/></a><a href="img/14_352_16_pd_hx2.png" target="_blank"><img border="0" height="200" src="img/14_352_16_pd_hx2.png" width="349"/></a><br>
+</li><br>
+<li>それぞれの電源を用いて動作させた場合のGT-1000CORE／HX STOMPの出力からのノイズ<br>
+<a href="img/14_352_21_pd_gt2.png" target="_blank"><img border="0" height="157" src="img/14_352_21_pd_gt2.png" width="358"/></a><a href="img/14_352_22_pd_hx2.png" target="_blank"><img border="0" height="157" src="img/14_352_22_pd_hx2.png" width="358"/></a><br>
+</li></ul>純正ACアダプターよりも、USB PDの方がノイズが多いです。しかしながら実際の出音にはほとんど差が見受けられず、問題なく動作しています。やはり機器内部でしっかりノイズ対策されているのでしょう。もちろん、誤動作の可能性は全くないとは言い切れません。しかしながらコンパクトなボードを組みたい場合に、USB PDのACアダプターやモバイルバッテリーを利用するのは有用な選択肢だと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

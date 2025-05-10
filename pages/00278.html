@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Effects Bakery Bagel OverDrive 修理・解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Effects Bakery Bagel OverDrive 修理・解析</h1>
+  <p align="right">2021年12月20日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_278_1bodP.jpg" target="_blank"><img alt="09_278_1bodP.jpg" border="0" height="320" src="img/09_278_1bodP.jpg" width="240"/></a><br>
+エフェクト音が出ないジャンク状態のEffects Bakery Bagel OverDriveを修理し、回路のトレースも行いました。低価格ですが塗装がキレイで作りも問題なく、コストパフォーマンスが良いと思います。<br>
+<br>
+▽基板画像 ※右側2つはトレースのため主な部品を取り外した状態<br>
+<a href="img/09_278_2bodG.jpg" target="_blank"><img alt="09_278_2bodG.jpg" border="0" height="320" src="img/09_278_2bodG.jpg" width="492"/></a><br>
+定格電圧10Vの電解コンデンサ（C1）が使われており、この周辺の故障が予想されました。見た目では異常はありませんでしたが、電源部の47Ω抵抗R2が実測2kΩ程度となっていました。この抵抗とC1を新しいものに交換すると、問題なく音が出て修理完了となりました。<br>
+<br>
+電解コンデンサの定格電圧（耐圧）にどの程度余裕を持たせるか、メーカーの資料は見つかりませんでした。しかしながら定格電圧の80%以下で使うのが普通だと思います（参考ページ→<a href="https://edn.itmedia.co.jp/edn/articles/1102/01/news118.html" target="_blank">コンデンサの基本、選択のポイント</a>）。<br>
+<br>
+設計にいろいろと特徴があります。LEDは表面実装ですが、拡散カバーのようなものによって視認しやすくなっています。裏フタのグラウンド接続のため、フットスイッチにジャック用端子のようなものが半田付けされているのが面白いです。パッド上のビアが何か所かありますが、穴の中に半田が入りこんでよくなさそうな気がしてしまいます。ベタグラウンドへのパッド接続はサーマルリリーフ状になっていないため、ジャック類の取り外しが大変でした。<br>
+<br>
+▽回路図<br>
+<a href="img/09_278_3BagelOverDrive_schematic.png" target="_blank"><img alt="09_278_3BagelOverDrive_schematic.png" border="0" height="225" src="img/09_278_3BagelOverDrive_schematic.png" width="560"/></a><br>
+チューブスクリーマー（TS）を元にして、オリジナル要素を追加してあるようです。ICの電源ピンやバイアス電圧部分に100nFのバイパスコンデンサがわざわざ入れてあるのが意外でした。<br>
+<ul><li>入力部<br>
+バッファ後のD3の意図はよくわかりません。通常は入力保護として、最初に入れることが多いと思います。<br>
+</li><li>歪み部<br>
+TSとほぼ同じです。クリッピングダイオードの片方は型番がはっきりしませんが、順方向降下電圧が実測0.63V程度だったので、小信号用汎用ダイオードと思われます。<br>
+</li><li>トーン回路<br>
+TSとの比較シミュレーションを行いました。<br>
+<a href="img/09_278_4bodSim.png" target="_blank"><img alt="09_278_4bodSim.png" border="0" height="320" src="img/09_278_4bodSim.png" width="445"/></a><br>
+C9がTSより小さいため変化部分が高音域寄りになります。また、トーンポットの抵抗値が小さくAカーブなので、調整幅が狭く偏りがあります。<br>
+</li><li>出力部<br>
+約6.8倍の反転増幅で、充分な音量が得られるようになっています。入力信号がクリッピング後の0.6V程度から4Vまで増幅されるので、オペアンプの歪みが入ってきそうです。</li></ul>低価格なエフェクターは有名ペダルのコピーと思われるものが多いので、解析する人はあまりいないでしょう。しかしながらやってみるといろいろな発見があって楽しめるので、また手頃な価格のものを見つけたら買ってしまいそうです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS OS-2 OverDrive/Distortion 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS OS-2 OverDrive/Distortion 解析</h1>
+  <p align="right">2022年07月29日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_294_01_osP.jpg" target="_blank"><img border="0" height="320" src="img/09_294_01_osP.jpg" width="420"/></a><br>
+製造年不明、古いボロボロのジャンク状態のBOSS OS-2 OverDrive/Distortionを手に入れました。交換となる部品が多いため修理はせず、回路解析のみを行いました。KiCadとLTspiceの回路図データ等は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/BOSS/OS2" target="_blank" title="GitHub">GitHub</a>にあります。※LTspice用データはオペアンプをUniversalOpamp2にしてあります。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_294_02_osK.jpg" target="_blank"><img border="0" height="400" src="img/09_294_02_osK.jpg" width="188"/></a><br>
+基板上の印字を重ね合わせています。電解コンデンサの極性表示がなかったので、「＋」を追加しました。Q6が2つありますが、回路図上もそのままにしています。<br>
+<br>
+▽回路図<br>
+<a href="img/09_294_03_BOSS_OS-2_schematic.png" target="_blank"><img alt="BOSS OS-2 schematic" border="0" height="404" src="img/09_294_03_BOSS_OS-2_schematic.png" width="560"/></a><br>
+C27、R29の値等、<a href="https://experimentalistsanonymous.com/diy/Schematics/Distortion%20Boost%20and%20Overdrive/BOSS%20OS-2.gif" target="_blank">出回っている回路図</a>とは異なる部分がいくつかあります。C25は通常入力FET側が+ですが、画像検索で出てきた他の個体もこの向きなので、付け間違いというわけではなさそうです。DS-1やSD-1といった他の機種とは少し違っており、この機種独自の設計となっています。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<ul><li>DS側増幅部（RATと比較）<br>
+<a href="img/09_294_11_osF1.png" target="_blank"><img border="0" height="208" src="img/09_294_11_osF1.png" width="450"/></a><br>
+OS-2の方が高音域寄りです。C18を1μFにするとほとんど同じになります。<br>
+</li><br>
+<li>DS側トーン（DS-1と比較）<br>
+<a href="img/09_294_12_osF2.png" target="_blank"><img border="0" height="208" src="img/09_294_12_osF2.png" width="450"/></a><br>
+OS-2のDS側にトーンコントロールがあるわけではありませんが、DS-1のトーンを40%にした状態に似ていることがわかります。<br>
+</li><br>
+<li>OD側増幅部（SD-1と比較）<br>
+<a href="img/09_294_13_osF3.png" target="_blank"><img border="0" height="208" src="img/09_294_13_osF3.png" width="450"/></a><br>
+OS-2はかなりゲインが高くなるため、DRIVE半分（37.5kΩ）まででの比較です。<a href="https://www.boss.info/jp/products/os-2/" target="_blank">公式サイト</a>記載の「伝統のODサウンド」は、OD-1やSD-1を意識してあるのではないかと思います。<br>
+</li><br>
+<li>OD側トーン（SD-1と比較）<br>
+<a href="img/09_294_14_osF4.png" target="_blank"><img border="0" height="208" src="img/09_294_14_osF4.png" width="450"/></a><br>
+OS-2の方は、OD側の一部と最後のトーン回路を合わせたものです。SD-1の方が可変幅が広くなっています。<br>
+</li></ul>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

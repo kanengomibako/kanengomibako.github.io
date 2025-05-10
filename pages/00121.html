@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>PLAYTECH 7BAND EQUALIZER改造</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>PLAYTECH 7BAND EQUALIZER改造</h1>
+  <p align="right">2013年04月03日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  グラフィックイコライザはスライド抵抗用のケース穴加工が難しく、なかなか自作は面倒かと思います。そこで市販の格安エフェクターPLAYTECH 7BAND EQUALIZERを買って改造してみました。<br>
+<img border="0" height="250" src="img/09_121_1PTGE7.jpg" width="200"/><br>
+ケースは折り曲げ式の金属製で結構丈夫なようですが、アースにきちんとつながってなさそうだったので内側の塗装を一部剥ぎました。また、ゴム製の枠を加工して分解するとき枠を取り外さないでいいようにしています。<br>
+<br>
+改造前の中身は下写真です。基板を取り外すには片方のジャックの半田を除去する必要があります。<br>
+<img border="0" height="250" src="img/09_121_2PTGE7g.jpg" width="250"/><br>
+中身がかなり汚れていてだいぶ年月が経っていそうです。とりあえず電解コンデンサは全部交換しました。<br>
+<br>
+回路図をとってみました。結局作った方が早かったかもしれません…<br>
+<a href="img/09_121_3PTGE7sch.png" target="_blank">PLAYTECH 7BAND EQUALIZER SCHEMATIC　画像クリックで拡大<br>
+<img border="0" height="200" src="img/09_121_3PTGE7sch.png" width="260"/></a><br>
+予想通りBOSS GE-7とほとんど同じです。少し周波数がズレていますが、まぁ問題ない程度でしょう。周波数の計算はDGB Studio等のサイトでできますので、好みの周波数に変えるのもよいと思います。<br>
+<br>
+改造した点ですが、R14、R23、R26を82kに変更してBOSS GE-7の値に合わせました。また、ベース用に使うためC1、C23を470nにして気持ち低音が減りにくくしました。一応トゥルーバイパス化も行いました。改造前の状態でほとんど使っていないため良くなったかどうかはわかりません（笑）<br>
+<br>
+他の格安エフェクターもメーカーが回路図を公開してくれるとうれしいですね。モディファイ目的で買う人が増えそうだし、回路が有名メーカーと同じだとわかると安心して買えるというのもありそうだと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd4 プログラミング編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd4 プログラミング編</h1>
+  <p align="right">2018年02月23日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  各設定については<a href="00188.html">RasPd2 ソフトウェア編</a>と同じですが、今回はオーディオ設定の入出力音量を操作していないので、alsamixerのMasterとCaptureのdB gainは両方0となっています。内部プログラムは2チャンネルのディストーションエフェクトです（データダウンロードは<a href="https://drugscore.web.fc2.com/3/" target="_blank">こちら</a>へ）。<br>
+<br>
+▽コントロール割り当て<br>
+左側LED：　エフェクトオン時点灯、チャンネル切替モード時点滅<br>
+中央LED：　Aチャンネル選択時点灯<br>
+右側LED：　Bチャンネル選択時点灯<br>
+左側スイッチ：　バイパス音とエフェクト音を同じ音量に合わせる機能<br>
+中央スイッチ：　チャンネル切替<br>
+右側スイッチ：　2秒長押しでシャットダウン<br>
+各ポット：　エフェクトパラメータ（自動保存されている）<br>
+フットスイッチ：　2秒長押しで通常モードとチャンネル切替モードを変更、通常モード時はエフェクトオン・オフ切替、チャンネル切替モード時はチャンネル切替<br>
+<br>
+なかなかプログラミングが面倒でしたが、完成すると大したことはしていない感じです。フットスイッチに長押し機能を持たせた関係で、スイッチを押した時ではなく離した時に切替が働く形になり、少し違和感は残っています。<br>
+<br>
+一つ原因不明の問題があり、バックグラウンドでPure Data(Pd)が起動状態のとき、立ち下がりエッジ検出で定義したコールバック関数がたまに立ち上がりエッジでも呼び出されるという現象が起こりました。どう調べてもスイッチのチャタリングではないようです。とりあえず呼び出される関数に「対象GPIOピンがLOW(0)」という条件を追加して対策しています。<br>
+<br>
+▽Pdパッチ<br>
+<a href="img/03_214_1raspd4pd.png" target="_blank"><img alt="03_214_1raspd4pd.png" border="0" height="329" src="img/03_214_1raspd4pd.png" width="406"/></a><br>
+なぜか今回は[spigot~]でエフェクトオン・オフを切り替えるとプツっとノイズが出るため、<a href="https://139notfound.blogspot.jp/2017/04/puredatavanillaspigot.html" target="_blank">Isaac(139)さんの[pd spigot~]</a>に[line~]を入れたものを使っています。[pd effect_distortion]の中身の表示は省略しましたが、<a href="00211.html">前々回の記事のオーバードライブ</a>のトーン部分を変更したものが入っています。2チャンネル程度ならエフェクトをまるごとコピーすれば簡単ですが、今後の応用を考えてPdのメッセージ機能を使うことにしました。終了時にこのパッチ自体を上書き保存するため、外部ファイル操作はしていません。参考ページ→<a href="https://qiita.com/TatsuyaOGth/items/acce65e0a7b85428430a" target="_blank">PureDataで値のプリセットを外部ファイルで管理する方法</a><br>
+<br>
+エフェクトパラメータの取得は、RasPd2と同じでMCP3008を使っています。0.2秒ごとに0.0から100.0までの値を取得しますが、ノブを触らなくてもたまに値がブレることがあるようです。勝手に値が変わるとPdパッチに記録しているデータも変化して困る場合があるので、1以上変化しないとPythonからPdへ値を送信しないようしています。すごくゆっくりとポットを動かしたときはパラメータが変化しないことになってしまいますが、実用上は問題ないでしょう。<br>
+<br>
+▽Twitter動画（そのうち消えるかもしれません）<br>
+<blockquote class="twitter-tweet" data-lang="ja"><p dir="ltr" lang="ja">RasPd4に2ch歪みエフェクトを入れてみました。<br>
+バイパス→エフェクトON→フットスイッチ長押しでチャンネル切替モード→チャンネル切替<a href="https://twitter.com/hashtag/RaspberryPi?src=hash&amp;ref_src=twsrc%5Etfw">#RaspberryPi</a> <a href="https://twitter.com/hashtag/%E8%87%AA%E4%BD%9C%E3%82%A8%E3%83%95%E3%82%A7%E3%82%AF%E3%82%BF%E3%83%BC?src=hash&amp;ref_src=twsrc%5Etfw">#自作エフェクター</a> <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> <a href="https://twitter.com/hashtag/PureData?src=hash&amp;ref_src=twsrc%5Etfw">#PureData</a> <a href="https://t.co/tuqGTLrRVt">pic.twitter.com/tuqGTLrRVt</a></p>— 可燃ごみ箱 (@kanengomibako) <a href="https://twitter.com/kanengomibako/status/962976552089612288?ref_src=twsrc%5Etfw">2018年2月12日</a></blockquote><script async="" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script><br>
+<hr size="1"/><br>
+<a href="00213.html">RasPd4 ハードウェア編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

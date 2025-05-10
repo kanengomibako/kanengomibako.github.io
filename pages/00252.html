@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ZOOM U-22 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ZOOM U-22 分解・特性測定</h1>
+  <p align="right">2020年01月16日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_252_1u22p.jpg" target="_blank"><img border="0" height="240" src="img/09_252_1u22p.jpg" width="240"/></a><br>
+ZOOM U-22というオーディオインターフェイスを購入しました。分解・特性測定を行っておきます。<br>
+<br>
+<hr size="1"/><br>
+<strong>【分解】</strong><br>
+<br>
+▽中身画像　ZOOM U-22 Handy Audio Interface Gut Shots<br>
+<a href="img/09_252_2u22pi.jpg" target="_blank"><img border="0" height="200" src="img/09_252_2u22pi.jpg" width="300"/></a><a href="img/09_252_3u22pm.jpg" target="_blank"><img border="0" height="120" src="img/09_252_3u22pm.jpg" width="180"/></a><br>
+以下のICが確認できました。8ピンのオペアンプっぽいICの型番は読み取れませんでした。<br>
+・マイコン　LPC1820FBD144<br>
+・クロックジェネレータ　AK8142<br>
+・オーディオコーデック　TLV320AIC3101<br>
+・電源　RT9971<br>
+<br>
+絶縁型DC-DCコンバータを使った電源ではなさそうですがローノイズです。アナログGNDとデジタルGND（と思われる部分）がところどころコンデンサで繋いであるのは、ノイズ対策なのかもしれません。<br>
+<br>
+OUTPUTノブは0.5dB単位で動いているようなのでおそらくデジタル制御です。GAINノブは連続的な動きなのでアナログ回路だと思われます。<br>
+※LINE IN使用時GAINノブは無効<br>
+<br>
+<hr size="1"/><br>
+<strong>【特性測定】</strong><br>
+<br>
+PHONES出力からLINE IN入力へステレオケーブルを接続した状態で特性を測定しました。OUTPUTノブは10です。<br>
+<br>
+Windowsの場合、コントロールパネルのZOOM U-22 Control Panel（またはC:\Program Files\ZOOM\U-22 Driver\zmu22audiocp.exe）から Sampling Rate を 96000 Hz に設定しておきます。<br>
+<br>
+＜PHONE出力＞<br>
+最大無歪出力: 約 0.7 Vrms （OUTPUTノブ 10、WaveGene振幅 -5.5dB）<br>
+出力インピーダンス: 10 Ω （マニュアルより）<br>
+<br>
+＜LINE IN入力＞<br>
+最大無歪入力: 約 0.75 Vrms （CLIP SIGランプが赤に点灯）<br>
+入力インピーダンス: 22 kΩ （マニュアルより）<br>
+<br>
+＜WaveGene設定＞<br>
+サンプリング周波数: 96000　ビット長: 24　チャンネル数: Stereo<br>
+・歪率測定　サイン波　100Hz　1kHz　10kHz　FFT用に最適化（FFTサンプル数16384）　-6dB<br>
+・周波数特性測定　ユーザー波形　FLATSWEEP_016384.WAV　-6dB<br>
+<br>
+※<a href="https://efu.jp.net/soft/wg/wg.html">WaveGeneサイト</a>にあるサンプリングレート48kHzのユーザー波形サンプルを使っています。本来は96kHz用の波形を用意すべきですが、20kHz以上の周波数も問題ないようなのでそのまま利用しています。<br>
+<br>
+＜WaveSpectra設定＞<br>
+Avg: 300<br>
+[FFT]　サンプルデータ数: 16384　窓関数: なし（矩形）<br>
+[再生/録音]　フォーマット: 96000 s/s 24 bit Stereo<br>
+<br>
+※DELL製PCでドライバをMMEにした場合、周波数特性が乱れました（別の東芝製PCでは問題なし）。PCやドライバとの相性があるのかもしれません。<br>
+<br>
+▽ノイズレベル（POWER SOURCE: USB）<br>
+<a href="img/09_252_4u22n.png" target="_blank"><img border="0" height="225" src="img/09_252_4u22n.png" width="683"/></a><br>
+入力なしの時でも高域にいくつかピークが見えますが、特に問題ないでしょう。電池駆動でもほぼ同じ結果でした。<br>
+<br>
+▽歪率・周波数特性<br>
+<a href="img/09_252_5u22f.png" target="_blank"><img border="0" height="225" src="img/09_252_5u22f.png" width="683"/></a><br>
+マニュアルの周波数特性には±2 dB（20 Hz - 40 kHz）と記載がありますが、それよりも良いのではないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

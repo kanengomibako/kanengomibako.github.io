@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Tube Drive 200V</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Tube Drive 200V</h1>
+  <p align="right">2010年04月05日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <img alt="02_91_1TubedP.jpg" border="0" height="240" src="img/02_91_1TubedP.jpg" width="360"/><br>
+<a href="00090.html" target="_blank">前回作成した9V→200Vの昇圧回路</a>を使って真空管オーバードライブを作りました。<br>
+<br>
+▽回路図<br>
+<a href="img/02_91_2TubedSch.gif" target="_blank"><img alt="02_91_2TubedSch.gif" border="0" height="450" src="img/02_91_2TubedSch.gif" width="475"/></a><br>
+通常の真空管の増幅回路にブースターとRAT風トーン回路をつけ加えただけの回路です。ブースター部分のゲインはトリマーにしました。発振しやすいのでこのゲインはあまり上げられません。もう少し帯域をしぼった方が良いと思われます。高音域はC2やC10の値を大きくすれば下がります。低音域はC11の値を小さくすると下がります。もう少し簡単に調整できた方がいいかもしれません。<br>
+<br>
+真空管のヒーター電圧6.3Vを得るために9Vを抵抗で6V（実測値は5.9V）に下げています。その分熱になって無駄になってしまうので、できれば12V供給で直接ヒーターにつなげる方がよいです（その場合配線の仕方が変わります）。消費電流は全体で450mA弱になりました。電池では動きません。<br>
+<br>
+▽レイアウト<br>
+<a href="img/02_91_3TubedL.png" target="_blank"><img alt="02_91_3TubedL.png" border="0" height="470" src="img/02_91_3TubedL.png" width="284"/></a><br>
+▽PCB上（横81.3mm縦45.7mm）<br>
+<a href="img/02_91_4TubedLP1.gif" target="_blank"><img alt="02_91_4TubedLP1.gif" border="0" height="87" src="img/02_91_4TubedLP1.gif" width="154"/></a><br>
+▽PCB下（横81.3mm縦20.3mm）<br>
+<a href="img/02_91_5TubedLP2.gif" target="_blank"><img alt="02_91_5TubedLP2.gif" border="0" height="39" src="img/02_91_5TubedLP2.gif" width="154"/></a><br>
+電源部分の基板を分けています。意外と上側の基板がスカスカなので1つにまとめるのも可能だったかもしれません。ケースはタカチのTD9-12-4Nです。<br>
+<br>
+音はというと真空管っぽい粘りがあるような気がします。そのうち波形を測定してみる予定です。結構歪むんですがゲインを上げすぎると発振します。<strong>※発振にはくれぐれも注意してください。</strong>ノイズは若干多めかなと思います。<br>
+<br>
+4時間程度通電状態で放置してみましたが、発熱は大丈夫なようです。ただ電圧が180V程度に落ちていました。<a href="https://prettoguitar.blogspot.com/" target="_blank">空気のない音</a>というブログで同様の昇圧回路が検討されているのですが、そのブログによると昇圧回路に使っているトランジスタの温度変化のために電圧が落ちるそうです。MOS-FETにすると少しはマシになるらしいです。まぁ多少電圧が下がるぐらいは大して問題はないと思います。塗装にはアルミ用の塗料を使ってみたんですが、確かに値段が高い分塗料の食いつきはよさそうです。<br>
+<br>
+まだまだ改善点がありそうな感じですが、ひとまず成功ということにしておきます。<br>
+<br>
+（2016年11月9日部品リスト・PCB追加）<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

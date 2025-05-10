@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>VOX amPlug2 Classic Rock 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>VOX amPlug2 Classic Rock 解析</h1>
+  <p align="right">2024年11月02日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_342_01_ap2cr_pic.jpg" target="_blank"><img border="0" height="240" src="img/09_342_01_ap2cr_pic.jpg" width="518"/></a><br>
+<a href="00331.html" target="_blank">VOX amPlug Classic Rock</a>に引き続き、後継機種のamPlug2 Classic Rockを解析しました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Vox/AP2-CR" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_342_02_ap2-cr_amPlug2_Classic_Rock_schematic.png" target="_blank"><img alt="VOX ap2-cr amPlug2 Classic Rock schematic" border="0" height="397" src="img/09_342_02_ap2-cr_amPlug2_Classic_Rock_schematic.png" width="643"/></a><br>
+<a href="00331.html" target="_blank">旧機種</a>と比べると増幅段が減り、クリッピングダイオードは一組となっています。また、シミュレーテッドインダクタはトランジスタからオペアンプに変わっています。最も大きな変化は、マイコン<a href="https://www.infineon.com/cms/en/product/microcontroller/fm3-32-bit-arm-cortex-m3-microcontroller-mcu-families/fm3-cy9bfx2xk-l-m-series-arm-cortex-m3-microcontroller-mcu-family/cy9bf122kpmc-g-mne2/" target="_blank">CY9BF122K</a>により様々な機能が追加になったことです。電源スイッチはモード切替機能も兼ねていますが、うまい具合にダイオードやトランジスタで制御されています。<br>
+<br>
+オーディオコーデックICを別途使うにはスペース・電力的に厳しいためか、A/D変換・D/A変換はマイコンで行われています。ADCは12ビット、DACは10ビットの分解能で、それぞれ2系統使い分解能を上げてあるようです。アナログフィルターをDACの後に入れてあるのは、ノイズ低減のためだと思われます。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>増幅部（ブーストオフ GAIN 0%→50%→100%　ブースト1 GAIN 0%　ブースト2 GAIN 0%）<br>
+<a href="img/09_342_11_ap2cr_s1.png" target="_blank"><img border="0" height="210" src="img/09_342_11_ap2cr_s1.png" width="618"/></a><br>
+非反転増幅で利得を1未満にできるタイプのゲインコントロールです。ブーストオフ時、形としては<a href="00331.html" target="_blank">旧機種</a>にやや似ているようです。<br>
+</li><br>
+<li>TONE 0%→50%→100%<br>
+<a href="img/09_342_12_ap2cr_s2.png" target="_blank"><img border="0" height="210" src="img/09_342_12_ap2cr_s2.png" width="450"/></a><br>
+<a href="00331.html" target="_blank">旧機種</a>と同様のトーンスタックです。後段の高音域低下は控えめで、素直なコントロールのように見えます。<br>
+</li><br>
+<li>キャビネットシミュレータ（cab1：旧機種）<br>
+<a href="img/09_342_13_ap2cr_s3.png" target="_blank"><img border="0" height="210" src="img/09_342_13_ap2cr_s3.png" width="450"/></a><br>
+<a href="00331.html" target="_blank">旧機種</a>の時には考えが及ばなかったのですが、スピーカーキャビネットに加え、真空管アンプのダンピングファクターによる周波数特性の変化が再現されていると思われます。<br>
+＜参考ページ＞<br>
+・<a href="https://ameblo.jp/absolute233/entry-12775961365.html" target="_blank">【ナレッジ】真空管アンプのダンピングファクター影響</a><br>
+・<a href="https://hayashimasaki.net/tubebook/tubebook17.html" target="_blank">超初心者のための真空管アンプの工作、原理、設計まで - 8　負帰還（NFB） ダンピングファクター</a><br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

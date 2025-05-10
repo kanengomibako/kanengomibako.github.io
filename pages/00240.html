@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>STM32 I2S DMA利用時の32ビット対応</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>STM32 I2S DMA利用時の32ビット対応</h1>
+  <p align="right">2019年04月02日　カテゴリー：<a href="00236.html">STM32</a></p>
+  <hr class="title"><br>
+  たいていのオーディオコーデックICでは、24ビットや32ビットのデータを取り扱うことができます。<a href="00238.html">Owm Pedal</a>は16ビットに設定していましたが、32ビットに対応できるよう変更します。<br>
+<br>
+<hr size="1"/><br>
+<a href="https://www.stmcu.jp/design/document/reference_manual/51544/">リファレンスマニュアル</a>によると、I2Sで32ビットデータを取り扱うには16ビットずつデータ転送する必要があります。DMAは16ビット（Half Word）設定のままでうまく処理するようです。しかしここで問題があり、上位16ビットと下位16ビットが入れ替わって送受信されてしまいます。<a href="https://community.st.com/s/question/0D50X00009XkeU6SAJ/stm32f7-i2s-dma-byte-order-issue">STM32のコミュニティで質問されていました</a>が、修正するには自分でビットを入れ替えるコードを書くしかないようです。<br>
+<br>
+単純に元の数を左シフトしたものと右シフトしたものを合わせればいいのですが、負の数を右シフトすると左側が1で埋まるので、0で置き換えるようにします。<br>
+<code><pre>int32_t swap16(int32_t x)<br>
+{<br>
+  return (0x0000FFFF &amp; x &gt;&gt; 16) | x &lt;&lt; 16;<br>
+}<br>
+</pre></code><br>
+符号なし整数へ型変換してから右シフトする方法もあります。処理速度は上記と変わりませんでした。<br>
+<code><pre>int32_t swap16(int32_t x)<br>
+{<br>
+  return (int32_t)((uint32_t) x &gt;&gt; 16) | x &lt;&lt; 16;<br>
+}<br>
+</pre></code><br>
+<hr size="1"/><br>
+その他の変更部分については下記の通りです。<br>
+<br>
+・STM32CubeMX設定<br>
+　Multimedia→I2S2→Configuration→Parameter Settings<br>
+　→Data and Frame Format [<span style="color:#ff0000"><strong>32 Bits Data on 32 Bits Frame</strong></span>]<br>
+<br>
+・送受信バッファを32ビット整数へ<br>
+　volatile <span style="color:#ff0000"><strong>int32_t</strong></span> RX_BUFFER[BLOCK_SIZE*2] = {}; // 受信バッファ<br>
+　volatile <span style="color:#ff0000"><strong>int32_t</strong></span> TX_BUFFER[BLOCK_SIZE*2] = {}; // 送信バッファ<br>
+<br>
+・float変換時の乗除算に使う数を変更（32ビット符号付き整数の範囲は-2147483648～+2147483647）<br>
+　32768.0f→<strong><span style="color:#ff0000">2147483648.0f</span></strong><br>
+<br>
+<hr size="1"/><br>
+<a href="00238.html">Owm Pedal</a>に正弦波を入力し、実際のデータで確認しました。DMAで受信したデータはバラバラの値ですが、上下16ビットを入れ替えると正しいデータになることがわかります。<br>
+<a href="img/03s_240_1o32.png" target="_blank"><img alt="03s_240_1o32.png" border="0" height="340" src="img/03s_240_1o32.png" width="480"/></a><br>
+<br>
+<a href="https://github.com/kanengomibako/OwmPedal">GitHub</a>のmain.cファイルも変更しています。オーディオコーデックV4220Mでは上位24ビット分のみ有効なので、下位8ビット分は0として取り扱われますが特に支障はないでしょう。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

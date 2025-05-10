@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ミレニアムバイパスSP・クリントンバイパスSP</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ミレニアムバイパスSP・クリントンバイパスSP</h1>
+  <p align="right">2022年08月15日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  2004年頃にはDPDTと3PDTのフットスイッチの価格差が少なくなり、エフェクターのバイパスでは3PDTスイッチを使ったトゥルーバイパスが定番となりました。しかしながら、踏み心地がよく耐久性が高いものを選びたいとか、エフェクター修理で元々取り付けてあったものを使いたい等の理由でDPDTスイッチを使うこともあるかと思います。今回は、DPDTスイッチを使ったバイパスについて改善を試みることにしました。<br>
+<br>
+<hr size="1"/><br>
+<strong>【ミレニアムバイパス】</strong><br>
+<br>
+DPDTスイッチを使ったエフェクトのバイパス方式として有名なのが、ミレニアムバイパスです。JFETではなくMOSFETを使ったMillenium 2というものもあります。<span style="font-size:x-small;">※ミレニアムの正式なスペルは、nが2つのmillennium</span><br>
+・<a href="https://www.geofex.com/article_folders/millenium/millen.htm" target="_blank">The Millenium Bypass - True Bypass and LED indicator with only a DPDT</a><br>
+<br>
+この方式ではバイパス時エフェクト回路の入力に何も接続されていない状態になるため、ゲインが高いエフェクターの場合はノイズの原因になることがあります。そこで、エフェクト回路の入力をアース（GND）に接続する方法も解説されています（Millenium 2 Bypass Plus）。<br>
+・<a href="https://www.geofex.com/article_folders/mill2extn/mil2plus.htm" target="_blank">More Fun With the Millenium 2 Bypass</a><br>
+<br>
+そしてさらに、フォトリレーを使ったバージョン「SP」を考えました。※ブレッドボード上での動作確認のみで、実機に組み込みはしていません。<br>
+<img alt="Millenium 2 BypassSP" border="0" height="247" src="img/02_298_01_Millenium2BypassSP.png" width="693"/><br>
+スイッチオン／オフを反転させるためにMOSFETをもう一つ追加してあります。接続が変わりますが、Pch MOSFETを使う方法もよいかもしれません。Q1、D3はMOSFETの入力保護用です。部品点数がやや多く、あまりコンパクトにならないのが難点です。<br>
+<br>
+<hr size="1"/><br>
+<strong>【クリントンバイパス】</strong><br>
+<br>
+下記バイパス方法解説ページに、クリントンバイパスというものが掲載されています。エフェクト入力部にFETスイッチやoptoisolator（フォトカプラ、オプトカプラ、フォトリレー等）を使うという方法です。<br>
+・<a href="https://www.geofex.com/article_folders/bypass/bypass.htm" target="_blank">The Ins and Outs of Effect Bypassing</a><br>
+<br>
+さらに、バイパス時エフェクト回路の入力をGNDに接続するバージョン「SP」を考えました。<br>
+<img alt="Clinton Bypass SP" border="0" height="218" src="img/02_298_02_ClintonBypassSP.png" width="434"/><br>
+バイパス時にTLP175Aが数十MΩ（実測100MΩ以上）になるので、バイパス音にほとんど影響がありません。一応10pF程度の容量（シールドケーブル10cm程度分）が信号経路にぶら下がりますが、2～3台程度であればまず問題ないでしょう。<br>
+<br>
+もちろんLEDは直列ではなく別々に接続することもできます。こちらの方がインジケーター用LEDの輝度調整がしやすいと思います。<br>
+<img border="0" height="175" src="img/02_298_02_CB.png" width="240"/><br>
+<br>
+＜フォトリレーの選択＞<br>
+フォトリレーはソリッドステートリレーの一種で、各メーカーで同様の商品がありますが名称が違います（MOS FETリレー、PhotoMOSリレー等）。バイパス音への影響を少なくするため、できるだけ端子間容量が少ない方が望ましいです。<br>
+<ul><li><a href="https://akizukidenshi.com/catalog/g/g116057/" target="_blank">TLP175A（秋月電子で65円）</a><br>
+端子間容量10pFで、消費電流も少なく低価格です。</li><li>G3VM-21GR（500円程度）<br>
+高価ですが、低オン抵抗・低端子間容量（低C×Rタイプ）です。</li><li><a href="https://akizukidenshi.com/catalog/g/g105864/" target="_blank">アナログフォトカプラ LCR0203（秋月電子で120円）</a><br>
+端子間容量を実測すると5pF（1kHz）でした。オフ時の抵抗値上昇が遅く、スイッチング用途には適していないと思います。参考ページ→<a href="https://nobulabo.com/cds-analog-photocoupler-lcr0203/" target="_blank">【電子部品】CdSアナログリニアフォトカプラ：LCR0203の動作確認</a><br>
+</li></ul>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

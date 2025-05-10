@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Palmer POCKET AMP MK 2 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Palmer POCKET AMP MK 2 解析</h1>
+  <p align="right">2024年09月28日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_341_01_pamk2_pic.jpg" target="_blank"><img border="0" height="240" src="img/09_341_01_pamk2_pic.jpg" width="480"/></a><br>
+<a href="00331.html" target="_blank">VOX amPlug Classic Rock</a>では、アナログ回路によるキャビネットシミュレーターがありました。他の機種ではどのようになっているのか、<a href="https://www.palmer-germany.com/en/products/guitar-amplifiers/5141/pocket-amp-mk-2" target="_blank">Palmer POCKET AMP MK 2</a>を入手し調べました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Palmer/PocketAmpMK2" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_341_02_Palmer_POCKET_AMP_MK2_Schematic.png" target="_blank"><img alt="Palmer POCKET AMP MK2 Schematic" border="0" height="638" src="img/09_341_02_Palmer_POCKET_AMP_MK2_Schematic.png" width="617"/></a><br>
+<a href="https://www.tonepad.com/project.asp?id=22" target="_blank">Tech 21 SansAmp GT2（TONEPADの回路図）</a>や<a href="https://www.freestompboxes.org/viewtopic.php?t=1207" target="_blank">Behringer GDI21</a>に似ていますが、一部の部品の値は異なっています。スライドスイッチのところには、スイッチングノイズを抑える目的と思われる10MΩの抵抗が入っています。<br>
+<br>
+IC2A、IC3Bのあたりは<a href="00284.html" target="_blank">Tech 21 SansAmp BDDI V1後期型</a>の謎モジュールと同じです。SansAmp GT2は、ある時期から回路が変更されBDDIと同じ謎モジュールが使われるようになったと思われます。そしてPOCKET AMP MK2はその謎モジュールが搭載されたバージョンのGT2を参考にしていると考えられます。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>Amp（VINTAGE BRIT. US ）<br>
+<a href="img/09_341_11_pamk2_s1.png" target="_blank"><img border="0" height="216" src="img/09_341_11_pamk2_s1.png" width="450"/></a><br>
+VINTAGEではフェンダータイプのトーンのように中音域が下がります。BRIT.やUSでは中音域の谷がなく、低音域のカットがあります。<br>
+</li><br>
+<li>Mode（CLEAN CRUNCH HEAVY） Mic: CLASSIC<br>
+<a href="img/09_341_12_pamk2_s2.png" target="_blank"><img border="0" height="216" src="img/09_341_12_pamk2_s2.png" width="450"/></a><br>
+ゲインが変化し、周波数特性も少し変化します。<br>
+</li><br>
+<li>Mic（CLASSIC CENTRE OFF X） Mode: CLEAN<br>
+<a href="img/09_341_13_pamk2_s3.png" target="_blank"><img border="0" height="216" src="img/09_341_13_pamk2_s3.png" width="450"/></a><br>
+キャビネットシミュレータに相当すると思われる部分です。<a href="00284.html" target="_blank">SansAmp BDDI</a>でも同様の回路があります。CENTREやOFF Xでは中音域がカットされます。<br>
+</li><br>
+<li>Bass Treble<br>
+<a href="img/09_341_14_pamk2_s4.png" target="_blank"><img border="0" height="216" src="img/09_341_14_pamk2_s4.png" width="450"/></a><br>
+C28の容量やR36の抵抗値が低いのが影響し、低音域が下がっています。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

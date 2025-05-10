@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>パワーサプライ ノイズ測定 まとめ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>パワーサプライ ノイズ測定 まとめ</h1>
+  <p align="right">2024年08月12日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  今まで、いろいろなエフェクター用電源のノイズ測定を行ってきました（<a href="https://drugscore.blog.fc2.com/?tag=%E3%83%91%E3%83%AF%E3%83%BC%E3%82%B5%E3%83%97%E3%83%A9%E3%82%A4" target="_blank">タグ：パワーサプライ</a>）。今回はそれぞれをあらためて測定し直し、結果をまとめました。<br>
+<br>
+※<a href="00347.html" target="_blank">EP Booster V2</a>、<a href="00348.html" target="_blank">Micro Amp</a>、<a href="00352.html" target="_blank">GT-1000COREとHX STOMP</a>で調査した通り、電源ノイズが出音に影響しやすいかどうかはエフェクターによって違います。また、測定環境によって結果が変わり得るということをご留意ください。<br>
+<br>
+＜使用したもの＞<br>
+・CLASSIC PRO 電源アダプター DC9V05ANS<br>
+・BOSS ACアダプター PSA-100S（旧型緑LED）<br>
+・BOSS ACアダプター PSA-100P（後期型中国製）<br>
+・自作パワーサプライ（スイッチングACアダプター <a href="https://akizukidenshi.com/catalog/g/g107773/" target="_blank">LTE10UW-S2-BSA1</a>→3端子レギュレータ NJM7809）<br>
+・<a href="00317.html" target="_blank">Caline CP-205改</a><br>
+・<a href="https://www.amazon.co.jp/Anker-20W-Wall-Charger-Ports/dp/B0C8JY6S4V/" target="_blank">Anker Charger (20W, 2-Port) </a><br>
+・<a href="https://akizukidenshi.com/catalog/g/g117092/" target="_blank">秋月電子 スイッチングACアダプター(USB ACアダプター) PD20W Type-A/Type-C</a><br>
+・<a href="https://www.amazon.co.jp/%E3%82%A8%E3%83%95%E3%82%A7%E3%82%AF%E3%82%BF%E3%83%BC-%E6%80%A5%E9%80%9F%E5%85%85%E9%9B%BB%E5%B0%82%E7%94%A8-PD%E3%83%88%E3%83%AA%E3%82%AC%E3%83%BC%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB-%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%9E%E3%82%A4%E3%83%8A%E3%82%B9-PDC-09VM%EF%BC%88DC9V%EF%BC%89/dp/B08RCZZP4Y" target="_blank">USB Type-C PDトリガーケーブル センターマイナス PDC-09VM</a><br>
+・<a href="00350.html" target="_blank">VITAL AUDIO POWER CARRIER VA-05 Mk-II</a><br>
+・<a href="00353.html" target="_blank">VITAL AUDIO POWER CARRIER VA-08 Mk-II</a><br>
+・VOODOO LAB Pedal Power 2 Plus 旧型（ジャンク修理品）<br>
+・GP GREEN CELL マンガン乾電池<br>
+・<a href="https://akizukidenshi.com/catalog/g/g103257/" target="_blank">Golden Power アルカリ乾電池</a><br>
+・<a href="00154.html" target="_blank">東芝 充電式IMPULSE ニッケル水素電池</a><br>
+<br>
+<hr size="1"/><br>
+【電圧測定】<br>
+<br>
+<table border="1"><tr align="center"><td>　</td><td>無負荷</td><td>30mA</td><td>250mA</td></tr><tr align="center"><td>CLASSIC PRO</td><td>9.17</td><td>9.16</td><td>9.09</td></tr><tr align="center"><td>PSA-100S</td><td>9.32</td><td>9.29</td><td>9.08</td></tr><tr align="center" bgcolor="aqua"><td>PSA-100P</td><td>8.92</td><td>8.91</td><td>-</td></tr><tr align="center" bgcolor="aqua"><td>自作</td><td>8.98</td><td>8.97</td><td>8.93</td></tr><tr align="center" bgcolor="yellow"><td>VA-05 Mk-II 1</td><td>9.23</td><td>9.16</td><td>8.88</td></tr><tr align="center" bgcolor="yellow"><td>VA-05 Mk-II 4</td><td>9.34</td><td>9.27</td><td>9.04</td></tr><tr align="center" bgcolor="yellow"><td>VA-08 Mk-II A</td><td>9.33</td><td>9.21</td><td>9.08</td></tr><tr align="center" bgcolor="aqua"><td>VA-08 Mk-II 6</td><td>9.28</td><td>9.26</td><td>9.15</td></tr><tr align="center"><td>PD Anker</td><td>8.99</td><td>8.98</td><td>8.97</td></tr><tr align="center"><td>PD 秋月電子</td><td>9.17</td><td>9.16</td><td>9.13</td></tr><tr align="center" bgcolor="aqua"><td>PedalPower2+</td><td>9.33</td><td>9.29</td><td>-</td></tr><tr align="center" bgcolor="silver"><td>GPマンガン</td><td>10.02</td><td>9.40</td><td>7.45</td></tr><tr align="center" bgcolor="silver"><td>GoldenPower</td><td>9.83</td><td>9.71</td><td>9.07</td></tr><tr align="center" bgcolor="silver"><td>充電式IMPULSE</td><td>9.83</td><td>9.67</td><td>8.67</td></tr></table>出力インピーダンス（抵抗成分）の影響で、流す電流が大きくなると出力電圧が下がります。出力部にリニアレギュレータがあるもの（水色）より、トランジスタのリップルフィルタがあるもの（黄色）の方がわずかに電圧が下がりやすいです。VA-05やVA-08は各ポートにリセッタブルヒューズがあるので、その影響も考えられます。エフェクターでは消費電流の変動が少ないので、電圧低下を気にする場面はまずないかと思います。ただし、DCコネクタの接点の劣化や汚れは定期的にチェックした方がよいでしょう。<br>
+<br>
+<hr size="1"/><br>
+【電流による影響】<br>
+<br>
+<a href="00350.html" target="_blank">VA-05 Mk-II</a>や<a href="00353.html" target="_blank">VA-08 Mk-II</a>で測定した通り、電流が増えるとノイズが増加します。スイッチングACアダプターでは、電流が増えるとノイズの周波数が高くなり、可聴域のノイズが少なくなる場合があります。<br>
+<a href="img/09_351_11_claproi.png" target="_blank"><img border="0" height="157" src="img/09_351_11_claproi.png" width="358"/></a><a href="img/09_351_12_anki.png" target="_blank"><img border="0" height="157" src="img/09_351_12_anki.png" width="358"/></a><br>
+<br>
+<hr size="1"/><br>
+【ノイズ測定】<br>
+<a href="00317.html" target="_blank">以前</a>と同様オーディオインターフェイスに接続して測定しています。出力電流は全て30mAです。低音域の分解能を上げるため、FFTのサンプル数を今までの16384から131072へ増やしました。その影響で全体のレベルが下がったため、+9dBの補正をしてあります。また、見やすくするためピークのみ描画としてあります。<br>
+<br>
+リニアレギュレータが使われているものを下図にまとめました。<br>
+<a href="img/09_351_21_regu.png" target="_blank"><img border="0" height="209" src="img/09_351_21_regu.png" width="477"/></a><br>
+スイッチング電源ではないPSA-100PやPedal Power 2 Plusでは、商用電源のノイズ（60Hzの倍数）が乗りやすいようです。図には示していませんが、電流増加時にノイズが増えにくい特徴があります。<br>
+<br>
+上記以外のものをまとめました。<br>
+<a href="img/09_351_22_other.png" target="_blank"><img border="0" height="209" src="img/09_351_22_other.png" width="477"/></a><br>
+各ACアダプターはノイズが多めですが、PSA-100Sは低電流時に低ノイズになっています。VA-05やVA-08はトランジスタのリップルフィルタがあるため、高音域側の方がノイズを抑えられています。全体的なリップル除去としてはリニアレギュレーターの方が優れているかと思います。<br>
+<br>
+<a href="https://github.com/kanengomibako/misc/tree/main/PowerSupplyNoise" target="_blank">GitHub</a>に高解像度版の透過PNG画像をアップロードしてあります。細かく見比べたい方は、そちらをご参照ください。全画像をまとめたファイルALL.pdnは、フリーソフトPaint.NETで開くことができます。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

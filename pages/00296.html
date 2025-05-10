@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Boot-Leg. HZM-1.0 HIZUMI 解析・改造</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Boot-Leg. HZM-1.0 HIZUMI 解析・改造</h1>
+  <p align="right">2022年08月17日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_296_01_hzP.jpg" target="_blank"><img border="0" height="320" src="img/09_296_01_hzP.jpg" width="473"/></a><br>
+Boot-Leg. HZM-1.0 HIZUMIを中古で入手したので、解析とバイパス方式の変更を行いました。Boot-Leg.製品を多数解析されている「<a href="https://t-tone-works.hatenablog.com/" target="_blank">音響効果な日々</a>」というブログも合わせてご覧いただくとよいかと思います。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_296_02_hzK.jpg" target="_blank"><img border="0" height="300" src="img/09_296_02_hzK.jpg" width="430"/></a><br>
+ポットの配線には基板が使用されていました。クリッピングダイオードは<a href="https://www.sengoku.co.jp/mod/sgk_cart/detail.php?code=EEHD-4L7L#" target="_blank">同じデザインのものが1S1588として販売されています</a>が、はっきりと型番が特定できたわけではありません。<br>
+<br>
+▽回路図<br>
+<a href="img/09_296_03_Boot-Leg_HZM-1_schematic.png" target="_blank"><img alt="Boot-Leg. HZM-1.0 schematic" border="0" height="224" src="img/09_296_03_Boot-Leg_HZM-1_schematic.png" width="606"/></a><br>
+<a href="https://www.sam.hi-ho.ne.jp/tsu-/boot-Leg/lineup/HZM10.html" target="_blank">公式サイト</a>の説明にある通り、2タイプの回路を直列にした形です。バイアス電圧が別になっているのは、こういったコンセプトを勘案してのものだと思われます。バイパス方式は、エフェクト回路の入力部が繋がったまま出力を切り替えるという古いやり方です。現行品は別の方式になっているかもしれません。<br>
+<br>
+前半部分は、オペアンプの28倍増幅（+29dB）の後、R10とR11で1/46に減衰（-33dB）となっています。一見よくわからない措置ですが、オペアンプでの歪みを足すという意図があることが考えられます。後半部分はProCo RATに似ており、R17を560Ω、R18を47Ωにするとほぼ同じです。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>後半の増幅部（RATと比較）<br>
+<a href="img/09_296_11_hzF1.png" target="_blank"><img border="0" height="209" src="img/09_296_11_hzF1.png" width="450"/></a><br>
+RAT側は入力電圧を1/46に調節しています。少しHZM-1.0の方が尖り気味な形になっています。<br>
+</li><br>
+<li>バイパス音への影響<br>
+バイパス時、エフェクト回路が信号経路にぶら下がる形になります。ギター直結時、エフェクト回路なしとありでバイパス音がどうなるか比較しました（シングルコイルピックアップを想定）。<br>
+<a href="img/09_296_12_hzF2.png" target="_blank"><img border="0" height="209" src="img/09_296_12_hzF2.png" width="450"/></a><br>
+特に回路図上のC3（470pF）の影響が大きく、高音域が減衰します。<br>
+<br>
+【改造】<br>
+上記のような状態ではさすがに使いにくいかなと思い、バイパス方式を変更することにしました。普通は3PDTスイッチを使ったトゥルーバイパスにする所ですが、元々ついていたDPDTスイッチの質がよさそうだったので、そのまま使うことにしました。そして最終的に、<a href="00298.html" target="_blank">前回記事</a>で説明した下図の方式「クリントンバイパスSP」を採用しています。<br>
+<img alt="Clinton Bypass SP" border="0" height="218" src="img/02_298_02_ClintonBypassSP.png" width="434"/><br>
+</li></ul>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

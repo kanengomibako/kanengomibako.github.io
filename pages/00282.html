@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BEHRINGER V-TONE BASS DRIVER DI BDI21 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BEHRINGER V-TONE BASS DRIVER DI BDI21 解析</h1>
+  <p align="right">2022年03月18日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_282_01_bdiP.jpg" target="_blank"><img alt="09_282_01_bdiP.jpg" border="0" height="288" src="img/09_282_01_bdiP.jpg" width="504"/></a><br>
+BEHRINGER V-TONE BASS DRIVER DI BDI21は、2006年にDizさんという方がトレースされており、<a href="00049.html" target="_blank">簡略化されたものを以前製作しました</a>。今回はスイッチ関連の部分も含め改めて解析し、<a href="00283.html" target="_blank">Tech 21 SansAmp Bass Driver DI</a>（以下BDDI） V1初期型との違いを確認します。<br>
+<br>
+<hr size="1"/><br>
+<strong><span style="font-size:large;">＜基板画像・回路図＞</span></strong>（KiCadデータ・高解像度画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Behringer/BDI21" target="_blank">GitHub</a>へ）<br>
+<br>
+<a href="img/09_282_03_bdiB.jpg" target="_blank"><img border="0" height="288" src="img/09_282_03_bdiB.jpg" width="456"/></a><br>
+配線が右往左往していて大変でした。自動配線によるものかもしれません。抵抗値や容量値が印字されていますが、主要なコンデンサの値は実測し確認しています。<br>
+<br>
+<a href="img/09_282_05_behringer_bdi21_schematic.png" target="_blank"><img alt="behringer_bdi21_schematic" border="0" height="356" src="img/09_282_05_behringer_bdi21_schematic.png" width="548"/></a><br>
+BDDI V1初期型（<a href="img/09_283_05_tech21_sansamp_bass_driver_di_v1e_schematic.png" target="_blank">回路図：<img border="0" height="27" src="img/09_283_05_tech21_sansamp_bass_driver_di_v1e_schematic.png" width="41"/></a>）との主な違いは以下の通りです。<br>
+<ul><li>ファンタム電源駆動機能、パラレル出力→なし<br>
+</li><li>スイッチ関連回路→BOSSと同じタイプ<br>
+</li><li>オペアンプ　TLC2264、TLC2262、TL072→TL074、4558、4580<br>
+</li><li>C4　47nF→22nF<br>
+</li><li>C22、C24、C29　22pF→33pF<br>
+</li><li>C28、C32　100pF→220pF<br>
+</li><li>C25　2.2uF→100nF<br>
+</li><li>C2、C3　47uF→10uF<br>
+</li><li>C34　1nF→1.2nF<br>
+</li><li>R37　100Ω→12Ω<br>
+</li><li>D5、R50、R51、R59→0Ω（直結）<br>
+</li><li>R20の接続先</li></ul>特に違いが大きい部分についてシミュレーションで比較します。<br>
+<ul><li>PRESENCE DRIVE<br>
+<a href="img/09_282_06_bdiPD.png" target="_blank"><img border="0" height="195" src="img/09_282_06_bdiPD.png" width="550"/></a><br>
+C28、C32が100p→220pとなっているため、高音域の減衰量が多くなっています。<br>
+<br>
+</li><li>BASS TREBLE<br>
+<a href="img/09_282_07_bdiBT.png" target="_blank"><img border="0" height="195" src="img/09_282_07_bdiBT.png" width="550"/></a><br>
+C25が2.2uF→100nFとなっているため、全体的に低音域が減衰しています。また、BDDI V1初期型のTREBLEポット3番側にあったR51（10kΩ）がないため、高音域の増幅量が減っていません。<br>
+</li></ul><hr size="1"/><br>
+BDDI V1初期型とBDI21は、それなりに違っているという結果となりました。BEHRINGER社が解析した個体が特殊なものだったのかもしれませんが、C25のような明らかに違う値がある可能性は低いでしょうから、意図的に変更が加えてあると考えられます。他のBEHRINGER社のクローンエフェクターについても、元になったものから変更されている部分があるのではないかと思います。<br>
+<br>
+<a href="00279.html" target="_blank">BOSS OD-3</a>の時もそうでしたが、ネット上ではトレースした人のミスやアレンジがそのまま掲載されていることがあります。すでに回路図が出回っているエフェクターでも、再度解析してみる価値はありそうです。（私自身もミスがあるかもしれませんので、検証結果におかしな点があるときはご連絡いただけると助かります。）<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

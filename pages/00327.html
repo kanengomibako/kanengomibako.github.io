@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>WAY HUGE WHE208 OVERRATED SPECIAL 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>WAY HUGE WHE208 OVERRATED SPECIAL 解析</h1>
+  <p align="right">2023年12月02日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_327_01_overr_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_327_01_overr_pic.jpg" width="455"/></a><br>
+WAY HUGEは有名エフェクタービルダーJeorge Tripps氏のブランドで、何か一つ解析してみたいと思い、OVERRATED SPECIALを中古で入手しました。KiCadとLTspiceのデータは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/OverratedSpecial" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_327_02_WAY_HUGE__OVERRATED_SPECIAL_schematic.png" target="_blank"><img alt="WAY HUGE OVERRATED SPECIAL schematic" border="0" height="455" src="img/09_327_02_WAY_HUGE__OVERRATED_SPECIAL_schematic.png" width="592"/></a><br>
+基板が2枚あり、回路図の上半分が黒いメイン基板上の回路です。下半分が赤い基板上のリレーバイパスと電源関係の回路ですが、あまり動作を理解できていません。電源供給が断たれた時、バイパス状態になるように設計されているようです。<br>
+<br>
+メインの回路は、大部分がチューブスクリーマーと同じとなっています。主な違いは、500Hzコントロール部追加、バイアス電圧が高め、バイアス電圧部のコンデンサ容量が小さいといった所です。また、トーンのポットがCカーブなので、操作感が違っています。<br>
+<a href="img/09_327_11_overr_f1.png" target="_blank"><img border="0" height="208" src="img/09_327_11_overr_f1.png" width="450"/></a><br>
+TONE最大・最小時は同じで50%時に高音域寄りになりますが、思ったよりバランスがよいコントロールに感じます。<br>
+<br>
+500Hzコントロールは、実測・シミュレーションではなぜか900Hz付近の増減となっています（下図）。<br>
+<a href="img/09_327_12_overr_f2.png" target="_blank"><img border="0" height="208" src="img/09_327_12_overr_f2.png" width="450"/></a><br>
+周波数に関係するコンデンサはC15とC16、抵抗はR23とR24です。これらが前の所持者により交換されている可能性を考え、他の個体の内部写真を検索しました。コンデンサは同じ値なのを確認できましたが、抵抗については明瞭な画像がなく値がわかりませんでした。再度半田付けしたような痕跡はない（下写真）ので、やはり元々こういう設計なのだろうと思います。<br>
+<a href="img/09_327_20_overr_res.jpg" target="_blank"><img border="0" height="240" src="img/09_327_20_overr_res.jpg" width="240"/></a><br>
+同時期に発売された<a href="https://moridaira.co.jp/posts/wayhuge-whe207" target="_blank">GREEN RHINO MKIV</a>に500Hzコントロールがあるので、これを発展させた結果周波数が変わったのかもしれません。後発のSmallsシリーズの<a href="https://moridaira.co.jp/posts/whe-wm28" target="_blank">WM28</a>では「freq」という表記に変わっているので、こちらも周波数は500Hzではない可能性が高いと思います。<br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

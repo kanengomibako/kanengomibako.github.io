@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSSエフェクター観察メモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSSエフェクター観察メモ</h1>
+  <p align="right">2022年07月19日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_291_06_bdKs.jpg" target="_blank"><img alt="09_291_06_bdKs.jpg" border="0" height="225" src="img/09_291_06_bdKs.jpg" width="500"/></a><br>
+BOSSコンパクトエフェクターの中身や基板（主に<a href="00291.html" target="_blank">SMDバージョンのBD-2</a>）を見て気になったところ等をメモしておきます。<br>
+※測定数値は正確ではありません。<br>
+<br>
+<hr size="1"/><br>
+【基板デザインルール関連】<br>
+<ul><li>最小配線幅：0.25mm<br>
+電源やGND、バイアス電圧は幅が太い(1mm)</li><li>最小クリアランス：0.2mm（ほとんど一定）</li><li>スルーホールは表側のパッドが小さい（接着剤で固定するためかも）</li><li>ビア：穴直径0.25mm　パッド直径0.7mm</li></ul><br>
+<hr size="1"/><br>
+【グラウンド（GND、アース）関連】<br>
+<ul><li>基板のGNDと電源・電池のマイナスは入力ジャックで接続<br>
+出力ジャックのGND配線なし<br>
+スイッチ回路部分のGNDは分けてあり、電源部分で合流<br>
+</li><li>表裏ベタGNDあり（MXRのようなメッシュGNDではない）</li><li>ビア間隔：5mm</li></ul><br>
+<hr size="1"/><br>
+【採用部品メーカー】日本のメーカーが多い<br>
+<ul><li>東芝／ローム／日清紡マイクロデバイス／旭化成エレクトロニクス／日精電機／ルビコン／エルナー／日本ケミコン／パナソニック／イサハヤ電子／アルプスアルパイン</li></ul><br>
+<hr size="1"/><br>
+【スイッチ関連】<br>
+<ul><li>フットペダル部分に使われているスイッチは、J-M0404やJM-0404という型番のキーボード用スイッチ（接点が側面にあり、耐久性が高い）<br>
+一時期から電池スナップの配線が挟み込める仕様の特注スイッチになっている</li><li>キーボード用のCherry MX互換スイッチを一応装着可能だが、接着剤等での固定や高さ調整が必要になるので微妙かも<br>
+<a href="img/22_292_10sw.jpg" target="_blank"><img border="0" height="320" src="img/22_292_10sw.jpg" width="320"/></a></li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

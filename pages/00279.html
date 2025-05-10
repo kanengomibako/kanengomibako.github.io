@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS OD-3 OverDrive 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS OD-3 OverDrive 解析</h1>
+  <p align="right">2021年12月31日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_279_1od3P.jpg" target="_blank"><img alt="09_279_1od3P.jpg" border="0" height="320" src="img/09_279_1od3P.jpg" width="600"/></a><br>
+ジャンクで手に入れたBOSS OD-3（1998年製）ですが、残念ながら（？）ポットにガリがある程度で、問題なく音が出ました。基板を見てみると、出回っている回路図と違う部分が見受けられたので、トレースしてみることにしました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/BOSS/OD3" target="_blank">GitHub</a>にあります。<br>
+<br>
+▽基板画像<br>
+<a href="img/09_279_2od3B.jpg" target="_blank"><img alt="09_279_2od3B.jpg" border="0" height="388" src="img/09_279_2od3B.jpg" width="180"/></a><br>
+部品面から見た画像です。わざわざ部品の向きがそろうようにレイアウトされています。ツェナーダイオードは2つとも5.6Bという表記で、発売時期が近いTR-2と同じMTZ5.6Bと判断しました。他の汎用ダイオードもTR-2と同じと思われます。<br>
+<br>
+▽回路図<br>
+<a href="img/09_279_3boss_od3_schematic.png" target="_blank"><img alt="09_279_3boss_od3_schematic.png" border="0" height="233" src="img/09_279_3boss_od3_schematic.png" width="690"/></a><br>
+出回っている回路図との主な違いは、Q11～Q15あたりが低い電圧（実測4.6V）で動作させてあるというところです。<a href="https://blog.livedoor.jp/k_guncontrol/archives/51432034.html" target="_blank">このページ</a>の記載ではさらに低い電圧（4.1V）でオペアンプはNJM4558LDとなっており、おそらく仕様変更が行われたと考えられます。<br>
+<br>
+▽シミュレーション<br>
+それぞれのブロック毎の周波数特性を貼り付けておきます。<br>
+<a href="img/09_279_4od3Sa.png" target="_blank"><img alt="09_279_4od3Sa.png" border="0" height="208" src="img/09_279_4od3Sa.png" width="450"/></a><br>
+<br>
+<a href="img/09_279_5od3Sb.png" target="_blank"><img alt="09_279_5od3Sb.png" border="0" height="208" src="img/09_279_5od3Sb.png" width="450"/></a><br>
+<br>
+<a href="img/09_279_6od3Sc.png" target="_blank"><img alt="09_279_6od3Sc.png" border="0" height="208" src="img/09_279_6od3Sc.png" width="450"/></a><br>
+<br>
+<a href="img/09_279_7od3Sd.png" target="_blank"><img alt="09_279_7od3Sd.png" border="0" height="208" src="img/09_279_7od3Sd.png" width="450"/></a><br>
+<br>
+<a href="img/09_279_8od3Se.png" target="_blank"><img alt="09_279_8od3Se.png" border="0" height="208" src="img/09_279_8od3Se.png" width="450"/></a><br>
+<br>
+↓は上記全て通してのシミュレーションです（DRIVE50%、TONE50%）。<br>
+<a href="img/09_279_9od3Sf.png" target="_blank"><img alt="09_279_9od3Sf.png" border="0" height="208" src="img/09_279_9od3Sf.png" width="450"/></a><br>
+歪ませる前段階で500Hzあたりがカットしてあり、それが最終的にも表れています。この部分が音色を特徴づけるものとなっているのかもしれません。<br>
+<br>
+※2SK184は2SK117のパッケージ違いのようです。2SK117と2SA1015のSpiceモデルは<a href="https://cc.cqpub.co.jp/system/document/keyword=ltspice%e3%81%ab/" target="_blank">CQ出版社オンライン・サポート・サイト</a>の「～モデルをLTSpiceに追加する」からダウンロードできます（会員登録が必要）。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

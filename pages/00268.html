@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>PT2399 周辺コンデンサ検討</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>PT2399 周辺コンデンサ検討</h1>
+  <p align="right">2021年08月07日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  デジタルディレイIC PT2399の7～12ピンに接続するコンデンサの役割について調べ、最適な値を検討しました。<br>
+<br>
+<a href="https://akizukidenshi.com/goodsaffix/pt2399.pdf" target="_blank">PT2399のデータシート</a>は内容が少ないため、以下を参考にしました。<br>
+・<a href="https://www.electrosmash.com/pt2399-analysis" target="_blank">ElectroSmash - PT2399 Analysis</a><br>
+・<a href="https://www.experimentalistsanonymous.com/diy/Datasheets/M50195P.pdf" target="_blank">M50195PデータシートPDF</a>（PT2395互換品）<br>
+・<a href="https://www.kyohritsu.jp/eclib/OTHER/DATASHEET/MITSUBISHI/M50199.pdf" target="_blank">M50199PデータシートPDF</a>（同種IC）<br>
+<br>
+<hr size="3"/><br>
+PT2399のアナログ-デジタル変換方式は、Adaptive Delta Modulation（ADM）と呼ばれるものです。ADMはM50199Pのデータシートで解説されているので、以下に転載しておきます。<br>
+<br>
+<blockquote><strong>ADM変復調</strong><br>
+　ADMとは、Adaptive Delta Modulation の略で、適応デルタ変調とも呼ばれます。これは、1ビット符号によりアナログ-ディジタルの変換を行うもので、多ビットによるものより装置を簡略化・低コスト化できます。<br>
+　ADMの原理は、信号周波数に対して十分に高い周波数でサンプリングすると、すべての隣接サンプル値間で、その変化値はほとんどある一定値以内になり、その変化値が正であるか負であるかの情報のみ（1ビット）符号化します。（図1参照）これがDM（デルタ変調）と呼ばれる方式です。しかし、このままでは図1の様な急激な立ち上がり信号のときでは、一定値だけの加減では追随できず（傾斜過負荷歪）、また、図2の様に無信号では大きな雑音源（粒子性雑音）となることがわかります。<br>
+　そこで一定値（デルタ）の幅を信号の状況に応じて適応的に制御し、図1の様な急激な傾斜をもつ信号のときは、デルタ幅を大きく、また図2の様な無信号時ではデルタ幅を小さくし、歪・S/Nを改善したものが、ADM方式と呼ばれます。<br>
+<a href="img/14_268_2m50199p2.png" target="_blank"><img border="0" height="191" src="img/14_268_2m50199p2.png" width="450"/></a><br>
+<br>
+　M50199Pでは電流制御回路（CC1）、外付のコンパレータ、オペアンプ（OP1）で構成したミラー積分器によりADM変調（A-D変換）を行い、電流制御回路（CC2）、オペアンプ（OP2）で構成したミラー積分器により、ADM復調（D-A変換）を行います。<br>
+<a href="img/14_268_1m50199p1.png" target="_blank"><img border="0" height="308" src="img/14_268_1m50199p1.png" width="600"/></a><br>
+</blockquote><br>
+<hr size="1"/><br>
+PT2399について、M50199Pと同様に考えます。<br>
+<br>
+<a href="img/14_268_3pt2399b.png" target="_blank"><img border="0" height="339" src="img/14_268_3pt2399b.png" width="480"/></a><br>
+CC0とCC1（Current Control：電流制御）に繋ぐコンデンサはADMのステップ幅の予測器に使われ、9～12ピンに繋ぐコンデンサはADMの積分器を構成するものと考えられます。<br>
+<br>
+サンプリング周波数は、内部VCO（Voltage Controlled Oscillator）によって決定されます。VCOの発振周波数が低くなると、サンプリング間隔が長くなりディレイタイムが伸びます。それと同時に、量子化誤差が大きくなり音質が劣化します。<br>
+<br>
+<hr size="3"/><br>
+下図の最小限の回路で、コンデンサの静電容量値を変えた場合の特性等を測定します。入力レベルは-10dBu（約0.69Vp-p）です。<br>
+<a href="img/14_268_4pt2399s.png" target="_blank"><img alt="14_268_4pt2399s.png" border="0" height="245" src="img/14_268_4pt2399s.png" width="322"/></a><br>
+<br>
+<hr size="1"/><br>
+<strong>【C9・C11】</strong><br>
+積分器のコンデンサ容量を小さくすると、ADMのデルタ幅を大きくできるため波形追従能力が上がります。その半面、最小のデルタ幅も大きくなりノイズが増えると考えられます。→参考ページ：<a href="https://www.eeeguide.com/delta-modulation/" target="_blank">EEEGUIDE.COM - Delta Modulation(DM)</a><br>
+<ul><li>波形　R6 = 0Ω　C7 = C8 = 100nF　C9 = C11 = 100nF<br>
+各周波数の正弦波を入力した場合の出力波形です。<br>
+<a href="img/14_268_5wav.png" target="_blank"><img alt="14_268_5wav.png" border="0" height="205" src="img/14_268_5wav.png" width="422"/></a><br>
+8kHzではほとんど波形追従できなくなり、三角波となっています。<br>
+</li><br>
+<li>スルーレート　R6 = 0Ω　C7 = C8 = 100nF<br>
+今回の例でスルーレートと呼んでよいのかはわかりませんが、オペアンプでいうスルーレートにあたるものを算出してみます。1Vp-pの矩形波を入力しています（画像クリックで波形拡大表示）。<br>
+<a href="img/14_268_6_0-10n-SR.png" target="_blank"><img border="0" height="72" src="img/14_268_6_0-10n-SR.png" width="89"/></a>　C9 = C11 = 10nF　0.039 V/μs<br>
+<a href="img/14_268_7_0-47u-SR.png" target="_blank"><img border="0" height="72" src="img/14_268_7_0-47u-SR.png" width="89"/></a>　C9 = C11 = 47nF　0.014 V/μs<br>
+<a href="img/14_268_8_0-100n-SR.png" target="_blank"><img border="0" height="72" src="img/14_268_8_0-100n-SR.png" width="89"/></a>　C9 = C11 = 100nF　0.0080 V/μs<br>
+<a href="img/14_268_9_0-220n-SR.png" target="_blank"><img border="0" height="72" src="img/14_268_9_0-220n-SR.png" width="89"/></a>　C9 = C11 = 220nF　0.0041 V/μs<br>
+NJM4558が1V/μsなので、増幅しないことを考慮してもかなり遅いです。<br>
+</li><br>
+<li>周波数特性　R6 = 0Ω　C7 = C8 = 100nF<br>
+ディレイタイムを変えても周波数特性は変わらなかったので、最短ディレイタイムでのデータです。<br>
+▽C9 = C11　一つは入力レベル+10dB<br>
+<a href="img/14_268_10f1.png" target="_blank"><img alt="14_268_10f1.png" border="0" height="350" src="img/14_268_10f1.png" width="515"/></a><br>
+音量またはコンデンサ容量増加で波形追従できなくなり、高音域が劣化しやすくなることがわかります。 <br>
+<br>
+▽C9 ≠ C11 の場合<br>
+<a href="img/14_268_11f2.png" target="_blank"><img alt="14_268_11f2.png" border="0" height="350" src="img/14_268_11f2.png" width="515"/></a><br>
+低音域側と高音域側のバランスが崩れています。A-D変換とD-A変換の不整合が起こると考えられるので、無理にこの方法で音色を調整しない方がよいでしょう。<br>
+</li><br>
+<li>ノイズ・歪率（1kHz正弦波を入力）　C7 = C8 = 100nF<br>
+▽R6 = 0Ω　C9 = C11<br>
+<a href="img/14_268_12n0.png" target="_blank"><img alt="14_268_12n0.png" border="0" height="350" src="img/14_268_12n0.png" width="515"/></a><br>
+▽R6 = 22kΩ　C9 = C11<br>
+<a href="img/14_268_13n22k.png" target="_blank"><img alt="14_268_13n22k.png" border="0" height="350" src="img/14_268_13n22k.png" width="515"/></a><br>
+10nF以外は微妙な差ですが、コンデンサ容量を減らすとノイズレベルが上がることがわかります。<br>
+</li></ul><br>
+<hr size="1"/><br>
+<strong>【C7・C8】</strong><br>
+残念ながらADMの予測器というのがどのような回路かわかりません。容量値を変えた時の変化を確認してみます。<br>
+<ul><li>周波数特性　C9 = C11 = 100nF　C7 = C8<br>
+<a href="img/14_268_14f3.png" target="_blank"><img border="0" height="350" src="img/14_268_14f3.png" width="515"/></a><br>
+特に差は認められませんでした。<br>
+</li><br>
+<li>ノイズ・歪率（1kHz正弦波を入力）　C9 = C11 = 100nF<br>
+▽R6 = 0Ω　C7 = C8<br>
+<a href="img/14_268_15f4.png" target="_blank"><img alt="14_268_15f4.png" border="0" height="350" src="img/14_268_15f4.png" width="515"/></a><br>
+▽R6 = 22kΩ　C7 = C8<br>
+<a href="img/14_268_16f5.png" target="_blank"><img alt="14_268_16f5.png" border="0" height="350" src="img/14_268_16f5.png" width="515"/></a><br>
+1μFと100nFはあまり差がありませんが、1nFだとノイズが増えて歪率が上がりました。<br>
+</li><br>
+<li>スルーレート　C9 = C11 = 100nF （画像クリックで波形拡大表示）<br>
+<a href="img/14_268_17_0-100n-SR-1n.png" target="_blank"><img border="0" height="72" src="img/14_268_17_0-100n-SR-1n.png" width="89"/></a>　C7 = C8 = 1nF　0.0099 V/μs<br>
+<a href="img/14_268_18_0-100n-SR-1u.png" target="_blank"><img border="0" height="72" src="img/14_268_18_0-100n-SR-1u.png" width="89"/></a>　C7 = C8 = 1μF　0.0080 V/μs<br>
+1nFだと改善がありましたが、あまり効果は大きくありません。<br>
+</li></ul><br>
+<hr size="3"/><br>
+【まとめ】<br>
+<ul><li>9・10ピン間、11・12ピン間のコンデンサ<br>
+容量値を大きくするほど低ノイズ化、高音域カットとなります。ディレイタイム、入力レベルをどの程度で考えるかにもよりますが、概ね47nF～100nFがよいでしょう。<br>
+</li><br>
+<li>7・8ピンに繋ぐコンデンサ<br>
+ある程度大きい容量値が必要で、100nFあれば充分そうです。小型の積層セラミックコンデンサを使って問題ないと思います。<br>
+</li></ul><br>
+<hr size="1"/><br>
+結局のところデータシート記載の回路例で問題ないという結果になりました。しかしながら、PT2399を使ったエフェクターを設計したいという方にとっては少しは有用なデータだったのではないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

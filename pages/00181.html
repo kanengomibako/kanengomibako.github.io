@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd1 プログラミング編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd1 プログラミング編</h1>
+  <p align="right">2017年04月30日　カテゴリー：<a href="00182.html">Raspberry Pi</a></p>
+  <hr class="title"><br>
+  プログラミングはかなり昔にお遊び程度にしていたレベルで、全く自信がありません。参考になるかわかりませんが、とりあえずRasPd1に入っているファイルをアップロードしておきます。（直リンクできないようなので<a href="https://drugscore.web.fc2.com/3/" target="_blank">こちらの別ページ</a>にダウンロードリンクを載せています。）<br>
+Pythonというプログラミング言語を使っています。記事にしてみると思ったよりたいしたことはしていませんでした。エフェクトは3種類入っていますが、取り急ぎ適当に作ったものになります。<br>
+<br>
+<hr size="1"/><br>
+＜スイッチ・LED＞<br>
+Raspberry PiではGPIOピンという端子によりデジタル信号の入出力を行うことができます。スイッチやLEDの制御は比較的簡単です。こちらで丁寧に解説されています。→<a href="https://tool-lab.com/make-course/raspberrypi/" target="_blank">RaspberryPi電子工作入門</a><br>
+<br>
+＜液晶ディスプレイ＞<br>
+秋月電子の超小型LCDキャラクタディスプレイを使用しています。HD44780互換ということで、下記ページのプログラムをほぼそのままモジュールとしてインポートしています。<br>
+・<a href="https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/" target="_blank">16×2 LCD Module Control Using Python</a><br>
+ただし、3番ピンはGNDではなく10kΩトリマーで5Vを抵抗分圧して接続しています。トリマーを回すことでコントラスト調整ができます。<br>
+<br>
+＜ロータリーエンコーダ＞<br>
+こちらのページのプログラムを改変して利用しました。→<a href="https://hawksnowlog.blogspot.jp/2017/01/raspberrypi-with-rotaryencoder-python.html" target="_blank">RaspberryPi + Python でロータリエンコーダを制御してみた</a><br>
+主な変更は、ロータリーエンコーダを回し始めたときにGPIO監視を開始するようにした点、速く動かしたとき値が3倍増減するようにした点です。いまいちコントロールしにくいときがあるので、まだまだ改善が必要だと思います。<br>
+<br>
+＜Pure Data(Pd)連携＞<br>
+pdsendというコマンドを使って、ロータリーエンコーダやスイッチからPythonを介してPdへデータ送信しています。例えば「$ echo '50;' |  pdsend 3010」というコマンドで、開いているPdのパッチの[netreceive 3010]オブジェクトにセミコロンが除かれた50というデータが送られます。数字データの場合は、Pdが文字ではなく数値と認識してくれるようなので、そのまま計算等に使うことができます。pdreceiveというコマンドで逆にデータ受信もできると思いますが、現状では必要なかったため試していません。<br>
+<br>
+＜データ保存＞<br>
+起動時・終了時やエフェクト切り替え時に、各エフェクトの状態をテキストファイルに保存しています。エフェクトのパラメータはfx_pというリストデータになっています。いちいち整数と文字を切り替えなければいけないのが少し面倒でした。<br>
+<br>
+<hr size="1"/><br>
+<a href="00174.html">ハードウェア編</a>へ　　<a href="00178.html">ソフトウェア編その1</a>へ　　<a href="00179.html">ソフトウェア編その2</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS BD-2 Blues Driver 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS BD-2 Blues Driver 解析</h1>
+  <p align="right">2022年06月24日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_291_01_bdP.jpg" target="_blank"><img border="0" height="352" src="img/09_291_01_bdP.jpg" width="615"/></a><br>
+近年、BOSSコンパクトエフェクターはスルーホール部品（THD）ではなく表面実装部品（SMD）が使われているものへと中身が変更されている機種が出てきています。SMDバージョンの場合のDCジャックは、ケースにはめ込むタイプで横幅が長いです。今回は、BOSS BD-2のTHDバージョンとSMDバージョン両方について回路をトレースし解析します。KiCadとLTspiceの回路図データ、基板画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/BOSS" target="_blank">GitHub</a>にあります。<br>
+<br>
+※各トランジスタのSpiceモデルは<a href="https://cc.cqpub.co.jp/system/document/keyword=ltspice%e3%81%ab/" target="_blank">CQ出版社オンライン・サポート・サイト</a>の「～モデルをLTSpiceに追加する」からダウンロードできます（会員登録が必要）。<br>
+<br>
+<hr size="1"/><br>
+分解する前にTHDバージョンとSMDバージョンを弾き比べてみましたが、特に違いは感じられませんでした。波形と周波数特性の実測データは下図です。歪率は20%に合わせています。<br>
+<a href="img/09_291_02_bdwt.png" target="_blank"><img border="0" height="186" src="img/09_291_02_bdwt.png" width="335"/></a><a href="img/09_291_03_bdws.png" target="_blank"><img border="0" height="186" src="img/09_291_03_bdws.png" width="335"/></a><br>
+<a href="img/09_291_04_bdF.png" target="_blank"><img border="0" height="300" src="img/09_291_04_bdF.png" width="400"/></a><br>
+少しだけズレがありますが、部品の誤差の可能性があるので何とも言えません。<br>
+（2022年8月19日追記：THDバージョンは、470kΩ表記の抵抗R10が実測492kΩだったため、このズレによる影響が考えられます。）<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_291_05_bdKt.jpg" target="_blank"><img border="0" height="391" src="img/09_291_05_bdKt.jpg" width="187"/></a><a href="img/09_291_06_bdKs.jpg" target="_blank"><img border="0" height="180" src="img/09_291_06_bdKs.jpg" width="400"/></a><br>
+THDバージョンの基板は部品の向きがバラバラですが、<a href="00279.html" target="_blank">BOSS OD-3</a>（BD-2の2年後に発売）では向きが揃えてあり、実装しやすさが改善されていることがわかります。SMDバージョンは、部品番号がなく非常に小さいパーツ（1mm×0.5mm）が使われていたため難易度が高かったです（いくつかの部品を破損させてしまいました…）。SMDのフィルムコンデンサは高価なはずなので、THDバージョンより部品のコストは高くなっているかもしれません。<br>
+<br>
+▽回路図（THD）<br>
+<a href="img/09_291_07_BOSS_BD2_thd_schematic.png" target="_blank"><img alt="BOSS BD-2 THD schematic" border="0" height="305" src="img/09_291_07_BOSS_BD2_thd_schematic.png" width="680"/></a><br>
+<a href="https://experimentalistsanonymous.com/diy/Schematics/Distortion%20Boost%20and%20Overdrive/BOSS%20BD-2.gif" target="_blank">出回っている回路図</a>は公式サービスノートのようなので間違いはないはずですが、一応同じかどうか確認しておきました。ツェナーダイオード、オペアンプの型番が変わっています。<br>
+<br>
+▽回路図（SMD）<br>
+<a href="img/09_291_08_BOSS_BD2_smd_schematic.png" target="_blank"><img alt="BOSS BD-2 SMD schematic" border="0" height="305" src="img/09_291_08_BOSS_BD2_smd_schematic.png" width="680"/></a><br>
+主にバッファと電源部の部品が増えています。THDのタンタルコンデンサが使われていたところはSMDでもタンタルコンデンサになっており、音が変わらないよう配慮されている様子がうかがえます。<br>
+<ul><li>入力のコンデンサC14<br>
+入力のコンデンサの容量が0.047μFから1μFへと大幅に増えています。音量低下を無視してシミュレーションすると、バイパス時20Hzで-0.12dBだったのが-0.004dBとなりました。相当な数を直列接続したとしても、低音域が減る心配はありません。<br>
+</li><br>
+<li>入力部FET<br>
+入力のFETのソースにつながる抵抗が定電流回路へと置き換わっています。<a href="https://www.diystompboxes.com/smfforum/index.php?topic=122929.0" target="_blank">DIYstompboxes.comの技クラフトのバッファに関するスレッド</a>では、定電流回路にすることで音量低下や歪率悪化が改善されると掲載されています。手持ちのFET 2SK303での実測データを下図に示します。<br>
+<a href="img/09_291_09_bdBuf.png" target="_blank"><img border="0" height="267" src="img/09_291_09_bdBuf.png" width="440"/></a><br>
+入力電圧は約2.2Vp-pで、できるだけ歪率が下がるよう抵抗値を調整しました。それなりに効果ありという結果となっています。ただし入力電圧が低い場合はもっと歪率が下がりますし、音質の違いを聞き分けるのは難しいかもしれません。<br>
+</li><br>
+<li>電源部<br>
+ACアダプターの逆接続対策として、P-ch MOSFETが使われています（参考資料：ローム社アプリケーションノート「<a href="https://fscdn.rohm.com/jp/products/databook/applinote/ic/power/linear_regulator/linearreg_reverse_voltage_appli-j.pdf" target="_blank">リニアレギュレータの逆電圧保護</a>」）。また、供給電圧が高い場合の対策と思われるツェナーダイオードD12が追加されています。</li></ul><br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+それぞれのブロック毎の周波数特性を貼り付けておきます。<br>
+<br>
+<a href="img/09_291_11_bdF1.png" target="_blank"><img border="0" height="208" src="img/09_291_11_bdF1.png" width="450"/></a><br>
+<br>
+<a href="img/09_291_12_bdF2.png" target="_blank"><img border="0" height="208" src="img/09_291_12_bdF2.png" width="450"/></a><br>
+フェンダーアンプのトーン回路をBASS 100、TREBLE 0にした形に似ています。<br>
+<br>
+<a href="img/09_291_13_bdF3.png" target="_blank"><img border="0" height="208" src="img/09_291_13_bdF3.png" width="450"/></a><br>
+<br>
+<a href="img/09_291_14_bdF4.png" target="_blank"><img border="0" height="208" src="img/09_291_14_bdF4.png" width="450"/></a><br>
+<br>
+<a href="img/09_291_15_bdF5.png" target="_blank"><img border="0" height="208" src="img/09_291_15_bdF5.png" width="450"/></a><br>
+<br>
+↓は上記全て通してのシミュレーションです（GAIN 50%、TONE 50%）。途中で歪ませているので一概に比較はできませんが、<a href="00279.html" target="_blank">OD-3</a>も載せています。<br>
+<a href="img/09_291_16_bdF0.png" target="_blank"><img border="0" height="208" src="img/09_291_16_bdF0.png" width="450"/></a><br>
+BD-2は高音域の減衰が少ないことがわかります。また、最後で125Hzを少し増幅して低音域を補強しているのが特徴的です。<br>
+<br>
+---以下2023年5月20日追記---<br>
+<br>
+▽GT-1000CORE内蔵BLUES ODとの比較<br>
+<a href="img/09_291_17_bdGT.png" target="_blank"><img alt="09_291_17_bdGT.png" border="0" height="300" src="img/09_291_17_bdGT.png" width="400"/></a><br>
+BLUES ODの方が少し高音域が下がっています。BOTTOM、TONEはグラフィックイコライザのような動きです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

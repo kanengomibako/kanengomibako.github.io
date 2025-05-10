@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS BD-2 WAZA Mod</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS BD-2 WAZA Mod</h1>
+  <p align="right">2022年08月20日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_299_01_bdmP.jpg" target="_blank"><img border="0" height="320" src="img/09_299_01_bdmP.jpg" width="430"/></a><br>
+<a href="00293.html" target="_blank">以前行ったBOSS BD-2Wの解析</a>により、WAZA CRAFTでのカスタムモードの内容が明らかになりました。これを参考に、<a href="00291.html" target="_blank">スルーホール部品版BD-2</a>をBD-2Wのカスタムモード風にモディファイしてみました。やってみたいと思われる方は他にいないかもしれませんが、勝手に「WAZA Mod」と呼ぶことにします。<br>
+<br>
+<hr size="1"/><br>
+<strong>【WAZA Mod】</strong><br>
+<br>
+<a href="00293.html" target="_blank">BD-2W</a>ではアナログスイッチICにより抵抗やコンデンサの定数切替が行われています。そのまま厳密に真似しようとすると取り付ける部品数が多く大変なので、似た値に交換することで対応します。<br>
+<br>
+変更箇所は以下の7か所です。C14は、<a href="00291.html" target="_blank">SMD版BD-2</a>のように1μFでもよいでしょう（バッファの強化なので、変更なしでもOK）。<br>
+・C14: 47nF → 2.2μF<br>
+・R50: 1MΩ → 10kΩ<br>
+・C27: 2.2nF → 100nF<br>
+・C19: 5.6nF → 10nF<br>
+・C100: 18nF → 39nF<br>
+・C16: 56nF → 68nF<br>
+・R21: 1.2kΩ → 820Ω<br>
+<br>
+C100はトーンポットが付いている基板にあります。それ以外は下写真の赤丸の位置です。<br>
+<a href="img/09_299_02_bdmK1.jpg" target="_blank"><img border="0" height="480" src="img/09_299_02_bdmK1.jpg" width="270"/></a><br>
+<br>
+<hr size="1"/><br>
+<strong>【部品交換】</strong><br>
+<br>
+電解コンデンサやタンタルコンデンサは特に劣化が心配な部品なので、新品に交換しておきました。タンタルコンデンサは手持ちがなかったので、フィルムコンデンサです。ケース内部に余裕があるので、電解コンデンサは普段あまり使わない大き目のものを使いました。オペアンプは、<a href="00291.html" target="_blank">SMD版BD-2</a>と同じNJM4580にしました。<br>
+<a href="img/09_299_03_bdmK2.jpg" target="_blank"><img border="0" height="480" src="img/09_299_03_bdmK2.jpg" width="270"/></a><br>
+※C14を変更するのを忘れていたので、後から1μFに変更しています。また、470kΩ表記の抵抗R10が実測492kΩだったため、他の470kΩのものに交換しました。<br>
+<br>
+<hr size="1"/><br>
+【実機比較】<br>
+<br>
+今回のモディファイ機とBD-2W実機をスイッチャーで切り替えながら弾き比べてみましたが、ほぼ違いはないかなと感じました。実測した周波数特性は下図です（GAIN 0% TONE 100%）。<br>
+<a href="img/09_299_03_bdmK2.png" target="_blank"><img border="0" height="261" src="img/09_299_03_bdmK2.png" width="590"/></a><br>
+少しだけ低音域がズレていますが、概ね成功と言ってよいと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>コンデンサで音は変わるのか LPF・HPF編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>コンデンサで音は変わるのか LPF・HPF編</h1>
+  <p align="right">2017年05月31日　カテゴリー：<a href="00164.html">○○で音は変わるのか</a></p>
+  <hr class="title"><br>
+  <span style="font-size:x-small;color:#999999;">※<a href="00164.html">他の測定</a>でわかった通り、歪率や周波数特性の測定はあまり意味がない気がしますが、失敗例として記事にしていこうと思います。音の変化には歪率や周波数特性以外の何らかの特性が関係していて、それは結局自分の耳で確かめるしかないのだろうと思います。</span><br>
+<br>
+ローパスフィルタ（LPF）、ハイパスフィルタ（HPF）回路でコンデンサの比較を行いました。コンデンサは以下の4種類です。<br>
+<a href="img/10_185_1capLHp.jpg" target="_blank"><img alt="10_185_1capLHp.jpg" border="0" height="180" src="img/10_185_1capLHp.jpg" width="240"/></a><br>
+・Supertech Electronic 積層セラミックコンデンサ 実測値0.95μF 50V 温度特性：Y5V（1個10円）<br>
+・日本ケミコン SME 両極性アルミ電解コンデンサ 実測値1.03μF 50V 85℃（1個21円）<br>
+・Garrettcap GBQ メタライズドポリエステルフィルムコンデンサ 実測値1.0μF 100V（1個50円）<br>
+・Vishay/Roederstein MKT1817 メタライズドポリエステルフィルムコンデンサ 実測値1.03μF 63V（1個200円）<br>
+<br>
+PCの入出力インピーダンスの影響を受けますので、回路は下図のようになります。カットオフ周波数が1kHzぐらいになるようにしました。PCの出力は約1Vrmsです。また、理想的なコンデンサでのLTspiceシミュレーションも行いました。<br>
+<img alt="10_185_2capLHs.gif" border="0" height="219" src="img/10_185_2capLHs.gif" width="369"/><br>
+<br>
+▽LPF結果<br>
+<a href="img/10_185_3capLPF.gif" target="_blank"><img alt="10_185_3capLPF.gif" border="0" height="232" src="img/10_185_3capLPF.gif" width="311"/></a><br>
+▽HPF結果<br>
+<a href="img/10_185_4capHPF.gif" target="_blank"><img alt="10_185_4capHPF" border="0" height="232" src="img/10_185_4capHPF.gif" width="311"/></a><br>
+Garrettcapとシミュレーションとの周波数特性が全く重なりました。MKTはわずかにズレていますが、静電容量の違いのためだと思います。<br>
+<br>
+積セラはやはり歪率が悪くなっていますが、周波数特性自体はそんなに問題ない感じです。高域がギザギザになっているのは、歪み成分のせいだと思います。<br>
+<br>
+電解コンデンサも歪率が悪くなるのかと思っていましたが、大丈夫なようです（測定限界）。周波数特性はフィルムコンデンサと1dBぐらいズレていて、若干違った特性のように見えます。ただ電解コンデンサは普通のテスターだと容量測定誤差が大きくなるらしいので、測定値があまりあてにならないようです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

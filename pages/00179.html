@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd1 ソフトウェア編その2</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd1 ソフトウェア編その2</h1>
+  <p align="right">2017年04月28日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  Pure Data(Pd)の設定等をしていきます（太字表記はコマンド）。<br>
+<br>
+<hr size="1"/><br>
+＜Pd設定＞<br>
+Pdと外部オブジェクト(Externals）をインストールします。<br>
+$ <strong>sudo apt-get install puredata</strong><br>
+$ <strong>sudo apt-get install  pd-libdir pd-cyclone pd-unauthorized pd-ggee pd-zexy</strong><br>
+作るエフェクトによっては、もっとたくさんの外部オブジェクトが必要となるかもしれません。<br>
+<br>
+設定ファイルを作成します。<br>
+$ <strong>nano .pdsettings</strong> （新規作成）<br>
+以下の内容です。パス（path）は念のため全ての外部オブジェクトを入れています。<br>
+audioapi: 1<br>
+noaudioin: False<br>
+audioindev1: 0 2<br>
+noaudioout: False<br>
+audiooutdev1: 0 2<br>
+audiobuf: 6<br>
+rate: 44100<br>
+callback: 0<br>
+blocksize: 64<br>
+nomidiin: True<br>
+nomidiout: True<br>
+path1: /usr/lib/pd/extra<br>
+path2: /usr/lib/pd/extra/cyclone<br>
+path3: /usr/lib/pd/extra/ggee<br>
+path4: /usr/lib/pd/extra/libdir<br>
+path5: /usr/lib/pd/extra/pddp<br>
+path6: /usr/lib/pd/extra/unauthorized<br>
+path7: /usr/lib/pd/extra/zexy<br>
+npath: 7<br>
+standardpath: 1<br>
+verbose: 0<br>
+nloadlib: 0<br>
+defeatrt: 0<br>
+flags: -nogui -rt -alsa<br>
+<br>
+flagsに<a href="https://puredata.info/docs/faq/commandline" target="_blank">コマンドラインオプション</a>を入れることができます。-realtime(-rt)を入れるとPdをリアルタイム優先度で実行できますが、通常のpiユーザーでは権限が弱いためこのオプションが使えずエラーが出ます。<a href="https://puredata.info/docs/faq/how-can-i-run-pd-with-realtime-priority-in-gnu-linux" target="_blank">こちらのページ</a>を参考に設定変更しています。<br>
+$ <strong>sudo nano /etc/security/limits.conf</strong><br>
+以下の2行を追加で記載します。<br>
+* - rtprio 99<br>
+* - memlock unlimited<br>
+※「audio」ユーザーグループだけに設定してもよいのですが、面倒なので全てのユーザーで優先度を上げて実行可能にしています。<br>
+<br>
+設定ファイルのaudiobufとblocksizeを少なくするほど低レイテンシーとなります。しかし少なくしすぎると処理が追いつかず波形が途切れ途切れの状態になり、ノイズが発生します。ですので波形が途切れない限界の値を探っていくことになります。レイテンシーについては<a href="00175.html" target="_blank">別の記事</a>にも記載しています。<br>
+<br>
+-nosleepオプションを入れると「audiobuf 5 blocksize 64」が限界値で、レイテンシーは11msとなりました。しかしエフェクトを切り替えた際にハングアップしてしまうことがあるため、このオプションは入れないことにしました。その場合「audiobuf 6 blocksize 64」が限界値で、レイテンシーは14msでした。聴感上は遅延を感じませんが、複数のエフェクトを処理する場合はもっと遅くなると思われるので、現在はI2S接続のオーディオインターフェイスの使用を検討中です。<br>
+<br>
+※ちなみにclass4のmicroSDカードを使ったときclass10のものよりレイテンシーが約0.7ms増加していたので、ハイスピードのmicroSDカードはわずかに効果がありそうです。<br>
+<br>
+<hr size="1"/><br>
+＜自動起動設定＞<br>
+電源を入れたときにメインプログラム（私の場合はmain.pyというPythonスクリプトファイル）が自動起動されるように設定します。<br>
+$ <strong>crontab -e</strong><br>
+最後に追加　<s>@reboot python /home/pi/main.py</s> → @reboot sleep 5 &amp;&amp; python /home/pi/main.py<br>
+起動に失敗することがあるので、待機時間を設けました。（2018年1月28日追記）<br>
+※私はメインプログラム等の使うファイルはすべて/home/pi/フォルダに入れています。<br>
+<br>
+自動起動しているプログラムを終了したいときは下記コマンドを使います。<br>
+$ <strong>killall python ; killall pd</strong><br>
+<br>
+<hr size="1"/><br>
+＜リアルタイムカーネル＞<br>
+下記ページに載っている方法が最も簡単にリアルタイムカーネルを導入できると思われます。<br>
+・<a href="https://artteknika.hatenablog.com/entry/2016/08/23/143710" target="_blank">Raspberry Pi 3とリアルタイムカーネル(3)[自前ビルド無し導入編(おまけ)]</a><br>
+しかしながらはっきりとはわかりませんが、Pdで「tried but couldn't sync A/D/A」というエラーが発生する原因になる可能性があります。また、私の環境ではレイテンシーがほとんど変わらなかったので、特に導入する必要はないと思います。<br>
+<br>
+＜JACK Audio Connection Kit＞<br>
+いろいろなサイトでふれられているJACKですが、私はどう設定してもうまくいきません。何とか起動できてもレイテンシー24msぐらいだったため、導入をあきらめました。<br>
+<br>
+<hr size="1"/><br>
+<a href="00174.html">ハードウェア編</a>へ　　<a href="00178.html">ソフトウェア編その1</a>へ　　<a href="00181.html">プログラミング編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

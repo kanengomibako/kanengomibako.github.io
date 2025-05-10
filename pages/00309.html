@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Vivie MINERVA Ver.1 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Vivie MINERVA Ver.1 解析</h1>
+  <p align="right">2023年02月27日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_309_01_mnP1.jpg" target="_blank"><img border="0" height="280" src="img/09_309_01_mnP1.jpg" width="625"/></a><br>
+<a href="https://vivie-effect.com/product/minerva/" target="_blank">Vivie MINERVA</a>は、数多くのアンプを解析したデータを元に生まれたオーバードライブペダルだそうです。Tubeというコントロールがあり、独特な回路が使ってあるのかもしれないと考えていました。現在はVer.2やscionという派生機種が販売されていますが、おそらく初期型と思われるものを中古で入手できたので解析することにしました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Vivie/Minerva" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+今回は、KiCad7の背景画像を追加できる機能を使っています。<br>
+<a href="img/09_309_02_mnK1.jpg" target="_blank"><img border="0" height="184" src="img/09_309_02_mnK1.jpg" width="400"/></a><br>
+WIMA社のフィルムコンデンサが目を引きますが、1mm×0.5mmの積層セラミックコンデンサも多く使われています。配線が全てコネクタ接続になっているのが特徴的で、組み込み時に半田付け作業が必要ないようにしていると思われます。<br>
+<br>
+▽回路図<br>
+<a href="img/09_309_03_Vivie_MINERVA_v1_schematic.png" target="_blank"><img alt="Vivie MINERVA Ver.1 Schematic" border="0" height="202" src="img/09_309_03_Vivie_MINERVA_v1_schematic.png" width="634"/></a><br>
+歪みは普通のダイオードクリッピングです。<a href="00302.html" target="_blank">Super Badass Distortion</a>や<a href="00303.html" target="_blank">ANODIZED BROWN DISTORTION 4K</a>の時と同様、ジャイレータ（シミュレーテッドインダクタ）が使われています。右上あたりのR16、R19については無しでもシミュレーション結果は変わらず、役割はわかりませんでした。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>回路全体 積層セラミックコンデンサ（MLCC）の影響（Level 100% Gain 0% Tone 100% Tube 100% Amp：JC）<br>
+<a href="img/09_309_04_mnS1.png" target="_blank"><img border="0" height="208" src="img/09_309_04_mnS1.png" width="450"/></a><br>
+シミュレーション（黄緑）に実測（赤）を重ねています。ズレがあるのは、<a href="00288.html" target="_blank">SansAmp Bass Driver DI V1E+製作</a>の際に報告した、高誘電率系MLCCの静電容量変化によるものだと推測されます。MLCCの容量を0.9倍にしてシミュレーションした場合（青）には、おおよそ一致しました。※以下のシミュレーションでは0.9倍する処理は行っていません。<br>
+</li><br>
+<li>回路全体 Amp Selectスイッチ JC/MS（Level 100% Gain 0% Tone 100% Tube 0%）<br>
+<a href="img/09_309_08_mnS4.png" target="_blank"><img border="0" height="208" src="img/09_309_08_mnS4.png" width="450"/></a><br>
+MSでは低音域と高音域がカットされる仕組みです。<br>
+</li><br>
+<li>増幅部 Gain変化 0%→50%→100%<br>
+<a href="img/09_309_05_mnS2.png" target="_blank"><img border="0" height="208" src="img/09_309_05_mnS2.png" width="690"/></a><br>
+あまり似ていませんが、Marshall The Guv'norの特性（黄緑）も載せています。MINERVAは、高音域のカットがやや大きくなっています。<br>
+</li><br>
+<li>Tone周辺部 Tone変化 0%→50%→100% Amp：MS<br>
+<a href="img/09_309_06_mnS3.png" target="_blank"><img border="0" height="208" src="img/09_309_06_mnS3.png" width="450"/></a><br>
+Toneコントロールのローパスフィルタの前に、1kHzあたりがなだらかにカットされています。<br>
+</li><br>
+<li>Tube周辺部 Tube変化 0%→50%→100% Amp：MS<br>
+<a href="img/09_309_07_mnS3.png" target="_blank"><img border="0" height="208" src="img/09_309_07_mnS3.png" width="450"/></a><br>
+Tubeコントロールで1.5kHz付近がブーストされ、5kHz（実測5.5kHz）付近はカットされています。このあたりが真空管アンプらしさと関係している部分なのかもしれません。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

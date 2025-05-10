@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>レイテンシーの測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>レイテンシーの測定</h1>
+  <p align="right">2017年04月09日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  通常デジタルエフェクターでは、音声処理にかかる時間の分遅延(レイテンシー)が発生します。0.01秒(10ms)以下だとリアルタイム処理と言っていいレベルのようです。なかなかレイテンシーが記載されている記事がありません。買ったはいいものの遅延がひどいというのは避けたいものです。<br>
+→<a href="https://www.kickstarter.com/projects/423153472/bela-an-embedded-platform-for-low-latency-interact" target="_blank">レイテンシー比較参考ページ</a><br>
+<br>
+Pure Dataでレイテンシーを測定する場合はPd\doc\7.stuff\tools\latency.pdのパッチを使うことができます。しかしながらこのパッチで測定した場合、聴感より大きい値になっている気がしたため、別の方法で測定してみました。<br>
+<br>
+図にするまでもありませんが、下図のように直接繋いだ音(Lch)と機器を通した音(Rch)を録音し比較するというものです。<br>
+<img alt="03_175_1latep.gif" border="0" height="189" src="img/03_175_1latep.gif" width="329"/><br>
+<br>
+録音したファイルを拡大して見てみると、下図のようにRchの音が遅れます。（音量レベルは特に合わせていません。）<br>
+<a href="img/03_175_2lateg.gif" target="_blank"><img alt="03_175_2lateg.gif" border="0" height="250" src="img/03_175_2lateg.gif" width="200"/></a><br>
+そしてlatency.pdでの測定結果と比べましたが、同じ遅延時間となりました。結局このパッチでレイテンシーを測定して問題ないと思われます。<br>
+こちらのサイトでも考察されています→<a href="https://139notfound.blogspot.jp/" target="_blank">139 not found</a><br>
+<br>
+Pure Dataの設定を無理に低レイテンシーにすると、出力される音が途切れて雑音が発生します。現在私が製作中のRaspberryPi3エフェクターでは、Delay 5・Block size 64の設定までは雑音が出ず、実際のレイテンシーは12msでした。しかしながら、どの程度重い処理まで可能なのかは未知数です。※後日測定しなおすと、11msでした。<br>
+<br>
+ちなみにZOOM MS-50Gのレイテンシーもついでに測定してみましたが、6個エフェクトをかけても1ms程度でした。本当にメーカーの技術力には圧倒されます……<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

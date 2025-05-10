@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>○○で音は変わるのか　測定準備</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>○○で音は変わるのか　測定準備</h1>
+  <p align="right">2016年10月29日　カテゴリー：<a href="00164.html">○○で音は変わるのか</a></p>
+  <hr class="title"><br>
+  <a href="https://www.digimart.net/magazine/column/labo/" target="_blank">デジマート地下実験室</a>のページにはいろいろと面白い記事が載っています。ただこのサイト内の周波数特性測定ではあまり特徴がわからないので、よりわかりやすいデータをとってみようと思います。<br>
+<br>
+まずは再現性のあるギター出力が必要です。下記ページを参考に私もピックアップを向かい合わせたものを作りました。<br>
+<a href="https://www.repairgarage.jp/file/" target="_blank">Repair Garage Studio</a>→<a href="https://www.repairgarage.jp/Shield_Character.htm" target="_blank">「ギター シールド ケーブルの特性測定レポート」のページ</a><br>
+片方のピックアップに信号を入力すると、もう片方のピックアップの磁界が変化し、出力が得られます。この出力はギター弦の振動で磁界が変化した場合と同等のものと考えてよいと思います。今後これを「擬似ギター出力」として使っていきます。<br>
+<a href="img/10_160_1bg.jpg" target="_blank"><img alt="10_160_1bg.jpg" border="0" height="240" src="img/10_160_1bg.jpg" width="240"/></a><br>
+信号入力用コイルは磁石なしのエピフォンのハムバッカー（HOTCH(G) LP:BRIDGEと記載）、出力ピックアップはSeymour Duncan SH-4 JB Modelです。<br>
+<br>
+下図のように接続し測定します。PCとバッファーの特性は<a href="00159.html">測定環境のページ</a>に記載しています。<br>
+<img alt="10_160_2bg_pic.gif" border="0" height="250" src="img/10_160_2bg_pic.gif" width="430"/><br>
+「被検回路」の部分に比較する回路をつなぎます。今回はMOGAMI 2524の10cmケーブルでつないでいます。<br>
+<br>
+まずはノイズ測定です。録音ボリューム7で、-90dB程度となりました。ピックアップを金属ケースに入れればもっと減ると思いますが、ギターに載っている状態と同じにするということでそのままにしておきます。<br>
+<a href="img/10_160_3bg_noise7.gif" target="_blank"><img alt="10_160_3bg_noise7.gif" border="0" height="157" src="img/10_160_3bg_noise7.gif" width="435"/></a><br>
+※縦軸が120dBとなっています。<br>
+<br>
+各歪率と周波数特性は下図です。<br>
+<a href="img/10_160_4bg_THD_F.gif" target="_blank"><img alt="10_160_4bg_THD_F.gif" border="0" height="157" src="img/10_160_4bg_THD_F.gif" width="435"/></a><br>
+歪率は0.05%ぐらいが限界のようです。周波数特性はホワイトノイズでもよいのですが、よりキレイに見える周波数スイープを使っています。思ったより低域・高域が落ちていました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

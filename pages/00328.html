@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MXR M299 CARBON COPY MINI ANALOG DELAY 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MXR M299 CARBON COPY MINI ANALOG DELAY 解析</h1>
+  <p align="right">2023年11月22日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_328_01_carcom_pic.jpg" target="_blank"><img border="0" height="300" src="img/09_328_01_carcom_pic.jpg" width="280"/></a><br>
+<a href="00324.html" target="_blank">通常バージョンのCARBON COPY</a>に引き続き、<a href="https://moridaira.co.jp/posts/mxr-m299" target="_blank">CARBON COPY MINI</a>のジャンク品も手に入ったので解析することにしました。KiCadデータ（基板画像入り）は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/CarbonCopy" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_328_02_MXR_M299_CARBON_COPY_MINI_ANALOG_DELAY_Schematic.png" target="_blank"><img alt="MXR Carbon Copy Mini Schematic" border="0" height="248" src="img/09_328_02_MXR_M299_CARBON_COPY_MINI_ANALOG_DELAY_Schematic.png" width="685"/></a><br>
+幸いにも<a href="00324.html" target="_blank">通常のCARBON COPY</a>からほとんどの部品番号が変わっておらず、トレースはそれほど苦労せずに済みました。主な変更点は、ブライトスイッチ周辺と電源部です。BBD入力部の抵抗（R43、R54、R63）が27kΩ→10kΩになっているので、若干低音域のカットに影響しているかもしれません。<br>
+<br>
+下図はSA571のデータシートから抜粋した内部回路の一部です（赤字はピン番号）。反転増幅のようになっています。<br>
+<a href="img/09_328_10_carcom_s01.png" target="_blank"><img border="0" height="360" src="img/09_328_10_carcom_s01.png" width="265"/></a><br>
+ブライトスイッチは、5ピン・6ピン側の抵抗とコンデンサを調整することで高音域側を強調する仕組みになっていると考えられます。<br>
+<br>
+R48を外し、ディレイ音の周波数特性を測定しました。<a href="00324.html" target="_blank">通常のCARBON COPY</a>の時と同様ホワイトノイズを使用しています。<br>
+<a href="img/09_328_11_carcom_F01.png" target="_blank"><img border="0" height="209" src="img/09_328_11_carcom_F01.png" width="477"/></a><br>
+ディレイタイムが長い時、ブライトスイッチによる変化は少ないように見えます。（コンパンダのせいでうまく測定できていないかもしれません。）<br>
+<br>
+<hr size="1"/><br>
+<strong>【修理】</strong><br>
+ディレイ音が出ない状態だったので調べていくと、SA571の出力レベルが低かったので交換しました。トレースの際に付け外ししたので、その時の熱が原因で壊れた可能性があります。SA571交換後、またも不調になったので調べると、表面実装トリマーとタンタルコンデンサに不良のものがありました。念のため、全てのトリマーとタンタルコンデンサ・電解コンデンサを交換することにしました。販売開始（2019年）からそれほど時間が経っていない割にジャンク品が出回りやすいような気がするので、あまりパーツの質が良くないのかもしれません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>エフェクト切替（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>エフェクト切替（Pure Data パッチ）</h1>
+  <p align="right">2018年07月23日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)でマルチエフェクターを実現するにあたって、複数接続したエフェクトを瞬時に切り替える、いわゆるプリセットチェンジ（パッチチェンジ）をする方法を考えなくてはいけません。<a href="https://139notfound.blogspot.com/2017/04/puredatavanillaspigot.html">Isaac(139)さんの[pd spigot~]</a>のように信号経路を切り替える方法が簡単だと思います。しかし使っていないエフェクト側でもチルダオブジェクトは常に計算を行っているので、[switch~]を利用することにより不要な部分のDSPをオフにしてCPU負荷を軽減できます。<br>
+<img alt="03p_225_1fxc.png" border="0" height="240" src="img/03p_225_1fxc.png" width="240"/><br>
+[pd fx0~]・・・のようにエフェクトをサブパッチの形で並べて全て繋げておきます。選択したエフェクトの[switch~]のみに1が入りサブパッチのDSPがオンとなります。信号線がたくさん繋ぎっぱなしですが、選択しなかったエフェクトはDSPがオフなのでおそらく問題ないと思います。この形を複数直列に繋げていけばマルチエフェクターの出来上がりです。<br>
+<br>
+<hr size="1"/><br>
+他の信号経路切替方法についてメモしておきます。<br>
+<br>
+・[send~][receive~][throw~][catch~]<br>
+ヘルプパッチの通り、setメッセージを使い送信先や受信元を切り替えることができますが、1ブロックサイズ（64サンプル）分の遅延が生じます。遅延回避方法も一応ありますがやや面倒です。<br>
+<br>
+・[multiplex~][demultiplex~]<br>
+外部オブジェクトzexyが必要です。複数経路を簡単に切り替えることができます。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

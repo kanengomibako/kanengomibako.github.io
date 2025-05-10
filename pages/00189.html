@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Raspberry Pi zero 設定メモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Raspberry Pi zero 設定メモ</h1>
+  <p align="right">2017年07月19日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  SSH接続とファイル操作ができるようになるまでの自分用設定メモです（太字表記はコマンド）。<br>
+（<a href="00177.html">Raspberry Pi 3, Raspberry Pi zero W の設定メモはこちら</a>）<br>
+※Raspberry PiやRaspbianの仕様変更によりうまくいかなくなる可能性があります。<br>
+<br>
+<hr size="1"/><br>
+<a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank">Raspbian Stretch Lite</a>ダウンロード、<a href="https://ja.osdn.net/projects/sfnet_win32diskimager/" target="_blank">Win32 Disk Imager</a>でmicroSDカードに書き込み<br>
+/boot/ ディレクトリに ssh という名前のファイルを置いておく<br>
+<br>
+<hr size="1"/><br>
+データ通信できるmicroUSBケーブルをPCと接続するだけで通信可能（OTGモード）<br>
+WindowsからTera Termで raspberrypi.local にSSH接続<br>
+参考ページ→<a href="https://srlt.blog.jp/archives/9991491.html" target="_blank">ノートパソコンだけで raspberry pi zero をセットアップする方法</a><br>
+<br>
+＜インターネット接続＞<br>
+参考ページ→<a href="https://srlt.blog.jp/archives/10000356.html" target="_blank">SSH接続で raspberry pi zero の設定を行う１（インターネットに接続する）</a><br>
+<br>
+＜IPアドレス固定＞<br>
+$ <strong>ifconfig</strong>　（usb0 の inet addr: を確認）<br>
+$ <strong>sudo nano /etc/dhcpcd.conf</strong><br>
+以下を追記（割り当てられたアドレスが192.168.137.99の場合）<br>
+interface usb0<br>
+static ip_address=192.168.137.99<br>
+static routers=192.168.137.1<br>
+static domain_name_servers=192.168.137.1<br>
+<br>
+再起動後、WindowsからTera Termで固定したIPアドレスにSSH接続<br>
+<br>
+<hr size="1"/><br>
+＜アップデート＞<br>
+$ <strong>sudo apt-get update</strong><br>
+$ <strong>sudo apt-get upgrade</strong><br>
+<br>
+＜初期設定＞<br>
+$ <strong>sudo raspi-config</strong><br>
+Change User Password<br>
+Boot Options &gt; Desktop / CLI &gt; Console Autologin<br>
+Localisation Options &gt; Change Timezone &gt; asia &gt; tokyo<br>
+※Pure Dataと相性が悪そうなので日本語表示しない<br>
+<br>
+＜ルートパスワード変更＞<br>
+$ <strong>sudo passwd root</strong><br>
+<br>
+＜Samba設定＞<br>
+$ <strong>sudo apt-get install samba</strong><br>
+$ <strong>sudo nano /etc/samba/smb.conf</strong><br>
+Samba設定参考サイト→<a href="https://tool-lab.com/make/raspberrypi-startup-14/" target="_blank">ツール・ラボ » 第14回 Raspberry Piのファイルサーバ設定をする</a><br>
+※プログラムが実行可能なように、ファイルのパーミッションも0775にしておく<br>
+Sambaのユーザ登録<br>
+$ <strong>sudo smbpasswd -a pi</strong><br>
+<br>
+Windowsのエクスプローラーのアドレスに\\raspberrypi\piを入力、ユーザー名・パスワードを入れアクセス<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

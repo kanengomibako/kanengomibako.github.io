@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>CULT Ray 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>CULT Ray 解析</h1>
+  <p align="right">2023年05月27日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_315_01_rayP1.jpg" target="_blank"><img border="0" height="320" src="img/09_315_01_rayP1.jpg" width="360"/></a><br>
+<a href="https://www.cult-pedals.com/pages/ray" target="_blank">CULT Ray</a>は公式サイトに回路はオリジナルだと明記してあり、どのようなものか気になっていました。なかなか高価ではあるのですが、たまにはスリルを味わう（？）のもいいかなと思い、初期ロットらしい中古の個体を入手し解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Cult/Ray" target="_blank">GitHub</a>にあります。<br>
+<br>
+<a href="img/09_315_02_rayP2.jpg" target="_blank"><img border="0" height="256" src="img/09_315_02_rayP2.jpg" width="208"/></a><br>
+コントロールノブが落とし込んであるのが特徴的です。筐体と基板に小さな穴があけてあり、そこから細長い棒を突っ込んでノブを外す仕組みになっています。<br>
+<br>
+分解の際、内部構造がわからないので先にポットの足の半田を吸い取ったのですが、Driveポットを付けるパッドを剥離させてしまいました。裏側に半田付けすれば大丈夫だろうと思っていると、そちらのパッドもペリっと剝がれ、配線での修復を余儀なくされました……<br>
+<a href="img/09_315_03_rayP3.jpg" target="_blank"><img border="0" height="180" src="img/09_315_03_rayP3.jpg" width="180"/></a><br>
+自動はんだ吸い取り機も万能ではなく、基板上の銅箔パターンに熱を与え過ぎないようにしなければなりません。まだまだ技術力不足でした。自戒の念を込めて写真を掲載しておきます。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_315_04_rayK.jpg" target="_blank"><img border="0" height="492" src="img/09_315_04_rayK.jpg" width="416"/></a><br>
+ベタグラウンドが使われておらず配線が直角で、なんとなく<a href="00281.html" target="_blank">Leqtique CLHD</a>に似ている基板です。カーボンコンポジション抵抗は誤差が大きいため、実測値をKiCadデータに入力してあります。C2はガラス封入されていて、古い積層セラミックコンデンサ（MLCC）らしく特性は不明です（参考ページ→<a href="https://www.eevblog.com/forum/metrology/mlccs-encapsulated-in-glass/" target="_blank">MLCCs encapsulated in glass?</a>）。<br>
+<br>
+▽回路図<br>
+<a href="img/09_315_05_CULT_Ray_Schematic.png" target="_blank"><img alt="CULT Ray Schematic" border="0" height="364" src="img/09_315_05_CULT_Ray_Schematic.png" width="465"/></a><br>
+Q1、Q2（MOSFET）は表面が削られていて型番不明ですが、Fulltone OCDやZendrive等で採用されているMOSFETのダイオード接続によるクリッピングです。Bassコントロールには<a href="00302.html" target="_blank">Super Badass Distortion</a>や<a href="00303.html" target="_blank">ANODIZED BROWN DISTORTION 4K</a>等と同様、ジャイレータ（シミュレーテッドインダクタ）が使われています。<br>
+<br>
+<hr size="1"/><br>
+【クリッピング用MOSFETについて】<br>
+<br>
+Ray実機に元々ついているMOSFETは、わざわざ型番を削るくらいなので一般的なものではないだろうと思います。あまり深追いはしないとして、とりあえずパッケージと足配置が同じで入手しやすい2N7000（<a href="https://akizukidenshi.com/catalog/g/g109723/" target="_blank">onsemi製</a>と<a href="https://akizukidenshi.com/catalog/g/g113045/" target="_blank">UTC製</a>）と比較しました。ちなみに実機MOSFETと同じくパッケージ裏の丸いくぼみに何も書いてないのはUTC製の方です。<br>
+<a href="img/09_315_06_rayMOS.jpg" target="_blank"><img border="0" height="126" src="img/09_315_06_rayMOS.jpg" width="294"/></a><br>
+MOSFETは端子間の容量が一般的なダイオードより大きいため、この容量が音質に影響することが考えられます。LCRメータでダイオード接続（ドレインとゲートを直結）した時の端子間容量を測定すると、実機MOSFETは65pF、2N7000は60pFと近い値でした（測定周波数100kHz）。<br>
+<br>
+▽波形・歪率・周波数特性（コントロールノブ全て100%）<br>
+<a href="img/09_315_08_rayMOSo.png" target="_blank"><img border="0" height="187" src="img/09_315_08_rayMOSo.png" width="335"/></a><a href="img/09_315_09_rayMOSos.png" target="_blank"><img border="0" height="187" src="img/09_315_09_rayMOSos.png" width="335"/></a><br>
+<a href="img/09_315_07_rayMOSf.png" target="_blank"><img alt="09_315_07_rayMOSf.png" border="0" height="201" src="img/09_315_07_rayMOSf.png" width="444"/></a><br>
+onsemi製とUTC製では微妙にonsemi製の方が実機に近かったため、onsemi製のデータを掲載しています。MOSFET自体の個体差があるため偶然かもしれませんが、倍音構成や周波数特性がかなり近く、実機の音を再現できているように思います。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+※MOSFETは、実測と周波数特性が近かったRK7002Aを使っています。<br>
+<ul><li>増幅部 Drive変化 0%→50%→100%<br>
+<a href="img/09_315_10_rayFd.png" target="_blank"><img border="0" height="208" src="img/09_315_10_rayFd.png" width="600"/></a><br>
+Bass最小（Bassカット最大）にした<a href="https://manticorefx.wordpress.com/2017/10/26/timmy-versions/" target="_blank">Timmy</a>と回路定数が似ているため、比較として掲載しています（増幅率を同程度に調整）。RayはMOSFETの端子間容量やC2の影響で、ゲインを上げたとき高音域が下がっています。<br>
+</li><br>
+<li>Treble変化 0%→50%→100% (Bass 0%)<br>
+<a href="img/09_315_11_rayFt.png" target="_blank"><img border="0" height="208" src="img/09_315_11_rayFt.png" width="450"/></a><br>
+単純なローパスフィルタで、<a href="https://manticorefx.wordpress.com/2017/10/26/timmy-versions/" target="_blank">Timmy</a>と同じ50kΩと10nFです。ProCo RAT（100kΩと3.3nF）より高音域減少幅は大きくなります。Trebleポットの1、2番端子を接続しないようにしてあるのは、後段との兼ね合いで低音域が変化するのを避けるためと思われます。<br>
+</li><br>
+<li>Bass変化 0%→50%→100% (Treble 100%)<br>
+<a href="img/09_315_12_rayFb.png" target="_blank"><img border="0" height="208" src="img/09_315_12_rayFb.png" width="450"/></a><br>
+イコライザの回路ですが減衰方向の調整はなく、0%の時にはほぼフラットです。主に160Hz付近を増幅しています。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

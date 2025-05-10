@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>True Bypass Relay Module</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>True Bypass Relay Module</h1>
+  <p align="right">2019年07月01日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_244_1TBRMp.png" target="_blank"><img alt="02_244_1TBRMp.png" border="0" height="160" src="img/02_244_1TBRMp.png" width="200"/></a><br>
+秋月電子にある特価ラッチリレーEA2-5TNAGを利用したトゥルーバイパスモジュールです。<a href="00217.html">以前解析したmonomonster Relay Bypass Module</a>の代わりとして考えました。マイコンを使った方が小型で長押し等に応用が効くという利点があるのですが、プログラミングが必要なのはややハードルが高いかと思います。別な方法を検索してみるとロジックIC（4069）を使ったものを見つけたので、そのまま利用することにしました。<br>
+参考ページ→<a href="https://www.fredric.co.uk/blog/134-Using-a-latching-relay-driver-for-true-bypass">Using a latching relay driver for true bypass</a><br>
+<br>
+▽回路図<br>
+<a href="img/02_244_2TBRMs.png" target="_blank"><img alt="02_244_2TBRMs.png" border="0" height="330" src="img/02_244_2TBRMs.png" width="630"/></a><br>
+秋月電子では在庫限りの部品が多いのでご注意ください。おそらくC8（10μF）はなしでも大丈夫だと思います。<br>
+<br>
+基板データは<a href="https://github.com/kanengomibako/TrueBypassRelayModule">GitHub</a>に公開しています。当初ラッチリレーのピン配置の表裏が逆というミスがあったので、公開しているデータはエラー修正済のRev.B基板です。エラー修正前のRev.A基板をお持ちの方は必ずREADME.txtの内容をご確認下さい。HAMMOND1590Bの場合は基板を立てて入れられないので、次に基板発注することがあればもう少し横長に修正するかもしれません。<br>
+<br>
+スイッチングノイズをオシロスコープで確認しました。<br>
+<a href="img/02_244_3TBRMn.png" target="_blank"><img alt="02_244_3TBRMn.png" border="0" height="108" src="img/02_244_3TBRMn.png" width="480"/></a><br>
+一般的な黒い3PDTスイッチと比較すると高い音のノイズですが、音量は同程度のようです。スイッチ交換がしやすい以外の利点がないように思われますが、BOSS筐体に使うような場合には最適ではないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

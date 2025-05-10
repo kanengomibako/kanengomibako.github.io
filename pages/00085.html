@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>直列可2ループボックス+パワーサプライ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>直列可2ループボックス+パワーサプライ</h1>
+  <p align="right">2009年12月06日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <img alt="02_85_1loopbP.jpg" border="0" height="150" src="img/02_85_1loopbP.jpg" width="480"/><br>
+<a href="00014.html" target="_blank">以前2ループの切替を行うスイッチボックスを作った</a>のですが、ループ同士の直列接続をやってみたくて作りなおしました。左側のスイッチ（SW1）はA/Bループの切替、右側のスイッチ（SW2）はA/Bどちらの状態でもA→Bの直列になるというものです。横から見ると下写真のようになっています。AAサイズのケースは高さがあるのでコネクターをたくさん配置できて便利です。<br>
+<img alt="02_85_2loopbPp.jpg" border="0" height="150" src="img/02_85_2loopbPp.jpg" width="240"/><br>
+<br>
+設計の詳細については<a href="https://bccweb.bai.ne.jp/ichian/" target="_blank">一庵堂</a>の「<a href="https://bccweb.bai.ne.jp/ichian/analog/sw_box/sw_box3.htm" target="_blank">Design your own loop box</a>」というページをご覧ください。<br>
+今回のスイッチボックスの機能を下の表にまとめます。<br>
+<img alt="02_85_3loopbS1.gif" border="0" height="103" src="img/02_85_3loopbS1.gif" width="353"/><br>
+バイパス機能をつけることも可能ですが、操作性が悪くなるのでやめておきました。念のため使わない入力はGNDに落とすことにしています。<br>
+<br>
+Aの入力、Bの入力、全体の出力について、具体的に回路をどうすればよいか考えていきます。今回は下図のようになります。<br>
+<img alt="02_85_4loopbS2.gif" border="0" height="273" src="img/02_85_4loopbS2.gif" width="313"/><br>
+これを一枚の回路図にまとめます。<br>
+<img alt="02_85_5loopbS3.gif" border="0" height="173" src="img/02_85_5loopbS3.gif" width="563"/><br>
+<br>
+ついでに配線図は↓です。Garrettaudioの4PDTスイッチ（イタリア製）を使いました。LEDの配線は省略してあります。実際はA/B切り替え時に赤と青のLEDが切り替わり、直列時には真ん中の黄色いLEDが点灯するようにしています。<br>
+<img alt="02_85_6loopbL.png" border="0" height="209" src="img/02_85_6loopbL.png" width="369"/><br>
+<br>
+パワーサプライにはLM317を二つ使っています。片方を9V、もう片方は12Vなんてことも一応可能にしてみました。回路等に関してはWanderlustのPower Junctionをご参照ください。LM317はケースに密着させていますが、ケースがどの程度放熱効果があるのか不明なので、電流はそれぞれ最大0.5Aぐらいまでとしていた方がよさそうです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

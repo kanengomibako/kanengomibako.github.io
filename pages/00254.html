@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Owm Pedal H7 ソフトウェア編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Owm Pedal H7 ソフトウェア編</h1>
+  <p align="right">2020年02月11日　カテゴリー：STM32 エフェクター</p>
+  <hr class="title"><br>
+  自作デジタルエフェクター「Owm Pedal H7」の各設定、内部プログラミングをしていきます。<br>
+<a href="00253.html">Owm Pedal H7 ハードウェア編はこちら</a><br>
+内部データは<a href="https://github.com/kanengomibako/OwmPedalH7">GitHub</a>へ<br>
+<br>
+<strong>＜開発環境について＞</strong><br>
+STM32CubeIDEのバージョン1.1.0ではクロック設定がうまく動作しなかったので、STM32CubeMXを併用していました。バージョン1.2.1では修正されているようで、今のところ問題は起きていません。<br>
+<br>
+main.cファイルを「main.cpp」にリネームすればC++を使うことができます。main.cppに追加記載しているのは下記3か所です。主にuser_main.cppを編集することになります。<br>
+　「/* USER CODE BEGIN Includes */」の下→#include "user_main.hpp"<br>
+　「/* USER CODE BEGIN 2 */」の下→mainInit();<br>
+　「/* USER CODE BEGIN 3 */」の下→mainLoop();<br>
+<br>
+コンパイラの最適化設定を高速動作向けに変更しておきます。<br>
+Project→Properties→C/C++ Build→Settings→Tool Settingsタブ<br>
+→MCU G++ Compiler→Optimization→Optimization level [Optimize for speed (-Ofast)]<br>
+<br>
+<hr size="1"/><br>
+<strong>＜STM32CubeIDE iocファイル設定＞</strong><br>
+・ST-LINK接続（結線は<a href="00238.html">Owm Pedal ソフトウェア編</a>参照）<br>
+Trace and Debug→DEBUG→Debug [Serial Wire]<br>
+<br>
+・処理高速化のためDキャッシュを有効化<br>
+System Core→CORTEX_M7→Cortex Interface Settings→CPU DCache : Enabled<br>
+<br>
+・クロック源として外部水晶振動子を使用<br>
+System Core→RCC→High Speed Clock (HSE) [Crystal/Ceramic Resonator]<br>
+<br>
+・動作モード設定（480MHz動作のために必要）<br>
+System Core→RCC<br>
+→System Parameters→Product revision : rev.V<br>
+→Power Parameters→Power Regulator Voltage Scale : Power Regulator Voltage Scale 0<br>
+<br>
+▽SPI設定<br>
+タッチパネル付ディスプレイの接続はSPIです。詳細は<a href="00246.html">以前の記事（STM32 SPI接続タッチパネル付ディスプレイを使う）</a>をご参照ください。<br>
+※通信速度を上げ過ぎるとタッチ位置をうまく取得できないので、本来はディスプレイとタッチを別々のSPIにした方がよいと思われます。<br>
+<br>
+▽SAI設定<br>
+<a href="img/03s_254_1owmHSAI.png" target="_blank"><img alt="03s_254_1owmHSAI.png" border="0" height="800" src="img/03s_254_1owmHSAI.png" width="435"/></a><br>
+Multimedia→SAI1→SAI A→Mode [Asynchronous Slave]　I2S/PCM Protocol にチェック<br>
+同SAI B→Mode [Synchronous Slave]　I2S/PCM Protocol にチェック<br>
+SAI A Data Size : 32 Bits<br>
+SAI A FIFO Threshold : Half Full<br>
+SAI B Audio Mode : Slave Transmit<br>
+SAI B Data Size : 32 Bits<br>
+SAI B FIFO Threshold : Half Full<br>
+<br>
+NVIC Settingsタブ→SAI1 global interrupt→Enabledにチェック（2020年3月16日追記）<br>
+<br>
+※STM32H7でDMAを利用するのは大変そうなので、今回は利用していません。<br>
+→参考ページ：<a href="https://www.keshikan.net/gohantabeyo/?p=563">STM32H7でキャッシュ一貫性を保持したDMA転送(Memory-to-Peripheral)</a><br>
+<br>
+▽クロック設定図<br>
+<a href="img/03s_254_2owmHCK.png" target="_blank"><img alt="03s_254_2owmHCK.png" border="0" height="279" src="img/03s_254_2owmHCK.png" width="617"/></a><br>
+SAIクロックは、オーディオサンプリングレート44.1kHzに対する誤差が少なくなるような設定としました（44.1×2048＝90316.8）。<br>
+<br>
+▽全ピン設定図<br>
+<a href="img/03s_254_3owmHPin.png" target="_blank"><img alt="03s_254_3owmHPin.png" border="0" height="320" src="img/03s_254_3owmHPin.png" width="330"/></a><br>
+<br>
+<hr size="1"/><br>
+<strong>＜信号処理＞</strong><br>
+<a href="00239.html">Owm Pedal</a>と同じように半分ずつデータ処理しようとしましたが、HalfCpltCallbackが呼び出されないようなので、2つのバッファ配列を準備しました（下図ではaとb、ソースコード内では[0]と[1]）。<br>
+<a href="img/03s_254_4owmHI2S.png" target="_blank"><img alt="03s_254_4owmHI2S.png" border="0" height="158" src="img/03s_254_4owmHI2S.png" width="461"/></a><br>
+mainInit処理の中で最初のSAI受信呼び出しを行います（HAL_SAI_Receive_IT）。その後、受信完了時にHAL_SAI_RxCpltCallbackが呼び出され、その中で次の受信とSAI送信（HAL_SAI_Transmit_IT）を行います。送受信にFIFOを設定しておかないと、処理が連続的にならず途切れ途切れになってしまうことがあります。遅延時間（レイテンシ）実測値は、ブロックサイズ32で2.5ms程度でした。まとめて信号処理ではなく、1サンプルずつ処理するようなやり方をすればバッファ配列は1つで済むかもしれません。<br>
+<br>
+<strong>＜SAIエラー対処＞</strong><br>
+<a href="00238.html">Owm Pedal</a>のときの反省を生かし、オーディオコーデックV4220Mをマイコンからリセットできるようにしました。mainInit処理内でSAIのエラーが起こった場合、リセット処理するようになっています。ただ、今のところエラーが発生したことがなく、正しい処理なのかわかりません。<br>
+<br>
+<strong>＜スイッチ・タッチ検出＞</strong><br>
+SAIの割り込みは32ブロックサイズ（約0.7ms）ごとに起こるので、これをタイマーのように利用しています。割り込みが起こるたびにGPIOの状態をチェックし、スイッチ操作やタッチを検出するというやり方です。タッチ検出時はすぐにタッチ位置を算出したいところですが、SPI通信にそれなりに時間がかかるので、タッチ位置関係処理は割り込み内ではなくメインループ処理内に入れています。現状の操作方法は下記の通りです。<br>
+・画面上部：パラメータページ切替、長押しでデータ保存（→<a href="00250.html">STM32 内蔵フラッシュメモリへのデータ保存</a>）<br>
+・各ノブ部：上側で増加、下側で減少（長押しで10ずつ変化）<br>
+・画面下部：長押しでエフェクト切替<br>
+・スイッチ：エフェクトオン・オフ<br>
+<br>
+<strong>＜エフェクト処理＞</strong><br>
+とりあえず6つのエフェクト（オーバードライブ、ディレイ、トレモロ、イコライザ、コーラス、リバーブ）を実装していますが、細かい音質については検討していません。今後別記事で紹介していきたいと考えています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

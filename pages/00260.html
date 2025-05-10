@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Fuzz Face 積層アクリル筐体</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Fuzz Face 積層アクリル筐体</h1>
+  <p align="right">2020年11月20日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_260_1ffp.jpg" target="_blank"><img alt="02_260_1ffp.jpg" border="0" height="225" src="img/02_260_1ffp.jpg" width="300"/></a><a href="img/02_260_2ffp2.jpg" target="_blank"><img border="0" height="225" src="img/02_260_2ffp2.jpg" width="300"/></a><br>
+以前<a href="00256.html" target="_blank">基板筐体のDS-1</a>を製作しましたが、今度は丸い筐体のエフェクターも作ってみたくなりました。そうなると思いつくのはやはりFuzz Faceです。<br>
+<br>
+下写真のように基板とアクリル板計8枚から構成されています。※アクリル加工の注文等に関しては<a href="00259.html" target="_blank">別記事</a>へ<br>
+<a href="img/02_260_4ffps.jpg" target="_blank"><img border="0" height="225" src="img/02_260_4ffps.jpg" width="400"/></a><a href="img/02_260_5ffpb.jpg" target="_blank"><img border="0" height="225" src="img/02_260_5ffpb.jpg" width="281"/></a><br>
+電池も入れられるようにしたので、あまり内部に余裕がありません。タクトスイッチ基板は表側の基板から吊り下げるようになっています。設計ミスでDCジャックの横に少し隙間があいてしまいました。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/AcrylicFF" target="_blank">GitHub</a>へ）<br>
+<a href="img/02_260_3ffs.png" target="_blank"><img border="0" height="325" src="img/02_260_3ffs.png" width="540"/></a><br>
+ファズは入力インピーダンスが低いものが多く、バッファードバイパスにすると音が変わるため、トゥルーバイパスにするしかありません。ノイズを最小限にするため、リレーを最短距離で配線しています。回路は<a href="00244.html" target="_blank">True Bypass Relay Module</a>の時とほぼ同じですが、9Vのリレーを使用し、チャタリングが少ないスイッチ用に一部抵抗値を変更しています。<br>
+<br>
+トランジスタは、一般的な2SC1815のチップ版ということで、なんとなく2SC2712を選びました。バイアス調整としてはコレクタに繋がる抵抗（R2、R5）をトリマーにすることがあるようですが、<a href="https://eu11.stripper.jp/pulcino/blog/archives/000040.html" target="_blank">Fuzzface概論</a>というページを参考にR2を可変にすることにしました。そこで登場するのが、紙を鉛筆で黒く塗りつぶした抵抗器です。R2に並列に取付できるようになっています。少し取付部の距離が長すぎましたが、頑張って塗りつぶせば10kΩ程度まで値を下げられると思います。<br>
+<a href="img/02_260_6ffpr.jpg" target="_blank"><img border="0" height="210" src="img/02_260_6ffpr.jpg" width="252"/></a><br>
+実際に抵抗値を調整してもあまり音に変化がない感じだったので、どこかにミスがあるかもしれません。やはりファズは難しいですね。最終的にR2は100kΩ、紙の抵抗器も100kΩ程度にしています。<br>
+<br>
+紙と鉛筆の抵抗器は、昔<a href="00093.html" target="_blank">コンデンサの自作</a>をした際にアイデアだけがありました。数年の時を経て実現できてよかったです。経年変化がどうなのかはわかりませんが、他のエフェクターで使ってみるのもよいかもしれません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

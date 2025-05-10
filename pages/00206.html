@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>コンプレッサー（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>コンプレッサー（Pure Data パッチ）</h1>
+  <p align="right">2017年11月26日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)では[limiter~]でコンプレッサーを作ることができます（zexyが必要）。自分で作ってもそこまで複雑ではありませんが、今回はニー（knee）というコントロールを追加していますので、やや大掛かりなパッチとなっています。<br>
+<img alt="03p_206_1comp.png" border="0" height="500" src="img/03p_206_1comp.png" width="560"/><br>
+（<a href="https://drugscore.web.fc2.com/3p/10_compressor.pd" target="_blank">このパッチをダウンロード</a>）<br>
+[env~ 256]は128サンプルごとに値を出力するため、[delwrite~]で原音をその時間分遅延させてタイミングを合わせています（Windows環境ではなぜかさらに64サンプル程度タイミングがずれました）。[env~]を使ったエフェクト全てに行うべき処理ですが、ディレイタイムがそのままレイテンシーの増加になってしまうため、<a href="00205.html">ノイズゲート</a>や<a href="00204.html">オートワウ</a>では省きました。<br>
+<br>
+[env~ 256]からのエンベロープデータは2つの[moses]で3パターンに振り分けます。threshold+kneeの値以上では通常の圧縮動作となり、threshold-kneeの値未満では圧縮がかかりません。真ん中下側と右側の[expr]の式がコンプレッサーの定義的な式となります。<br>
+（例）入力：80dB、threshold：60dB、ratio：10のとき<br>
+　　　→（ 80 - 60 ）÷10 + 60 - 80 = -18 （入力音を-18dB変化させる）<br>
+<br>
+threshold±kneeの範囲では、滑らかにthresholdを変化させます。どういった曲線にするかですが、下図のような楕円を考えました。参考ページ→<a href="https://d.hatena.ne.jp/Hyperion64/20120313/p1" target="_blank">平行四辺形に内接する楕円の三種</a><br>
+<a href="img/03p_206_2comk.png" target="_blank"><img alt="03p_206_2comk.png" border="0" height="204" src="img/03p_206_2comk.png" width="318"/></a><br>
+k=0のときは急に折れ曲がる形（ハードニー）で、kを上げていく程なだらかなカーブ（ソフトニー）になります。市販のコンプレッサーではどのように処理しているかわからないので、完全に自己流です。<br>
+<br>
+attackとreleaseは音量変化にかける時間（ms）を指定します。[env~]からはデータが次々と出力されてくるので、音量変化の最中にまた次の音量変化に切り替えることになります。このため、実際の変化時間は指定した時間よりも長くかかりますが、動作の仕方としてはそれで問題ないようです。参考ページ→<a href="https://kusomimi.seesaa.net/article/436162028.html" target="_blank">コンプレッサーを考える</a>　<a href=" https://studio-on-dish.blogspot.jp/2015/03/compressor-attack-time.html" target="_blank">コンプレッサー アタックタイムの真実 （各種コンプ比較あり）</a><br>
+<br>
+コンプレッサーの世界は思っていたより奥が深く、入出力の関係がもっと複雑なカーブになっていたり、周波数によって特性が違ったりするものがあるようです。まぁ私には大して違いがわからないでしょうから、あまり深追いしないことにします。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

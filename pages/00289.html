@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS OD-1X OverDrive 修理・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS OD-1X OverDrive 修理・特性測定</h1>
+  <p align="right">2022年05月16日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_289_1od1xP.jpg" target="_blank"><img border="0" height="320" src="img/09_289_1od1xP.jpg" width="480"/></a><br>
+ポットに不具合がある状態のBOSS OD-1X OverDriveを手に入れたので、修理し特性を測定しました。修理の過程でノブが変更となっています。<br>
+<br>
+<a href="00277.html" target="_blank">以前修理したBOSS ML-2</a>は2007年発売、OD-1Xは2014年発売です。電源用ICのBD9851は同じですが、オーディオコーデックがAK4552からAK4556にグレードアップしています。また、<a href="00277.html" target="_blank">ML-2</a>ではLEVELコントロールがアナログ回路部分にありましたが、OD-1Xではデジタルプログラム上でのLEVELコントロールになっています。設計見直しやオーディオコーデックの性能アップにより充分低ノイズになったと判断されたということでしょう。<br>
+<br>
+<hr size="1"/><br>
+<strong>【修理】</strong><br>
+<br>
+症状を確認してみると、ポット内部の接触不良のためか、DRIVEの動きが不安定です。無理な力が加わった様子はないので、単純なポットの劣化なのかもしれません。<br>
+<br>
+<a href="img/09_289_2od1xPo1.jpg" target="_blank"><img border="0" height="180" src="img/09_289_2od1xPo1.jpg" width="180"/></a><br>
+最初に手持ちのミニポットに交換したところ、ネジ部の長さが足りずナットがつけられませんでした。金属パネルが分厚いのでネジ部が6.5mm程度必要なのですが、シャフト全長15mmのミニポットはネジ部5mmが普通のようです。<a href="https://www.taydaelectronics.com/" target="_blank">Tayda Electronics</a>でネジ部6.5mmのものを見つけたのですが、商品ページの誤表記でした（現在は訂正されています）。<br>
+<br>
+OD-1Xのポットはたぶん特注で、ネジ部が長いのに加えてDシャフトの切り欠き位置が180度逆です。あきらめかけていましたが、ソリッドシャフトでネジ部6.5mmのものが<a href="https://www.garrettaudio.com/" target="_blank">Garrettaudio</a>にありました。元々ついていたDシャフト用ノブは使えないので、雰囲気が近い別のメタルノブをついでに購入しました。<br>
+<br>
+基本的にデジタルエフェクターのポットは単純な分圧の役割をしています（下図）。2番ピンの電圧をA/Dコンバータ (ADC)で読み取ると回転角がわかるという仕組みです。例えば、基準電圧が5Vで2番ピンの電圧が1Vだと、ポットの回転位置は20%となります。<br>
+<img border="0" height="220" src="img/09_289_5od1xADC.png" width="330"/><br>
+ポットの抵抗値は、小さいと無駄な電流消費になってしまいます。大きすぎると、ノイズが入ったり、ADCの入力インピーダンスとの兼ね合いでカーブが直線的にならなくなったりすることが考えられます。<br>
+<a href="img/09_289_4od1xPo2.jpg" target="_blank"><img border="0" height="180" src="img/09_289_4od1xPo2.jpg" width="180"/></a><br>
+BOSSでは50kΩのポットが使われています。今回は50kΩのポットが終売だったので25kΩのものを購入し、念のため4つ全て交換しました。10kΩや100kΩでもまず大丈夫だと思います。ポット取付基板には、ノイズ除去用と思われるコンデンサが実装されているのが確認できます。<br>
+<br>
+<hr size="1"/><br>
+<strong>【特性測定】</strong>※各ノブの設定は最大を100として記載<br>
+<br>
+<a href="https://www.boss.info/jp/products/od-1x/" target="_blank">BOSS公式サイト</a>には、多次元的信号処理技術「MDP」を用いていると記載があり、複雑な信号処理が施されていると思われます。単純な特性測定ではあまり意味がないかもしれません。<br>
+<br>
+▽波形・倍音（LOW 0 HIGH 0 DRIVE 50）<br>
+<a href="img/09_289_7od1xFh.png" target="_blank"><img border="0" height="209" src="img/09_289_7od1xFh.png" width="477"/></a><br>
+非対称な波形で、偶数次倍音が多いです。<br>
+<br>
+▽DRIVE変化時の周波数特性（LOW 100 HIGH 100）<br>
+<a href="img/09_289_8od1xFd.png" target="_blank"><img border="0" height="209" src="img/09_289_8od1xFd.png" width="477"/></a><br>
+設定値0～100で約40dB変化します。ゲインを上げたとき低音域と高音域が少し下がるようになっているようです。<br>
+<br>
+▽LOW変化時の周波数特性（HIGH 50 DRIVE 0）<br>
+<a href="img/09_289_10od1xFl.png" target="_blank"><img border="0" height="300" src="img/09_289_10od1xFl.png" width="400"/></a><br>
+100Hz付近を増幅する動きです。75あたりではやや幅広い増幅になっています。<br>
+<br>
+▽HIGH変化時の周波数特性（LOW 50 DRIVE 0）<br>
+<a href="img/09_289_11od1xFh.png" target="_blank"><img border="0" height="300" src="img/09_289_11od1xFh.png" width="400"/></a><br>
+高音域が全体的に動いています。50以降では、4kHz付近がほとんど上がらないよう調節されています。<br>
+<br>
+---以下2022年8月21日追記---<br>
+<br>
+▽GT-1000CORE内蔵X-ODとの比較（DRIVE 0）※GT-1000COREの設定値-50～+50は0～100として記載<br>
+<a href="img/09_289_12od1xFg.png" target="_blank"><img border="0" height="300" src="img/09_289_12od1xFg.png" width="400"/></a><br>
+かなり似ていますが完全には一致していないので、内部処理が何かしら変更されていると思われます。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

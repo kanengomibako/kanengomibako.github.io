@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Cranetortoise HM-1 蛇鉄 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Cranetortoise HM-1 蛇鉄 解析</h1>
+  <p align="right">2024年06月15日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_337_01_hm1_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_337_01_hm1_pic.jpg" width="430"/></a><br>
+中古でCranetortoise HM-1 蛇鉄を入手しました。ノブがなかったので手持ちのものを取り付けています。ジャンク扱いでしたが動作に問題はないようで、そのまま解析しました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/ALBIT_Cranetortoise/HM-1" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_337_02_Cranetortoise_HM-1_Schematic.png" target="_blank"><img alt="Cranetortoise HM-1 Schematic" border="0" height="217" src="img/09_337_02_Cranetortoise_HM-1_Schematic.png" width="697"/></a><br>
+バッファードバイパスで、電源部の大きなコンデンサが目立ちます。<a href="https://www.albit.jp/manual/HM-1_M.pdf" target="_blank">公式の説明書（PDF）</a>には、「新開発のオリジナル回路である"HEAVY METAL ACTIVE CIRCUIT"の搭載で、ラウドロックに最適なハイとローを強調したサウンドと、ライブで活躍するクランチサウンドが、HEAVY METAL SWで、2系統のドライブサウンドを選択出来ます。」と記載があります。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>GAIN 0% → 50% → 100%<br>
+<a href="img/09_337_11_hm1_s1.png" target="_blank"><img border="0" height="206" src="img/09_337_11_hm1_s1.png" width="450"/></a><br>
+HEAVY METALスイッチオンでゲインが上がります。低音域がほとんどカットされていません。<br>
+</li><br>
+<li>Q1周辺<br>
+トランジスタQ1の前段でダイオードクリッピングが起こっていますが、R5が100kΩと大きい値なので、音色には影響がないように見えます。ただ、ピッキング後にD2の経路からC6が充電されることで、Q1のベース電流が増加しているのが確認できました。<br>
+<a href="img/09_337_12_hm1_s2.png" target="_blank"><img border="0" height="218" src="img/09_337_12_hm1_s2.png" width="469"/></a><br>
+これによりQ1での歪み方が変化しますが、もしかすると何か別の意図があるのかもしれません。<br>
+</li><br>
+<li>トーン調整<br>
+<a href="img/09_337_13_hm1_s3.png" target="_blank"><img border="0" height="206" src="img/09_337_13_hm1_s3.png" width="450"/></a><br>
+トーンコントロールはありませんが、HEAVY METALスイッチオンで中音域がカットされドンシャリな特性となります。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

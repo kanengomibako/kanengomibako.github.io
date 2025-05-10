@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Steinberg UR22C 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Steinberg UR22C 分解・特性測定</h1>
+  <p align="right">2020年11月11日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_261_1ur.jpg" target="_blank"><img border="0" height="225" src="img/09_261_1ur.jpg" width="400"/></a><br>
+サンプリングレート192kHzでの録音環境を手に入れたかったため、Steinberg UR22Cというオーディオインターフェイスを購入しました。簡単な分解と特性測定を行っておきます。<br>
+<br>
+<hr size="1"/><br>
+<strong>【分解】</strong><br>
+<br>
+▽内部写真（<a href="https://prosound.ixbt.com/interfaces/steinberg-ur44c.shtml" target="_blank">このロシア語ページ</a>ではUR44Cの内部写真が掲載されています。）<br>
+<a href="img/09_261_2uri1.jpg" target="_blank"><img border="0" height="320" src="img/09_261_2uri1.jpg" width="240"/></a><a href="img/09_261_3uri2.jpg" target="_blank"> <img border="0" height="320" src="img/09_261_3uri2.jpg" width="240"/></a><br>
+完全な分解は行っていませんが、以下のICが確認できました。<br>
+・DSP　YAMAHA YJ496<br>
+・SDRAM　M12L64164A<br>
+・オーディオコーデック　AK4558<br>
+・USB電源スイッチIC　BD2065AFJ<br>
+・DC/DCコンバータIC　NJM2374A<br>
+・オペアンプ　NE5532　NJM2068　NJM4580<br>
+・スイッチング電圧レギュレータ　BD9329EFJ<br>
+・USB Type-C ポート保護IC　TPD6S300<br>
+<br>
+Nichicon FWやELNA等、電解コンデンサにスルーホール部品が使われているのが意外でした。設計者のこだわりの部分なのかもしれません。<br>
+<br>
+<hr size="1"/><br>
+<strong>【特性測定】</strong><br>
+<br>
+MAIN OUTPUT LからMIC/LINE 2入力（HI-Z）へモノラルケーブルを接続した状態で特性を測定しました。おおよその絶対的電圧レベルをわかりやすくするため、出力レベルが約0.1Vrms（=-20dBV）、WaveSpectraのMax表示が-20dB（RMS表示-23dB）となるように合わせています。<br>
+<br>
+＜サンプリングレート設定＞<br>
+dspMixFx UR-Cソフトを起動→右上の歯車のマーク→Control Panel→Steinberg UR22Cタブ→Sample Rate: 192kHz<br>
+<br>
+＜MAIN OUTPUT＞<br>
+PC 再生VOL: 100<br>
+OUTPUTノブ: 12時<br>
+MIXノブ: DAW側最大の位置<br>
+出力インピーダンス: 150Ω（マニュアルより）<br>
+<br>
+＜MIC/LINE 2＞<br>
+PC 録音VOL: 100<br>
+INPUT2 GAINノブ: 10時と少し（本体写真参照）<br>
+INPUT2 HI-Zスイッチ: オン<br>
+入力インピーダンス: 1MΩ（マニュアルより）　100pF（実測値）<br>
+<br>
+＜WaveGene設定＞<br>
+サンプリング周波数: 192000　ビット長: 32　チャンネル数: Stereo<br>
+・歪率測定　サイン波　1kHz　FFT用に最適化（FFTサンプル数16384）　-12.7dB<br>
+・周波数特性測定　ユーザー波形　FLATSWEEP_016384.WAV　-12.7dB<br>
+※<a href="https://efu.jp.net/soft/wg/wg.html">WaveGeneサイト</a>にあるサンプリングレート48kHzのユーザー波形サンプルを使っています。本来は192kHz用の波形を用意すべきですが、20kHz以上の周波数も問題ないようなのでそのまま利用しています。<br>
+<br>
+＜WaveSpectra設定＞<br>
+Rch　Avg: 300<br>
+[FFT]　サンプルデータ数: 16384　窓関数: なし（矩形）<br>
+[再生/録音]　フォーマット: 192000 s/s 32 bit Stereo<br>
+<br>
+▽歪率・ノイズレベル<br>
+<a href="img/09_261_4urf1.png" target="_blank"><img border="0" height="225" src="img/09_261_4urf1.png" width="639"/></a><br>
+<br>
+▽周波数特性<br>
+<a href="img/09_261_5urf2.png" target="_blank"><img border="0" height="225" src="img/09_261_5urf2.png" width="639"/></a><br>
+マニュアル通り、20Hz、20kHzで-0.3dBくらいとなっています。<br>
+<br>
+---2024年9月17日追記---<br>
+<br>
+出力が1.4dB程度ズレていたので改定（実際は0.1Vrmsではなく0.117Vrms出ていた）<br>
+WaveGene -1dB（0dBだと歪みあり）<br>
+UR22C OUTPUT<br>
+　10時：0.1Vrms（283mVpp）<br>
+　2時：1Vrms（2.83Vpp）<br>
+　最大：2.71Vrms（7.67Vpp）<br>
+INPUT2 GAINノブ→出力レベルが1VrmsのときWaveSpectraのMax表示が0dBとなるよう微調整<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

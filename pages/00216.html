@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Raspberry Pi でのCS4272使用方法</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Raspberry Pi でのCS4272使用方法</h1>
+  <p align="right">2018年03月26日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  Raspberry Pi（RPi）で音声信号向けのADCとDACを使う場合、最も手軽に使用できるICはWM8731だと思います。今回はさらなるノイズ低減を期待して、CS4272というICを試しました。<br>
+<br>
+<hr size="1"/><br>
+CS4272を使ったオーディオカードに<a href="https://hackaday.io/project/5912-teensy-super-audio-board" target="_blank">Teensy Super Audio Board</a>（SAB）というものがあり、<a href="https://github.com/whollender/SuperAudioBoard" target="_blank">KiCAD files and some test code</a>から回路図や使用ガイド等がダウンロードできます。このSABのデバイスドライバを利用するわけですが、<s>カーネルビルドというやや面倒な作業をしないとドライバを使えるようになりません。</s>→「rpi-update」コマンドで簡単に利用できるようになったようです。（2018年5月21日追記）<br>
+<br>
+<span style="color:#CCCCCC"><a href="https://www.raspberrypi.org/documentation/linux/kernel/building.md" target="_blank">RPi公式サイト記事Kernel building</a>のLocal buildingの通りに操作を行っていきます。<br>
+<br>
+[1]<br>
+$ <strong>sudo apt-get install git bc</strong><br>
+↓SAB用のカーネルソースをコピー<br>
+$ <strong>git clone --depth=1 https://github.com/whollender/linux</strong><br>
+<br>
+[2a] RPi 1, 0 の場合<br>
+$ <strong>cd linux</strong><br>
+$ <strong>KERNEL=kernel</strong><br>
+$ <strong>make bcmrpi_defconfig</strong><br>
+↓ビルド開始、RPi0で14時間程度かかる<br>
+$ <strong>make zImage modules dtbs</strong><br>
+<br>
+[2b] RPi 2, 3 の場合<br>
+$ <strong>cd linux</strong><br>
+$ <strong>KERNEL=kernel7</strong><br>
+$ <strong>make bcm2709_defconfig</strong><br>
+↓ビルド開始、RPi3で3時間程度かかる<br>
+$ <strong>make -j4 zImage modules dtbs</strong><br>
+<br>
+[3]<br>
+$ <strong>sudo make modules_install</strong><br>
+$ <strong>sudo cp arch/arm/boot/dts/*.dtb /boot/</strong><br>
+$ <strong>sudo cp arch/arm/boot/dts/overlays/*.dtb* /boot/overlays/</strong><br>
+$ <strong>sudo cp arch/arm/boot/dts/overlays/README /boot/overlays/</strong><br>
+$ <strong>sudo cp arch/arm/boot/zImage /boot/$KERNEL.img</strong><br>
+<br>
+そして再起動すると/boot/overlaysディレクトリにsuperaudioboard.dtboというファイルができています。続いて/boot/config.txtを編集します。<br>
+$ <strong>sudo nano /boot/config.txt</strong><br>
+　以下の2行の#を外す<br>
+　　#dtparam=i2c_arm=on<br>
+　　#dtparam=i2s=on<br>
+　最後に以下の1行を追加<br>
+　　dtoverlay=superaudioboard<br>
+<br>
+再起動後、<strong>lsmod</strong>コマンドでSABドライバのモジュールが確認できる…はずですが、読み込まれていないことがわかります。モジュール情報を<strong>modinfo</strong>コマンドで確認するとvermagic：4.9.59+という記載が出てきますが、ビルドしたカーネルのバージョン（リリース番号）を<strong>uname -r </strong>コマンドで確認すると4.9.80+となっています。強制的にモジュールを読み込ませようとしてみます。<br>
+$ <strong>sudo modprobe -f snd-soc-superaudioboard</strong><br>
+Exec format errorというのが出てきてダメでした。<br>
+<br>
+バージョン情報を編集して再ビルドするという方法を行います。参考ページ→<a href="https://musyoku.github.io/2016/09/07/Linux-4-Tegra%E3%81%ABv4l2loopback%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E5%85%A5%E3%82%8C%E3%82%8B%E6%99%82%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9/" target="_blank">Linux 4 Tegraにv4l2loopbackモジュールを入れる時の注意点</a><br>
+$ <strong>sudo nano linux/include/generated/utsrelease.h</strong><br>
+#define UTS_RELEASE "4.9.80+"という記載があるので、4.9.80+を4.9.59+（RPi 2, 3の場合は4.9.80-v7+→4.9.59-v7+）へ変更した後、もう一度[2a]（または[2b]）と[3]をやり直し再起動します。一度ビルドしているので早く終わります（未確認ですが、RPi3で1時間未満）。<br>
+※後から確認すると、再ビルド後のバージョンは4.9.80+でした。どこか記憶違いをしている部分があるかもしれません。<br>
+</span><br>
+<hr size="1"/><br>
+RPiとCS4272との接続は下図です。SABと同じように24.576MHzの水晶発振子と39pFのコンデンサを使います。<br>
+<a href="img/22_216_1cs.png" target="_blank"><img alt="22_216_1cs.png" border="0" height="210" src="img/22_216_1cs.png" width="420"/></a><br>
+<br>
+<strong>aplay -l</strong> コマンドでサウンドカードの確認ができます。接続が正しければ、CS4272がSABとして認識されているはずです。音量等の調節は<strong>alsamixer</strong>コマンドでできます（hキーでヘルプ表示）。<s>今後特に問題が出てこなければ、自作デジタルエフェクターRasPd3に採用する予定です。</s>→FILT+とVCOMピンが0Vになるという問題が解決できず、ボツになりました。（2018年5月7日追記）<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

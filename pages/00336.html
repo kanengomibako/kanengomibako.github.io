@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Ibanez TS9 Tube Screamer 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Ibanez TS9 Tube Screamer 解析</h1>
+  <p align="right">2024年03月30日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_336_01_ts9_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_336_01_ts9_pic.jpg" width="430"/></a><br>
+<a href="00291.html" target="_blank">BD-2</a>等のBOSSエフェクターは、スルーホール部品（THD）ではなく表面実装部品（SMD）が使われているものへ移行が進んでいます。最新のチューブスクリーマーでは何か変化があるのかどうか、TS9を調べてみることにしました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Ibanez/TS9" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+下記ブログ記事では2017年時点でのTS9の内部を見ることができます。今回私が購入した個体（おそらく2023年以降に製造）とほぼ同じです。<br>
+・ギターダー ～工房の片隅で～ - <a href="https://ameblo.jp/guitarder/entry-12298342364.html" target="_blank">TS9の現行モデルを購入したぞ。(その1)</a>　<a href="https://ameblo.jp/guitarder/entry-12298506079.html" target="_blank">(その2)</a>　<a href="https://ameblo.jp/guitarder/entry-12298789365.html" target="_blank">(その3)</a><br>
+<br>
+現行のTS9は、元々1982年に発売されたTS9を復刻したリイシュー･モデルです（<a href="https://www.ibanez.com/usa/products/detail/ts9_99.html" target="_blank">英語版公式サイト</a>で「reissue」の表記あり）。スルーホール部品や多数の配線は製造上非効率的なように感じられますが、今後もこのまま当時を再現した仕様で販売され続けると思われます。<br>
+<br>
+▽回路図<br>
+<a href="img/09_336_02_Ibanez_Tube_Screamer_TS9_Schematic.png" target="_blank"><img alt="Ibanez Tube Screamer TS9 Schematic" border="0" height="451" src="img/09_336_02_Ibanez_Tube_Screamer_TS9_Schematic.png" width="681"/></a><br>
+スルーホール部品は製造中止になるものが多く、代替品をどう選ぶかが問題になります。ダイオードはonsemi製の1N4148となっています。KTC3198は、KECという韓国東芝として設立された会社が製造している2SC1815互換品です。2SK2881は2SK30A互換品というわけではないので、現行生産の信頼できるスルーホール部品として選ばれたのでしょう。<br>
+<br>
+ある時期（MAXON製からIbanez製に移行したとき？）から、C8とC11が積層セラミックコンデンサ（MLCC）に変わっています。音響機器のカップリングコンデンサにMLCCを使うことは通常望ましくないので、わざわざこのような変更があるのは珍しいように思います。<br>
+<br>
+C4については印字がかすれていて読めず、とりあえず51pFとしています（実測49pF）。50pFか56pFかもしれません。<br>
+<a href="img/09_336_03_ts9_cpic.jpg" target="_blank"><img border="0" height="100" src="img/09_336_03_ts9_cpic.jpg" width="100"/></a><br>
+<br>
+回路の詳細に関してはすでに素晴らしい解説があります。下記リンク先をご参照ください。<br>
+・GEO - <a href="https://www.geofex.com/article_folders/tstech/tsxtech.htm" target="_blank">The Technology of the Tube Screamer</a><br>
+・ElectroSmash.com - <a href="https://electrosmash.com/tube-screamer-analysis" target="_blank">Tube Screamer Analysis</a><br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>バイパス音<br>
+<a href="img/09_336_11_ts9_s01.png" target="_blank"><img border="0" height="211" src="img/09_336_11_ts9_s01.png" width="450"/></a><br>
+<a href="00291.html" target="_blank">BD-2（SMDバージョン）</a>との比較です。SMD版になってアップデートされたBOSSのバッファではほぼフラットですが、TS9ではやや低音域の低下が見られます。<br>
+<br>
+</li><li>DRIVE、TONE<br>
+<a href="img/09_336_12_ts9_s02.png" target="_blank"><img alt="09_336_12_ts9_s02.png" border="0" height="220" src="img/09_336_12_ts9_s02.png" width="450"/></a><br>
+<a href="img/09_336_13_ts9_s03.png" target="_blank"><img alt="09_336_13_ts9_s03.png" border="0" height="220" src="img/09_336_13_ts9_s03.png" width="450"/></a><br>
+BOSS SD-1との比較です。ゲイン・音量は同じくらいになるように調整してあります。SD-1はDRIVEポットが1MΩのBカーブなので、より歪みやすく感じられます。また、SD-1の方が低音域のカットが大きいです。<br>
+<br>
+下記ページではTS808とSD-1が詳細に比較・解析されています。<br>
+・<a href="https://barbarach.com/tube-screamer-like-pedals/" target="_blank">Tube Screamer Like Pedals</a><br>
+</li><br>
+<hr size="1"/><br>
+実測した周波数特性がシミュレーションとズレていたため調査すると、タンタルコンデンサC5が原因だとわかりました。高い周波数での静電容量の低下が大きくなっています。おそらく珍しい不良だと思いますが、同じ不具合に遭遇する方がいるかもしれないので報告しておきます。<br>
+<a href="img/09_336_14_ts9_s04.png" target="_blank"><img border="0" height="209" src="img/09_336_14_ts9_s04.png" width="472"/></a><br>
+<br>
+<br>
+ 
+</ul>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

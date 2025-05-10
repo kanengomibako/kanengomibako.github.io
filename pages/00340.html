@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ZOOM MS-50G+ MultiStomp 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ZOOM MS-50G+ MultiStomp 分解・特性測定</h1>
+  <p align="right">2024年05月11日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_340_01_ms50gp_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_340_01_ms50gp_pic.jpg" width="415"/></a><br>
+<a href="00339.html" target="_blank">前回のZOOM MS-50G</a>に引き続き、<a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank">MS-50G+</a>を分解、特性測定しました。<br>
+<br>
+<hr size="1"/><br>
+【分解】<br>
+裏フタのネジを4個（2個はゴム足で隠れている）とジャックのナットを外すと、黒い金属枠を取り外すことができます。<br>
+<a href="img/09_340_02_ms50gpi2.jpg" target="_blank"><img border="0" height="300" src="img/09_340_02_ms50gpi2.jpg" width="300"/></a><br>
+灰色の部分は樹脂のような材質ですが、黒い部分は頑丈な金属なので、ジャックの抜き差しで力がかかっても問題ありません。筐体全てが金属ではないため、入力ジャックの周りにノイズ対策のシールドが付いています。<br>
+<br>
+▽基板画像<br>
+<a href="img/09_340_04_ms50gpi4.jpg" target="_blank"><img border="0" height="339" src="img/09_340_04_ms50gpi4.jpg" width="350"/></a> <a href="img/09_340_03_ms50gpi3.jpg" target="_blank"><img border="0" height="233" src="img/09_340_03_ms50gpi3.jpg" width="350"/></a><br>
+<a href="img/09_340_05_ms50gpi5.jpg" target="_blank"><img border="0" height="200" src="img/09_340_05_ms50gpi5.jpg" width="433"/></a> <a href="img/09_340_06_ms50gpi6.jpg" target="_blank"><img border="0" height="200" src="img/09_340_06_ms50gpi6.jpg" width="200"/></a><br>
+＜主なIC＞<br>
+DSP：TMS320C6745（旧機種MS-50Gと同じ）<br>
+DRAM：EM638165TSE-7G<br>
+フラッシュメモリ：W25Q64JV<br>
+ADC：PCM1803A<br>
+DAC：PCM5101A<br>
+オペアンプ：NJM2100<br>
+ヘッドフォンアンプ：TS482<br>
+<br>
+入力バッファのトランジスタは、<a href="00339.html" target="_blank">旧機種</a>と同じ2SC2412Kです。旧機種で使われていたADCの<a href="https://www.jp.cirrus.com/products/wm8782/" target="_blank">WM8782</a>は生産終了のため、<a href="https://www.ti.com/product/ja-jp/PCM1803A" target="_blank">PCM1803A</a>へと変更されています。<a href="https://www.ti.com/product/ja-jp/PCM1803A" target="_blank">PCM1803A</a>は内部にオペアンプがないため、NJM2100で別途ゲイン調整してあるようです。出力部にはTS482があるので、充分な音量でヘッドフォン駆動できます（公式記載はなし）。<br>
+<br>
+<a href="00339.html" target="_blank">旧機種</a>と同様、入力音量によってSN比が変化するのが確認できました。切り替わる境目の音量は120mVrmsあたりのようです。<br>
+<a href="img/09_340_10_ms50gp_f0.png" target="_blank"><img border="0" height="209" src="img/09_340_10_ms50gp_f0.png" width="477"/></a><br>
+高音域についてはノイズレベルの差があまりありません。ノイズ対策として、プリエンファシス・ディエンファシスが組み込まれている可能性があります。<br>
+<br>
+<hr size="1"/><br>
+▽バイパス音 ※±1dBに拡大<br>
+（DIRECT：測定に使用している<a href="00261.html" target="_blank">オーディオインターフェースUR22C</a>の入出力を直結）<br>
+<a href="img/09_340_11_ms50gp_f1.png" target="_blank"><img border="0" height="209" src="img/09_340_11_ms50gp_f1.png" width="477"/></a><br>
+音量が違うためわかりにくいですが、MS-50G+では低音域のカットが改善されています。高音域側が波打つような形になっているのは、おそらく<a href="https://www.ti.com/product/ja-jp/PCM1803A" target="_blank">PCM1803A</a>の内部デジタルフィルタによる影響です。レイテンシは約2msで、旧機種の1.2msから若干増えています。<br>
+<br>
+<hr size="1"/><br>
+＜旧機種MS-50Gとの周波数特性比較＞<br>
+<br>
+BOSS DS-1とチューブスクリーマーのモデリングです。<br>
+<a href="img/09_340_12_ms50gp_ds1.png" target="_blank"><img border="0" height="153" src="img/09_340_12_ms50gp_ds1.png" width="350"/></a><a href="img/09_340_13_ms50gp_ts.png" target="_blank"><img border="0" height="153" src="img/09_340_13_ms50gp_ts.png" width="350"/></a><br>
+TS DRIVEについてはほぼ一致しています。全てのエフェクトで確認したわけではありませんが、旧機種で後から追加されたエフェクトについては、同じ処理なのではないかと思います。<br>
+<br>
+プリアンプのうち、モデリング元が明記されているHiwatt Custom 100とOrange Graphic 120です。※旧機種のOUT設定をLINEにすると少し低音域・高音域が増強されますが、大きくは変わりません。<br>
+<a href="img/09_340_14_ms50gp_hw.png" target="_blank"><img border="0" height="153" src="img/09_340_14_ms50gp_hw.png" width="350"/></a><a href="img/09_340_15_ms50gp_or.png" target="_blank"><img border="0" height="153" src="img/09_340_15_ms50gp_or.png" width="350"/></a><br>
+両機種共に大きく異なっています。<a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-200d-plus/" target="_blank">MS-200D+</a>のエフェクトリストのプリアンプには、「アンプ接続に適したサウンドに仕上げました」という説明があります。MS-50G+のプリアンプもアンプのリターン挿しを想定したものではなく、歪みエフェクターとしてアレンジしてあると思われます。<br>
+<br>
+プリアンプはマルチレイヤーIRを採用してあるということで、入力音量による変化を確認しました。-40dBの特性を画像編集で移動し重ねてあります。<br>
+<a href="img/09_340_16_ms50gp_ms.png" target="_blank"><img border="0" height="153" src="img/09_340_16_ms50gp_ms.png" width="350"/></a><a href="img/09_340_17_ms50gp_fd.png" target="_blank"><img border="0" height="153" src="img/09_340_17_ms50gp_fd.png" width="350"/></a><br>
+MS1959では音量が大きい方が高音域が下がっています。FD TWIN-Rのように変化しない場合もあります。<br>
+<br>
+<hr size="1"/><br>
+＜総評＞<br>
+2012年発売の旧機種MS-50Gから11年の時を経て発売されたMS-50G+ですが、DSPが同じなので基本的な処理能力は変わっていないと考えられます。よって今までより複雑な処理を行っているわけではなく、処理の効率化・代替等でブラッシュアップを図ってあるようです。もちろん複雑な処理をするほど音質が素晴らしいというわけではありませんが、個人的には進化したというよりアレンジが変わったという印象です。また、アンプのリターン差しやライン・レコーディングに不向きになったので、そのような使い方をしていた人にとっては不便に感じられることでしょう。今後はプリアンプ・IRに特化した機種が発売されるようなので、動向に注目したいと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

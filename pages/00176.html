@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Raspberry Pi 用USBオーディオインターフェースの選定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Raspberry Pi 用USBオーディオインターフェースの選定</h1>
+  <p align="right">2017年04月15日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  Raspberry Piはマイク入力がないため、別途USBオーディオインターフェースが必要となります。とりあえず試した3種類を紹介しておきます。<br>
+<br>
+■<a href="https://jp.creative.com/p/sound-blaster/sound-blaster-play" target="_blank">Creative Sound Blaster Play!</a><br>
+たまたま手持ちにあったもので、現在は後継機種が出ています。<br>
+・分解されている方の記事→<a href="https://www.katsuster.net/index.php?arg_act=cmd_show_diary&amp;arg_date=20141026&amp;arg_range=1&amp;arg_direction=0" target="_blank">USB DAC を分解</a><br>
+C-Media CM119というICチップが使われています。Raspberry Piに挿すだけで認識し、録音・再生ができます。しかしPure Dataでは「tried but couldn't sync A/D/A」というエラーが数分に一度発生し、一瞬だけノイズが出ます。いろいろ設定を変えましたがこのエラーは消えないため、別のものを試すことにしました。<br>
+<br>
+■<a href="https://plugable.com/ja/products/usb-audio/" target="_blank">Plugable USB オーディオ変換アダプタ</a><br>
+<a href="img/03_176_1usbp.jpg" target="_blank"><img alt="03_176_1usbp.jpg" border="0" height="150" src="img/03_176_1usbp.jpg" width="450"/></a><br>
+接着剤で固めてあるため、分解すると元に戻せません。USB端子側のプラスチック部分を壊す方が楽だと思います。<br>
+こちらはC-Media HS100BというICチップとなっています。これも認識は問題ありませんが、Pure Dataで上記と同じエラーが発生します。市販されている安価なUSBオーディオインターフェースはおそらくC-MediaのICを使っているでしょうから、別のものを買っても同じエラーになりそうです。エラー時のノイズは一瞬でほとんど気づかないため、やむを得ずこれを使っていくことにします。※現在はエラーは出ていません（追記参照）。<br>
+<br>
+周波数特性を測定してみると、低域がかなり削られています。たぶん入力のコンデンサの容量が少ないのだろうと思い入力から辿っていくと、コンデンサC12が怪しいとわかりました。これに10μFの積層セラミックコンデンサを並列に追加すると特性が改善しました（1μFのフィルムコンデンサ等でも大丈夫だと思います）。<br>
+<a href="img/03_176_2usbpp.jpg" target="_blank"><img alt="03_176_2usbpp.jpg" border="0" height="200" src="img/03_176_2usbpp.jpg" width="200"/></a><br>
+入力インピーダンスが低いため、ギターを繋ぐ場合は前段にバッファーが必要となります。バッファー等に関しては別に記事を書く予定です。<br>
+<br>
+■<a href="https://www.music-group.com/Categories/Behringer/Computer-Audio/Audio-Interfaces/UCG102/p/P0198" target="_blank">BEHRINGER GUITAR LINK UCG102</a><br>
+<a href="img/03_176_3usbu.jpg" target="_blank"><img alt="03_176_3usbu.jpg" border="0" height="338" src="img/03_176_3usbu.jpg" width="300"/></a><br>
+だいぶ前に買ったのですが、現在は値上がりしているようです。Texas Instruments PCM2902というICチップが使われています。少し基板が大きいので採用保留としました。軽くテストしかしていませんが、これもたまにPure Dataのエラーが出ます。ただバッファーが不要なのは楽なので、今後こちらに変更するかもしれません。<br>
+<br>
+---以下2017年4月17日追記---<br>
+<br>
+「tried but couldn't sync A/D/A」というエラーは下記サイトを見て導入したリアルタイムカーネル（もしくは、cmdline.txtの設定項目）が原因かもしれません。導入せずにセットアップすると、今のところエラーは発生していません。特にレイテンシーも変わらないため、導入しない方がよさそうです。<br>
+・リアルタイムカーネル導入参考ページ→<a href="https://artteknika.hatenablog.com/entry/2016/08/23/143710" target="_blank">Raspberry Pi 3とリアルタイムカーネル(3)[自前ビルド無し導入編(おまけ)]</a><br>
+コメント欄に「I2Sのサウンドデバイスでレイテンシーが抑えられる」という記載もあるので、今後の検討課題です。<br>
+<br>
+■USB接続ミニマイク<br>
+<a href="img/03_176_4usbm.jpg" target="_blank"><img alt="03_176_4usbm.jpg" border="0" height="135" src="img/03_176_4usbm.jpg" width="320"/></a><br>
+分解しただけですが、一応おまけで紹介しておきます。ICを覆う黒い樹脂は取り除けませんでしたが、lsusbコマンドで確認するとC-Media CM108と認識していました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

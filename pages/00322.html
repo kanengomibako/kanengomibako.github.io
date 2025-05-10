@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>FREE THE TONE IRON FOREST IF-1D 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>FREE THE TONE IRON FOREST IF-1D 解析</h1>
+  <p align="right">2023年08月25日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_322_01_ironf_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_322_01_ironf_pic.jpg" width="338"/></a><br>
+<a href="https://www.freethetone.com/" target="_blank">FREE THE TONE</a>はプロミュージシャンの機材で目にすることが多いメーカーです。今回は生産終了品の<a href="https://www.freethetone.com/products/detail45/" target="_blank">IRON FOREST</a>を中古で入手し解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/FreeTheTone/IronForest" target="_blank">GitHub</a>にあります。<br>
+<br>
+<a href="img/09_322_05_ironf_do.jpg" target="_blank"><img alt="09_322_05_ironf_do.jpg" border="0" height="240" src="img/09_322_05_ironf_do.jpg" width="180"/></a><br>
+4つのクリッピングダイオードのうち、D3は1S1588のような外観で、おそらく小信号用汎用ダイオードです。D2、D6、D7はあまり見かけないSOD-57というパッケージで、マーキングがないため型番を特定するのはあきらめました。順方向電圧VFを測定すると、1N4148の0.64Vより少し小さい0.60Vと出ました。端子間容量は、LCRメータでを測定すると1nF程度となりうまくいきませんでしたが、周波数特性から推定すると数十pF程度ありそうです。<br>
+<br>
+オペアンプはホットボンドのようなものが付いていましたが、爪で簡単に剥がすことができました。NJM4558Dという一般的なオペアンプが使用されています。同時発売のGIGS BOSONも同様です（参考ページ→<a href="https://note.com/ebi_san_tech/n/n1ff80a025106" target="_blank">FREE THE TONE GIGS BOSON GB-1Vの修理</a>）。特に隠す必要はないように思いますが……<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_322_02_FREE_THE_TONE_IRON_FOREST_IF-1D_Schematic.png" target="_blank"><img alt="FREE THE TONE IRON FOREST IF-1D Schematic" border="0" height="232" src="img/09_322_02_FREE_THE_TONE_IRON_FOREST_IF-1D_Schematic.png" width="556"/></a><br>
+歪みの回路はシンプルなオペアンプの反転増幅です。LEDインジケーターは電源電圧が約5.5V以下で消灯するようになっています。バイパスはバッファと機械式スイッチを使った方式で、HTSサーキットと命名されています。フリーザトーン代表 林氏のブログに開発秘話が掲載されていますので、併せてご参照ください。<br>
+・<a href="https://yhayashi.blog.ss-blog.jp/2012-10-07-1" target="_blank">GIGS BOSON &amp; IRON FOREST開発秘話(1)</a><br>
+・<a href="https://yhayashi.blog.ss-blog.jp/2012-10-17" target="_blank">GIGS BOSON &amp; IRON FOREST開発秘話(2)　設計姿勢とHTSサーキット</a><br>
+・<a href="https://yhayashi.blog.ss-blog.jp/2012-11-26-1" target="_blank">GIGS BOSON開発秘話(3)</a><br>
+・<a href="https://yhayashi.blog.ss-blog.jp/2012-12-02" target="_blank">IRON FOREST開発秘話(4)</a><br>
+<ul><li>入力バッファ<br>
+<a href="https://www.diystompboxes.com/smfforum/index.php?topic=124166.0" target="_blank">PETE CORNISHのバッファ</a>と同様のの回路です。C14による正帰還をかけることにより、入力インピーダンスを高くすることができます（参考ページ→<a href="https://cc.cqpub.co.jp/system/contents/3073/" target="_blank">ブートストラップがあるエミッタ・フォロワの特性</a>）。シミュレーションしてみると、Q1のhFEによって入力インピーダンスが変化するようで、注意が必要かと思います。また、バイアス電圧が7.3Vなので許容入力電圧があまり大きくありません。</li></ul><br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>増幅部<br>
+<a href="img/09_322_11_ironf_s1.png" target="_blank"><img border="0" height="208" src="img/09_322_11_ironf_s1.png" width="450"/></a><br>
+低音域のカットが比較的少ないです。<a href="https://yhayashi.blog.ss-blog.jp/2012-12-02" target="_blank">IRON FOREST開発秘話(4)</a>にあるように、FUZZっぽいサウンドを出すのに適していると考えられます。<br>
+</li><br>
+<li>BASS TREBLE 各0%→50%→100%<br>
+<a href="img/09_322_12_ironf_s2.png" target="_blank"><img border="0" height="208" src="img/09_322_12_ironf_s2.png" width="450"/></a><br>
+<a href="https://sound-au.com/articles/eq.htm#s4" target="_blank">James EQ</a>と呼ばれるパッシブトーン回路の形です。Baxandall（BAX型）トーン回路とは違い、増幅と減衰が対称的になりません。BASS 50% TREBLE 50%では、中音域がカットされる状態になっています。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

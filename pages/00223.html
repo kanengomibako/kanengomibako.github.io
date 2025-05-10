@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MOSリレーバイパス</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MOSリレーバイパス</h1>
+  <p align="right">2018年06月21日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <img alt="02_223_1mrbP.jpg" border="0" height="180" src="img/02_223_1mrbP.jpg" width="180"/><br>
+ソリッドステートリレーを利用したエフェクトのバイパス方法をバッファーなしで検討していました（<a href="00222.html">別記事参照</a>）が、音漏れやポップノイズの問題が解決できなかったため結局バッファードバイパスにすることにしました。<a href="00131.html">BOSS筐体BD-2</a>に採用しています。あまり利点がないバイパス方式となってしまいましたので、再度作ることはなさそうです。素直にラッチングリレーを使った方がよいでしょう。<br>
+<br>
+▽回路図<br>
+<a href="img/02_223_2mrbs.png" target="_blank"><img alt="02_223_2mrbs.png" border="0" height="165" src="img/02_223_2mrbs.png" width="380"/></a><br>
+秋月電子で安売りしている光MOSFET PS7200K-1Aを使用しましたが、フォトリレーTLP222Aでも問題ないと思います。エフェクト側の入力部分の回路によってはバイパス音に影響が出るので、本来は入力の分岐前にもバッファーを入れた方がよさそうです。バイアス電圧Vbはエフェクト回路から引っ張ってきています。<br>
+<br>
+▽レイアウト<br>
+<a href="img/02_223_3mrbp.png" target="_blank"><img alt="02_223_3mrbp.png" border="0" height="186" src="img/02_223_3mrbp.png" width="180"/></a><br>
+<br>
+▽Arduinoスケッチ（ATtiny13A用）<br>
+<code><pre>#define SW_PIN 3<br>
+#define BYPASS_PIN 0<br>
+#define FX_ON_PIN 1<br>
+#define LED_PIN 4<br>
+<br>
+int sw_value = 0;<br>
+long sw_count = 0; // intだとオーバーフローするかも<br>
+boolean fx_state = false;<br>
+<br>
+void setup() {<br>
+  pinMode(SW_PIN, INPUT_PULLUP); // 内部プルアップ抵抗有効<br>
+  pinMode(BYPASS_PIN, OUTPUT);<br>
+  pinMode(FX_ON_PIN, OUTPUT);<br>
+  pinMode(LED_PIN, OUTPUT);<br>
+  digitalWrite(BYPASS_PIN, HIGH); // 初期値はバイパス<br>
+  digitalWrite(FX_ON_PIN, LOW);<br>
+  digitalWrite(LED_PIN, HIGH); // 電源オン時LEDが2回点灯<br>
+  delay(300);<br>
+  digitalWrite(LED_PIN, LOW);<br>
+  delay(300);<br>
+  digitalWrite(LED_PIN, HIGH);<br>
+  delay(300);<br>
+  digitalWrite(LED_PIN, LOW);<br>
+}<br>
+<br>
+void loop() {<br>
+  sw_value = digitalRead(SW_PIN);<br>
+  if (sw_value == LOW) {<br>
+    sw_count += 1;<br>
+  } else {<br>
+    sw_count = 0;<br>
+  }<br>
+  <br>
+  if (sw_count == 10) {  // 10msスイッチ押すとエフェクト切替（チャタリング対策）<br>
+    fx_state = !fx_state;<br>
+    if (fx_state) {<br>
+      digitalWrite(FX_ON_PIN, HIGH); // HIGHにするピンの順番が逆だとポップノイズあり<br>
+      delay(2); // これがないとポップノイズあり<br>
+      digitalWrite(BYPASS_PIN, LOW);<br>
+      digitalWrite(LED_PIN, HIGH);<br>
+    } else {<br>
+      digitalWrite(BYPASS_PIN, HIGH);<br>
+      delay(2);<br>
+      digitalWrite(FX_ON_PIN, LOW);<br>
+      digitalWrite(LED_PIN, LOW);<br>
+    }<br>
+  }<br>
+  delay(1);<br>
+}<br>
+</pre></code>チャタリング対策の参考ページ→<a href="https://www.seminar.aizu.or.jp/1-arduino-switch/">Arduinoの基礎 – スイッチのオン・オフを読み取る</a><br>
+ATtiny13Aの使用方法は<a href="00221.html">こちらの記事へ</a><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

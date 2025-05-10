@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Fender Hammertone Overdrive 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Fender Hammertone Overdrive 解析</h1>
+  <p align="right">2023年09月07日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_325_01_hod_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_325_01_hod_pic.jpg" width="365"/></a><br>
+<a href="https://www.fender.com/ja-JP/effects-pedals/hammertone/" target="_blank">Fender Hammertoneシリーズ</a>のエフェクターは表面実装部品が使われているため、なかなか解析する人がいないようです。しかしながら1種類くらいは回路を見てみたいと思い、<a href="https://www.fender.com/ja-JP/effects-pedals/boost-gain/hammertone-overdrive/0234571000.html" target="_blank">Overdrive</a>を中古で入手し解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Fender/HammertoneOverdrive" target="_blank">GitHub</a>にあります。<br>
+<br>
+<a href="img/09_325_05_hod_p2.jpg" target="_blank"><img border="0" height="267" src="img/09_325_05_hod_p2.jpg" width="150"/></a><a href="img/09_325_06_hod_p3.jpg" target="_blank"><img border="0" height="150" src="img/09_325_06_hod_p3.jpg" width="150"/></a><br>
+ケースの設計や内部の配線がしっかりしていて、低価格とは思えない作りだと感じました。ただノブは金属部が薄く、取り外す場合は注意が必要です。LEDの輝度調整トリマーを付けられる部分が見えますが、利用するには内部のジャンパー抵抗を取り外す必要があります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_325_02_Fender_Hammertone_Overdrive_Schematic.png" target="_blank"><img alt="Fender Hammertone Overdrive Schematic" border="0" height="220" src="img/09_325_02_Fender_Hammertone_Overdrive_Schematic.png" width="640"/></a><br>
+ミッドブーストにはジャイレータ（シミュレーテッドインダクタ）が使われています。設計者のこだわりなのか、バイアス電圧が5Vになっていたり、4.5Vが2ヶ所分けてあったりします。バイパス方式はMOSFETを使った<a href="https://www.geofex.com/article_folders/millenium/millen.htm" target="_blank">Millenium 2バイパス</a>です。<br>
+<br>
+ダイオードクリッピングは、ソフトクリッピングとハードクリッピングを組み合わせたタイプです。下記ページで2ステージ回路として紹介されています。<br>
+・<a href="https://allaccess.co.jp/blog/strymon/692/" target="_blank">シングルステージ vs マルチステージ・ゲイン・トポロジー</a><br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>PRE-MID BOOST<br>
+<a href="img/09_325_11_hod_s1.png" target="_blank"><img border="0" height="208" src="img/09_325_11_hod_s1.png" width="450"/></a><br>
+600Hz付近を11dBブーストできます。<br>
+</li><br>
+<li>GAIN<br>
+<a href="img/09_325_12_hod_s2.png" target="_blank"><img border="0" height="208" src="img/09_325_12_hod_s2.png" width="450"/></a><br>
+チューブスクリーマーとの比較です。増幅率や低音域の調整具合が少し違っています。<br>
+</li><br>
+<li>内部TONE  <br>
+<a href="00308.html" target="_blank">Fender The Trapper Dual Fuzz</a>と同じ、10kΩと33nFのローパスフィルタです。トリマーはCカーブではなくBカーブ（直線変化）なので、微調整はやりにくいかもしれません。基本的には最大にしておき、必要に応じてハイカットするという使い方でよいかと思います。<br>
+</li><br>
+<li>TONE<br>
+<a href="img/09_325_13_hod_s3.png" target="_blank"><img border="0" height="208" src="img/09_325_13_hod_s3.png" width="450"/></a><br>
+チューブスクリーマー（ハイカットのコンデンサなし）との比較です。Hammertone Overdriveの方が高音域寄りの調整となっています。<br>
+</li></ul><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

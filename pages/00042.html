@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>PT2399 Chorus</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>PT2399 Chorus</h1>
+  <p align="right">2009年01月04日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  この記事は2009年の古い記事で、現在ではPT2399の2番ピンを利用したコーラスがあります。<a href="https://www.electrosmash.com/pt2399-analysis" target="_blank">ElectroSmash - PT2399 Analysis</a>や別記事（<a href="00270.html" target="_blank">Reincarnation Chorus</a>）をご参照ください。（2021年8月23日追記）<br>
+<br>
+<hr size="1"/><span style="color:#999999"><br>
+Rebote Delayに使われているPT2399というディレイ専用のデジタルICがあります。これを使ってコーラスを作ってみようという案です。<br>
+<br>
+コーラスは簡単に言うと「ディレイタイムを周期的に変化させるディレイ」です。単純にRebote DelayにLFO（Low Frequency Oscilｌator：低周波発振器）を入れてやれば出来そうな気がします。<br>
+<br>
+DIYstompboxesというサイトでEcho Baseという同じ発想のエフェクターの回路図があったと思うので気になる人は探してみてください。<br>
+<br>
+とりあえずブレッドボード上でPT2399のデータシートにある回路を組んでみました（ありあわせの部品なので多少値は違いますが）。でも低インピーダンスじゃないとダメみたいで前にバッファを入れます。そしてデータシートのように抵抗値とディレイタイムの関係を測定してみました（下グラフ）。<br>
+<img alt="14_42_1Dtime.gif" border="0" height="284" src="img/14_42_1Dtime.gif" width="372"/><br>
+比例関係にあるのがわかります。Y軸切片からディレイタイムの最小値は約30msのようです。そこから5kΩごとに約60ms増えていく感じです。コーラスに使うにはギリギリのディレイタイムかもしれません。<br>
+<br>
+抵抗値があまり0に近すぎるとノイズが入るようです。TONEPADではそこらへんを考えているのかも。あと、ディレイタイムを長くするほど、リピートを重ねるほどディレイ音が歪んできます。50kΩ（630ms）ぐらいが限度でしょう。<br>
+<br>
+でLFOをつけてみます。LFOによる電圧の揺れを抵抗値の揺れに変換するわけですが、それにはトランジスタやフォトカプラが使えそうです（私もよくわかってないですが…）。<br>
+<br>
+LFOはZombieChorusのを使ってみました。そしてEcho Baseに倣ってFET（2SK30ATM-GR）を使ってみました。するとコーラス音が出ました！しかしDepthのポイントがすごく狭いです（ほとんど一点）。<br>
+<br>
+今度はフォトカプラ（TLP521）を使ってみました。やはりコーラス音は出るんですが、ポイントが狭いです。<br>
+<br>
+どうやら結構シビアな調整が必要なようです。私はLFOのことを全くわかってないので、勉強してから再挑戦したいと思います。どうせなら変態的にしてみたいところです。<br>
+<br>
+＜以上2008年4月8日、以下2009年1月4日追記＞<br>
+<br>
+しばらく放置していましたが、Rebote Delay 2.5にEcho BaseのLFOをつけてみました。<br>
+<a href="img/14_42_2LFOs.gif" target="_blank"><img alt="14_42_2LFOs.gif" border="0" height="300" src="img/14_42_2LFOs.gif" width="480"/></a><br>
+<br>
+トリマーを2kぐらいに合わせるとコーラス音が出ました。でもやっぱり普通のアナログコーラスの音のほうがいいです…トリマーなしでRebote Delay 2.5のディレイポットを使うとディレイ音にモジュレーションかかって怪しい音が出せますので、これはこれでよいかもしれません。<br>
+<br>
+というわけで結局コーラスを作ることは失敗に終わりました。そのうちgarrettaudioで安く手に入るV3102とV3207を使って（できればMXRサイズで）コーラスを作ってみたいと思います。<br>
+<br>
+</span>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

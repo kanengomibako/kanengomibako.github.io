@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS WAZA CRAFT SD-1W SUPER OverDrive 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS WAZA CRAFT SD-1W SUPER OverDrive 解析</h1>
+  <p align="right">2024年02月14日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_334_01_sd1w_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_334_01_sd1w_pic.jpg" width="430"/></a><br>
+<a href="https://drugscore.blog.fc2.com/00293.html" target="_blank">BOSS BD-2W</a>に引き続き、<a href="https://www.boss.info/jp/products/sd-1w/" target="_blank">SD-1W</a>を解析しました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/BOSS/SD1W" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_334_02_BOSS_SD-1W_schematic.png" target="_blank"><img alt="BOSS SD-1W schematic" border="0" height="313" src="img/09_334_02_BOSS_SD-1W_schematic.png" width="703"/></a><br>
+<a href="https://drugscore.blog.fc2.com/00293.html" target="_blank">BD-2W</a>では、オペアンプの増幅となっている部分がディスクリート構成へと変わっていました。今回のSD-1Wでも同様の回路となっており、特に目新しい部分はないようです。オペアンプ2回路分の増幅に、カスタム・モードでもう一段増幅部が追加されています。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>初段増幅部（DRIVE 0% → 50% → 100%）<br>
+<a href="img/09_334_11_sd1w_s1.png" target="_blank"><img border="0" height="208" src="img/09_334_11_sd1w_s1.png" width="620"/></a><br>
+カスタム・モードでは増幅率が上がります。DRIVEが低い時以外は周波数特性の変化が少ないです。<br>
+</li><br>
+<li>カスタム・モードで追加された増幅部<br>
+<a href="img/09_334_12_sd1w_s2.png" target="_blank"><img border="0" height="208" src="img/09_334_12_sd1w_s2.png" width="450"/></a><br>
+低音～中音域あたりが増幅されています。+2dB程度なので、あまりわかりやすい変化ではないかと思います。<br>
+</li></ul><br>
+<hr size="1"/><br>
+<strong>【未実装の部品】</strong><br>
+<br>
+基板上には未実装の部品が多数あることが確認できます。KiCadファイルでは未実装の部品（Empty表記）も載せています。<br>
+<a href="img/09_334_21_sd1w_sche.png" target="_blank"><img border="0" height="233" src="img/09_334_21_sd1w_sche.png" width="480"/></a><br>
+ジャイレータ（シミュレーテッドインダクタ）等が構成されていて、周波数特性を変化させる検討をした様子をうかがい知ることができます。しかしながら結局は未実装になったということで、元のSD-1からそれほど離れない方がよいと判断されたのだろうと思います。<br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

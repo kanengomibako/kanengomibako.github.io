@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ARION SCH-Z STEREO CHORUS 改造</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ARION SCH-Z STEREO CHORUS 改造</h1>
+  <p align="right">2008年01月10日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  ARION SCH-Z STEREO CHORUSといえば激安のわりに良いということで評判です。しかしながら音量が上がるとか低音出すぎとかいう問題もあります。そこで改造を施してみることにしました。<br>
+<br>
+回路図がネット上には無いみたいなので、採取してみることにしました。正直すごく大変でした。<br>
+<a href="img/09_037_1Arion_SCH_Z_sch.gif" target="_blank">Arion SCH-Z Stereo Chorus schematic（画像クリックで拡大）<br>
+<img border="0" height="283" src="img/09_037_1Arion_SCH_Z_sch.gif" width="417"/></a><br>
+<br>
+<hr size="1"/><br>
+改造していきます。<br>
+<br>
+まず、ステレオは使わないので部品をとっぱらいました。オペアンプの使わない入力はアースに落としておきます。あとコンデンサをところどころ交換してみました。音質が上がったような気分になります。<br>
+<br>
+トーン回路の周波数特性をシミュレーションしてみました。<br>
+<img border="0" height="266" src="img/09_037_2SCHZf.gif" width="541"/><br>
+青がトーンつまみ0、緑が5、赤が10です。ただしポットがBカーブでのシミュレーションです。実際にはAカーブなのでつまみが真ん中ぐらいだと低域が強調されてしまいます。これがブーミーだといわれる原因だと思います。Aカーブだとだいたい7ぐらいで特性がフラットになるみたいです。<br>
+<br>
+どうもこの低域をブースト／カットするトーン回路は使えなさそうです。なので部品を取っ払って下図のようにしました。<br>
+<img border="0" height="100" src="img/09_037_3SCHZmod.gif" width="184"/><br>
+ポットはエフェクトレベルの調整になります。同時にR27は22kΩにしてます。ただしAカーブなので最後のほうで急に音量が上がります。まぁ音量を上げることはまずないと思うのでよしとします。<br>
+<br>
+C30を大きくするとエグい感じになりますが、結局47pがベストみたいで変えていません。<br>
+<br>
+LFOの回路はよく知らないんですが、C32を小さくすると揺れのスピードが上がります。ステレオ化をなくして余ったスイッチを加速スイッチにしました。<br>
+<br>
+↓改造後中身写真（クリックで拡大）<br>
+<a href="img/09_037_4SCHZin.jpg" target="_blank"><img border="0" height="215" src="img/09_037_4SCHZin.jpg" width="138"/></a><br>
+ベタですがLEDは青に変えてます。ジャンパーだらけですが、なかなか使いやすくなったんじゃないでしょうか。<br>
+<br>
+<hr size="1"/>もっと簡単な改造<br>
+<br>
+トーンコントロールは右に回すほど低音カットになる、ということを頭に入れておけばそれほど使いにくくないかもしれません。それでも音量を小さくしたいなら、R27（ステレオアウト側はR33）を82kΩや100kΩにすれば改善できそうです。ただしコーラスのかかり方が薄くなります。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

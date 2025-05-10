@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>カレントダブラーケーブル 分解</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>カレントダブラーケーブル 分解</h1>
+  <p align="right">2023年06月25日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_316_01_cdc_P1.jpg" target="_blank"><img border="0" height="240" src="img/09_316_01_cdc_P1.jpg" width="360"/></a><br>
+マルチエフェクター等の電源を専用アダプター以外から取りたいという需要はそれなりにあるらしく、パワーサプライの2ポートの電流容量を足し合わせるカレントダブラーケーブルというものが販売されています。どういった構造になっているか気になったため、以下の3種類を購入しました。<br>
+<br>
+・<a href="https://voodoolab.com/product/current-doubler-adapter/" target="_blank">VOODOO LAB / PPAP Current Doubler Adapter</a><br>
+・<a href="https://www.okada-web.com/caj/doubler-cable" target="_blank">CUSTOM AUDIO JAPAN / Current Doubler Cable</a><br>
+・<a href="https://gatorco.com/ja/%E3%83%97%E3%83%AD%E3%83%80%E3%82%AF%E3%83%88/%E3%82%AB%E3%83%AC%E3%83%B3%E3%83%88%E3%83%80%E3%83%96%E3%83%A9%E3%83%BC%E3%82%B1%E3%83%BC%E3%83%96%E3%83%AB%E3%83%95%E3%82%A9%E3%83%BC%E3%83%A9%E3%82%A4%E3%83%B36%E3%83%9A%E3%83%80%E3%83%ABgtr-pwr-2x/" target="_blank">GATOR / GTR-PWR-2XCURR-L6</a><br>
+<br>
+電源を並列接続する場合、「<a href="https://techweb.rohm.co.jp/product/power-ic/dcdc/dcdc-application/9130/" target="_blank">LDOリニアレギュレータの並列接続とは</a>」というページが参考になります。このページで紹介されているように、ケーブル内部にダイオードや抵抗器が入っている可能性を考えました。しかしデジタルマルチメータで調べてみると、VOODOO LABとCUSTOM AUDIO JAPANのものは各プラグ間の抵抗値は0.1Ω未満で、単に直結してあるだけのようでした。<br>
+<br>
+GATORのものは抵抗値が0.2Ω程度あったので分解してみました。<br>
+<a href="img/09_316_02_cdc_P2.jpg" target="_blank"><img border="0" height="240" src="img/09_316_02_cdc_P2.jpg" width="240"/></a><br>
+特に部品のようなものは見つからず、直結されているようでした。抵抗値が大きめなのが意図的なのかどうかはわかりません。（通常のDCケーブルは、電圧降下が少なくなるよう抵抗値は少ない方がよいです。）<br>
+<br>
+<hr size="1"/><br>
+【シミュレーション】<br>
+出力を直結して本当に大丈夫なのか、シミュレーションしてみます。<br>
+<br>
+通常、絶縁型パワーサプライの出力には3端子レギュレータやリセッタブルヒューズ（ポリスイッチ）が入っています。出力電圧は全ポート丁度9Vではなく、部品の誤差等で0.05V程度ズレることも充分ありえます。そして500mAのポート2個口から1000mA取り出そうとすると……<br>
+<a href="img/09_316_03_cdc_s1.png" target="_blank"><img border="0" height="245" src="img/09_316_03_cdc_s1.png" width="291"/></a><br>
+電流が偏って片方のポートは500mAを超えてしまいます。出力部の抵抗値は0.3Ωとしていますが、もっと低い場合は電流の偏りがさらに大きくなります。<br>
+<br>
+リセッタブルヒューズ（ポリスイッチ）を保持電流を超えて使うと、温度上昇により抵抗値が上がることが考えられます（参考ページ→<a href="https://www.marutsu.co.jp/contents/shop/marutsu/mame/160.html" target="_blank">ポリスイッチ</a>）。<br>
+<a href="img/09_316_04_cdc_s2.png" target="_blank"><img border="0" height="245" src="img/09_316_04_cdc_s2.png" width="291"/></a><br>
+こうなるとうまい具合に電流がバランスよく供給されます。ただし、実際には丁度良い抵抗値にならず電流が最大定格を超えたままになり、パワーサプライの内部トランス等にダメージを与える可能性があります。HX StompやHX Effectsのように1000mAギリギリでの運用はリスクが高いです。あくまでも余裕を持った運用（500mAのポート2個口から600mA取り出す等）をすべきだと思います。また、<a href="https://www.okada-web.com/caj/doubler-cable" target="_blank">CUSTOM AUDIO JAPANの製品ページ</a>に150mA+500mA=650mAという例が掲載されていますが、実際にはこのような都合のよい配分にはならないのでやめておいた方がよいでしょう。<br>
+<br>
+もちろん、パワーサプライの出力部が実際どのような回路になっているかわからないという不安要素もあります。VOODOO LAB Pedal Power 2 Plusの旧タイプを修理したことがあるのですが、この機種では出力それぞれにリセッタブルヒューズは入っていませんでした（現行品では入っているかも）。最大電流を超えた状態で使用すると、トランスに埋め込まれた温度ヒューズが切れてしまう可能性が高いです。同メーカーのCurrent Doubler Adapterを使ったせいで壊してしまったという人がいるかもしれないですね……<br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

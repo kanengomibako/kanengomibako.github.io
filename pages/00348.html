@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MXR M133 Micro Amp 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MXR M133 Micro Amp 解析</h1>
+  <p align="right">2024年07月05日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_348_01_mamp_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_348_01_mamp_pic.jpg" width="475"/></a><br>
+前回の<a href="00347.html" target="_blank">EP Booster</a>に引き続き、今回は<a href="https://www.jimdunlop.com/mxr-micro-amp/" target="_blank">MXR Micro Amp</a>を使って電源ノイズの影響はどうなるか調べました。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_348_02_MXR_MicroAmp_schematic.png" target="_blank"><img alt="MXR MicroAmp Schematic" border="0" height="389" src="img/09_348_02_MXR_MicroAmp_schematic.png" width="498"/></a><br>
+ElectroSmach.comの<a href="https://www.electrosmash.com/mxr-microamp" target="_blank">MXR MicroAmp Analysis</a>に回路解説があります。ただこのページの回路図は古いもののようで、今回トレースしたものは以下の変更があります。<br>
+・R2 1k → 10k<br>
+・R4 10M → 1M<br>
+・R7 100k → 75k<br>
+・電源部1N4001 → R10 100R<br>
+・C2 15u → 22u<br>
+・RP10 500k → 470k<br>
+<br>
+VCCが9Vの時バイアス電圧は5.1Vで、少し高めに設定されています。バイアス電圧が4.5Vだと、ゲインを上げた時グラウンド側からクリップが起こるため、それを防ぐ意味合いがありそうです。できるだけ歪みにくくなる（上下対称にクリップし始める）ようにR8の値を変えてみると、バイアス電圧は4.9Vあたりでした。クリーンブースターを設計する時は、バイアス電圧を調整するのもよいかと思います。<br>
+<br>
+4558のようなオペアンプでは、グラウンドに近い入力だと出力が電源電圧側に跳躍する現象が起きることが知られています（参考ページ→<a href="https://zawa2.com/ZZsim/doc_singlesupply.html" target="_blank">汎用オペアンプを単電源で使用するときの注意点</a>）。741では起こりませんが、このような特性に注意する機会はありそうです。<br>
+<br>
+<hr size="1"/><br>
+<strong>【電源の影響】</strong><br>
+<br>
+<a href="00347.html" target="_blank">前回</a>同様CLASSIC PROのACアダプターを使用しました。電源部の100Ω抵抗は0Ωに付け替え、エフェクト入力はグラウンドに接続しています。<br>
+<a href="img/09_348_11_mamp_n1.png" target="_blank"><img border="0" height="209" src="img/09_348_11_mamp_n1.png" width="477"/></a><br>
+ACアダプター由来のノイズは見受けられず、ゲイン0%では測定限界となっています。オペアンプのデータシートには電源電圧除去比（PSRR）が記載されていますが、実際にここまで除去能力があるのが確認できました。オペアンプで構成されたエフェクターでは、そこまで電源ノイズに気を遣わなくてもよいかもしれません。<br>
+<br>
+ついでに別のオペアンプに変えた場合も測定しました。デュアルオペアンプをシングルに変換して取り付けています。<br>
+<a href="img/09_348_12_mamp_n2.png" target="_blank"><img border="0" height="209" src="img/09_348_12_mamp_n2.png" width="477"/></a><br>
+6dB程度の差が出ています。特にゲインが高いエフェクターでは、ローノイズなオペアンプを選ぶ意味がありそうだとわかりました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd2 プログラミング編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd2 プログラミング編</h1>
+  <p align="right">2017年07月21日　カテゴリー：<a href="00182.html">Raspberry Pi</a></p>
+  <hr class="title"><br>
+  参考になるかわかりませんが、とりあえずRasPd2に入っているファイルをアップロードしておきます。（直リンクできないようなので<a href="https://drugscore.web.fc2.com/3/" target="_blank">こちらの別ページ</a>にダウンロードリンクを載せています。）<br>
+※RasPd4のデータをアップロードしたためRasPd2のデータは削除しました。（2018年2月22日追記）<br>
+<br>
+▽コントロール割り当て<br>
+左スイッチ：　エフェクト切替、切替時に右LEDが点滅<br>
+中央スイッチ：　特殊機能（ブースト機能等）オン・オフ、オン時中央LED点灯<br>
+右スイッチ：　長押しでシャットダウン<br>
+各ポット：　エフェクトパラメータ<br>
+フットスイッチ：　エフェクトオン・オフ、オン時左LED点灯<br>
+<br>
+今回の内部プログラムは<a href="00181.html">RasPd1</a>のプログラムを単に移植しただけのものです。エフェクトを3種類入れているものの、エフェクトを切り替えた後いちいち各ポットを設定しなおさなければいけない仕様なので、現実的な運用は面倒だと思います。もちろん中身は自由に変更できるので、今後いろいろと発展させていきたいです。変態的なエフェクトをプログラムするのもいいし、スマートフォンと連携してエフェクトを操作するなんてこともできるかもしれません。<br>
+<br>
+<hr size="1"/><br>
+＜スイッチ・LED＞<br>
+<a href="00181.html">RasPd1</a>と同様、GPIOピンによるスイッチやLEDの制御を行っています。<br>
+こちらで丁寧に解説されています。→<a href="https://tool-lab.com/make-course/raspberrypi/" target="_blank">RaspberryPi電子工作入門</a><br>
+<br>
+＜可変抵抗＞<br>
+エフェクトパラメータ設定は、ポットで分圧した電圧値をADコンバータMCP3008で読み取るという方式です。<br>
+こちらのページのプログラムを改変して利用しました。→<a href="https://qiita.com/masato/items/f089a17b1c9329eb7d03" target="_blank">Raspberry PiのPythonからTMP36のアナログ温度センサとMCP3008のADコンバータを使う</a><br>
+値の取得は0.3秒ごとにしています。取得した値が前回の値から変化していたとき、<a href="00181.html">RasPd1</a>と同様pdsendでPdへデータ送信しています。ポットを回したとき反応が遅く雑音が発生しますが、ワウペダルではないので実用上問題ないでしょう。<br>
+※最新のRaspbianで値が取得できなくなりました。プログラムにspi.max_speed_hz = 1000000を追加すると問題ないようです。（2018年1月28日追記）<br>
+<br>
+＜データ保存＞<br>
+RasPd1からの名残でパラメータ保存機能は一応残っています。しかしすぐにパラメータが上書きされてしまうため、意味がない状態です。工夫次第ではプリセット保存・呼び出しといった機能をつけることも可能だと思います。<br>
+<br>
+<hr size="1"/><br>
+<a href="00187.html">ハードウェア編</a>へ　　<a href="00188.html">ソフトウェア編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

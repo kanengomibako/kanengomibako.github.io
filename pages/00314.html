@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Nusora+</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Nusora+</h1>
+  <p align="right">2023年03月24日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_314_01_nsrpP.jpg" target="_blank"><img border="0" height="320" src="img/02_314_01_nsrpP.jpg" width="400"/></a><br>
+Nutube自作エフェクターコンテストで最優秀賞となった<a href="00304.html" target="_blank" title="Nusora">Nusora</a>を、一般販売に向けてリニューアルしたものです（→<a href="https://kanengomibako.booth.pm/items/4627130" target="_blank">販売ページはこちら</a>）。いろいろな種類のギターに対応したり、個体差を調整したりする目的でコントロールを増やしてあります。名前は安直ですがNusora+（ニュソラプラス）としました。KiCadデータは<a href="https://github.com/kanengomibako/NusoraPlus" target="_blank">GitHub</a>にあります。<br>
+<br>
+販売を考える上で重要になるのが、価格や製造効率です。特にケースは塗装や穴あけが大変で、外注だとコストがかかります。そこで今回は、基板を組み合わせた筐体を採用しました。組み立てて半田付けするのはやや手間がかかりますが、穴あけ・塗装・シルク印刷済のものが低価格で手に入るのは大きなメリットです。内部が一面銅箔なので、ノイズ面でも問題ありません。意外と強度もあり、思いっきり踏んでも大丈夫でした。<br>
+<blockquote class="twitter-tweet" data-conversation="none" data-width="360"><p dir="ltr" lang="ja">筐体は基板を組み立てたものにしてみようと思います。壊すつもりで激しく踏んでみましたが大丈夫でした。<br>
+<br>
+組み立てはやや大変ですが、塗装・穴あけ済のケースが低コストで手に入るのは大きいです。 <a href="https://t.co/cnv4up30AV">pic.twitter.com/cnv4up30AV</a></p>— 可燃ごみ箱 (@kanengomibako) <a href="https://twitter.com/kanengomibako/status/1620984252564393985?ref_src=twsrc%5Etfw">February 2, 2023</a></blockquote> <script async="" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script> <br>
+線材の被膜を剥いて半田付けするのもなかなか大変な作業なので、スイッチやジャック類は基板直付けです。ポットもできれば端子が長いタイプを直付けしたい所ですが、入手性・価格面を考え秋月電子で購入したポットにリード線を付けて使用しています。<br>
+<a href="img/02_314_02_nsrpP2.jpg" target="_blank"><img border="0" height="270" src="img/02_314_02_nsrpP2.jpg" width="360"/></a><br>
+Nutubeについてはマイクロフォニックノイズ対策のため線材で接続し、緩衝材のスポンジで包みます。<br>
+<br>
+メインの基板は<a href="https://cart.jlcpcb.com/quote" target="_blank">JLCPCBの部品実装サービス（PCBA）</a>を利用しました（参考ページ→<a href="https://www.jh4vaj.com/archives/36977" target="_blank">JLCPCB KiCadプラグインで簡単基板発注</a>）。部品は<a href="https://jlcpcb.com/parts" target="_blank">JLCPCBのパーツライブラリ</a>から選びますが、BasicパーツとExtendedパーツに分類されています。Basicパーツだと、実装に追加費用がかからず安く済むということになります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/02_314_03_nusora_plus_schematic.png" target="_blank"><img alt="Nusora+ schematic" border="0" height="347" src="img/02_314_03_nusora_plus_schematic.png" width="635"/></a><br>
+基本的にはコンテスト最優秀賞記念モデルということで、<a href="00304.html" target="_blank" title="Nusora">Nusora</a>と同じ音が出せるようにしています。Compトリマーを外部ポットにし、Toneコントロールを追加してあるだけで、ほぼ定数は変えていません。コンデンサがやたらと並列になっている所は、できるだけJLCPCBのBasicパーツを使うための措置です。<br>
+<br>
+・Compコントロール<br>
+<a href="img/02_314_04_nsrpCo0.png" target="_blank"><img border="0" height="187" src="img/02_314_04_nsrpCo0.png" width="335"/></a><a href="img/02_314_05_nsrpCo100.png" target="_blank"><img border="0" height="187" src="img/02_314_05_nsrpCo100.png" width="335"/></a><br>
+Comp 0% → 100%での波形変化を見てみると、音量や歪み方が変化していることがわかります。しかしながら実際に弾くとそこまで大きく変化する感じではなかったので、あくまでも微調整と考えてもらう方がいいかと思います。<br>
+<br>
+・Toneコントロール<br>
+<a href="img/02_314_06_nsrpEq.png" target="_blank"><img border="0" height="209" src="img/02_314_06_nsrpEq.png" width="450"/></a><br>
+エフェクターに採用されることは少ない、<a href="https://www.cepstrum.co.jp/hobby/tilt_eq/tilt_eq.html" target="_blank">チルト・イコライザ</a>と呼ばれる回路を使ってみました。少し高音域側の変化量が少ない設計です。低音域と高音域が同時に調整されるので、BOSS DS-1やビッグマフのトーン回路に似た感覚となっています。<br>
+<br>
+<hr size="1"/><br>
+Limetone Audio 今西さんのコンテストレポートにて<a href="00304.html" target="_blank" title="Nusora">Nusora</a>の音を聞くことができます。<br>
+<iframe allowfullscreen="" data-id="b8ZEOvQiyXc" frameborder="0" height="270" src="//www.youtube.com/embed/b8ZEOvQiyXc" width="480"></iframe><br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

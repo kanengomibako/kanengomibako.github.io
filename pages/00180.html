@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>WM8731 設定メモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>WM8731 設定メモ</h1>
+  <p align="right">2017年04月27日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03_180_1wm8731p.jpg" target="_blank"><img alt="03_180_1wm8731p.jpg" border="0" height="200" src="img/03_180_1wm8731p.jpg" width="150"/></a><br>
+WM8731が搭載されているI2Sオーディオインターフェイス<a href="https://shop.mikroe.com/add-on-boards/audio-voice/audio-codec-proto" target="_blank">MikroElektronika MIKROE-506</a>を試してみたので、設定をメモしておきます。写真の通り、現在はLINE INも使えるようになっています。<br>
+<br>
+↓参考ページ<br>
+<a href="https://kinomuku129.blogspot.jp/2016/09/i2sdac-wm8731raspberry-pi.html" target="_blank">I2SオーディオI/F WM8731をraspberry piで鳴らす</a><br>
+<a href="https://www.dm9records.com/index.php/release/sound/piaif/" target="_blank">PIAiF Raspberry Pi i2s ”IN-OUT” AudioInterFace</a><br>
+接続は、上記PIAiFの回路図の通りで問題ありませんでした。<br>
+<br>
+＜Raspberry Pi 3の設定＞<br>
+$ <strong>sudo nano /boot/config.txt</strong><br>
+#dtparam=audio=on （コメントアウトしてオンボードのオーディオをオフに）<br>
+dtoverlay=rpi-proto （追加記載）<br>
+<br>
+alsa-base.confファイルをすでに作っていた場合は、内容を書き換えます。<br>
+$ <strong>sudo nano /etc/modprobe.d/alsa-base.conf</strong><br>
+options snd slots=snd_soc_rpi_proto<br>
+options snd_soc_rpi_proto index=0<br>
+<br>
+再起動し、オーディオ認識を確認します。<br>
+$ <strong>aplay -l</strong><br>
+<br>
+入出力の音量は同じではありませんが、とりあえずテストしたときの設定は下記のようになります。マイク入力部コンデンサC23の値が1nFしかありませんので、LINE INを利用しました。<br>
+$ <strong>alsamixer</strong><br>
+全て表示 F5<br>
+Master 100 [dB gain: 6.00, 6.00] <br>
+Master Playback ZC [Off, Off]<br>
+Sidetone 0 [dB gain: -15.00]<br>
+Line CAPTURE<br>
+Mic [Off]<br>
+Mic Boost 0 [dB gain: 0.00]<br>
+Mic Boost 0 [dB gain: 0.00]<br>
+Playback Deemphasis [Off] （オンにすると高域が削られる）<br>
+Capture 40 [dB gain: -6.00, -6.00]<br>
+ADC High Pass Filter オン （オフにすると高域の雑音が増える）<br>
+Input Mux [Line In]<br>
+Output Mixer HiFi オン<br>
+Output Mixer Line Bypass [Off]<br>
+Output Mixer Mic Sidetone [Off]<br>
+Store DC Offset [Off]<br>
+<br>
+＜Pure Dataの設定＞<br>
+$ <strong>nano .pdsettings</strong><br>
+audioindevname1とaudiooutdevname1の行は削除、下記該当箇所を変更しました。<br>
+audioindev1: 0 2<br>
+audiooutdev1: 0 2<br>
+audiobuf: 2<br>
+rate: 48000<br>
+blocksize: 32<br>
+ここまで値を小さくしても音切れはないようで、レイテンシーは5msととても優秀でした。もうUSBオーディオインターフェイスには戻れそうにありません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

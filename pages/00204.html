@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>オートワウ（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>オートワウ（Pure Data パッチ）</h1>
+  <p align="right">2017年10月21日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  [env~]（エンベロープフォロワー）を使って音量データを取得し、それに応じてバンドパスフィルター(BPF)の中心周波数が変わるようにすれば、オートワウ（エンベロープフィルター）となります。中心周波数を揺らす場合のBPFは[vcf~]を使いますが、Q値が基本的に固定値となります。ペダルワウは中心周波数が高い時（ペダルを閉じたとき）Q値が小さくなりますが、そこまで再現しなくてもワウっぽい音にはなるようです。<br>
+<img alt="03p_204_1awah.png" border="0" height="420" src="img/03p_204_1awah.png" width="340"/>（<a href="https://drugscore.web.fc2.com/3p/08_autowah.pd" target="_blank">このパッチをダウンロード</a>）<br>
+rangeコントロールは、中心周波数が最高（2200Hz）になる時と最低（440Hz）になる時の音量差を調整します。rangeが小さい方が、音量減衰時に周波数の変化が急（速くこもる）ということになります。<br>
+<br>
+滑らかに中心周波数を変化させるため、周波数と変化にかける時間の数値を[pack]でまとめて[line~]に送ります。[env~ 1024]からは512サンプルごとに数値が出力されるため、変化にかける時間は、512÷44100で約12msという計算となります（44100サンプル時）。<br>
+<br>
+LFOやタップテンポを入れ、周期的にワウをかけることも可能です。ただデジタルだからといって多機能にしすぎると、CPU負荷の問題が出てくるかもしれないので、シンプルな構成にしています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

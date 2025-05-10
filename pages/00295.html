@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS BD-2W Lite</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS BD-2W Lite</h1>
+  <p align="right">2022年09月13日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/09_295_01_bdlP.jpg" target="_blank"><img alt="09_295_01_bdlP.jpg" border="0" height="320" src="img/09_295_01_bdlP.jpg" width="440"/></a><br>
+<a href="00291.html" target="_blank">BOSS BD-2のSMDバージョン</a>を解析し空のケースが残ったので、中身を製作することにしました。<a href="00293.html" target="_blank" title="BD-2W">BOSS BD-2W</a>の簡略化バージョンで、スタンダードモードとカスタムモードの切替はフットスイッチ長押しです。<br>
+<br>
+メイン基板は製造費用が上がらないように10cm以内に納め、小さい基板を繋ぎ合わせてうまく筐体にはまるようにしました。基板上の部品は何となく表面実装で統一したい気持ちがあります。ただ表面実装のフィルムコンデンサは高価なため、C0G特性の積層セラミックコンデンサ（MLCC）を使っています。これならば<a href="https://lcsc.com/" target="_blank">LCSC Electronics</a>でそれなりに安く買うことができます。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/BD2wazaLite" target="_blank">GitHub</a>へ）<br>
+<a href="img/09_295_02_bdlS.png" target="_blank"><img border="0" height="329" src="img/09_295_02_bdlS.png" width="690"/></a><br>
+バッファ等をオペアンプへと変更してあります。Liteバージョンのつもりでしたが、あまり簡略化されていません。秋月電子にあるマイコンSTM32L010F4P6を使っており、それに伴う3.3V→9Vへのレベル変換を行っています。ピンが余っていたので、起動時のモード設定やエフェクトオンオフ状態を内部DIPスイッチで選べるようにしました。念のため基板左下にモード切替スイッチを接続できるようにしていましたが、使用していません（内部プログラムも未対応）。消費電流は実測15mAで、意外と少なく済みました。<br>
+<br>
+3.3Vレギュレータには手持ちにあったTLV70033を使っていたのですが、絶対最大定格電圧が6Vだと気付かず9Vを入力していました。すぐには壊れず不安定な電圧が出力され続けていたようで、マイコンが動作しなくなっており、レギュレータだけでなくマイコンも交換することになってしまいました。基本的に耐圧が低いパーツは買わないよう気をつけようと思います。<br>
+<br>
+▽周波数特性（TONE 50% GAIN 50%）<br>
+<a href="img/09_295_03_bdlF.png" target="_blank"><img border="0" height="300" src="img/09_295_03_bdlF.png" width="400"/></a><br>
+本家BD-2Wとの比較です。スタンダードモードでズレがありますが、部品の値の誤差だと考えられるので追求しませんでした。出音はほぼ同じだと感じましたが、ディスクリート構成かどうかによる違いもあるはずなので、敏感な方はたぶん差がわかるのだろうと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS MT-2 Metal Zone</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS MT-2 Metal Zone</h1>
+  <p align="right">2021年11月01日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_274_1rmt.jpg" target="_blank"><img alt="02_274_1rmt.jpg" border="0" height="280" src="img/02_274_1rmt.jpg" width="410"/></a><br>
+Metal Zoneは自作エフェクターを始めた時からずっと作りたいと思っていましたが、50kC2連のポットの入手先が見つからずあきらめていました。今回<a href="https://www.taydaelectronics.com/" target="_blank">Tayda Electronics</a>という海外のパーツショップでこのポットが販売されているのを見つけ、製作に至りました。<br>
+<br>
+筐体は基板を組み合わせたもので、縦幅が10cmと少し短めとなっています。HAMMOND1590Bサイズのケースは縦幅11cm程度なので、DCジャックを上側に配置してもよいと思います。ただし2連ポットがあるため、高さに余裕があるケース（HAMMOND1590BS等）の方が安心です。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/MTZone" target="_blank">GitHub</a>へ）<br>
+<a href="img/02_274_2mtS.png" target="_blank"><img alt="02_274_2mtS.png" border="0" height="368" src="img/02_274_2mtS.png" width="560"/></a><br>
+発振対策の関係（後述）で、入力バッファを通した後にトゥルーバイパス方式と同じ配線をするという、特殊なバッファードバイパスを想定しています。出回っている元の回路図からの変更点は、FETスイッチ部分とバイパス音側バッファ・出力バッファの削除、出力保護抵抗R0とスイッチングノイズ対策抵抗R99の追加です。（LEVELポットがあるのでR0はジャンパーでもまず問題ないと思います。）<br>
+<ul><li>回路の特徴（参考ページ→<a href="https://electricdruid.net/boss-mt-2-metal-zone-pedal-analysis/" target="_blank">Boss MT-2 Metal Zone pedal analysis</a>）<br>
+最初に強力にミッドブーストされており、低音域・高音域がカットされた状態でダイオードクリップされます。その後低音域・高音域が足されていますが、わざわざトランジスタを使ったジャイレータ（シミュレーテッドインダクタ）が使ってあり、細かい音色調整がなされていることがわかります。そしてさらに、後段の3バンドイコライザにより幅広い音作りが可能です。</li><br>
+<li>代替部品<br>
+M5218AL、 2SK184-GR、2SC3378-GR、1SS133といった部品は手に入りにくいので、代わりのものを探すことになります。回路としては前述の通り積極的にフィルタで音色調整されており、部品の特性自体が音色のカギとなっているわけではないと思われますので、それぞれ一般的な部品に置き換えています。</li><br>
+<li>音漏れ・発振<br>
+FETスイッチや機械式スイッチには寄生容量があるため、わずかに音漏れが生じてしまいます（参考記事→<a href="00222.html" target="_blank">MOS FETリレー G3VM-21GR 特性測定</a>）。漏れた音が再び入力に戻り過度に増幅されると、発振の可能性が出てきます。BOSSの歪み系ペダルの多くはバイパス側にバッファがあり発振を防いでいますが、今回は回路規模縮小のため省きました。</li><br>
+<li>バイパス方式<br>
+入力バッファを使わず、トゥルーバイパスでギター直結を想定する場合には、入力インピーダンスを高くするためR43 = 1MΩ（C33 = 1.5nF）やR43 = 470kΩ（C33 = 3.3nF）といった値にします。ただしバッファなしだと、DISTやLEVELを上げた場合に発振しやすいため非推奨です。入力バッファを通し回路図通りR43 = 100kΩ（C33 = 15nF）だと、LOW・MIDDLE・HIGH・DIST最大でLEVEL3分の2程度まで大丈夫です。完璧ではないですがほぼ問題ないでしょう。より安全にする場合は、R43 = 15kΩ（C33 = 100nF）でもよいかと思います。<br>
+</li></ul><br>
+▽Rev.A基板・パーツリスト（基板販売は終了しました。）<br>
+<a href="img/02_274_3mtL.png" target="_blank"><img alt="02_274_3mtL.png" border="0" height="508" src="img/02_274_3mtL.png" width="490"/></a><br>
+MID FREQポットは追加の配線が必要ですが、その他のポットは基板に直付けできるようになっています。ポットの間隔は横18mm、縦25mmです。MIDDLEポットはWカーブだとやや急な変化で、Bカーブの方がより自然だと思います（参考ページ→<a href="https://sound-au.com/project150.htm" target="_blank">Wien Bridge Based Parametric Equaliser</a>）。<br>
+<br>
+100kWや50kC2連ポットは<a href="https://www.taydaelectronics.com/" target="_blank">Tayda Electronics</a>にあります。他の部品もこの店でそろいますが、NJM4558のローノイズ選別品はないようです。送料が安い「7 to 30 Days Delivery」で注文すると、約3週間で届きました。全てPCBマウントタイプのポットを購入したので、メイン基板の上側に配線補助基板をくっつけて基板発注し、切り離して使っています（下写真）。<br>
+<a href="img/02_274_4mtP.jpg" target="_blank"><img alt="02_274_4mtP.jpg" border="0" height="240" src="img/02_274_4mtP.jpg" width="240"/></a><br>
+100kWポットはセンタークリックがある方を買ってみました。ギザギザシャフトに挿すタイプのノブを使うとセンター位置が少しずれてしまい気持ち悪いため、普通のイモネジ固定式ノブがよいです。<br>
+<br>
+インチ（6.35mm）シャフト用ノブは6mmシャフトに装着すると、少し隙間があいて偏った回転になります。<a href="https://www.soundhouse.co.jp/products/detail/item/211127/" target="_blank">Pot Brass Sleeve</a>というパーツがありますが、厚さ0.15mmの薄い金属板を切って使っても大丈夫でした（下写真）。「シムプレート」で検索すると出てきます。<br>
+<a href="img/02_274_5mtSP.jpg" target="_blank"><img border="0" height="180" src="img/02_274_5mtSP.jpg" width="225"/></a><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Pure Data 設定メモ（Windows 7用）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Pure Data 設定メモ（Windows 7用）</h1>
+  <p align="right">2017年08月30日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)のインストールについては、<a href="https://puredatajapan.info/" target="_blank">Pure Data Japan</a>にも記載があるのですが、私の環境（Windows 7 Home Premium）ではエラーでなかなかうまくいかないことがあったので、メモを残しておきます。<br>
+<br>
+<hr size="1"/><br>
+＜インストール＞<br>
+Pd-extendedは今後アップデートがなさそうなので、Pure Data vanillaの方を使います。<a href="https://puredata.info/downloads/pure-data" target="_blank">puredata.infoのダウンロードページ</a>から、インストーラーをダウンロードしてインストールします（まれにサイトがダウンしています）。デフォルトのインストール先フォルダはC:\Program Files\Pd\になっていますが、念のため私はC:\Pd\に変更しています。※作成したパッチのファイルパスに全角文字や半角カタカナ・半角スペースがある場合、「<span style="color:#FF0000">～: can't open</span>」というエラーが出ます。<br>
+<br>
+Pdを実行すると、「<span style="color:#FF0000">msvcr71.dllが見つからなかったため、このアプリケーションを開始することができませんでした。アプリケーションをインストールし直すとこの問題が解決される場合があります。</span>」というエラーメッセージが表示される場合があります。msvcr71.dllファイルをネット検索してダウンロードし、C:\Windows\System32フォルダかC:\Windows\SysWOW64フォルダに置くと解決します。<br>
+<br>
+<hr size="1"/><br>
+＜オーディオ設定＞<br>
+Media→Audio Settings...を開こうとすると、以下のエラーが出ます。{} のあたりには使っているオーディオデバイスの名前が入るようです。<br>
+<span style="color:#FF0000">(Tcl) UNHANDLED ERROR: extra characters after close-brace<br>
+    while executing<br>
+"lappend audio_indevlist {}CN (Realtek High Definition}<br>
+global audio_outdevlist; set audio_outdevlist {}<br>
+lappend audio_outdevlist {Xs[J..."<br>
+    ("uplevel" body line 2)<br>
+    invoked from within<br>
+"uplevel #0 $docmds"</span><br>
+日本語が問題らしく、コントロールパネル→地域と言語→管理→システムロケールの変更→英語（米国）へ変更し再起動すると、Audio Settings...が開けるようになります。<br>
+<br>
+Block sizeが256だとDelayを大きくしても音切れするため、512にしています。Delayはとりあえず小さければよいようで、5msとしました。レイテンシーは65ms程度で、プロセス優先度をリアルタイムにしても変化しませんでした。Windows環境ではこれが限界だろうと諦めています。設定後はシステムロケールを日本語に戻して大丈夫です。<br>
+<br>
+※ASIOを利用すると低レイテンシーが期待できるらしいですが、私の環境ではうまくいきませんでした。ASIO4Allをインストール後、PdでMedia→ASIOを選択しましたがフリーズします。システムを英語にすれば動くという情報もあり、<a href="https://www.torutk.com/projects/swe/wiki/Windows_7_%E6%97%A5%E6%9C%AC%E8%AA%9E%E7%89%88%E3%82%92%E8%8B%B1%E8%AA%9E%E5%8C%96%E3%81%99%E3%82%8B" target="_blank">こちらのページ</a>を参考に言語パックをインストールしてみましたが、再起動後画面が真っ黒のままとなり、システムの復元をしないと元に戻りませんでした。<br>
+<br>
+<hr size="1"/><br>
+＜externals設定＞<br>
+Pdには便利な外部オブジェクトがあり、それを使うためにはexternals（外部ライブラリ）をインストールする必要があります。例としてzexyをインストールします。<br>
+　　・Help→Find externalsからzexyを入力し検索<br>
+　　　　・最新のWindows用(Windows-i386-32)のものを選択<br>
+　　　　・デフォルトのフォルダ（.../Pd/extra/）にインストール<br>
+　　・File→Preferences→Path...→New...からインストールしたフォルダ（.../Pd/extra/zexy）を選択<br>
+※オブジェクトの種類によってはスタートアップに登録が必要なものがあるようです。<br>
+　　・File→Preferences→Startup...→New...からzexyと入力し、Startup flagsに「-lib zexy」を入力<br>
+<br>
+基本的に外部ライブラリを使う場合はlibdirが必要なようです。他にも依存関係がある外部ライブラリがあるかもしれません。現状私はlibdir cyclone unauthorized ggee zexyの5つをインストールし、zexyのみスタートアップに登録しています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

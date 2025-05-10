@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MXR M169 CARBON COPY ANALOG DELAY 修理・解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MXR M169 CARBON COPY ANALOG DELAY 修理・解析</h1>
+  <p align="right">2023年09月27日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_324_01_carco_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_324_01_carco_pic.jpg" width="355"/></a><br>
+<a href="https://moridaira.co.jp/posts/mxr-m169" target="_blank">MXR CARBON COPY</a>はかなりの数売れているためか、ジャンク品が多く出回っています。今回手に入れた個体はディレイ音が出ない状態で、回路図がなく故障箇所の特定が困難だったため、解析することにしました。KiCadとLTspiceのデータは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/CarbonCopy" target="_blank">GitHub</a>にあります。<strong>※このエフェクターの修理は表面実装のICや電解コンデンサの交換が必要となる場合があるため、初心者向きではありません。</strong><br>
+<ul>＜参考ページ＞<li><a href="https://umbrella-company.jp/contents/analog-delay/" target="_blank">アナログディレイとは？</a>…信号を遅延させる素子BBDについての基礎知識<br>
+</li><li><a href="https://electricdruid.net/noise-reduction-with-companders/" target="_blank">Noise Reduction with Companders</a>…コンパンダICの回路に関する説明<br>
+</li><li><a href="https://toshi.life.coocan.jp/review/diy_analog_delay.html" target="_blank">BBDを使用した300msアナログディレイBOSS DM-3 MOD 自作レポート</a>…アナログディレイの自作・トリマー調整方法についての解説<br>
+</li></ul><hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_324_02_MXR_M169_CARBON_COPY_ANALOG_DELAY_Schematic.png" target="_blank"><img alt="MXR CARBON COPY Schematic" border="0" height="248" src="img/09_324_02_MXR_M169_CARBON_COPY_ANALOG_DELAY_Schematic.png" width="685"/></a><br>
+<a href="https://www.hobby-hour.com/electronics/s/dm2-delay.php" target="_blank">BOSS DM-2</a>と似ていて、プリエンファシス・ディエンファシスやBBD前後のローパスフィルタ（LPF）は全く同じ定数です。BBD用のクロック生成には専用IC（MN3102等）ではなく、<a href="https://www.tonepad.com/project.asp?id=8" target="_blank">Small Clone Chorus</a>のようにCD4047が使われています。そして<a href="https://ja.wikipedia.org/wiki/LFO_(%E9%9B%BB%E5%AD%90%E6%A5%BD%E5%99%A8)" target="_blank">LFO</a>の回路を接続することによりモジュレーション機能を実現しています。電源部では、供給電圧が10Vを超えたあたりでQ4がオンになり電源供給が遮断されます。高い電圧を接続することにより電源部が故障する可能性は低そうです。<br>
+<br>
+R48を外し、ディレイ音の周波数特性を測定しました。コンパンダのせいか周期スイープでは特性が乱れるため、ホワイトノイズを使用しています。<br>
+<a href="img/09_324_11_carco_F01.png" target="_blank"><img border="0" height="209" src="img/09_324_11_carco_F01.png" width="477"/></a><br>
+ディレイタイム最小ではほぼシミュレーション通りですが、ディレイタイムが長くなるとさらに高音域が減るようです。<br>
+<br>
+<hr size="1"/><br>
+<strong>【修理】</strong><br>
+故障している部品を特定する方法としては、サイン波等を入力して回路図上のどこまで入力信号が来ているかを調べるのが一般的だと思います。以下ではその他の修理のヒントについて記載しています。<br>
+<ul><li>FET<br>
+静電気保護ダイオードが実装されていない初期の個体で、FETが故障することがあります。<br>
+参考ページ→<a href="https://gear-otaku.blogspot.com/2015/02/mxr-carbon-copy-version.html" target="_blank">コラム：MXR Carbon Copy バージョン1・2の見分け方とサウンドの違い</a><br>
+</li><br>
+<li>電解コンデンサの経年劣化<br>
+MXR製品で電解コンデンサの経年劣化が報告されています。できれば全ての電解コンデンサを交換しておく方が安心です。私は半田ごてを2本使い、位置をズラすようなやり方で取り外しています。<br>
+参考ページ→<a href="https://note.com/ebi_san_tech/n/neb731a6b49a8" target="_blank">MXR carbon copy analog delayの修理</a> <br>
+</li><br>
+<li>表面実装トリマー（半固定抵抗器）<br>
+TR3、TR8は2時～3時、その他のトリマーは12時付近に設定されているかどうか確認します。また、見た目は大丈夫そうでも接触不良となっている可能性もあります。耐久性が低いため、調整する場合は最小限にした方がよいでしょう。<br>
+</li></ul><br>
+---2023年11月25日追記---<br>
+<br>
+<a href="00328.html" target="_blank">CARBON COPY MINI</a>と同様のブライトスイッチを追加しました。<br>
+<a href="img/09_324_21_carco_br.jpg" target="_blank"><img border="0" height="240" src="img/09_324_21_carco_br.jpg" width="240"/></a><br>
+特性を確認後、R48を取り付けてホットボンドで覆いました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

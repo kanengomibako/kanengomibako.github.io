@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS GT-1000CORE 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS GT-1000CORE 分解・特性測定</h1>
+  <p align="right">2024年08月31日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_346_01_gtsc_pic01.jpg" target="_blank"><img border="0" height="288" src="img/09_346_01_gtsc_pic01.jpg" width="720"/></a><br>
+<a href="00345.html" target="_blank">LINE 6 HX Stomp</a>に引き続き、<a href="https://www.boss.info/jp/products/gt-1000core/" target="_blank">BOSS GT-1000CORE</a>を分解、特性測定しました。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_346_02_gtsc_pic02.jpg" target="_blank"><img border="0" height="225" src="img/09_346_02_gtsc_pic02.jpg" width="300"/></a><a href="img/09_346_03_gtsc_pic03.jpg" target="_blank"><img border="0" height="225" src="img/09_346_03_gtsc_pic03.jpg" width="300"/></a><br>
+<a href="img/09_346_04_gtsc_pic04.jpg" target="_blank"><img border="0" height="225" src="img/09_346_04_gtsc_pic04.jpg" width="285"/></a><a href="img/09_346_05_gtsc_pic05.jpg" target="_blank"><img border="0" height="225" src="img/09_346_05_gtsc_pic05.jpg" width="285"/></a><br>
+<a href="img/09_346_06_gtsc_pic06.jpg" target="_blank"><img border="0" height="133" src="img/09_346_06_gtsc_pic06.jpg" width="150"/></a><a href="img/09_346_07_gtsc_pic07.jpg" target="_blank"><img border="0" height="133" src="img/09_346_07_gtsc_pic07.jpg" width="150"/></a><br>
+<a href="img/09_346_08_gtsc_pic08.jpg" target="_blank"><img border="0" height="170" src="img/09_346_08_gtsc_pic08.jpg" width="280"/></a> <a href="img/09_346_09_gtsc_pic09.jpg" target="_blank"><img border="0" height="170" src="img/09_346_09_gtsc_pic09.jpg" width="170"/></a><br>
+＜主なIC等＞<br>
+Roland BMC 5100040716: DSP？<br>
+NJM2732: 入出力フルスイングオペアンプ<br>
+FL128SAIFG0: フラッシュメモリ<br>
+AK4558EN: オーディオコーデック<br>
+S-80130ANMC-JCPT2G？（マーキング JCPS）<br>
+BD9865MWV: 昇降圧・反転スイッチングレギュレータ<br>
+NJM11100F1: リニアレギュレータ<br>
+HFD4/9:リレー<br>
+NJM4580: オーディオ用オペアンプ<br>
+NJM2740: 低飽和出力電圧オペアンプ<br>
+IS42S16160J-7BL: SDRAM<br>
+Roland R5100036692-100: ディスプレイ操作用マイコン？<br>
+74HC3G14: シュミット・トリガ入力インバータ<br>
+BU2090FS: シリアルインパラレルアウトドライバ<br>
+TC7W04FK: CMOSインバータ<br>
+フォトカプラ？（マーキング M614 1931 ATW 3.5mmx4mm）<br>
+<br>
+BMC 5100040716は<a href="https://www.youtube.com/watch?v=4bR2XmzJY0A" target="_blank">Roland AX-Edge（ショルダーキーボード）の分解動画</a>で音源チップとして紹介されています。詳細はわかりませんが、消費電流が大きくないのでそこまで演算能力は高くなさそうです。同時使用エフェクト数は最大24個ですが、重いエフェクト処理を個数制限（プリアンプ2個、リバーブ1個等）することにより、DSPの処理能力内にうまく収めていると思われます。<br>
+<br>
+入力部には2SK880があるので、おそらく<a href="00334.html" target="_blank">SD-1W</a>等と同じバッファです。リレーはバイパス用ではなく、各入出力の機能切替用となっているようです。<br>
+<br>
+▽バイパス音 ※画像は<a href="00345.html" target="_blank">HX Stompの記事</a>の再掲<br>
+<ul><li>周波数特性 ※±1dBに拡大（DIRECT：測定に使用している<a href="00261.html" target="_blank">オーディオインターフェースUR22C</a>の入出力を直結）<br>
+<a href="img/09_345_09_hxstf.png" target="_blank"><img border="0" height="209" src="img/09_345_09_hxstf.png" width="477"/></a><br>
+高音域側のカットが緩やかな形になっています。<br>
+</li><br>
+<li>正弦波 約1kHz 330mVpp<br>
+<a href="img/09_345_09_hxst1ka.png" target="_blank"><img border="0" height="209" src="img/09_345_09_hxst1ka.png" width="477"/></a><br>
+ノイズレベルは少し高めで、入力設定を+20dBにしてもほぼ同じでした。ハイゲイン時には問題となるかもしれません。また、SEND/RETURNをオンにすると、SN比がわずかに悪化しました。レイテンシーはかなり低く、約0.4msでした。（2024年9月3日 データ差し替え、記述変更）</li></ul><hr size="1"/><br>
+<br>
+＜実機比較＞<br>
+<a href="00289.html" target="_blank">OD-1X</a>、<a href="00300.html" target="_blank">DS-1X</a>、<a href="00277.html" target="_blank">ML-2</a>、<a href="00291.html" target="_blank">BD-2</a>の記事で紹介した周波数特性です。それぞれX-OD、X-DIST、MTL CORE、BLUES ODと比較しています。※X-ODとX-DISTの設定値-50～+50は0～100として記載<br>
+<a href="img/09_289_12od1xFg.png" target="_blank"><img border="0" height="270" src="img/09_289_12od1xFg.png" width="360"/></a><a href="img/09_300_15_dsxFg.png" target="_blank"><img border="0" height="270" src="img/09_300_15_dsxFg.png" width="360"/></a><br>
+<a href="img/09_277_7mlGT.png" target="_blank"><img border="0" height="270" src="img/09_277_7mlGT.png" width="360"/></a><a href="img/09_291_17_bdGT.png" target="_blank"><img border="0" height="270" src="img/09_291_17_bdGT.png" width="360"/></a><br>
+OD-1Xについてはほとんど同じですが、それ以外の機種については違いがあります。<br>
+<br>
+T-SCREAMと<a href="00336.html" target="_blank">TS9</a>実機との比較です。<br>
+<a href="img/09_346_11_gtsc_ts1.png" target="_blank"><img border="0" height="209" src="img/09_346_11_gtsc_ts1.png" width="477"/></a><br>
+TONE50%の時は似ていますが、BOTTOMやTONEはピーキングタイプのイコライザのような動きです。また、<a href="00345.html" target="_blank">HX StompのScream 808</a>と同様、7kHzあたりから高音域が下がっています。ただし、GT-1000COREはサンプリング周波数96kHz（ナイキスト周波数は48kHz）のはずなので、意図的なカットだと思われます。<br>
+<br>
+T-SCREAMと<a href="00336.html" target="_blank">TS9</a>の波形・倍音です。<br>
+<a href="img/09_346_12_gtsc_ts2.png" target="_blank"><img border="0" height="195" src="img/09_346_12_gtsc_ts2.png" width="350"/></a><a href="img/09_345_14_hxst_ts9.png" target="_blank"><img border="0" height="195" src="img/09_345_14_hxst_ts9.png" width="350"/></a><br>
+<a href="00345.html" target="_blank">Scream 808</a>と同様、偶数次倍音は出ていません。<br>
+<br>
+他の機種については、TONEの動きが実機と同じもの（DS-1等）もありました。しかしながら、基本的に正確なモデリングは期待できないと考えたほうがよいでしょう。全ての歪み系エフェクトでBOTTOM（低音域調整）やDIR MIX（クリーンミックス）のコントロールがあるので、この点については使いやすく感じることがありそうです。<br>
+<br>
+<hr size="1"/><br>
+Fender Twin Reverbのモデリング、SP TYPE OFFでの周波数特性です。<br>
+<a href="img/09_346_13_gtsc_tw1.png" target="_blank"><img border="0" height="209" src="img/09_346_13_gtsc_tw1.png" width="477"/></a><br>
+GT-1000COREのTWINは低音域と高音域のカットがあります。<br>
+<br>
+GT-1000COREでキャビネットシミュレータのみを使う方法が<a href="https://pneumoflux.com/2021/03/11/gt-1000-cab-only/" target="_blank"><u>こちらのページ</u></a>で紹介されています。<br>
+<a href="img/09_346_15_gtsc_cab.png" target="_blank"><img border="0" height="130" src="img/09_346_15_gtsc_cab.png" width="336"/></a><br>
+上図のように、プリアンプをオンにしつつMIXでプリアンプ側を0にします。OUTPUT SELECTをRECORDINGにすると、スピーカーの種類を選択できます。ただ、プリアンプの種類によってはSP TYPEをOFFにしても周波数特性がフラットにならないので、パワーアンプのモデリングが加味されている可能性があります。純粋にキャビネットシミュレータのみを使いたい場合、TRANSPARENTやJC-120等のパワーアンプがフラットな特性のプリアンプを選んでおくとよいでしょう。<br>
+<br>
+上記の状態で、AIRD OUTPUT SELECTによる補正がどうなるか確認しました。プリアンプはJC-120です。<br>
+<a href="img/09_346_16_gtsc_aird.png" target="_blank"><img border="0" height="209" src="img/09_346_16_gtsc_aird.png" width="477"/></a><br>
+OUTPUT SELECTがJC-120 RETURNなら、補正する必要がないのでフラットな特性になります。JC-120 INPUTだと中音域が盛り上がっていて、トーン回路の特性をキャンセルする意図がありそうです。TUBE STACK 412 RETURNに設定すると複雑な形が現れ、意図はよくわかりません。AIRDテクノロジーは単純なEQ補正ではないため、接続先に応じて複雑な処理を行っているようです（参考：<a href="https://www.miroc.co.jp/how_to/180809-boss/" target="_blank">AIRDテクノロジーの秘密に迫る！</a>）。他のプリアンプとOUTPUT SELECTの組み合わせでも様々な形が現れますが、フラットになるものは見つかりませんでした。<br>
+<br>
+Twin Reverbのモデリングに設定されているスピーカーの周波数特性です。<br>
+<a href="img/09_346_14_gtsc_tw2.png" target="_blank"><img border="0" height="209" src="img/09_346_14_gtsc_tw2.png" width="477"/></a><br>
+GT-1000COREの方がやや高音域が少ないように見えます。個体差や測定環境の違いがあるためだと考えられます。<br>
+<br>
+<hr size="1"/><br>
+GT-1000COREは<a href="00345.html" target="_blank">HX Stomp</a>とは違い、モデリングにそこまで重きを置いていないようです。しかしながら、<a href="https://articles.boss.info/ja/x-series-pedals-mdp-technology-explained/" target="_blank">MDP</a>や<a href="https://www.boss.info/jp/promos/gt-1000_ultimate_guide/#contents02" target="_blank">AIRD</a>といったBOSS独自の技術があるので、それらを使った音に魅力があるのではないかと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

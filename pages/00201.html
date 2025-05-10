@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>LFO/トレモロ（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>LFO/トレモロ（Pure Data パッチ）</h1>
+  <p align="right">2017年10月05日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)では、[osc~]で余弦波、[phasor~]でノコギリ波を発生させることができます。[cos~]はコサインを計算しますが、[phasor~]と組み合わせて余弦波を発生させるために使う場合があります。[phasor~]は0から1へ上がる形なので、-1をかければ0から-1へ下がる形になります。<br>
+<img alt="03p_201_1wave.png" border="0" height="140" src="img/03p_201_1wave.png" width="500"/><br>
+<br>
+＜三角波（Triangle Wave）＞<br>
+エフェクターに使われるLFO(Low Frequency Oscillator)は三角波が多いようです。Pdでは[phasor~]等を組み合わせることになります。<br>
+<img alt="03p_201_2tri.png" border="0" height="220" src="img/03p_201_2tri.png" width="500"/><br>
+3パターン示していますが、結局[expr~]が一番楽な気がします。<br>
+<br>
+＜矩形波（Square Wave）＞<br>
+あまり使わなさそうですが、一応3パターン示しています。<br>
+<img alt="03p_201_3squ.png" border="0" height="200" src="img/03p_201_3squ.png" width="500"/><br>
+<br>
+<hr size="1"/><br>
+三角波を使い普通のトレモロを作りました。waveコントロールは、三角波を増幅してクリップすることで矩形波へと近づける仕組みになっています。<br>
+<img alt="03p_201_4trem.png" border="0" height="500" src="img/03p_201_4trem.png" width="320"/>（<a href="https://drugscore.web.fc2.com/3p/05_tremolo.pd" target="_blank">このパッチをダウンロード</a>）<br>
+三角波は直線的な数値変化ですが、[dbtorms~]を入れることで指数的な倍率変化による音量操作となるようにしています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

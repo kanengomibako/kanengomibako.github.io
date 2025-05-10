@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>KarDiaN Serotonin </title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>KarDiaN Serotonin </h1>
+  <p align="right">2024年11月25日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_358_01_srtncbf_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_358_01_srtncbf_pic.jpg" width="360"/></a><br>
+今特に人気があるメーカーのエフェクターということで、<a href="https://kardian.net/collections/frontpage/products/serotoninaddcbf" target="_blank">KarDiaN C<sub>10</sub>H<sub>12</sub>N<sub>2</sub>O Serotonin "ADD CBF"</a>を解析しました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/KarDiaN/SerotoninAddCBF" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_358_02_KarDiaN_Serotonin_ADD_CBF_schematic.png" target="_blank"><img add="" alt="KarDiaN Serotonin " border="0" cbf"="" height="579" schematic"="" src="img/09_358_02_KarDiaN_Serotonin_ADD_CBF_schematic.png" width="661"/></a><br>
+CBFモジュール（回路図上側）は、センド・リターンに接続したエフェクターの音（エフェクト音）とローパスフィルターをかけた原音をブレンドするというものです。エフェクト音側も必ず入力バッファーを通ることに留意が必要かと思います。SW101は、エフェクト音の位相反転スイッチです。<br>
+<br>
+SerotoninはTS（チューブスクリーマー）系として紹介されていることが多いようです。実際は、<a href="https://manticorefx.wordpress.com/2017/10/26/timmy-versions/" target="_blank">Timmy</a>の一部定数が違うものにバッファーが加わった形となっています。NJM4558DDはバイアス電圧の部分に使われ、1回路分は使われていない状態です。<br>
+<br>
+他のKarDiaN北田氏設計のエフェクターとして、<a href="https://altero.jp/effect-pedals-kaede/" target="_blank">Altero Custom Guitars KAEDE</a>があります。このエフェクターのクローンと思われる<a href="https://www.pedalpcb.com/product/pcb528/" target="_blank">Acer Overdrive</a>の基板がPedalPCBで販売されており、回路はTimmyの定数違いとなっています。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>C-LPF 0%→50%→100%<br>
+<a href="img/09_358_11_srtncbf_s1.png" target="_blank"><img border="0" height="216" src="img/09_358_11_srtncbf_s1.png" width="450"/></a><br>
+前段の非反転増幅のゲインが+15dB程度あります。C-LPFを下げた時は音量自体も少し低下します。<br>
+</li><br>
+<li>BASS 0%→50%→100%（DRIVE 50%）<br>
+<a href="img/09_358_13_srtncbf_s3.png" target="_blank"><img border="0" height="216" src="img/09_358_13_srtncbf_s3.png" width="450"/></a><br>
+Timmyとの比較です（増幅率を同じに調整）。Serotoninの方がC12が大きい分、少し低音域寄りになります。また、LM1458は帯域幅が狭く、ゲインが高いときに高音域が下がる傾向となります。<br>
+</li><br>
+<li>TREBLE 0%→50%→100%<br>
+<a href="img/09_358_12_srtncbf_s2.png" target="_blank"><img border="0" height="216" src="img/09_358_12_srtncbf_s2.png" width="450"/></a><br>
+単純なローパスフィルターです。Timmy（50kΩと10nF）やProCo RAT（100kΩと3.3nF）より高音域減少幅は小さくなります。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

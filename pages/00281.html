@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Leqtique CLHD 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Leqtique CLHD 解析</h1>
+  <p align="right">2022年03月10日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_281_1clP.jpg" target="_blank"><img alt="09_281_1clP.jpg" border="0" height="307" src="img/09_281_1clP.jpg" width="435"/></a><br>
+Leqtiqueといえば人気のブティック系エフェクターブランドだったわけですが、公式の説明文書内容や高価なオペアンプが使用されているのを見ると、自分には合わないかなと感じていました。ただ全く試さないのもよくないかなと思い、中古ですがCaeruleum Light Drive HD(CLHD)を購入し解析してみました。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_281_2clI.jpg" target="_blank"><img border="0" height="200" src="img/09_281_2clI.jpg" width="500"/></a><br>
+ユニバーサル基板で製作されているように見える基板ですが、裏側を見ると普通のプリント基板でした。部品数が少なく、特にわかりにくい所はなかったです。820Ω表記のカーボンコンポジション抵抗は実測891Ωと864Ωでした。ブリッジダイオードは、内部の2つ分しか使われていません。画像検索すると出てきますが、「CLHD Supreme」ではブリッジダイオードが整流用ダイオード2本に置き換わっていたり、OS-CONが積層セラミックコンデンサに変わっていたりします。<br>
+<br>
+▽回路図<br>
+<a href="img/09_281_3Leqtique_CLHD_schematic.png" target="_blank"><img alt="Leqtique Caeruleum Light Drive HD(CLHD) schematic" border="0" height="300" src="img/09_281_3Leqtique_CLHD_schematic.png" width="503"/></a><br>
+シンプルな回路に見えますが、設計者のこだわりがいろいろと詰め込まれているようです。<br>
+<ul><li>LT1026<br>
+外付けコンデンサ4個で使えるという便利そうな昇圧ICです。ただ、<a href="https://www.cult-pedals.com/pages/leqtique-clhd-supreme%E3%82%92%E3%81%8A%E8%B2%B7%E3%81%84%E4%B8%8A%E3%81%92%E3%81%84%E3%81%9F%E3%81%A0%E3%81%84%E3%81%9F%E3%81%BF%E3%81%AA%E3%81%95%E3%81%BE%E3%81%B8" target="_blank">CLHD Supremeでの故障報告</a>があるので無理に使わない方がいいのかもしれません。<br>
+</li><br>
+<li>出力カップリングコンデンサ省略<br>
+通常はオペアンプの出力にカップリングコンデンサを入れ、直流電圧をカットします。CLHDでは、おそらく両電源駆動かつ低オフセット電圧のオペアンプ使用という理由で、カップリングコンデンサが省かれています。基本的には後段の機器に万一でも影響を与えたくないので、真似しない方がよいのではないかと思います。一応問題点を強いて言えば、出力部に直流電圧が触れた場合に保護が弱いということくらいでしょうか。<br>
+</li><br>
+<li>LT1028<br>
+OVER-COMP（Over-Compensation：過補償）という機能があるシングルオペアンプです。<a href="https://www.analog.com/media/jp/technical-documentation/data-sheets/j1028fc.pdf" target="_blank">データシート</a>によると、5・8ピン間のコンデンサ容量によりスルーレートが変化します。CLHDではそこにポット（Definition）を入れてスルーレートを変化させるという仕組みです。<br>
+<br>
+下図のように、Definitionを上げてスルーレートが下がると高い周波数の音は波形追従ができなくなり、ゆがみが多くなり音量も下がります。<br>
+<a href="img/09_281_4clW.png" target="_blank"><img alt="09_281_4clW.png" border="0" height="165" src="img/09_281_4clW.png" width="380"/></a><br>
+また、入力音量やゲインが大きいほど波形追従しにくくなるため、高音域が下がりやすくなります。<a href="https://drugscore.blog.fc2.com/00268.html" target="_blank">PT2399の特性調査</a>の時と似た状態です。下図はDefinition 0%と100%での周波数特性です。<br>
+<a href="img/09_281_5clF.png" target="_blank"><img alt="09_281_5clF.png" border="0" height="300" src="img/09_281_5clF.png" width="400"/></a><br>
+音量が大きい方（上側）に対し、音量が小さい方（下側）は高音域の変化が少ないです。出力が小さいギターの場合は注意が必要かもしれません。少しわかりにくい面はありますが、他のエフェクターでは見られない面白いコントロールだと思います。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

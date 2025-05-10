@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MXR M75 Super Badass Distortion 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MXR M75 Super Badass Distortion 解析</h1>
+  <p align="right">2022年11月17日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_302_01_sbdP.jpg" target="_blank"><img border="0" height="320" src="img/09_302_01_sbdP.jpg" width="465"/></a><br>
+MXRの歪み系エフェクターは、近年発売されたもの以外は回路が判明していると思っていました。しかしSuper Badass Distortionについてはまだ回路図が出回っていないようだったので、解析してみることにしました。KiCadとLTspiceの回路図データ、基板画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/SuperBadassDistortion" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_302_02_sbdPCB1.jpg" target="_blank"><img border="0" height="384" src="img/09_302_02_sbdPCB1.jpg" width="250"/></a><a href="img/09_302_03_sbdPCB2.jpg" target="_blank"><img border="0" height="172" src="img/09_302_03_sbdPCB2.jpg" width="250"/></a><br>
+未実装の部品が多く、その部分のトレースはしていません。開発段階ではスイッチで別の回路に切り替える仕組みがあったようですが、最終的には採用されずこのような形になったと考えられます。他の機種と共用の基板ではなさそうですし、なぜ基板が再設計されなかったのかは謎です。<br>
+※オペアンプやスイッチは取り外していないので、導通確認でパターンを推測している所があります。<br>
+<br>
+▽回路図<br>
+<a href="img/09_302_04_MXR_M75_Super_Badass_Distortion_schematic.png" target="_blank"><img alt="MXR M75 Super Badass Distortion schematic" border="0" height="237" src="img/09_302_04_MXR_M75_Super_Badass_Distortion_schematic.png" width="669"/></a><br>
+開発段階でのみ使われていたと思われるオペアンプが一つ無駄になっています（U2A）。電源部にはレギュレータがあるため、高い電圧を入力しても9Vに安定化されます（レギュレータの絶対最大定格電圧は20V）。細かい所では、フォンジャックがダンロップのDマークがついている特殊なものとなっており、リング部分のスイッチ機構が通常と異なっています。<br>
+<br>
+スイッチ関連部分には相当な数の部品が使ってあります。フットスイッチは3PDTですが単純なトゥルーバイパスにはなっておらず、FETスイッチで入出力をグラウンドに落としてあります。なぜここまでする必要があったのか、これも開発段階の回路に関係しているのかもしれません。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>前半の増幅部<br>
+<a href="img/09_302_05_sbdS1.png" target="_blank"><img border="0" height="187" src="img/09_302_05_sbdS1.png" width="671"/></a><br>
+回路構成が似ているMarshall The Guv'norとの比較です（最大ゲインを同程度に調整）。ゲインが真ん中あたりの時の周波数特性が特に似ています。ゲインが低い時にGuv'norでは高音域が下がるのに対し、Super Badass DistortionではC12側の経路が効いているため、高音域が下がらないようになっています。<br>
+<br>
+<li>後半のトーンコントロール部<br>
+<a href="img/09_302_06_sbdS2.png" target="_blank"><img border="0" height="187" src="img/09_302_06_sbdS2.png" width="405"/></a><br>
+グラフィックイコライザでよく使われる、ジャイレータ（シミュレーテッドインダクタ）を使ったイコライザ回路です。ただし、フラットにした状態（青線）では高音域が下がる形となっています。周波数は、BASSは150Hz、MIDは500Hz、TREBLEは6kHzあたりです。Guv'norのトーンコントロール（参考ページ：<a href="https://www.electrosmash.com/marshall-guvnor-analysis" target="_blank">Marshall The Guvnor Analysis</a>）より扱いやすくなっているように思います。<br>
+</li></li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

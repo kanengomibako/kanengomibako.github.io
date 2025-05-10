@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>monomonster Relay Bypass Module 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>monomonster Relay Bypass Module 解析</h1>
+  <p align="right">2018年04月30日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  SPSTモーメンタリースイッチを使ってトゥルーバイパス＋LED切替が実現できる<a href="https://www.garrettaudio.com/mmonster.html" target="_blank">monomonster Relay Bypass Module (RMB)</a>というものがGarrettaudioで販売されています。一体どういったものなのか興味があり、購入後回路を調べてみました。<br>
+<br>
+▽基板写真<br>
+<a href="img/14_217_1rbmp1.png" target="_blank"><img alt="14_217_1rbmp1.png" border="0" height="200" src="img/14_217_1rbmp1.png" width="200"/></a>　<a href="img/14_217_2rbmp2.png" target="_blank"><img alt="14_217_2rbmp2.png" border="0" height="200" src="img/14_217_2rbmp2.png" width="200"/></a><br>
+<br>
+▽回路図<br>
+<a href="img/14_217_3rbms.png" target="_blank"><img alt="14_217_3rbms.png" border="0" height="400" src="img/14_217_3rbms.png" width="420"/></a><br>
+ATTiny13AというマイコンとHFD31/5-L1というラッチリレーが使われています。やたらとフィルムコンデンサが大きいので、積層セラミックコンデンサに変えてもよさそうです。出力側にある2N7000はスイッチングノイズ軽減の役割があると思われます。エフェクト回路の入力をGNDに落とすため、リレーの2番端子はGNDに繋ぐのが普通かと思いますが、基板裏のベタパターンが離れているために実際はどこにも繋がっていません（表のベタ塗りを忘れたのかも）。<br>
+<br>
+スイッチングの様子を録音しました。<br>
+<a href="img/14_217_4rbmsw.png" target="_blank"><img alt="14_217_4rbmsw.png" border="0" height="237" src="img/14_217_4rbmsw.png" width="352"/></a><br>
+スイッチング時10ms程度出力がミュートされるプログラムとなっているようです。しかしながらMOSFETは構造上ダイオードが入っている（寄生ダイオード）ため、<strong>音量が大きいと波形がクリップされます</strong>。2N7000を外した場合は、スイッチング時大きくノイズが入ります。たぶん通常の3PDTスイッチと同じ程度のノイズだろうと思います。試しに2N7000を2SK303に差し替えた場合（足を曲げる必要あり）も録音しましたが、この場合はIdssの影響か音量が下がり波形も歪んでしまいました。<br>
+<br>
+結局このモジュールはそのままでは使いにくいという結果となりました。回路採取にミスがないとも言い切れませんが……とにかく購入される方は注意が必要だと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

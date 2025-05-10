@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ATtiny85 タップテンポ付LFO その2</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ATtiny85 タップテンポ付LFO その2</h1>
+  <p align="right">2018年08月31日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  <a href="img/14_229_1atLFO2.png" target="_blank"><img alt="14_229_1atLFO2.png" border="0" height="207" src="img/14_229_1atLFO2.png" width="297"/></a><br>
+<a href="00228.html">前回のLFO</a>をさらに発展させました。主な変更点は下記の通りです。考え方は前回と同じで、一定間隔でPWMのデューティ比を変更します。<br>
+・1周期126分割→510分割（PWMの分解能8ビット分をフルに生かせる）<br>
+・PWM周波数31.25kHz→250kHz（出力ピンPB0→PB1）<br>
+・タイマー割り込みを使ってPWMデューティ比を変更、タップ時間計測<br>
+<br>
+タイマー・割り込みに関する詳細説明は省きます。ATtiny85（<a href="https://avr.jp/user/DS/PDF/tiny45.pdf" target="_blank">日本語データシートpdf</a>）は2つのタイマーがあり、Timer0でデューティ比変更時間の管理とタップテンポの時間計測をし、Timer1でPWMを使います。該当レジスタを変更することにより様々な設定を行うわけですが、見慣れないビット演算が出てくるので最初は戸惑うかもしれません。<br>
+参考ページ→<a href="https://www.binzume.net/library/robo/ca3.html">C言語入門::付録　ビット演算</a>（<a href="https://www.binzume.net/">びんずめ堂</a>）・<a href="https://usicolog.nomaki.jp/engineering/avr/avrPWM.html">AVRでのタイマとPWMの使い方</a>（<a href="https://usicolog.nomaki.jp/">うしこlog</a>）・<a href="https://usicolog.nomaki.jp/engineering/avr/avrInterrupt.html">AVRでの割り込みの使い方</a>（<a href="https://usicolog.nomaki.jp/">うしこlog</a>）<br>
+<br>
+今回のスケッチでは三角波を生成しています。ATtiny85のPWMを最高速で動作させるため、Arduino IDEのツールメニューから「Timer1 Clock: "64MHz"」を選択し「ブートローダを書き込む」という操作を行っておく必要があります。<br>
+<br>
+▽Arduinoスケッチ（94行）<br>
+<code><pre>const int PWMpin = 1;<br>
+const int POTpin = 3;<br>
+const int SWpin = 4;<br>
+<br>
+volatile byte rateCount = 0; // Timer0用カウンタ = 割り込み回数<br>
+volatile byte rateCountNum = 0; // Timer0 割り込み回数決定値<br>
+volatile int pwmCount = 0; // PWM用カウンタ 0～509<br>
+volatile unsigned long timeCount = 0; // タップ時間取得用カウンタ<br>
+<br>
+unsigned long tapTime = 0; // タップ間隔時間<br>
+unsigned long timeTemp = 0; // タップ間隔時間一時保存用<br>
+unsigned long swCount = 0; // スイッチ用カウンタ<br>
+const byte rateAdj = 99; // 周期補正率 % 実測して設定<br>
+int oldPOTvalue = 2000; // 前回ADC読取値<br>
+int newPOTvalue = 2000; // 今回ADC読取値<br>
+<br>
+void setup() {<br>
+  PLLCSR |= (1 &lt;&lt; PLLE);  // Timer1 PLL許可<br>
+  delayMicroseconds(200); // Timer1 PLL許可後安定するまで待機<br>
+  PLLCSR |= (1 &lt;&lt; PCKE);  // Timer1 PCK(64MHz)許可<br>
+  TCCR1 = 0b01100001;     // Timer1 PWM動作A 分周なし<br>
+  OCR1A = 100;            // Timer1 比較Aの値 = PWMデューティ比<br>
+  TCCR0A = 0b00000010;    // Timer0 CTCモード<br>
+  TCCR0B = 0b00000010;    // Timer0 クロック8分周<br>
+  TIMSK |= (1 &lt;&lt; OCIE0A); // Timer0 比較A割り込み許可<br>
+  OCR0A = 100;            // Timer0 比較Aの値 = 割り込み間隔 us<br>
+  pinMode(PWMpin, OUTPUT);<br>
+  pinMode(POTpin, INPUT);<br>
+  pinMode(SWpin, INPUT_PULLUP);<br>
+  sei(); // 全割り込み許可<br>
+}<br>
+<br>
+// LFO（Timer0 比較A割り込み）---------------------------------------<br>
+ISR(TIMER0_COMPA_vect) {<br>
+  if (rateCount == rateCountNum) {<br>
+    rateCount = 0;<br>
+    if (pwmCount == 510) pwmCount = 0;<br>
+    if (pwmCount &lt; 256) OCR1A = pwmCount; // 三角波（上昇）<br>
+    else OCR1A = 510 - pwmCount;          // 三角波（下降）<br>
+    pwmCount++;<br>
+  }<br>
+  rateCount++;<br>
+  timeCount++;<br>
+}<br>
+<br>
+void loop() { // 1ループ約0.14ms<br>
+  // タップテンポ ---------------------------------------------------<br>
+  if (digitalRead(SWpin) == LOW) {<br>
+    swCount++;<br>
+    if (swCount == 70) { // チャタリング対策 10msスイッチ押下で検出<br>
+      // 前回スイッチ検出から経過した時間を記録<br>
+      tapTime = timeTemp + timeCount * OCR0A * 0.001;<br>
+      timeTemp = 0; // 経過時間をリセット<br>
+      timeCount = 0;<br>
+      if ( 100 &lt; tapTime &amp;&amp; tapTime &lt; 3000) { // 周期制限 0.1秒～3秒<br>
+        // デューティ比変更間隔時間へ換算（*1000/510*周期補正率）<br>
+        rateCalc(tapTime * 1.96078 * rateAdj * 0.01);<br>
+      }<br>
+    }<br>
+  }<br>
+  else swCount = 0;<br>
+<br>
+  // ADC ------------------------------------------------------------<br>
+  newPOTvalue = analogRead(POTpin); // 読取値が4以上変化で変更<br>
+  if (abs(newPOTvalue - oldPOTvalue) &gt; 3) {<br>
+    rateCalc((100 + 3 * newPOTvalue) * 1.96078 * rateAdj * 0.01);<br>
+    oldPOTvalue = newPOTvalue;<br>
+  }<br>
+}<br>
+<br>
+// デューティ比変更間隔時間(x)変更計算 x = p * q + r ----------------<br>
+void rateCalc(int x) {<br>
+  byte q; // 商<br>
+  byte r; // 余り<br>
+  int pMin;<br>
+  byte qMin;<br>
+  byte rMin = 255;<br>
+  for (int p = 255; p &gt; 99; p--) { // 除数255から100まで計算<br>
+    q = x / p;<br>
+    r = x % p;<br>
+    if (r &lt; rMin) { // 余りrが最小値の時の値を記録<br>
+      pMin = p;<br>
+      qMin = q;<br>
+      rMin = r;<br>
+    }<br>
+  }<br>
+  // OCR0A変更前に経過した時間をtimeTempに代入した後、<br>
+  // カウンタをリセットして新しいOCR0Aで再度カウント開始<br>
+  timeTemp = timeTemp + timeCount * OCR0A * 0.001;<br>
+  timeCount = 0;<br>
+  OCR0A = pMin;<br>
+  rateCountNum = qMin;<br>
+  rateCount = 0;<br>
+}<br>
+</pre></code><br>
+<hr size="1"/><br>
+＜タップ時間計測について＞<br>
+Timer0に比較A割り込みを設定している関係で、millis関数で時刻を取得しようとしてもうまくいきません。タップ時間の測定は割り込み回数をカウントすることにより行います。Timer0はクロック8MHz、8分周なので最小時間単位は1usです。OCR0Aを200にすると200usごとに割り込みが発生します。<br>
+<br>
+<i>【例】0.2msごとに割り込みが発生（OCR0A＝200）→割り込みが50回発生（timeCount＝50）→経過時間10ms（0.2ms×50）</i><br>
+<br>
+OCR0Aを更新する時に、更新前の時間（timeTemp）を計算しておく必要があります（スケッチ最下部）。TCNT0も加味した方がより正確ですが、そこまでの精度は必要ないでしょう。タップについては1回目と2回目の区別はなく、毎回前回タップからの経過時間を計算します。経過時間が設定可能なLFO周期内であるときだけ、実際に周期を変更することになります。<br>
+<br>
+<hr size="1"/><br>
+＜デューティ比変更間隔時間の計算処理について＞<br>
+OCR0Aを200とし、割り込みが発生する度にデューティ比を変更すると、周期は102ms（0.2ms×510）です。OCR0Aは255まで（8ビット）なので、このままでは周期を長く設定できません。分周比を変えることも考えましたが時間分解能が悪くなります。そこで長い周期を得るために、何回か割り込みが発生した時にデューティ比を変更するようにします。<br>
+<br>
+<i>【例】0.2msごとに割り込みが発生（OCR0A＝200）→割り込みが10回発生（rateCountNum＝10）するごとにデューティ比変更→周期1020ms（0.2ms×10×510）</i><br>
+<br>
+次は逆に周期から割り込み間隔と回数を計算します（上記スケッチのrateCalc関数）。ちょっと無理やり感がありますが、100～255usの割り込み間隔で割った商（＝割り込み回数）と余り（＝誤差）を全て計算し、余りが最小になる時を採用します。割り込み間隔はあまりに狭いと問題がありそうなので、100us以上としました。<br>
+<br>
+<i>【例】最適値計算：周期1030ms（1030000us）→デューティ比変更間隔時間2019us(1030000÷510切捨)→224us(割り込み間隔)×9(回数)＋3us(誤差)<br>
+計算値設定後：0.224msごとに割り込みが発生（OCR0A＝224）→割り込みが9回発生（rateCountNum＝9）するごとにデューティ比変更→周期1028ms（0.224ms×9×510）</i><br>
+<br>
+ほとんどの場合で周期の誤差は2ms以内に収まります。実は上記例では2019usを+1usして再計算したほうが誤差が減るのですが、そこまでの計算はしないことにします。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>1次ローパスフィルター（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>1次ローパスフィルター（Pure Data パッチ）</h1>
+  <p align="right">2017年09月20日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)で使える各ローパスフィルター(LPF)の特性を示します。カットオフ周波数（f<sub>c</sub>）は5000Hz、サンプリング周波数（f<sub>s</sub>）は44100Hzです。<br>
+<img alt="03p_198_1lpfs.png" border="0" height="200" src="img/03p_198_1lpfs.png" width="300"/><br>
+<br>
+f<sub>c</sub>が高い場合にアナログ1次LPFに近く使いやすそうなオブジェクトがないので、[rpole~]や[biquad~]を使ってみることにします。私には詳しく説明できる程の知識がないので、とりあえず計算式だけを紹介します。<br>
+<br>
+<hr size="1"/><br>
+＜[rpole~]用＞<br>
+<a href="https://dsp.stackexchange.com/questions/34969/cutoff-frequency-of-a-first-order-recursive-filter" target="_blank">こちらのサイトの式</a>が一番精度が高いようです。aとbを逆にしています。<br>
+<img alt="03p_198_2lpfc1.png" border="0" height="60" src="img/03p_198_2lpfc1.png" width="270"/><br>
+[rpole~]の右インレットに上記a<sub>1</sub>の値を入れます。そのままでは音量が上がるので、出力に b<sub>0</sub>=1-a<sub>1</sub> をかけるとよいようです。<br>
+<br>
+＜[biquad~]用＞<br>
+<a href="https://www.st.com/resource/ja/application_note/dm00038862.pdf" target="_blank">このアプリケーションノート(pdf)</a>の式を使いました。<br>
+<img alt="03p_198_3lpfc2.png" border="0" height="80" src="img/03p_198_3lpfc2.png" width="270"/><br>
+[biquad~]へ[-a<sub>1</sub> 0 b<sub>0</sub> b<sub>1</sub> 0]の形で送ります。<br>
+<br>
+<hr size="1"/><br>
+[rpole~][biquad~]と同じ意味となる[fexpr~]も加えてパッチを作りました。適宜出力を繋ぎ替えて下さい。<br>
+<a href="img/03p_198_4lpf.png" target="_blank"><img alt="03p_198_4lpf.png" border="0" height="370" src="img/03p_198_4lpf.png" width="540"/></a><br>
+（<a href="https://drugscore.web.fc2.com/3p/03_lpf.pd" target="_blank">このパッチをダウンロード</a>）<br>
+<br>
+下図はf<sub>c</sub>=1000とf<sub>c</sub>=5000、f<sub>s</sub>=44100での特性です。高域部分が[rpole~]では上がり気味に、[biquad~]では下がり気味になるようです。<br>
+<img alt="03p_198_4lpfsf.png" border="0" height="200" src="img/03p_198_4lpfsf.png" width="300"/><br>
+<br>
+面倒な数式ですが結構苦労したので、いつの日かこのLPFを使うときが来ればいいなぁと思います。<br>
+<br>
+---以下2017年9月23日追記---<br>
+<br>
+[lop~]の手軽さは捨てがたいので、変換表を作りました。上段のカットオフ周波数に設定したいときは、下段の値を[lop~]に入れればOKです。※f<sub>s</sub>=44100での値です。<br>
+<table border="1"><tr><td bgcolor="#CCCCCC"> fc(Hz) </td><td>1000</td><td>1500</td><td>2000</td><td>2500</td><td>3000</td><td>4000</td><td>5000</td><td>6000</td><td>8000</td><td>10000</td></tr><tr><td bgcolor="#CCCCCC"> [lop~] </td><td>931</td><td>1346</td><td>1730</td><td>2085</td><td>2412</td><td>2990</td><td>3477</td><td>3887</td><td>4520</td><td>4964</td></tr></table><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

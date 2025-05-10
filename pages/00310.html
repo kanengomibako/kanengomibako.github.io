@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Jim Dunlop FFM1 SILICON FUZZ FACE MINI DISTORTION 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Jim Dunlop FFM1 SILICON FUZZ FACE MINI DISTORTION 解析</h1>
+  <p align="right">2023年04月11日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_310_01_ffm1P.jpg" target="_blank"><img border="0" height="280" src="img/09_310_01_ffm1P.jpg" width="550"/></a><br>
+<a href="00307.html" target="_blank">ギター音再現機</a>を製作したことによりギター直結時のファズの音質評価がしやすくなったので、改めてファズフェイスについて勉強してみようと思います。まずは標準的な機種として、<a href="https://www.jimdunlop.com/silicon-fuzz-face-mini-distortion/" target="_blank">Jim Dunlop FFM1 SILICON FUZZ FACE MINI</a>を解析することにしました。KiCadとLTspiceの回路図データ、基板画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/FFM1" target="_blank">GitHub</a>にあります。<br>
+<br>
+BC108BのSPICEモデルは、<a href="https://forum.kicad.info/t/how-to-set-spice-transistor-parameters/11131/5" target="_blank">このページ</a>のZETEX BC108 Spice modelと記載があるものを使いました。<a href="https://www.cdil.com/metal-can-transistors/bc107abc-bc108abc-bc109abc" target="_blank">BC108データシート</a>の測定条件 Vce=5V Ic=2mA でhFEが250になるよう、Bf=322に変更してあります。正確なモデルなのかどうかは不明ですが、概ね実測と合っているようです。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_310_02_ffm1K.jpg" target="_blank"><img border="0" height="300" src="img/09_310_02_ffm1K.jpg" width="300"/></a><br>
+ユーザーから見える部分はスルーホール部品を使い、見えない部分に表面実装部品が並んでいます。<a href="https://www.jimdunlop.com/jimi-hendrix-fuzz-face-distortion/" target="_blank">JHF1 Jimi Hendrix Fuzz Face</a>でも基板裏に表面実装部品が使われており、設計者が基板の見た目にもこだわっていることがうかがえます。<br>
+<br>
+▽回路図<br>
+<a href="img/09_310_04_Jim_Dunlop_FFM1_SILICON_FUZZ_FACE_MINI_Schematic.png" target="_blank"><img alt="Jim Dunlop FFM1 SILICON FUZZ FACE MINI Schematic" border="0" height="515" src="img/09_310_04_Jim_Dunlop_FFM1_SILICON_FUZZ_FACE_MINI_Schematic.png" width="465"/></a><br>
+REV.A3基板の中古個体も入手したのですが、REV.C1基板の新品個体の回路図・データを掲載しています。おそらく<a href="https://www.jimdunlop.com/germanium-fuzz-face-mini-distortion/" target="_blank">FFM2</a>と共用の基板で、PNPトランジスタ対応のため電源とグラウンドが入れ替えられるようになっていますが、基本的には伝統的なファズフェイスの回路です。バイパス関連部分は<a href="00302.html" target="_blank">Super Badass Distortion</a>と同様の回路で、FETスイッチで入出力をグラウンドに落としてあります。主要回路の解説については下記参考ページ等をご参照ください。<br>
+・GEO - <a href="https://www.geofex.com/article_folders/fuzzface/fftech.htm" target="_blank">The Technology of the Fuzz Face</a><br>
+・ElectroSmash - <a href="https://www.electrosmash.com/fuzz-face" target="_blank">Fuzz Face Analysis</a><br>
+<br>
+<a href="img/09_310_03_ffm1Tr.jpg" target="_blank"><img border="0" height="120" src="img/09_310_03_ffm1Tr.jpg" width="120"/></a><br>
+REV.C1基板のBC108Bは「-SEL」が印字されており、おそらくSELECT（選別）を意味する特注品だと思われます。REV.A3基板のBC108B（-SEL無し）のhFEは248と252で、hFEは250前後で選別されているようです。その他にも、REV.A3基板→REV.C1基板でR17：100R→220R、C1：100u→330uへと変更され、電源ノイズ対策が強化されています。<br>
+<br>
+<hr size="1"/><br>
+【シミュレーション】<br>
+<br>
+トランジスタのエミッタ接地回路については、下記ページの図を見ると理解しやすいかと思います。<br>
+・Electrical Information - <a href="https://detail-infomation.com/amplifier-common-emitter-circuit/" target="_blank">エミッタ接地回路の『特徴』や『原理』について</a><br>
+<br>
+動作基準点となるベース電流を把握する必要があります。FFM1での直流バイアスは下図のようになります。<br>
+<a href="img/09_310_07_ffm1S1.png" target="_blank"><img alt="09_310_07_ffm1S1.png" border="0" height="270" src="img/09_310_07_ffm1S1.png" width="240"/></a><br>
+Ib1は 電源→RC1→Q2ベース-エミッタ→RF1→Q1ベース という流れで設定されています。<br>
+<br>
+＜Q1＞のIc-Vce特性は下図です。交流負荷線の傾きは不明なので無理やり記入しました。<br>
+<a href="img/09_310_08_ffm1S2.png" target="_blank"><img border="0" height="208" src="img/09_310_08_ffm1S2.png" width="470"/></a><br>
+ギターからの入力信号により、Ib1が1.24uAを中心に1.04～1.44uAで変化したとすると、Ic1は210～290uAで変化します。しかしVc1は0.3～1.4Vまでしか変化しません。これは、Q1のコレクタにQ2が接続されているためです。すなわち、Q2のベース-エミッタはダイオードのように働くため、Ic1増加時はIb2がすぐに0になってIrc1が増加し、Ic1減少時はIb2が増加する動作になります（下図）。<br>
+<a href="img/09_310_09_ffm1S3.png" target="_blank"><img border="0" height="208" src="img/09_310_09_ffm1S3.png" width="470"/></a><br>
+Ib2は3.2uAを中心に0～40uAで変化しており、次段の増幅に関与します。かなり偏ったクリッピングです。<br>
+<br>
+＜Q2＞のIc-Vce特性は下図です。<br>
+<a href="img/09_310_10_ffm1S4.png" target="_blank"><img border="0" height="208" src="img/09_310_10_ffm1S4.png" width="470"/></a><br>
+最大振幅の真ん中になるバイアス点は4.8V（Vce2=4.1V）あたりです。FFM1では低めの4.1Vなので、少し偏った位置にバイアス点が設定されているということになります。ちなみに<a href="https://www.freestompboxes.org/viewtopic.php?t=1727&amp;hilit=jhf1&amp;start=60" target="_blank">JHF1</a>では5.75Vという設定のようです。<br>
+<br>
+<hr size="1"/><br>
+【鈴鳴りについて】<br>
+<br>
+ファズフェイスは、ギター直結でギターボリュームを絞ると鈴鳴り（Bell Tone）と呼ばれる煌びやかな音が出せることが知られています。一体どのような特性なのか、<a href="00307.html" target="_blank">ギター音再現機</a>を使って実測しました。歪まないように入力レベルをかなり下げています。<br>
+<a href="img/09_310_05_ffm1B1.png" target="_blank"><img border="0" height="183" src="img/09_310_05_ffm1B1.png" width="417"/></a><br>
+ギターボリュームを下げた時、高音域があまり下がらず残ったままの状態となっています。言い換えれば、ギターボリュームを上げると低音域を中心に増幅されるということです。これを説明するのに、<a href="https://bccweb.bai.ne.jp/ichian/analog/ecb/fuzzface/fuzzface1.htm" target="_blank">一庵堂 わかりやすいFUZZ FACEの読み方</a>というページが参考になります。このページでは、ファズフェイスの回路はオペアンプの反転増幅回路に似た動作で増幅していると解説されています（近似計算なので実際とズレはあります）。<br>
+<br>
+下図のような単純な反転増幅回路に置き換えて考えてみます。<br>
+<a href="img/09_310_06_ffm1B2.png" target="_blank"><img border="0" height="208" src="img/09_310_06_ffm1B2.png" width="450"/></a><br>
+基本的には、ギターボリュームを上げるほど入力抵抗が低くなり増幅率が上がるはずです。しかしピックアップはコイルなので高い周波数は電流を流しにくく（入力抵抗が高い）、低音域側が増幅される形になります。ギターボリュームを絞ると、増幅率が低くなってフラットな特性に近くなるため、全体としては高音域が出てきたように感じるということになります。そして実際のファズフェイスでは、C10（22uF）により低音域が下がっていることや、入力レベルが低くても少し歪みが生じていることも影響し、煌びやかな音色が生み出されていると考えられます。<br>
+<br>
+ ---2023年7月17日追記---<br>
+<br>
+鈴鳴りについて、もう少し簡単に考えました。ギターのピックアップを単純なコイルとし、入力インピーダンスが低い機器に接続した状態を考えると、ローパスフィルタを形成して高音域が減少します。※入力インピーダンスが高い場合には、カットオフ周波数が高くなるためほとんどフラットな状態になります。<br>
+<a href="img/09_310_07_ffm1B3.png" target="_blank"><img border="0" height="208" src="img/09_310_07_ffm1B3.png" width="450"/></a><br>
+ギターボリュームを絞ると、コイルに直列に入っている抵抗値が大きくなりフラットな特性に近づいていきます。これにより相対的に高音域が出てくるように感じられるということになります。<br>
+<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ZOOM MS-50G MultiStomp 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ZOOM MS-50G MultiStomp 分解・特性測定</h1>
+  <p align="right">2024年05月05日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_339_01_ms50g_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_339_01_ms50g_pic.jpg" width="390"/></a><br>
+2023年11月に<a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50gplus/" target="_blank">ZOOM MS-50G+</a>が発売されましたが、旧機種の<a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50g/" target="_blank">MS-50G</a>について調べていなかったため、分解してみることにしました。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_339_02_ms50g_i1.jpg" target="_blank"><img border="0" height="270" src="img/09_339_02_ms50g_i1.jpg" width="215"/></a><a href="img/09_339_03_ms50g_i2.jpg" target="_blank"><img border="0" height="270" src="img/09_339_03_ms50g_i2.jpg" width="215"/></a><a href="img/09_339_04_ms50g_i3.jpg" target="_blank"><img border="0" height="240" src="img/09_339_04_ms50g_i3.jpg" width="180"/></a><br>
+＜主なIC＞<br>
+DSP：TMS320C6745（ZOOM ZFX-IV）<br>
+DRAM：EM638165TS-7G<br>
+フラッシュメモリ：MX25L3233<br>
+電源管理：RT9971<br>
+インバータ：SN74HCU04<br>
+ADC：WM8782<br>
+DAC：PCM5101A<br>
+<br>
+下記ページでMS-70CDRの内部画像等が掲載されており、同様のICが確認できます。<br>
+・<a href="https://toshi.life.coocan.jp/review/diy_repair_ms_70cdr.html" target="_blank">エフェクタ修理：ZOOM MultiStomp MS-70CDR の音割れ</a><br>
+<br>
+<hr size="1"/><br>
+▽アナログ入出力部　回路図<br>
+<a href="img/09_339_05_ms50g_io.png" target="_blank"><img border="0" height="290" src="img/09_339_05_ms50g_io.png" width="594"/></a><br>
+入力部はトランジスタのバッファです。入力インピーダンスは実測390kΩでした。<a href="https://zoomcorp.com/ja/jp/multi-effects/multistomp-pedals/ms-50g/" target="_blank">公式サイト</a>には入力インピーダンス1MΩと記載があるので、仕様変更されたのかもしれません。WM8782は内部にオペアンプがあり、LchとRchでゲイン違いを2つ準備してあります。基本はゲインが高い方にしておき、過大入力時はゲインが低い方に切り替えていると思われます。PCM5101Aはチャージポンプ内蔵で±電源を生成しているため、出力のカップリングコンデンサを省くことができます。推奨負荷インピーダンスが1kΩ以上なので、出力に1kΩ抵抗が挿入されています。ヘッドフォンを接続した場合には大きな音量は出せません。<br>
+<br>
+入力音量によって、SN比が変化するのが確認できました。<br>
+<a href="img/09_339_06_ms50g_inl.png" target="_blank"><img border="0" height="209" src="img/09_339_06_ms50g_inl.png" width="477"/></a><br>
+<br>
+入力切り替えの境目あたりの音量（50mVrms）では、1kHzのピークの周りに別のピークが出現しています。プログラム内部のゲイン調整数値と実際のアナログ回路のゲインに誤差があるため、波形の途中にズレ（歪み）が生じていると考えられます。<br>
+<a href="img/09_339_07_ms50g_inll.png" target="_blank"><img border="0" height="209" src="img/09_339_07_ms50g_inll.png" width="477"/></a><br>
+<br>
+<hr size="1"/><br>
+▽バイパス音 ※±1dBに拡大<br>
+（DIRECT：測定に使用している<a href="00261.html" target="_blank">オーディオインターフェースUR22C</a>の入出力を直結）<br>
+<a href="img/09_339_08_ms50g_bp.png" target="_blank"><img border="0" height="209" src="img/09_339_08_ms50g_bp.png" width="477"/></a><br>
+ごくわずかに低音域・高音域がカットされていますが、-0.5dB程度なので基本的には気にする必要はないでしょう。カップリングコンデンサの容量を大きくするとわずかに低音域が改善します。ただ、これ以上改善するように改造するのは無理そうです。レイテンシは、約1.2msでした。<br>
+<br>
+<hr size="1"/><br>
+MS-50Gにはチューブスクリーマーのモデリングとされる「T Scream」と「TS Drive」を書き込むことができます。これらのエフェクトの周波数特性をTS9実機と比較しました。<br>
+<a href="img/09_339_09_ms50g_ts.png" target="_blank"><img border="0" height="209" src="img/09_339_09_ms50g_ts.png" width="477"/></a><br>
+T Screamはなぜか複雑な形となっています。TS DRIVEは似ていますが高音域の減衰が大きいです。TONEの動き方は両方TS9と同じような感じです。<br>
+<br>
+歪み系のエフェクトでは、波形が歪みナイキスト周波数以上の高い周波数領域に倍音成分が発生することがあります。この時、ナイキスト周波数以下の低い周波数領域に折り返しノイズ（エイリアスノイズ）が発生します。高音域の減衰を大きくしてあるのは、エイリアスノイズを防ぐために行っている処理なのかもしれません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

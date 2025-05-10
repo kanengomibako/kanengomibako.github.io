@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>STM32 NucleoボードのLチカ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>STM32 NucleoボードのLチカ</h1>
+  <p align="right">2018年11月19日　カテゴリー：STM32 エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03s_231_1nu.jpg" target="_blank"><img border="0" height="240" src="img/03s_231_1nu.jpg" width="240"/></a><br>
+将来的にデジタル信号処理を行うことを考えると、32ビットマイコンを使いこなすことが必要になってくると思います。今回STM32 Nucleoボードを購入したので、ボード上のLEDの点滅（Lチカ）までの手順をメモしておきます。<br>
+<br>
+使用したNucleoボード：NUCLEO-F303RE（STM32F303RE搭載）　※miniBタイプのUSBケーブルが必要<br>
+<br>
+<hr size="1"/><br>
+＜開発環境＞<br>
+下記2つのソフトをインストールします。<br>
+・<a href="https://atollic.com/truestudio/">TrueSTUDIO for STM32</a> 9.1.0<br>
+・<a href="https://www.st.com/ja/development-tools/stm32cubemx.html">STM32CubeMX</a> 5.0.0　※<a href="https://java.com/ja/download/">Java Runtime Environment</a>が必要<br>
+<br>
+TrueSTUDIOはProバージョンが無料になったのが最近なので、SW4STM32というソフトの方が利用者が多いかもしれません。Mbedというブラウザで動くプログラミング環境もありますが、デバッグを考えると物足りなくなりそうなので採用しませんでした。<br>
+<br>
+※現在は新しく出たSTM32CubeIDEというソフトを使っています。（2019年5月9日追記）<br>
+<br>
+<hr size="1"/><br>
+＜Lチカまでの手順＞<br>
+1) TrueSTUDIOを起動<br>
+2) ワークスペース指定ダイアログが出てくるので作業に使うフォルダを指定し、TrueSTUDIOを終了<br>
+　　※全角文字やスペースが入らないようにする<br>
+3) STM32CubeMXを起動<br>
+4) New ProjectのACCESS TO BOARD SELECTORボタンを押し、使用するボードを選択<br>
+　　※情報が自動更新される場合あり<br>
+5) Pinout &amp; Configurationが表示されるがそのまま（LEDが繋がっているPA5ピンがGPIO_Outputに設定済）<br>
+6) Project ManagerのProjectを以下のように入力した後、右上のあたりGENERATE CODEボタンを押す<br>
+　　Project Name：プロジェクト名を入力<br>
+　　Project Location：2)で指定したTrueSTUDIOのワークスペースフォルダを選択<br>
+　　ToolChain / IDE：TrueSTUDIO<br>
+　　※ファームウェアをダウンロードするか聞かれたらYesを選択<br>
+7) コード生成終了後Open Projectを選択するとTrueSTUDIOが起動する<br>
+8) プロジェクト・エクスプローラー（左列）からSrcフォルダ内main.cを開く<br>
+9) 110行目あたり「/* USER CODE BEGIN 3 */」の下に以下の記述を追加する<br>
+<code><pre>HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);<br>
+HAL_Delay(500);<br>
+</pre></code>10) プロジェクト→プロジェクトのビルド（または金槌のボタン）<br>
+11) Nucleoボードを接続<br>
+12) 実行→デバッグ（または虫と矢印のボタン）　画面が切り替わる　<br>
+　　※ST-LINKを更新するよう指示が出る場合あり<br>
+13) 再開ボタンを押すとNucleoボードのLEDが点滅　終了ボタンで前の画面に戻る<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

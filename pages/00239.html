@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>HAL_I2SEx_TransmitReceive_DMA使用時の割り込み修正</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>HAL_I2SEx_TransmitReceive_DMA使用時の割り込み修正</h1>
+  <p align="right">2019年03月24日　カテゴリー：STM32 エフェクター</p>
+  <hr class="title"><br>
+  <a href="00238.html">Owm Pedal ソフトウェア編</a>で書いていた通り、「HAL_I2SEx_TransmitReceive_DMA」使用時に「HAL_I2SEx_TxRxCpltCallback」が起こらないというバグがあります。<a href="https://community.st.com/s/question/0D50X0000AAJFwVSQX/bug-hali2sextxrxcpltcallback-never-fire-in-dma-circular-mode">STM32のコミュニティで質問されていました</a>がその後のバージョンでも修正されていないので、自力で修正することにします。<br>
+<br>
+<hr size="1"/><br>
+プロジェクトフォルダ内のファイルDrivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2s_ex.cを編集します。「I2SEx_TxRxDMACplt」関数がDMA転送完了時に呼び出されるようになっています。この関数を見ると、「if (hdma-&gt;Init.Mode == DMA_NORMAL)」以下のカッコ内に「/* Call user TxRx complete callback */」以下の記述が入っているため、DMAサーキュラーモードでは何も起きないことがわかります。なのでこの記述をカッコ外に移動すれば解決するはずです。（同フォルダ内にあるstm32f4xx_hal_i2s.cの「I2S_DMATxCplt」関数を見ると正しいコードがわかります。）<br>
+<br>
+細かい修正をすると間違えそうなので、私は単純にHAL_I2SEx_TxRxCpltCallback関数を追加記載することにしました。<br>
+<code><pre>static void I2SEx_TxRxDMACplt(DMA_HandleTypeDef *hdma)<br>
+{<br>
+  I2S_HandleTypeDef *hi2s = (I2S_HandleTypeDef *)((DMA_HandleTypeDef *)hdma)-&gt;Parent;<br>
+<br>
+  <span style="color:#FF0000">HAL_I2SEx_TxRxCpltCallback(hi2s); // ←追加！CubeMXでコード出力すると元に戻るので注意</span><br>
+<br>
+  /* if DMA is configured in DMA_NORMAL mode */<br>
+  if (hdma-&gt;Init.Mode == DMA_NORMAL)<br>
+  {<br>
+    if (hi2s-&gt;hdmarx == hdma)<br>
+    {<br>
+      /* 中略 */<br>
+    }<br>
+<br>
+    if (hi2s-&gt;hdmatx == hdma)<br>
+    {<br>
+      /* 中略 */<br>
+    }<br>
+  }<br>
+}<br>
+</pre></code><br>
+<strong>＜データ処理方法変更＞</strong><br>
+1つのブロックにつき「HAL_I2SEx_TxRxHalfCpltCallback」と「HAL_I2SEx_TxRxCpltCallback」の2回割り込みが使えるようになったので、<a href="00238.html">Owm Pedal</a>の信号処理を下図のように変更しました。<a href="https://github.com/kanengomibako/OwmPedal">GitHub</a>のmain.cファイルも変更しています。<br>
+<a href="img/03s_239_1owmI2S.png" target="_blank"><img alt="03s_239_1owmI2S.png" border="0" height="116" src="img/03s_239_1owmI2S.png" width="595"/></a><br>
+最初の割り込みでグループA前半の信号処理と送信バッファへの代入を開始し、次の割り込みでグループA後半を処理開始します。処理後のグループA（A'）を送信するときには送信バッファへの代入が余裕をもって終わっていると考えられるので、安定した動作が見込めます。ただし、実質的にブロックサイズ半分で処理しているという点には注意が必要です。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

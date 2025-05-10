@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS ML-2 Metal Core 修理・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS ML-2 Metal Core 修理・特性測定</h1>
+  <p align="right">2021年11月15日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_277_1mlP.jpg" target="_blank"><img border="0" height="320" src="img/09_277_1mlP.jpg" width="480"/></a><br>
+音が出ないジャンク状態のBOSS ML-2 Metal Coreを手に入れたので、修理し特性を測定しました。中身はデジタルで、オーディオコーデックAK4552、オペアンプNJM14558、電源用ICのBD9851が見えます。基板裏にはFDR-1の文字があったので、BOSSレジェンド・シリーズのデラックス・リバーブ（販売完了品）でも同じ基板が使われていると思われます。<br>
+<br>
+<hr size="1"/><br>
+<strong><span style="font-size:large;">【修理】</span></strong><br>
+<br>
+<a href="https://www.stompboxzone.com/decoder/" target="_blank">Boss Pedal Serial Decoder</a>で調べると2010年製でした。そこまで古いものではなく、ジャックやポットは問題なさそうです。LEDのオンオフは機能していたので、アナログ部分の故障が予想されます。<br>
+<br>
+<a href="img/09_277_2mlT.jpg" target="_blank"><img border="0" height="240" src="img/09_277_2mlT.jpg" width="450"/></a><br>
+電圧を調べていくと、NJM14558の電源ピンが0Vに近く、そこから原因をたどっていきました。すると電源部分のトランジスタが機能していませんでした（上写真赤丸のQ13）。このトランジスタは他のBOSSエフェクターの回路図でも出てくる電圧安定化用だと思われます。手持ちに同じ大きさのトランジスタがなかったので、普通サイズ（TO-92）の2SC1815に交換しました（ビアの穴に足がなんとか入りました）。これで問題なく電圧が出力され、音も無事に出るようになり修理完了です。動作確認後、交換したトランジスタ付近はホットボンドで固めて動かないようにしておきました。<br>
+<br>
+<hr size="1"/><br>
+<span style="font-size:large;"><strong>【特性測定】</strong></span>※各ノブの設定は最大を100として記載<br>
+<br>
+▽波形・倍音<br>
+<a href="img/09_277_3mlD.png" target="_blank"><img border="0" height="209" src="img/09_277_3mlD.png" width="477"/></a><br>
+デジタルとはいえ内部プログラムでクリッピング処理を行っているはずです。ほとんど奇数次倍音なので、対称クリッピングだと思われます。<br>
+<br>
+▽DIST変化時の周波数特性（LOW 100 HIGH 100）<br>
+<a href="img/09_277_6mlFD.png" target="_blank"><img border="0" height="209" src="img/09_277_6mlFD.png" width="477"/></a><br>
+設定値0～100で約35dB変化します。ゲインを上げたとき少しだけ高音域が下がるようになっているようです。<br>
+<br>
+▽LOW変化時の周波数特性（HIGH 50 DIST 0）<br>
+<a href="img/09_277_4mlFL.png" target="_blank"><img border="0" height="300" src="img/09_277_4mlFL.png" width="400"/></a><br>
+50以下では低域が全体的に下がる感じですが、<a href="https://www.boss.info/jp/products/ml-2/" target="_blank">BOSS公式サイト</a>に音圧感をコントロールという説明があるので、何か特別な処理が行われている可能性があります。50～75では105Hz付近をブーストする動きで、75～100は250Hz付近までを平坦にする動きに変わっています。<br>
+<br>
+▽HIGH変化時の周波数特性（LOW 100 DIST 0）<br>
+<a href="img/09_277_5mlFH.png" target="_blank"><img border="0" height="300" src="img/09_277_5mlFH.png" width="400"/></a><br>
+3.2kHz付近をブーストする動きとなっています。50以上にすると低域も少しブーストするという不思議な動作が追加されており、これが<a href="https://www.boss.info/jp/products/ml-2/" target="_blank">BOSS公式サイト</a>にある「アタックに影響しないきらびやかさ」に関係してくるのかもしれません。<br>
+<br>
+---以下2023年5月20日追記---<br>
+<br>
+▽GT-1000CORE内蔵MTL COREとの比較（DRIVE 0）<br>
+<a href="img/09_277_7mlGT.png" target="_blank"><img alt="09_277_7mlGT.png" border="0" height="300" src="img/09_277_7mlGT.png" width="400"/></a><br>
+MTL COREは高音域が出ており、LOW、HIGHの動きもかなり違っています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

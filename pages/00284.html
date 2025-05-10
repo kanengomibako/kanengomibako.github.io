@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Tech 21 SansAmp Bass Driver DI V1後期型 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Tech 21 SansAmp Bass Driver DI V1後期型 解析</h1>
+  <p align="right">2022年04月04日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_284_01_bdv1lP.jpg" target="_blank"><img alt="09_284_01_bdv1lP.jpg" border="0" height="264" src="img/09_284_01_bdv1lP.jpg" width="660"/></a><br>
+Tech 21 SansAmp Bass Driver DI（以下BDDI） <a href="00283.html" target="_blank">V1初期型</a>と<a href="00282.html" target="_blank">BEHRINGER BDI21</a>の違いについては解明しましたが、今度はBDDI V1初期型からV1後期型へどのように変わったのか気になったため、引き続き解析をしていくことにしました。※上写真のV1後期型は、オリジナルとは違うジャック、LED、スイッチに交換してあります。<br>
+<br>
+<hr size="1"/><br>
+<strong><span style="font-size:large;">＜モールドとの闘い＞</span></strong><br>
+<br>
+<a href="img/09_284_02_bdv1lMC.jpg" target="_blank"><img border="0" height="180" src="img/09_284_02_bdv1lMC.jpg" width="540"/></a><br>
+V1後期型ではモールドされた部分はないのだろうと思っていたのですが、分解してみると黄土色の謎モジュールが存在していました。調べていくと、これはTech 21 Character Seriesでも使われているモジュールだということがわかり、<a href="https://www.freestompboxes.org/viewtopic.php?t=6571&amp;start=380" target="_blank">freestompboxes.orgで解析</a>されていました（CH33-6という記載）。私が入手したBDDIではCH34-5、CH34-9という印字で、中身はそれぞれ同じ回路でした。印字は型番というよりロット番号のようなもののようです。<br>
+<br>
+モールドはそこまで硬くはなく、小型なのでV1初期型の時より苦労しませんでした。燃料用アルコール（メタノール）でも少し溶けている様子でしたが、削った方が早いと思います。削っていくと何やら見慣れない素材の基板が現れましたが、<a href="https://kousyuha-kiban.com/zais-3.html" target="_blank">このページ</a>にある画像とそっくりで、セラミック基板というものだとわかりました。黒い部分は抵抗となっていて、切り込み線の入り方によって抵抗値が違っています。<br>
+<br>
+<hr size="1"/><br>
+<strong><span style="font-size:large;">＜基板画像・回路図＞</span></strong>（KiCadデータ・高解像度画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Tech21/BDDI_v1late" target="_blank">GitHub</a>へ）<br>
+<br>
+<a href="img/09_284_04_bdv1lK.jpg" target="_blank"><img border="0" height="376" src="img/09_284_04_bdv1lK.jpg" width="528"/></a><br>
+V1後期型では複数の種類の基板があります（後述）が、解析に使ったのは小型表面実装部品・部品枠線なしの基板です。部品番号は不明なので、適当に割り振っています。<br>
+<br>
+<a href="img/09_284_05_tech21_sansamp_bass_driver_di_v1l_schematic.png" target="_blank"><img alt="tech21_sansamp_bass_driver_di_v1l_schematic" border="0" height="368" src="img/09_284_05_tech21_sansamp_bass_driver_di_v1l_schematic.png" width="601"/></a><br>
+V1初期型（<a href="img/09_283_05_tech21_sansamp_bass_driver_di_v1e_schematic.png" target="_blank">回路図：<img border="0" height="18" src="img/09_283_05_tech21_sansamp_bass_driver_di_v1e_schematic.png" width="27"/></a>）と比較すると、スライドスイッチ追加はもちろんですが、その他の部分もかなり変更が加えられています。特にトーン回路の違いについては好みが分かれるところでしょう。変更された当時どのように説明されていたのかわかりませんが、完全に別バージョンと言ってよいと思います。<br>
+<ul><li>チューブアンプエミュレーション回路<br>
+ツェナーダイオードによるクリッピングが採用されており、V1初期型より電源電圧の影響が少なくなりました。<br>
+<a href="img/09_284_06_bdv1lFt.png" target="_blank"><img alt="09_284_06_bdv1lFt.png" border="0" height="195" src="img/09_284_06_bdv1lFt.png" width="285"/></a><br>
+PRESENCE 0% DRIVE 0% BLEND 100% でのシミュレーションです。似た特性ですが、谷となる周波数がV1初期型より低く、高音域が少し減っています。<br>
+</li><br>
+<li>PRESENCE DRIVE<br>
+<a href="img/09_284_07_bdv1lFpd.png" target="_blank"><img alt="09_284_07_bdv1lFpd.png" border="0" height="195" src="img/09_284_07_bdv1lFpd.png" width="550"/></a><br>
+増幅部分のみのシミュレーションです。PRESENCEは、調節される周波数がV1初期型より高音域側になります。DRIVEについては、クリッピング用ツェナーダイオードの端子間容量の影響で少し高音域が下がっています。<br>
+</li><br>
+<li>BASS TREBLE<br>
+<a href="img/09_284_08_bdv1lFbt.png" target="_blank"><img alt="09_284_08_bdv1lFbt.png" border="0" height="195" src="img/09_284_08_bdv1lFbt.png" width="550"/></a><br>
+V1初期型では低・高音域を全体的に調整するロー・ハイシェルフタイプのトーン回路でしたが、ある周波数付近を調整するピーキングタイプへと変更されています。また、TREBLEポットの1番側の抵抗にコンデンサが並列接続してあるため、高音域が下がるようになっています。<br>
+</li></ul><hr size="1"/><br>
+<strong><span style="font-size:large;">＜仕様変更＞</span></strong><br>
+<br>
+V1初期型からV1後期型に変わった時期について調べていくと、<a href="https://web.archive.org/web/20040505134522/https://www.tech21nyc.com/sansamp_intro.html" target="_blank">2004年5月の公式サイトのアーカイブ</a>や<a href="https://music4.5ch.net/test/read.cgi/compose/1064215714/556" target="_blank">5ch（旧2ch）掲示板の書き込み</a>でV1後期型が見つかりました。また、ベースマガジン2003年6月号にV1初期型の写真が掲載されているとTwitterで情報提供いただきました。よって、変更時期は2004年頃だと考えてよいでしょう。<br>
+<br>
+その他、V1後期型で確認できた仕様変更について記載しておきます。<br>
+<ul><li>HAMMOND刻印<br>
+V1初期型のケースはHAMMOND1590BBでしたが、HAMMOND刻印のないケースへ変わっています。<br>
+</li><br>
+<li>電源部抵抗 R37 R61<br>
+220Ω 1個のみ、220Ω 2個並列、470Ω 2個並列といったパターンがあります。<br>
+</li><br>
+<li>入出力ジャック<br>
+V2と同じ金属製ナットが付いたタイプのフォンジャックが使われているものがあります（おそらく新しめの個体）。<br>
+</li><br>
+<li>基板種類<br>
+変更順序は不明ですが、少なくとも4種類の基板が存在します。<br>
+・V1初期型と同じ大きさの表面実装部品、部品枠線なし<br>
+・小型表面実装部品、部品枠線なし<br>
+・小型表面実装部品、部品枠線あり<br>
+・小型表面実装部品、部品枠線と部品番号あり<br>
+</li></ul><hr size="1"/><br>
+<strong><span style="font-size:large;">＜電解コンデンサの追加＞</span></strong><br>
+<br>
+<a href="img/09_284_11_bdv1lKC.jpg" target="_blank"><img border="0" height="192" src="img/09_284_11_bdv1lKC.jpg" width="512"/></a><br>
+私が入手したV1後期型3台のうち、2台は回路図右上の2.2μF電解コンデンサC0（上写真赤丸）が実装されていませんでした。こいち時間に掲載されている個体でも、<a href="https://koichizikan.seesaa.net/article/453559356.html" target="_blank">実装されているもの</a>と<a href="https://koichizikan.seesaa.net/article/sansamp_bddi_3sw.html" target="_blank">されていないもの</a>があります。Twitterにていただいた情報によると、このコンデンサは2010年頃から追加されるようになったようです。コンデンサありの場合、半田付け部分にリード線をニッパーで切ったような痕跡があるので、実機をお持ちの方は確認いただくとよいと思います。<br>
+<br>
+コンデンサ未実装（黄緑）と実装済（青）で周波数特性がどのように違うかシミュレーションしました（BLEND 100%）。<br>
+<a href="img/09_284_12_bdv1lFcpd.png" target="_blank"><img alt="09_284_12_bdv1lFcpd.png" border="0" height="225" src="img/09_284_12_bdv1lFcpd.png" width="600"/></a><br>
+コンデンサが追加されたことで、低音域が強化されていることがわかります。<br>
+<br>
+表面実装のコンデンサと並列に電解コンデンサを実装できるような基板になっているということは、メーカーとしても設計に迷いがあった部分なのでしょう。最初はV1初期型と同じ47nFで問題ないと判断されたものの、多弦ベースの普及等により見直しがなされたのかもしれません。真実がどうなのかはわかりませんが、メーカーの製作事情がうかがえる面白い発見だったと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS WAZA CRAFT FZ-1W FUZZ 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS WAZA CRAFT FZ-1W FUZZ 解析</h1>
+  <p align="right">2023年08月12日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_312_01_fz1w_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_312_01_fz1w_pic.jpg" width="460"/></a><br>
+解析するには技量不足かなと思いしばらく放置していた<a href="https://www.boss.info/jp/products/fz-1w/" target="_blank">BOSS FZ-1W</a>ですが、意を決して解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/BOSS/FZ1W" target="_blank">GitHub</a>にあります。<br>
+<br>
+基板中央付近にある表面実装のフィルムコンデンサは、半田ごてで取り外そうとすると簡単に破損してしまうので、周辺の部品を取り外すことにより容量値を実測しています。1.0mm×0.5mmサイズの表面実装部品は紛失にさえ気をつければ意外と大丈夫です。トランジスタ類は以前解析した<a href="00293.html" target="_blank">BD-2W</a>と同じなので判別に苦労しませんでした。ただ、日清紡マイクロデバイスの製品はマーキング情報が公開されていないので、一部は直接問い合わせしました。（製品を購入していないのに問い合わせるのはよくない気がするので、今後はやめておきます。）<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_312_02_BOSS_WAZA_CRAFT_FZ-1W_FUZZ_Schematic.png" target="_blank"><img alt="BOSS FZ-1W Schematic" border="0" height="392" src="img/09_312_02_BOSS_WAZA_CRAFT_FZ-1W_FUZZ_Schematic.png" width="560"/></a><br>
+入力バッファの後に、ファズフェイスと同様の回路が採用されています。モード切替関連は<a href="00293.html" target="_blank">BD-2W</a>ではアナログスイッチICでしたが、FZ-1Wでは主にFETスイッチです。<br>
+<ul><li>トランジスタの選別<br>
+回路の中心を担うトランジスタは、2SC5395という<a href="https://www.idc-com.co.jp/jp/" target="_blank">イサハヤ電子</a>製のものです。Q9の電圧は以下の通りです。<br>
+<i><span style="color:#006600">エミッタ：0.55V　コレクタ：4.8V（Vモード） 3.5V（Mモード）　ベース：1.1V</span></i><br>
+他の個体でほぼ同じ電圧だったという情報をX（旧Twitter）でいただいたので、おそらくQ5とQ9はhFEで選別されていると考えられます。BOSS製品は基本的に日本のメーカーの部品が使われているので、その中で安定供給が可能なスルーホール部品（選別しやすい）ということでこのトランジスタが採用されたのではないかと思います。<br>
+</li><br>
+<li>電源<br>
+供給電圧が10.7Vあたりを超えると、Q2オン→Q1Aオフとなり、回路全体の電源供給が遮断されるようになっています。また、Q5とQ9用に6Vがレギュレータで供給されており、ノイズ低減や電池の減りで音が変わらないことに配慮された設計です。<br>
+</li><br>
+<li>フリップフロップ周辺<br>
+今までエフェクトオンオフ関連の<a href="https://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%AB%E3%83%81%E3%83%90%E3%82%A4%E3%83%96%E3%83%AC%E3%83%BC%E3%82%BF" target="_blank">双安定マルチバイブレータ回路</a>がトランジスタで組んでありましたが、<a href="https://synapse.kyoto/glossary/dff/page001.html" target="_blank">Dフリップフロップ</a>ICへ置き換わっています。最近発売された<a href="https://www.freestompboxes.org/viewtopic.php?t=32664" target="_blank">DS-1W</a>でも同様の回路です。DS-1Wでは、R50とD14（R58とD16）にあたる部品が実装されています。FETスイッチへの信号が9Vから0Vへと変化する時、ダイオードによりC39（C45）の電荷を抜くのが速くなる効果が期待されます。すなわち、FETスイッチのオン→オフが速くなるということです。オン／オフ切替の一瞬の間だけですが、FETスイッチが全てオンになり発振するのを防いでいると考えられます。そしてFZ-1Wでは、発振が起こらないために実装されていないということかもしれません。<br>
+</li></ul><br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>入力部<br>
+<a href="img/09_312_11_fz1w_s1.png" target="_blank"><img border="0" height="208" src="img/09_312_11_fz1w_s1.png" width="450"/></a><br>
+ギターボリューム操作での音質変化を実現するためには、ファズフェイスのように入力インピーダンスを低くするという対応が考えられます（→<a href="00310.html" target="_blank">FFM1解析</a>参照）。そしてFZ-1WではR11とC8があることにより、高音域を減衰させるようになっています。<a href="https://www.boss.info/jp/products/fz-1w/" target="_blank">公式サイト</a>の説明に「ギター・ボリュームへの追従性は、かつてないスムーズさを備えており」とありますが、こういった設計がカギとなっているようです。<br>
+</li><br>
+<li>増幅部<br>
+<a href="img/09_312_12_fz1w_s2.png" target="_blank"><img border="0" height="208" src="img/09_312_12_fz1w_s2.png" width="450"/></a><br>
+基本的には、ファズフェイスと同様低音域をあまりカットしない増幅です。MモードではVモードよりゲインが上がり、高音域が少し削られています。また、Q9のコレクタ電圧がVモードで4.8V、Mモードで3.5Vなので、電源が6Vであることを踏まえると、Vモードの方が非対称に偏ったクリッピングになります。<br>
+</li><br>
+<li>TONE 0%→50%→100%<br>
+<a href="img/09_312_13_fz1w_s3.png" target="_blank"><img border="0" height="208" src="img/09_312_13_fz1w_s3.png" width="450"/></a><br>
+ローパスフィルタとハイパスフィルタを組み合わせた、BIG MUFFやDS-1と同じタイプのトーンコントロールです。TONE 50%の時、BIG MUFFでは中音域がカットされる状態ですが、Vモードではフラットに近くMモードでは中音域が盛り上がった状態になっています。ファズフェイスにこのようなトーン回路をつけてみるのも面白いかもしれません。<br>
+</li></ul><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

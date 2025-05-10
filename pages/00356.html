@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>One Control LINGONBERRY OVER DRIVE 修理・解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>One Control LINGONBERRY OVER DRIVE 修理・解析</h1>
+  <p align="right">2024年11月08日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_356_01_lgbrod.jpg" target="_blank"><img border="0" height="320" src="img/09_356_01_lgbrod.jpg" width="285"/></a><br>
+ジャンク品として手に入れた<a href="https://www.onecontrol.jp/products/oc-lbodn" target="_blank">One Control LINGONBERRY OVER DRIVE</a>を修理、解析しました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/OneControl/LingonberryOverDrive" target="_blank">GitHub</a>にあります。<br>
+<br>
+<hr size="1"/><br>
+【修理】<br>
+<br>
+<a href="img/09_356_03_lgbrodt.jpg" target="_blank"><img border="0" height="240" src="img/09_356_03_lgbrodt.jpg" width="240"/></a><br>
+トリマーがボロボロでうまく回せない状態でしたが、その他は問題ないようでした。交換用に秋月電子にある<a href="https://akizukidenshi.com/catalog/g/g114868/" target="_blank">横向きの半固定抵抗</a>を購入したものの、ピンの配置が違っていたので、なんとか足を曲げて取り付けました。こういった見えにくい位置にあるトリマーは、どうしても回し過ぎてネジ部分がダメになりやすいです。また、寿命が200回程度と短いのにも注意が必要だと思います。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_356_02_One_Control_Lingonberry_OverDrive_schematic.png" target="_blank"><img alt="One Control Lingonberry Over Drive schematic" border="0" height="261" src="img/09_356_02_One_Control_Lingonberry_OverDrive_schematic.png" width="705"/></a><br>
+<a href="https://www.onecontrol.jp/products/oc-lbodn" target="_blank">公式サイト</a>によると、Lingonberry Over DriveはStrawberry Red Over Driveの歪みをより強くしたものだそうです。Strawberry Red Over Driveは下記ページで解析されています。<br>
+<br>
+・<a href="https://blog.livedoor.jp/kc_solderman/archives/7982139.html" target="_blank">kc_soldermanのblog - Strawberry Red Over Drive を解析してみた</a><br>
+<br>
+バイアス電圧を何度も生成していることや、3段目のオペアンプの負帰還が複雑になっていることについて記載があります。Lingonberry Over Driveも同じ回路で、よりハイゲインになるよう定数を変えてあります。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>DRIVE（0%→50%→100%）　LOW（0%→100%）<br>
+<a href="img/09_356_11_lgbrod-s1.png" target="_blank"><img alt="09_356_11_lgbrod-s1.png" border="0" height="215" src="img/09_356_11_lgbrod-s1.png" width="665"/></a><br>
+回路は複雑に見えますが、周波数特性は特殊な形ではありません。LOWコントロールは、歪む前のハイパスフィルターのカットオフ周波数が調整されます。<br>
+<br>
+R24とC18、R25とC19の経路がある場合の変化を確認しました。<br>
+<a href="img/09_356_12_lgbrod-s2.png" target="_blank"><img border="0" height="215" src="img/09_356_12_lgbrod-s2.png" width="450"/></a><br>
+負帰還なので、ありの場合にゲインが下がることになります。アンプのような音を目指した設計なのかもしれませんが、はっきりとした意図は不明です。Honey Bee OD、Blueberry Bass Overdrive等でも同様の回路が採用されています。<br>
+</li><br>
+<li>TREBLE 0%→50%→100%<br>
+<a href="img/09_356_13_lgbrod-s3.png" target="_blank"><img border="0" height="215" src="img/09_356_13_lgbrod-s3.png" width="450"/></a><br>
+ギター本体やアンプのボリュームに取り付けるハイパスコンデンサのように、高音域成分を残して音量を下げるという動きを利用したトーンコントロールです。<br>
+</li></ul><br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>HT8970 特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>HT8970 特性測定</h1>
+  <p align="right">2021年08月11日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  <a href="img/14_271_1ht.jpg" target="_blank"><img alt="14_271_1ht.jpg" border="0" height="135" src="img/14_271_1ht.jpg" width="240"/></a><br>
+HT8970は、PT2399に似たデジタルディレイICです。2020年12月に生産終了していますが、しばらくはAliExpressで手に入ると思います。<a href="https://www.experimentalistsanonymous.com/diy/Datasheets/HT8970.pdf" target="_blank">データシート</a>によると、RAMサイズが20キロビットとなっており、PT2399（RAM44キロビット）よりディレイタイムが短くなります。<br>
+<br>
+<hr size="1"/><br>
+<a href="00268.html" target="_blank">PT2399の時</a>と同様に、下図の回路でC9 = C11の容量値を変えた場合の特性等を測定します。C7 = C8 = 100nF、入力レベルは-10dBu（約0.69Vp-p）です。比較のためPT2399のデータも掲載します。<br>
+<strong>※今回購入したものは何かしらの製品基板から取り外した中古品のようです（本物かどうか不明です）。</strong><br>
+<a href="img/14_268_4pt2399s.png" target="_blank"><img border="0" height="245" src="img/14_268_4pt2399s.png" width="322"/></a><br>
+<ul><li>ディレイタイム（ミリ秒）<br>
+<table border="1"><tr align="center"><td>R6</td><td>PT2399</td><td>HT8970</td></tr><tr align="center"><td>0</td><td>30</td><td>17</td></tr><tr align="center"><td>4.7k</td><td>81</td><td>49</td></tr><tr align="center"><td>10k</td><td>147</td><td>86</td></tr><tr align="center"><td>22k</td><td>280</td><td>164</td></tr></table>もう少し短くなるのを予想していましたが、約0.58倍となっています。<br>
+</li><br>
+<li>周波数特性　一つは入力レベル+10dB<br>
+<a href="img/14_271_2htF.png" target="_blank"><img border="0" height="350" src="img/14_271_2htF.png" width="515"/></a><br>
+HT8970の100nF（黄色）はPT2399の100nF（水色）より少し高音域の下がり方が大きくなっています。<a href="https://www.experimentalistsanonymous.com/diy/Datasheets/HT8970.pdf" target="_blank">HT8970のデータシート</a>の回路例で47nFが使われているのは、こういった特性の違いを反映しているようです。<br>
+</li><br>
+<li>ノイズ・歪率（1kHz正弦波を入力）<br>
+▽R6 = 0Ω<br>
+<a href="img/14_271_2htN0.png" target="_blank"><img border="0" height="350" src="img/14_271_2htN0.png" width="515"/></a><br>
+▽R6 = 22kΩ<br>
+<a href="img/14_271_2htN22k.png" target="_blank"><img border="0" height="350" src="img/14_271_2htN22k.png" width="515"/></a><br>
+PT2399よりHT8970の方が全体的に歪率・ノイズ共に大きくなっています。<br>
+</li><br>
+<li>分圧用抵抗<br>
+IC内部のアナログ基準電圧は抵抗分圧で生成されていると考えられています。HT8970はこの抵抗値が約2.9kΩでした（PT2399は約5.5kΩ）。PT2399の2番ピンを使ってコーラス回路を構成しているものをHT8970で置き換える場合、効き方が変わってくると考えられます。<br>
+</li></ul><hr size="1"/><br>
+HT8970はPT2399と特性が違っているということがわかりました。特に長めのディレイタイムで使うのは厳しいです。ディレイタイム最小でコーラスにするとしても、生産終了品なので新規設計に使いたくないところです。……ということで、残念ながらHT8970の使い道はあまりなさそうという結果になってしまいました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

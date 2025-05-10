@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>歪みと波形・倍音その7（各波形の倍音）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>歪みと波形・倍音その7（各波形の倍音）</h1>
+  <p align="right">2017年12月06日　カテゴリー：<a href="00165.html">歪みと波形・倍音</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)を使うと簡単に信号発生と倍音確認ができますので、メモとしてまとめておきます。<br>
+<br>
+<hr size="1"/><br>
+＜三角波＞<br>
+<img alt="12_207_1tri.png" border="0" height="129" src="img/12_207_1tri.png" width="480"/><br>
+奇数次倍音がきれいに並んでいます。<br>
+<br>
+＜ノコギリ波＞<br>
+<img alt="12_207_2saw.png" border="0" height="129" src="img/12_207_2saw.png" width="480"/><br>
+奇数次倍音と偶数次倍音が両方出ています。<br>
+<br>
+＜矩形波＞<br>
+<img alt="12_207_3sq.png" border="0" height="129" src="img/12_207_3sq.png" width="480"/><br>
+ほぼ奇数次倍音ですが、三角波より倍音が多いです。<br>
+<br>
+＜矩形波＋ハイパスフィルター＞（※振幅0.8倍）<br>
+<img alt="12_207_4sqHPF.png" border="0" height="129" src="img/12_207_4sqHPF.png" width="480"/><br>
+波形が斜めにえぐりとられる感じになります。<br>
+<br>
+＜矩形波＋ローパスフィルター＞<br>
+<img alt="12_207_5sqLPF.png" border="0" height="129" src="img/12_207_5sqLPF.png" width="480"/><br>
+波形が丸く削られる形になります。ローパスフィルターなので高域の倍音が減ります。<br>
+<br>
+＜パルス波＞（※パルス波という呼称でいいのか不明）<br>
+<img alt="12_207_6sq60.png" border="0" height="129" src="img/12_207_6sq60.png" width="480"/><br>
+矩形波に似ていますが、プラス側とマイナス側になっている時間の幅の比が1:1（デューティ比0.5）ではありません。上図はデューティ比0.6の場合で、偶数次倍音が出ています。<a href="00135.html">真空管の歪みを調べた際</a>にハイゲインでも偶数次倍音が多かったのは、この波形に近いためかもしれないと考えています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

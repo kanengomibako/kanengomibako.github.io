@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ProCo RAT（LM358・スライドボリューム仕様）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ProCo RAT（LM358・スライドボリューム仕様）</h1>
+  <p align="right">2020年12月04日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_262_0ratP.jpg" target="_blank"><img alt="02_262_0ratP.jpg" border="0" height="240" src="img/02_262_0ratP.jpg" width="320"/></a><br>
+Twitterでの1000フォロワー達成プレゼント企画として、スライドボリュームを使ったRATを製作しました。基板を組み合わせたケースを採用することにより、通常は困難なスライドボリュームの穴加工をうまく実現することができました。<br>
+<br>
+本体部分の高さはフォンジャックやスライドボリュームに合わせており、2cm程度しかありません。フットスイッチはどうするか悩みましたが、何とかはみ出した状態で取り付けています。踏み込む力が底板側に加わるように工夫しました。<br>
+<br>
+今までは基板やアクリル板を何枚も重ねた筐体でしたが、今回は側面が基板なので多少はノイズに強くなっていると思います。ただし強度がないので、変なところを強く踏むと壊れてしまう可能性が高いです。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/LM358RAT" target="_blank">GitHub</a>へ）<br>
+<a href="img/02_262_1ratS.png" target="_blank"><img alt="02_262_1ratS.png" border="0" height="210" src="img/02_262_1ratS.png" width="585"/></a><br>
+LM308は現在製造されていないため、スルーレートやGB積が似ているLM358を使うことにしました。オフセット電圧や入力バイアス電流等の違いはありますが、音にはそれほど影響しないと思います。<br>
+<br>
+元のRATのFETバッファ部分はオペアンプで置き換え、2倍増幅しています。Timmy Overdriveで採用されている方式ですが、シリコンダイオード1個分でのクリッピングの場合の音量不足に備えた措置だと思われます。何だかRATと呼んでよいのかわからない感が出てきますが気にしないことにします。<br>
+<br>
+出音は概ねRATっぽくなっていると思います（本物のRATが手元にないため厳密に似ているかはわかりません）。スライドボリュームの操作は、慣れていないためかそれなりに違和感があります。ほこりが入りやすい、メンテナンス性が悪い等いろいろ問題はあるのですが、とにかく見た目のインパクトが最高なのでよしとしましょう。<br>
+<br>
+<hr size="1"/><br>
+▽製作過程<br>
+<br>
+<a href="img/02_262_3ratP2.jpg" target="_blank"><img align="left" border="0" height="180" src="img/02_262_3ratP2.jpg" width="320"/></a>側面の基板パーツとフットスイッチ取付パーツは一体化しています（写真左側）。カッターで基板両面から切り込みを入れて切り離し、やすりで切断面をきれいにします。基板側面部分を黒く塗っておくと見栄えがよくなります。<br clear="left"/><br>
+<a href="img/02_262_4ratP3.jpg" target="_blank"><img align="left" border="0" height="180" src="img/02_262_4ratP3.jpg" width="240"/></a><a href="img/02_262_2ratP1.jpg" target="_blank"><img align="left" border="0" height="180" src="img/02_262_2ratP1.jpg" width="180"/></a>底面をできるだけ平面にしたいので、ジャック類の端子やLEDの足を短く切っておきます。<br>
+<br>
+皿ネジを使う部分の皿もみ加工では有鉛はんだの削りカスが飛散するため、銅箔なしの穴にするべきところでした（KiCadデータは修正済）。<br clear="left"/><br>
+<a href="img/02_262_5ratP4.jpg" target="_blank"><img align="left" border="0" height="180" src="img/02_262_5ratP4.jpg" width="180"/></a><a href="img/02_262_6ratP5.jpg" target="_blank"><img align="left" border="0" height="180" src="img/02_262_6ratP5.jpg" width="180"/></a>底面基板上のチップ部品のはんだ付け後、スライドボリュームを取り付けます。高さ調節のため基板を下に敷いて浮かしています。<br>
+<br>
+ジャック類はシルク印刷に合わせて取り付けて特に問題なかったです。フットスイッチ取付用スペーサーの長さは22mm程度となっています。<br clear="left"/><br>
+<a href="img/02_262_7ratP6.jpg" target="_blank"><img align="left" border="0" height="240" src="img/02_262_7ratP6.jpg" width="360"/></a>筐体を仮組みした後、フットスイッチとスペーサーを固定します。そしてフットスイッチの端子をはんだ付けし、動作確認します。<br>
+<br>
+最後に側面をはんだ付けで留めて完成です。<br clear="left"/><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

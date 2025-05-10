@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>歪みと波形・倍音その8（各クリッピングと倍音）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>歪みと波形・倍音その8（各クリッピングと倍音）</h1>
+  <p align="right">2017年12月08日　カテゴリー：<a href="00165.html">歪みと波形・倍音</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)を使って正弦波のクリッピングと倍音確認を行ったので、メモとしてまとめておきます。振幅は適宜調節しています。<br>
+<br>
+<hr size="1"/><br>
+＜対称ハードクリップ＞<br>
+<img alt="12_208_1clips.png" border="0" height="129" src="img/12_208_1clips.png" width="480"/><br>
+奇数次倍音のみ出ています。<br>
+<br>
+＜非対称ハードクリップ＞<br>
+<img alt="12_208_2clipas.png" border="0" height="129" src="img/12_208_2clipas.png" width="480"/><br>
+偶数次倍音が加わっています。<br>
+<br>
+＜対称ソフトクリップ＞<br>
+<img alt="12_208_3clipss.png" border="0" height="129" src="img/12_208_3clipss.png" width="480"/><br>
+ハードクリップより全体的に倍音が減っています。<br>
+<br>
+＜非対称ソフトクリップ＞<br>
+<img alt="12_208_4clipass.png" border="0" height="129" src="img/12_208_4clipass.png" width="480"/><br>
+こちらも全体的に倍音が減っています。<br>
+<br>
+＜半波整流＞<br>
+<img alt="12_208_5half.png" border="0" height="129" src="img/12_208_5half.png" width="480"/><br>
+偶数次倍音のみ出ています。<br>
+<br>
+＜全波整流＞<br>
+<img alt="12_208_6full.png" border="0" height="129" src="img/12_208_6full.png" width="480"/><br>
+偶数次倍音のみ出ていて、基音がありません。オクターブファズでこの処理を行うことがあります。<br>
+<br>
+<hr size="1"/><br>
+クリッピングではありませんが、周波数2倍、振幅0.25倍の正弦波を元の正弦波に足した場合は下図のようになります。<br>
+<img alt="12_208_7oct.png" border="0" height="129" src="img/12_208_7oct.png" width="480"/><br>
+真空管の歪みは単なる非対称クリップではなく、このような非対称な変形によるものといわれています。<br>
+<br>
+半波整流した正弦波と元の正弦波を混ぜた場合は下図のようになります。<br>
+<img alt="12_208_8halfp.png" border="0" height="129" src="img/12_208_8halfp.png" width="480"/><br>
+非対称に変形した波形になるので、これを利用すれば面白い歪みエフェクターが作れるかもしれません。<br>
+<br>
+---以下2018年3月3日追記---<br>
+<br>
+＜対称クロスオーバー歪み＞<br>
+<img alt="12_208_9coaa.png" border="0" height="129" src="img/12_208_9coaa.png" width="480"/><br>
+奇数次倍音のみ出ています。<br>
+<br>
+＜非対称クロスオーバー歪み＞<br>
+<img alt="12_208_9coas.png" border="0" height="129" src="img/12_208_9coas.png" width="480"/><br>
+偶数次倍音が加わっています。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>TPA3118モノラルパワーアンプモジュール解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>TPA3118モノラルパワーアンプモジュール解析</h1>
+  <p align="right">2021年07月24日　カテゴリー：<a href="00038.html">ギターアンプ・ベースアンプ</a></p>
+  <hr class="title"><br>
+  <a href="img/07_264_1tpaP.jpg" target="_blank"><img alt="07_264_1tpaP.jpg" border="0" height="216" src="img/07_264_1tpaP.jpg" width="288"/></a><br>
+AliExpress等で格安で販売されているパワーアンプモジュール基板を解析してみました。TPA3118というD級パワーアンプICが搭載されています（本物かどうかは不明）。このICはVOX MV50に使われているようです。放熱がうまくできれば50Wのパワーアンプなんてのも自作できるかもしれません。<br>
+<br>
+【参考ページ】<br>
+・<a href="https://www.tij.co.jp/product/jp/TPA3118D2" target="_blank">Texas Instruments TPA3118D2</a><br>
+・<a href="https://www.tij.co.jp/tool/jp/TPA3110D2EVM" target="_blank">Texas Instruments TPA3110D2 評価モジュール</a><br>
+<br>
+▽回路図<br>
+<a href="img/07_264_2_TPA3118_mono_amplifier_module_schematic.png" target="_blank"><img border="0" height="312" src="img/07_264_2_TPA3118_mono_amplifier_module_schematic.png" width="456"/></a><br>
+コンデンサはいったん取り外して値を確認しました。結線は全て確認したわけではありませんが、データシート通りと考えて大丈夫でしょう。※R22、C20は電源投入時の発振防止用のようです（2023年1月28日追記）。<br>
+<br>
+ゲイン設定を変える場合は下の表の通りになります。<table border="1"><tr><td>ゲイン</td><td>R28</td><td>R27</td><td>入力インピーダンス</td></tr><tr><td>20dB</td><td>5.6kΩ</td><td>なし</td><td>60kΩ</td></tr><tr><td>26dB</td><td>20kΩ</td><td>100kΩ</td><td>30kΩ</td></tr><tr><td>32dB</td><td>39kΩ</td><td>100kΩ</td><td>15kΩ</td></tr><tr><td>36dB</td><td>47kΩ</td><td>75kΩ</td><td>9kΩ</td></tr></table>※簡易的には、R27を取り外すだけで20dB設定となるようです。<br>
+<br>
+だいぶ雑ですが<a href="00192.html" target="_blank">NJM2073ギターアンプ</a>のパワーアンプ部分をこのモジュール（ゲイン設定36dB）に置き換えました。公式評価モジュールで積層セラミックコンデンサが使われていますので、コンデンサの交換はあまり意味がなさそうです。一応入力のコンデンサだけ10uFのものを取り付けています。音質変化はよくわかりませんが、歪まずに大きな音量が出せるようなったように思います。<br>
+<a href="img/07_264_3tpaI.jpg" target="_blank"><img alt="07_264_3tpaI.jpg" border="0" height="300" src="img/07_264_3tpaI.jpg" width="300"/></a><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

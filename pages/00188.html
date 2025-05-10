@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>RasPd2 ソフトウェア編</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>RasPd2 ソフトウェア編</h1>
+  <p align="right">2017年07月19日　カテゴリー：Raspberry Pi エフェクター</p>
+  <hr class="title"><br>
+  Pure Dataやオーディオを優先的に動かすため、下準備をしていきます（太字表記はコマンド）。<br>
+<a href="00189.html">Raspberry Pi zeroの基本設定はこちら</a><br>
+<br>
+通信に使うUSBケーブルは5V給電できないよう加工しています（外部から5V給電しているため）。さらに、うまく挿し込めるように角度を変えています。<br>
+<img alt="03_188_1raspd2u.jpg" border="0" height="140" src="img/03_188_1raspd2u.jpg" width="200"/><br>
+<br>
+<hr size="1"/><br>
+＜CPU周波数スケーリング＞<br>
+CPUのクロック周波数を常に1000MHzで動作するよう設定変更します。<br>
+$ <strong>sudo nano /boot/config.txt</strong><br>
+#arm_freq=800 を arm_freq=1000 に変更<br>
+$ <strong>sudo apt-get install cpufrequtils</strong>（cpufrequtilsインストール）<br>
+$ <strong>sudo nano /etc/init.d/cpufrequtils</strong><br>
+43行目あたり　GOVERNOR="performance"<br>
+<br>
+<hr size="1"/><br>
+＜不要なプログラムを停止＞<br>
+<a href="00178.html">RasPd1 ソフトウェア編その1</a>と同じです。<br>
+<br>
+<hr size="1"/><br>
+＜オーディオ設定＞<br>
+WM8731のドライバを有効化します。<br>
+$ <strong>sudo nano /boot/config.txt</strong><br>
+#dtparam=audio=on （コメントアウトしてオンボードのオーディオをオフに）<br>
+dtoverlay=rpi-proto （追加記載）<br>
+<br>
+再起動後、オーディオ設定プログラムを起動します。<br>
+$ <strong>alsamixer</strong><br>
+F5で全表示、スペースキー・↑↓キー・mキーで機能オン(OO)・オフ(MM)や機能切替です。<s>設定は自動で保存されます。</s> → 保存は $ <strong>sudo alsactl store</strong><br>
+<br>
+Master 56 [dB gain: -9.00, -9.00] <br>
+Master Playback ZC [Off, Off]<br>
+Sidetone 0 [dB gain: -15.00]<br>
+Line CAPTURE<br>
+Mic [Off]<br>
+Mic Boost 0 [dB gain: 0.00]<br>
+Mic Boost 0 [dB gain: 0.00]<br>
+Playback Deemphasis [Off]<br>
+Capture 87 [dB gain: 9.00, 9.00]<br>
+ADC High Pass Filter オフ<br>
+Input Mux [Line In]<br>
+Output Mixer HiFi オン<br>
+Output Mixer Line Bypass [Off]<br>
+Output Mixer Mic Sidetone [Off]<br>
+Store DC Offset [Off]<br>
+<br>
+<hr size="1"/><br>
+＜Pure Data(Pd)設定＞<br>
+<a href="00179.html">RasPd1 ソフトウェア編その2</a>と同じですが、さらに低レイテンシー設定が可能です。また、44.1kHzには対応していませんので注意が必要です。Pd設定ファイルの下記該当箇所を変更しました。<br>
+$ <strong>nano .pdsettings</strong><br>
+audiobuf: 5<br>
+rate: 48000<br>
+<br>
+<hr size="1"/><br>
+＜自動起動設定＞<br>
+<a href="00179.html">RasPd1 ソフトウェア編その2</a>と同じです。<br>
+今回のメインプログラム名は main2.py です。<br>
+<br>
+<hr size="1"/><br>
+＜ADコンバータ MCP3008用設定＞<br>
+$ <strong>sudo nano /boot/config.txt</strong><br>
+dtparam=spi=on （#を外してSPI通信をオンに）<br>
+$ <strong>sudo apt-get install python-spidev</strong>（SPI通信に必要なPythonライブラリをインストール）<br>
+<br>
+<hr size="1"/><br>
+<a href="00187.html">ハードウェア編</a>へ　　<a href="00190.html">プログラミング編</a>へ<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

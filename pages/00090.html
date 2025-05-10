@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>DC9V→DC200V昇圧回路</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>DC9V→DC200V昇圧回路</h1>
+  <p align="right">2010年03月05日　カテゴリー：<a href="00166.html">実験等</a></p>
+  <hr class="title"><br>
+  真空管を使ったディストーションペダルを作ってみたいのですが、やはり本格的に真空管を動作させようと思うと高電圧が必要になってくるみたいです。Zvex Nano Headは小さいケースなのに真空管を高電圧で動作させているので何かヒントはないかとfreestompboxesで検索してみたところ、どうやらスイッチングによる昇圧を行っているらしいです。<br>
+<br>
+今回の記事は以下のサイトを参考にしています。<br>
+・<a href="https://www.ledsales.com.au/kits/nixie_supply.pdf" target="_blank">Build a nixie power supply</a>(PDF)<br>
+…nixie tube（ニキシー管）という真空管の一種を動作させるための電源が紹介されています。<br>
+・<a href="https://www.desmith.net/NMdS/Electronics/NixiePSU.html" target="_blank">Nixie HV Switching PSU</a><br>
+…こちらもニキシー管用電源です。ICは違いますがパーツについての解説があります。<br>
+・<a href="https://www.jjs.at/electronic/class_a_subminiature.html" target="_blank">Class A Subminiature Tube Guitar Amp</a><br>
+…Nano Headと同じような真空管アンプが紹介されています。<br>
+<br>
+回路図は下図です。<br>
+<a href="img/14_90_1_200V.gif" target="_blank"><img alt="14_90_1_200V.gif" border="0" height="233" src="img/14_90_1_200V.gif" width="500"/></a><br>
+基本的には参考にしたサイトのパクリです。手持ちの部品にあわせて値が変わっているところがあります。今回は電源電圧は9V（秋月電子の12VスイッチングACアダプターをレギュレーターで9Vにしたもの）、出力電圧は200Vです。実際真空管をつないだときの出力電流は1.6mA程度でした。動作は完全に理解できているワケではないですが、以下にパーツに関する注意などを書いておきます。<br>
+<br>
+[抵抗器]<br>
+全て0.25W(=1/4W)の抵抗を使っています。R5,R7は2本合わせて220kΩ/0.5Wを1本でもOKです。トリマーは右に回すほど出力電圧が大きくなるようにしています。<br>
+<br>
+[コンデンサ]<br>
+C3とC4は耐圧250V以上のものにします（C3はテスターでは9V程度の電圧しかかかっていないのですが念のため）。他のコンデンサは耐圧16VでOKです。C4の容量は2.2uFでも多分OKです。<br>
+<br>
+[コイル]<br>
+出力電流をどのぐらい流すかによりますが、1A程度電流を流せるものにすればOKでしょう（今回は100mAぐらいの電流が流れました）また、直流抵抗が小さいほうが良いです。今回使ったのは1.6A,0.16Ωのものです。<br>
+<br>
+[ダイオード]<br>
+耐圧250V以上、許容電流1A以上のものを使います。また、逆回復時間が50ns以下のものが適切らしいです（ウルトラファーストリカバリダイオードとかいうらしい）。秋月電子にあるER504は35nsなんですが図体がデカいです。<br>
+<br>
+[トランジスタ]<br>
+Q1は耐圧250V以上、低オン抵抗(Rdson)、低ゲート電荷量（Qg）、低出力容量（Coss）のNチャネルMOSFETを使います。若干暖かくなります（さわれる程度）が放熱器は必要なさそうです。参考サイトではIRF740やIRF644が使ってありますが、秋月電子にある2SK3234でもOKでした。<br>
+Q2は汎用のNPN型トランジスタなら大体何でもOKだと思います。<br>
+<br>
+[IC]<br>
+555という古くからあるタイマーICです。バイポーラタイプのNE555(LM555)はOKですが、CMOS版(LMC555)はあまり電流が取れないためダメらしいです。<br>
+<br>
+<strong>※出力電圧・出力電流を上げれば、上記の耐電圧や許容電流をさらに上げなければいけなかったり放熱が必要となったりする場合があります。</strong><br>
+<br>
+部品レイアウトは下図です。基板の裏側にジャンパーをつけるというイレギュラーなことをしています（小さくしたかったので…）。参考程度に。<br>
+<img alt="14_90_2_200Vl.png" border="0" height="220" src="img/14_90_2_200Vl.png" width="346"/><br>
+<br>
+今後この電源を使って真空管オーバードライブを作ってみる予定です。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

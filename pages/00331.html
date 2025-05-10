@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>VOX amPlug Classic Rock 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>VOX amPlug Classic Rock 解析</h1>
+  <p align="right">2024年01月25日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_331_01_amplcr_pic.jpg" target="_blank"><img border="0" height="240" src="img/09_331_01_amplcr_pic.jpg" width="540"/></a><br>
+ジャンク品として手に入れた<a href="https://voxamps.com/en-xa/product/amplug/" target="_blank">VOX amPlug Classic Rock</a>を解析しました。KiCadとLTspiceのデータは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Vox/AP-CR" target="_blank">GitHub</a>にあります。※<a href="https://voxamps.com/ja/product/amplug-2/" target="_blank">amPlug2</a>ではなく、旧機種のamPlugです。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/09_331_01_VOX_amPlug_ClassicRock_Schematic.png" target="_blank"><img alt="VOX amPlug ClassicRock Schematic" border="0" height="338" src="img/09_331_01_VOX_amPlug_ClassicRock_Schematic.png" width="603"/></a><br>
+<a href="https://voxamps.com/en-xa/product/amplug/" target="_blank">公式ページ</a>に「UK製100Wアンプのハイゲインサウンド」と記載があるので、マーシャルアンプを意識していると思われます。多段増幅・多段クリッピングになっているのが特徴的です。TONEの後段は、キャビネットシミュレータだと思われます。電源は5Vに昇圧させてあり、供給電圧が2Vを下回ると電源部LEDが消灯するようになっています。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<ul><li>増幅部 （GAIN 1%→50%→100%）<br>
+<a href="img/09_331_11_amplcr_f1.png" target="_blank"><img border="0" height="208" src="img/09_331_11_amplcr_f1.png" width="450"/></a><br>
+C67はGAINを下げた時に高音域を通過させる働きがあり、通常のアンプでは<a href="https://hayashimasaki.net/tubebook/tubebook18.html" target="_blank">BRIGHTスイッチ</a>となっていることが多いです。非反転増幅回路が4段ありますが、そこでの低音域のカットはそれほど大きくありません。ダイオードクリッピングは非対称で、オペアンプでの歪みも加わっています。<br>
+</li><br>
+<li>TONE 0%→50%→100%<br>
+<a href="img/09_331_12_amplcr_f2.png" target="_blank"><img border="0" height="208" src="img/09_331_12_amplcr_f2.png" width="450"/></a><br>
+C80～C82あたりがマーシャルアンプにあるトーンスタックと同等の回路です。MIDは40%、BASSは70%ぐらいに固定で、TREBLEのみ動かす形となっています。後段にあるC83とR89の影響で、高音域が低下し複雑な動きになっています。このような抵抗とコンデンサは<a href="https://www.thetubestore.com/marshall-schematics" target="_blank">Marshall Schematics</a>というページでは見つかりませんでしたが、<a href="https://lazyecology.web.fc2.com/reverb/guitaramp/mesa_dl_rec/tone.html" target="_blank">MESA Boogie Dual Rectifier</a>等、他のメーカーでは入っているものがありました。<br>
+</li><br>
+<li>キャビネットシミュレータ<br>
+<a href="img/09_331_13_amplcr_f3.png" target="_blank"><img border="0" height="208" src="img/09_331_13_amplcr_f3.png" width="450"/></a><br>
+トランジスタによるジャイレータ（シミュレーテッドインダクタ）を使った増幅と、<a href="https://sim.okawa-denshi.jp/OPseikiLowkeisan.htm" target="_blank">オペアンプ正帰還型ローパス・フィルタ</a>です。アナログのキャビネットシミュレータを設計したい場合参考になる回路だと思います。実物のインパルスレスポンスよりも低音域が大きくなるよう設計してあるようです（参考ページ→<a href="https://toshi.life.coocan.jp/review/diy_cabinetsim.html" target="_blank">DTM 宅録用にアナログキャビネットシミュレータを自作）。</a><br>
+</li></ul><br>
+---2024年2月25日追記---<br>
+<br>
+別のジャンク品を入手したので、キャビネットシミュレータ部分の部品を取り外す等の改造を行ってペダル化しました。ヘッドフォンの接続はできません。アンプライクな歪みとして使えそうな感じです。<br>
+<a href="img/09_331_21_amplugpd.jpg" target="_blank"><img border="0" height="320" src="img/09_331_21_amplugpd.jpg" width="500"/></a><br>
+あまりしっかりしていませんが、ホットボンドでなんとか基板を固定しています。ケースは、<a href="https://kanengomibako.booth.pm/items/5305492" target="_blank">エフェクターケース製作用基板</a>を使いました。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

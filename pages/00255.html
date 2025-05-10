@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>STM32 LittlevGLを使う</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>STM32 LittlevGLを使う</h1>
+  <p align="right">2020年02月27日　カテゴリー：<a href="00236.html">STM32</a></p>
+  <hr class="title"><br>
+  <a href="img/03s_255_1lvp.jpg" target="_blank"><img alt="03s_255_1lvp.jpg" border="0" height="300" src="img/03s_255_1lvp.jpg" width="200"/></a><br>
+<a href="https://littlevgl.com/" target="_blank">LittlevGL</a>は、組み込み機器のGUI向けのグラフィックライブラリです。これを使いこなせれば、きれいな画面や使いやすい操作が実現できると思われます。公式の導入方法ではわかりにくい部分があるので、デモの実行方法をまとめておくことにしました。使用したNucleoボードはNUCLEO-F401REです。※メモリ使用量は<span style="color:#FF0000">RAM46kB、FLASH407kB</span>となったので、それなりに容量が必要となります。<br>
+<br>
+<hr size="1"/><br>
+<strong>＜準備＞</strong><br>
+まずは以前の記事（<a href="00246.html" target="_blank">STM32 SPI接続タッチパネル付ディスプレイを使う</a>）の手順を行って、ディスプレイの動作確認をします。そしてそのプロジェクトをそのまま利用し、以下の操作をしていきます。<br>
+<br>
+<hr size="1"/><br>
+<strong>＜ダウンロード＞</strong><br>
+<ul><li><a href="https://github.com/littlevgl/lvgl" target="_blank">LittlevGL本体</a>(v6.1.1)<br>
+右側の [Clone or download] ボタンからZIPダウンロード、解凍<br>
+→フォルダ名「lvgl-master」を「lvgl」へ変更後、プロジェクトのIncフォルダへフォルダごとコピー<br>
+</li><br>
+<li><a href="https://github.com/littlevgl/lv_examples" target="_blank">LittlevGLサンプル集</a><br>
+右側の [Clone or download] ボタンからZIPダウンロード、解凍<br>
+→フォルダ名「lv_examples-master」を「lv_examples」へ変更後、プロジェクトのIncフォルダへフォルダごとコピー<br>
+</li></ul><br>
+<hr size="1"/><br>
+<strong>＜LittlevGLコンフィグファイル編集＞</strong><br>
+<ul><li>lvglフォルダ内のlv_conf_template.hを開き、下記3か所編集<br>
+10行目　#if <span style="color:#FF0000">1</span> /*Set it to "1" to enable content*/<br>
+23行目　#define LV_HOR_RES_MAX          (<span style="color:#FF0000">240</span>)<br>
+36行目　#define LV_COLOR_16_SWAP   <span style="color:#FF0000">1</span><br>
+→ファイル名「lv_conf_template.h」を「lv_conf.h」へ変更後、プロジェクトのIncフォルダへ移動<br>
+</li><br>
+<li>lv_examplesフォルダ内のlv_ex_conf_templ.hを開き、下記2か所編集<br>
+9行目　#if <span style="color:#FF0000">1</span> /*Set it to "1" to enable content*/<br>
+42行目　#define LV_USE_DEMO        <span style="color:#FF0000">1</span><br>
+→ファイル名「lv_ex_conf_templ.h」を「lv_ex_conf.h」へ変更後、プロジェクトのIncフォルダへ移動<br>
+※壁紙画像不使用にするとメモリ使用量を減らせます。→44行目　#define LV_DEMO_WALLPAPER  <span style="color:#FF0000">0</span><br>
+</li></ul><br>
+<hr size="1"/><br>
+<strong>＜main.cファイル編集＞</strong><br>
+以前の記事（<a href="00246.html" target="_blank">STM32 SPI接続タッチパネル付ディスプレイを使う</a>）で記述したものは消去し、下記4か所に記載<br>
+（参考ページ→<a href="https://os.mbed.com/users/JohnnyK/notebook/how-start-with-the-littlevgl/" target="_blank">How start with the LittlevGL on the Disco F746NG with Mbed</a>）<br>
+<br>
+▼/* USER CODE BEGIN Includes */ の下<br>
+<code><pre>#include "ili9341.h"<br>
+#include "ili9341_touch.h"<br>
+#include "lvgl/lvgl.h"<br>
+#include "lv_examples/lv_apps/demo/demo.h"<br>
+</pre></code><br>
+▼/* USER CODE BEGIN 0 */ の下<br>
+<code><pre>lv_disp_buf_t disp_buf;               // ディスプレイバッファの構造体<br>
+lv_color_t buf_1[ILI9341_WIDTH * 10]; // ディスプレイバッファ1<br>
+lv_color_t buf_2[ILI9341_WIDTH * 10]; // ディスプレイバッファ2<br>
+<br>
+lv_disp_drv_t disp_drv;   // ディスプレイドライバの構造体<br>
+lv_indev_drv_t indev_drv; // タッチパッドドライバの構造体<br>
+<br>
+void my_flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * color_p) // 画面描画<br>
+{<br>
+  int32_t w = area-&gt;x2 - area-&gt;x1 + 1;<br>
+  int32_t h = area-&gt;y2 - area-&gt;y1 + 1;<br>
+  ILI9341_DrawImage(area-&gt;x1, area-&gt;y1, w, h, (uint16_t*)color_p);<br>
+  lv_disp_flush_ready(disp_drv); // 描画終了をライブラリへ知らせる<br>
+}<br>
+<br>
+bool my_input_read(lv_indev_drv_t * drv, lv_indev_data_t * data) // タッチパッドのタッチ検出とタッチ位置取得<br>
+{<br>
+  static uint16_t x = 0, last_x = 0;<br>
+  static uint16_t y = 0, last_y = 0;<br>
+  if(ILI9341_TouchPressed())<br>
+  {<br>
+    ILI9341_TouchGetCoordinates(&amp;x, &amp;y);<br>
+    data-&gt;point.x = x;<br>
+    data-&gt;point.y = ILI9341_HEIGHT - y; // 上下逆さま<br>
+    last_x = data-&gt;point.x;<br>
+    last_y = data-&gt;point.y;<br>
+    data-&gt;state = LV_INDEV_STATE_PR; // タッチあり<br>
+  }<br>
+  else<br>
+  {<br>
+    data-&gt;point.x = last_x;<br>
+    data-&gt;point.y = last_y;<br>
+    data-&gt;state = LV_INDEV_STATE_REL; // タッチなし<br>
+  }<br>
+  return false;<br>
+}<br>
+<br>
+void init() // ディスプレイ初期化<br>
+{<br>
+  ILI9341_Unselect();<br>
+  ILI9341_TouchUnselect();<br>
+  ILI9341_Init();<br>
+}<br>
+</pre></code>my_flush_cb関数に画面描画を行うコードを、my_input_read関数にタッチパッドに関するコードを記述します。他のディスプレイを使う場合でも、ここに該当するコードを記述すればうまく動作するはずです。<br>
+<br>
+▼/* USER CODE BEGIN 2 */ の下<br>
+<code><pre>  init();    // ディスプレイ初期化<br>
+  lv_init(); // ライブラリ初期化<br>
+  lv_disp_buf_init(&amp;disp_buf, buf_1, buf_2, ILI9341_WIDTH*10); // ディスプレイバッファ初期化<br>
+<br>
+  lv_disp_drv_init(&amp;disp_drv);     // ディスプレイドライバ初期化<br>
+  disp_drv.buffer = &amp;disp_buf;     // ディスプレイバッファ登録<br>
+  disp_drv.flush_cb = my_flush_cb; // 画面描画関数登録<br>
+  lv_disp_drv_register(&amp;disp_drv); // ディスプレイドライバ登録<br>
+<br>
+  lv_indev_drv_init(&amp;indev_drv);          // タッチパッドドライバ初期化<br>
+  indev_drv.type = LV_INDEV_TYPE_POINTER; // 入力タイプをタッチパッドに指定<br>
+  indev_drv.read_cb = my_input_read;      // タッチ検出関数登録<br>
+  lv_indev_drv_register(&amp;indev_drv);      // タッチパッドドライバ登録<br>
+<br>
+  demo_create(); // デモ呼び出し<br>
+</pre></code><br>
+▼/* USER CODE BEGIN 3 */ の下<br>
+<code><pre>    HAL_Delay(100);<br>
+    lv_tick_inc(100);  // ライブラリへ経過時間を知らせる<br>
+    lv_task_handler(); // ライブラリ実行（画面更新）<br>
+</pre></code>メインループ内で100msごとに画面を更新します。画面描画が速ければもっと短い間隔で更新してもよいでしょう。ライブラリへ経過時間を知らせるのは、アニメーションの動作に関係していると思われます。<br>
+<br>
+ビルドには1分程度かかる場合があります。SPIの通信速度が遅いので、アニメーションはさすがに無理がありそうです。狭い範囲の表示更新については特に問題なさそうな感じです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

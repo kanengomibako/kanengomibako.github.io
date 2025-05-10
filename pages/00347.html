@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>EP Booster V2</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>EP Booster V2</h1>
+  <p align="right">2024年06月29日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_347_01_epb_pic.jpg" target="_blank"><img border="0" height="320" src="img/02_347_01_epb_pic.jpg" width="710"/></a><br>
+以前<a href="00317.html" target="_blank">パワーサプライCP-205を改造したとき</a>、電源をオーディオインターフェースに直結してノイズの調査をしました。しかしながら実際にエフェクターに電源供給した場合に、どの程度電源ノイズの影響があるのか調べていませんでした。そこで、ある程度電源ノイズに弱そうかつポピュラーなエフェクターとしてEP Boosterを製作し、電源ノイズの影響を調べることにしました。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/02_347_02_epb_sch.png" target="_blank"><img border="0" height="260" src="img/02_347_02_epb_sch.png" width="624"/></a><br>
+<a href="https://aionfx.com/news/tracing-journal-xotic-ep-booster-v2/" target="_blank">Aion FXのTracing Journal</a>の回路図を、基板発注のためにKiCadで描き直したものです。JFETのソース接地増幅回路とバイポーラトランジスタのバッファが組み込まれています。元々はEchoplex EP-3の入力部の回路をアレンジしたもののようです。<br>
+<br>
+<hr size="1"/><br>
+▽シミュレーション<br>
+<br>
+・GAIN 100%　BOOST オン　BRIGHT オン／オフ <br>
+<a href="img/02_347_03_epb_sim.png" target="_blank"><img border="0" height="216" src="img/02_347_03_epb_sim.png" width="450"/></a><br>
+BRIGHTスイッチオン時の高音域のカットは、9.2kΩ抵抗と3.3nFのコンデンサのローパスフィルタ（カットオフ周波数5.2kHz）とほぼ同等となります。高音域と低音域がある程度カットされること、増幅時に少し歪みが加わることがうまい具合の味付けになっているのだと思います。<br>
+<br>
+<hr size="1"/><br>
+【電源の影響】<br>
+<br>
+<a href="00317.html" target="_blank">以前の測定</a>で最もノイズが大きかったCLASSIC PROのACアダプターを使用しました。電源部の390Ωの抵抗を他の値やダイオードに変え、通常通りエフェクト出力からオーディオインターフェースに接続します。エフェクト入力はグラウンドに接続しています。<br>
+<a href="img/02_347_04_epb_ns.png" target="_blank"><img border="0" height="209" src="img/02_347_04_epb_ns.png" width="477"/></a><br>
+抵抗値が大きい方がノイズがカットされますが、それなりにノイズが残っていることがわかります。ダイオードの場合でも少し効果があるのは意外でした。オーディオインターフェースに電源を直結して測定したデータも、ある程度目安になりそうです。<br>
+<br>
+やはりトランジスタ・FETを使ったブースター等では、特にローノイズな電源が必要ということになります。エフェクターを設計する際にも、基本的に電源部のフィルターは省かない方がよさそうです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

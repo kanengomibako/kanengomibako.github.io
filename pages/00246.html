@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>STM32 SPI接続タッチパネル付ディスプレイを使う</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>STM32 SPI接続タッチパネル付ディスプレイを使う</h1>
+  <p align="right">2019年08月14日　カテゴリー：STM32 エフェクター</p>
+  <hr class="title"><br>
+  <a href="img/03s_246_1ilip.jpg" target="_blank"><img alt="03s_246_1ilip.jpg" border="0" height="180" src="img/03s_246_1ilip.jpg" width="480"/></a><br>
+Amazon等で取り扱いがある、320×240ドットのSPI接続タッチパネル付2.8インチディスプレイモジュールを使ってみます。<a href="00241.html">前回</a>とは違うILI9341という制御ICです。<br>
+<br>
+Nucleoボードとディスプレイモジュールとの接続は下図の通りです。消費電流は実測50mA程度でした。<br>
+<a href="img/03s_246_1ilis.png" target="_blank"><img alt="03s_246_1ilis.png" border="0" height="254" src="img/03s_246_1ilis.png" width="531"/></a><br>
+※電源に5Vではなく3.3Vを供給する場合は、モジュール裏面のジャンパー(J1)を繋ぎます。最初気づいていませんでしたが、一応動作していました。<br>
+<br>
+<hr size="1"/><br>
+＜STM32CubeIDE（1.0.2） iocファイル Pinout &amp; Configurationタブ＞<br>
+<br>
+・右側列 IC画像<br>
+　設定済ピンを変更しておく<br>
+　　(21)-PA5 : SPI1_SCK<br>
+　ピン設定<br>
+　　(38)-PC7 : GPIO_Output<br>
+　　(42)-PA9 : GPIO_Output<br>
+　　(43)-PA10 : GPIO_Output<br>
+　　(56)-PB4 : GPIO_Input<br>
+　　(58)-PB6 : GPIO_Output<br>
+<br>
+左側列のConnectivity→SPI1を開く<br>
+<br>
+・中央列上側 Mode<br>
+　Mode : Full-Duplex Master<br>
+<br>
+・中央列下側 Configuration→Parameter Settingsタブ<br>
+　Data Size : 8 bits<br>
+　Prescaler (for Baud Rate) : 64　※通信がうまくいかない場合は値を大きくして速度を落とします。<br>
+<br>
+<hr size="1"/><br>
+＜STM32CubeIDE（1.0.2） main.cファイル他＞<br>
+<br>
+下記ページのライブラリを利用します。<br>
+　<a href="https://github.com/afiskon/stm32-ili9341">github.com/afiskon/stm32-ili9341</a>（右側の[Clone or download]ボタンから全ファイルをダウンロードできます。）<br>
+<br>
+Lib/ili9341フォルダ内の7ファイルを自分のプロジェクトの各フォルダへコピーします。<br>
+　Incフォルダ→fonts.h　ili9341.h　ili9341_touch.h　testimg.h<br>
+　Srcフォルダ→fonts.c　ili9341.c　ili9341_touch.c<br>
+<br>
+STM32F3シリーズのNucleoボードを使う場合、ili9341.cとili9341_touch.c最上部に記載されている"stm32f4xx_hal.h"を"stm32f3xx_hal.h"へ変更します。STM32F4シリーズの場合は、そのままでOKです。使用するGPIOピンはili9341.hとili9341_touch.hに#defineで定義されています。<br>
+<br>
+ライブラリのmain.cから以下の3箇所のコードを自分のプロジェクトのmain.cへコピーします。<br>
+　/* USER CODE BEGIN Includes */〜/* USER CODE END Includes */<br>
+　/* USER CODE BEGIN 0 */〜/* USER CODE END 0 */<br>
+　/* USER CODE BEGIN WHILE */～/* USER CODE END WHILE */<br>
+<br>
+実行しディスプレイに画像等が表示されれば成功です。最後の黒い画面ではタッチパネルのテストができます。<a href="00241.html">前回</a>のディスプレイは描画した後毎回画面を更新していましたが、今回はその必要はありません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

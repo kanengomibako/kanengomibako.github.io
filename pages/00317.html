@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Caline CP-205 改造</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Caline CP-205 改造</h1>
+  <p align="right">2023年07月14日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_317_01_cp205_P1.jpg" target="_blank"><img border="0" height="250" src="img/09_317_01_cp205_P1.jpg" width="600"/></a><br>
+アイソレート式のパワーサプライは電源として持っておくと便利そうなので、試しに低価格で改造しやすそうな<a href="https://www.calinemusic.com/index.php?m=home&amp;c=View&amp;a=index&amp;aid=74" target="_blank">Caline CP-205</a>を購入しました。2023年3月に設計された基板のようです。<br>
+<br>
+<a href="img/09_317_02_cp205_P2.jpg" target="_blank"><img border="0" height="200" src="img/09_317_02_cp205_P2.jpg" width="200"/></a><br>
+トランスでグラウンドが分離されています。CL205表記のICやCP205表記のトランスは特注品だと思われます。同様のアイソレート型パワーサプライについて下記ページでも解説されていますので、合わせてご参照ください。<br>
+・<a href="https://gsmcustomeffects.hatenablog.com/entry/2021/09/25/095524" target="_blank">GOKKO MANTRA ISOLATED POWER SUPPLY GK-54</a><br>
+・<a href="https://gsmcustomeffects.hatenablog.com/entry/2020/10/18/022146" target="_blank">MXR mini iso-brickの解析</a><br>
+<br>
+上記リンク記事内にもありますが、<a href="https://www.vitoos.com/" target="_blank">VITOOS</a>という中国のメーカーが多くのパワーサプライのOEMを受託しているようです。<a href="https://hookup.co.jp/blog/749350" target="_blank">Vital Audio : パワーサプライ開発の裏側</a>というページの画像で、ICや基板に「VITOOS」の印字が見えます。strymonのパワーサプライについては完全に自社設計で、<a href="https://allaccess.co.jp/blog/hotone/796/" target="_blank">技術白書：エフェクター電源に関する白書</a>に説明が記載されています。<br>
+<br>
+<hr size="1"/><br>
+【測定】<br>
+<br>
+実際どの程度のノイズがあるのか測定してみます。オシロスコープでは微小ノイズの測定は無理があると考え、オーディオインターフェイス<a href="00261.html" target="_blank">UR22C</a>に入力しました。UR22Cの入力部にもカップリングコンデンサがあると思われますが、念のため1μFのコンデンサを介して接続しています。<br>
+<a href="img/09_317_03_cp205_meas.png" target="_blank"><img border="0" height="150" src="img/09_317_03_cp205_meas.png" width="290"/></a><br>
+安直な手法ですが、ファズフェイス等を使う時には似たような接続になるので、全く的外れというわけでもないと思います。スイッチングノイズは96kHzまでなら観測できます。<br>
+<br>
+他のACアダプタやパワーサプライも一緒に測定しました。おおよその負荷は46Ω（196mA）または300Ω（30mA）です。実際にエフェクターに使用した際に差が出るかどうかは不明ですが、低ノイズなのに越したことはないかと思います。<br>
+<a href="img/09_317_04_cp205_noise.png" target="_blank"><img alt="09_317_04_cp205_noise.png" border="0" height="209" src="img/09_317_04_cp205_noise.png" width="477"/></a><br>
+<ul><li><span style="color:#666666"><strong>CLASSIC PRO DC9V05ANS</strong></span>（196mA）<br>
+サウンドハウスでエフェクターを購入した時無料でついてきたものです。全体的にノイズが多めのようです。<br>
+</li><li><strong><span style="color:#006600">BOSS PSA-100</span></strong>（196mA）<br>
+経年劣化がある可能性もありますが、ノイズがそれなりにあります。BOSSはエフェクター側でノイズ対策されているので問題ないということかもしれません。<br>
+</li><li><strong><span style="color:#0000FF">スイッチングACアダプタ GF12-US1210 + 3端子レギュレータ NJM7809</span></strong>（196mA）<br>
+長年使っている自作パワーサプライです。今まで特に不満はなかったので、充分低ノイズだと思います。<br>
+</li><li><span style="color:#FF6600"><strong>Caline CP-205</strong></span>（196mA）<br>
+ポートによってはもっとスイッチングノイズが少なくなっています。格安とは思えない性能です。<br>
+</li><li><span style="color:#FF0000"><strong>VOODOO LAB Pedal Power 2 Plus 旧型</strong></span>（30mA）<br>
+旧型、ジャンク修理品なので現行品とは異なる可能性があります。特に低ノイズですが、商用電源の60Hzの倍数のノイズは乗りやすいようです。<br>
+</li><li><strong><span style="color:#000000">GP アルカリ電池</span></strong>（30mA）<br>
+測定限界と同じとなります。充電式電池 IMPULSE 6P形でも同じレベルでした。<br>
+</li></ul>今回測定していませんが、他のパワーサプライでは9/12/18V切替ポートにリニアレギュレータが入っていない場合があります。また、充電式の電池で内部に昇圧回路が入っているものがあります。これらの場合にはノイズが多めになると思われます。<br>
+<br>
+下記ページでもパワーサプライのノイズ測定がされていますが、測定条件がよくわからないので比較はできそうにありません。<br>
+・<a href="https://allaccess.co.jp/blog/strymon/1061/" target="_blank">そのノイズ、電源のせいかも？ギタリストが知っておくべき、ノイズの原因とは。</a><br>
+<br>
+CP-205のトランス以降の回路は以下のようになっています。<br>
+<a href="img/09_317_05_cp205_sch.png" target="_blank"><img border="0" height="139" src="img/09_317_05_cp205_sch.png" width="477"/></a><br>
+<br>
+トランス二次側の波形は下図です。※測定器ADALM2000の最大定格を超えないよう10分の1で測定しています。<br>
+<a href="img/09_317_06_cp205_wav.png" target="_blank"><img border="0" height="300" src="img/09_317_06_cp205_wav.png" width="518"/></a><br>
+スイッチング周波数は約36kHzです。18Ω負荷（500mA）時、トランス直後は27Vp-p、ダイオード整流後は13.4Vp-p程度となっていました。<br>
+<br>
+<hr size="1"/><br>
+【改造】<br>
+<br>
+▽回路図<br>
+<a href="img/09_317_07_cp205mod_sch.png" target="_blank"><img alt="09_317_07_cp205mod_sch.png" border="0" height="232" src="img/09_317_07_cp205mod_sch.png" width="463"/></a><br>
+さらにノイズ低減できるのか確認したかったので、リニアレギュレータの重ね掛けをやってみました。L7809CVをそのままこれに置き換えます。出力電圧を可変できる（8.8～9.4V）ようにしたのは、<a href="00316.html" target="_blank">カレントダブラーケーブル</a>を安全に使えるように微調整したかったためです。リセッタブルヒューズをレギュレータの間に入れることで、ロードレギュレーションの改善も望めます。500mA出力ポートには保持電流500mAのリセッタブルヒューズを使います。<br>
+<br>
+シリコンサーマルパッドとねじ止めでフタに取り付けています。ついでに電解コンデンサをルビコン製のものに交換しました。<br>
+<a href="img/09_317_08_cp205mod_pic.jpg" target="_blank"><img border="0" height="227" src="img/09_317_08_cp205mod_pic.jpg" width="400"/></a><br>
+後から気づきましたが、レギュレータからの熱が伝わってリセッタブルヒューズの抵抗値が上がってしまいます。スペース的に厳しいものの、スルーホールタイプのリセッタブルヒューズを使った方がよいでしょう。1000mAでの稼働では、ケース表面が50度まで上がりました。フルパワーで使うには大きな放熱器が必要です。<br>
+<br>
+ノイズ測定しました。CP-205は同じポートを使用し、レギュレータを入れ替えての結果です。<br>
+<a href="img/09_317_09_cp205mod_noise.png" target="_blank"><img border="0" height="209" src="img/09_317_09_cp205mod_noise.png" width="477"/></a><br>
+スイッチングノイズはあまり変化がありませんでしたが、充分な低ノイズを達成できたといってよいでしょう。<br>
+<br>
+---2024年9月28日追記---<br>
+<br>
+500mAのポートのレギュレーターを、LT3045を使った自作モジュールに交換しました。<br>
+<a href="img/09_317_10_LT3045.jpg" target="_blank"><img border="0" height="180" src="img/09_317_10_LT3045.jpg" width="240"/></a><br>
+<a href="img/09_317_11_cp205mod_LT.png" target="_blank"><img border="0" height="209" src="img/09_317_11_cp205mod_LT.png" width="477"/></a><br>
+ほぼ測定限界という低ノイズでした。高価ですが、最高のパワーサプライを作りたい場合には必要だと思います。下記ショップでモジュールが販売されています。<br>
+・Strawberry Linux - <a href="https://strawberry-linux.com/catalog/items?code=13451" target="_blank">LT3045-1 超ローノイズ・正電圧レギュレータモジュール</a><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

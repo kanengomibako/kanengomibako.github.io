@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>STM32 NucleoボードとオーディオコーデックICとの通信</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>STM32 NucleoボードとオーディオコーデックICとの通信</h1>
+  <p align="right">2019年01月12日　カテゴリー：<a href="00236.html">STM32</a></p>
+  <hr class="title"><br>
+  <a href="img/03s_234_1nuwmp.jpg" target="_blank"><img alt="03s_234_1nuwmp.jpg" border="0" height="240" src="img/03s_234_1nuwmp.jpg" width="320"/></a><br>
+高品質なアナログデジタルコンバータ(ADC)とデジタルアナログコンバータ(DAC)が搭載されたオーディオコーデックと呼ばれるICがあります。デジタル信号処理をする場合はこのICを使いこなすことが必要です。ほとんどのオーディオコーデックはI2C（Inter-Integrated Circuit）とI2S(Inter-IC Sound)という通信方式を使うことが可能です。<br>
+<br>
+今回はWM8731というICが搭載されたAUDIO CODEC Board（MIKROE-506）を使用します。I2C通信によりデータフォーマット等の設定を行い、I2S通信でオーディオデータを送受信します。今回も<a href="00232.html">ADCのとき</a>と同様DMAを使いました。<br>
+<br>
+<hr size="1"/><br>
+Nucleoボード（NUCLEO-F303RE）とMIKROE-506との接続は下図の通りです。<br>
+<a href="img/03s_234_2nuwms.png" target="_blank"><img border="0" height="212" src="img/03s_234_2nuwms.png" width="325"/></a><br>
+MIKROE-506はC23を1nF→2.2uFへ変更し、R34は取り外しています。特に必須な改造ではありませんが、C23を大きな値に変更しないと音量がかなり下がってしまうと思われます。MISO等の表記はMIKROE-506上の表記に合わせました。<br>
+<br>
+<hr size="1"/><br>
+＜STM32CubeMX（5.0.0）　Pinout &amp; Configurationタブ＞<br>
+左側列のConnectivity→I2C1を開く<br>
+<br>
+・中央列上側 Mode<br>
+　I2C : I2C　<br>
+<br>
+・中央列下側 Configuration→Parameter Settingsタブ<br>
+<a href="img/03s_234_3nuwmss1.png" target="_blank"><img alt="03s_234_3nuwmss1.png" border="0" height="257" src="img/03s_234_3nuwmss1.png" width="314"/></a><br>
+　Rise Time (ns) : 1000<br>
+　Fall Time (ns) : 300<br>
+※STM32F303がマスター（送信側）、WM8731がスレーブ（受信側）<br>
+<br>
+・右側列 IC画像<br>
+　ピン位置を変更<br>
+　　(61)-PB8 : I2C1_SCL <br>
+　　(62)-PB9 : I2C1_SDA <br>
+<br>
+左側列のMultimedia→I2S2を開く<br>
+<br>
+・中央列上側 Mode<br>
+Mode : Full-Duplex Slave　※STM32F303がスレーブ（受信側）、WM8731がマスター（送信側）<br>
+<br>
+・中央列下側 Configuration→Parameter Settingsタブ<br>
+<a href="img/03s_234_4nuwmss2.png" target="_blank"><img alt="03s_234_4nuwmss2.png" border="0" height="204" src="img/03s_234_4nuwmss2.png" width="436"/></a><br>
+Data and Frame Format : 16 Bits Data on 32 Bits Frame<br>
+Selected Audio Frequency : 48KHz<br>
+<br>
+・中央列下側 Configuration→DMA Settingsタブ<br>
+<a href="img/03s_234_5nuwmss3.png" target="_blank"><img alt="03s_234_5nuwmss3.png" border="0" height="204" src="img/03s_234_5nuwmss3.png" width="436"/></a><br>
+Addボタンで2行追加する<br>
+　DMA Request : SPI2_RX<br>
+　　Mode : Circular<br>
+　　Data Width (Peripheral) : Half Word<br>
+　　Data Width (Memory) : Half Word<br>
+　DMA Request : SPI2_TX<br>
+　　Mode : Circular<br>
+　　Data Width (Peripheral) : Half Word<br>
+　　Data Width (Memory) : Half Word<br>
+<br>
+<hr size="1"/><br>
+＜TrueSTUDIO（9.1.0）＞<br>
+main.cに2箇所追加記載する<br>
+<br>
+/* USER CODE BEGIN 0 */の下　I2Cで送信するデータ、I2Sで受信するデータを定義<br>
+<code><pre>uint8_t DevAddr = 0b00110100;<br>
+uint8_t pdccAddr    =  0b00001100 ; //Power Down Control<br>
+uint8_t pdccData[1] = {0b00000000};<br>
+uint8_t daifAddr    =  0b00001110 ; //Digital Audio Interface Format<br>
+uint8_t daifData[1] = {0b01000010}; //48kHz 16bit I2S Master Mode<br>
+uint8_t aapcAddr    =  0b00001000 ; //Analog Audio Path Control<br>
+uint8_t aapcData[1] = {0b00010100};<br>
+uint8_t dapcAddr    =  0b00001010 ; //Digital Audio Path Control<br>
+uint8_t dapcData[1] = {0b00000000};<br>
+uint8_t aaccAddr    =  0b00010010 ; //Active Control<br>
+uint8_t aaccData[1] = {0b00000001};<br>
+uint16_t RX_BUFFER[24] = {};<br>
+</pre></code><br>
+/* USER CODE BEGIN 2 */の下　データを送受信<br>
+<code><pre>HAL_I2C_Mem_Write(&amp;hi2c1,DevAddr,pdccAddr,1,(uint8_t*)pdccData,1,1000);<br>
+HAL_I2C_Mem_Write(&amp;hi2c1,DevAddr,daifAddr,1,(uint8_t*)daifData,1,1000);<br>
+HAL_I2C_Mem_Write(&amp;hi2c1,DevAddr,aapcAddr,1,(uint8_t*)aapcData,1,1000);<br>
+HAL_I2C_Mem_Write(&amp;hi2c1,DevAddr,dapcAddr,1,(uint8_t*)dapcData,1,1000);<br>
+HAL_I2C_Mem_Write(&amp;hi2c1,DevAddr,aaccAddr,1,(uint8_t*)aaccData,1,1000);<br>
+HAL_I2SEx_TransmitReceive_DMA(&amp;hi2s2,(uint16_t*)RX_BUFFER,(uint16_t*)RX_BUFFER,24);<br>
+</pre></code><br>
+<strong>・I2C</strong><br>
+HAL_I2C_Mem_Writeという関数を使い、データを2進数で8桁（8ビット）ずつ、3つのデータを送ります。<br>
+　1つ目…WM8731のアドレス7桁(0011010)と0→DevAddr<br>
+　2つ目…設定先アドレス7桁と設定データ1桁<br>
+　3つ目…設定データ8桁<br>
+「0b」がついているのは2進数という意味です（「0x」は16進数）。個別の設定データの詳細は<a href="https://www.jp.cirrus.com/products/wm8731/">WM8731のデータシート</a>を参照してください。※音量に関する設定はデフォルトのままなので、マイク入力への音は約5倍増幅されます。<br>
+<br>
+<strong>・I2S</strong><br>
+HAL_I2SEx_TransmitReceive_DMAという関数により、データ送信と受信を同時に行います。バッファデータサイズはテストしやすいようにとりあえず24としました。今回は受信データと送信データに同一の配列を用いているので、マイク入力への音とヘッドフォン出力からの音が同じになるはずです（※音量注意）。波形が乱れる場合は、Nucleoボード上の黒いスイッチでリセットするとうまくいく場合があります。I2Sはもう一つ利用することが可能（I2S3）なので、そちらを接続し受信（Mode Slave Receive）に設定した場合は、データ送信と受信を分けることができます。<br>
+<br>
+<hr size="1"/><br>
+＜参考ページ＞<br>
+<a href="https://www.picfun.com/i2cframe.html">I2Cモジュールの使い方</a> - 電子工作の実験室<br>
+<a href="https://meerstern.seesaa.net/article/442695514.html">SPI/I2C シリアル通信</a> - Crescent<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

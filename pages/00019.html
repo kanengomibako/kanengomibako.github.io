@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>歪みと波形・倍音その1（ダイオードの種類）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>歪みと波形・倍音その1（ダイオードの種類）</h1>
+  <p align="right">2007年10月04日　カテゴリー：<a href="00165.html">歪みと波形・倍音</a></p>
+  <hr class="title"><br>
+  クリッピングに使うダイオードは歪みの音色に深く関わっているとされています。私はイマイチ違いがわからないのでブレッドボードでいろいろ試してみました。<br>
+基本的なことは一庵堂にある「ダイオードクリッパー」の項を参照してください。<br>
+<br>
+<a href="00165.html">歪みと波形・倍音 記事一覧</a><br>
+<br>
+<hr size="1"/><br>
+とりあえずテキトーに回路を組んでみました。<br>
+<img alt="12_19_1DC.gif" border="0" height="260" src="img/12_19_1DC.gif" width="460"/><br>
+これだけでもちゃんと動くみたいです。私は電気的知識に乏しいのでどこか間違ってるかもしれません。とりあえず爆発はしません（笑）。この回路でダイオードのところをいろいろ換えて倍音や波形の特性を見てみます。<br>
+<br>
+・クリッピングなし（ゲイン500倍くらいで測定）<br>
+<img alt="12_19_2NON.gif" border="0" height="243" src="img/12_19_2NON.gif" width="560"/><br>
+倍音が豊富です。ただ歪ませるにはかなりゲインを上げないといけないし（ノイズも増える）、サスティンもないのがナンです。<br>
+<br>
+・1S2076A対称（ゲイン100倍くらいで測定）<br>
+<img alt="12_19_2SIL.gif" border="0" height="243" src="img/12_19_2SIL.gif" width="560"/><br>
+1S2076Aは1N4148と互換（らしい）のシリコンダイオードです。波形が丸っこい感じになってます（ゲインを上げても同じような形）。奇数次倍音ばっかりです。<br>
+<br>
+・1N60対称（ゲイン500倍くらいで測定）<br>
+<img alt="12_19_3GE.gif" border="0" height="243" src="img/12_19_3GE.gif" width="560"/><br>
+1N60は一般的なゲルマニウムダイオードです。全然歪まないなぁと思ってたら変な波形でした。使えなさそう…<br>
+<br>
+・LED（赤色3mm）対称（ゲイン500倍くらいで測定）<br>
+<img alt="12_19_4LED.gif" border="0" height="243" src="img/12_19_4LED.gif" width="560"/><br>
+クリッピングなしの場合と波形が似てますが、奇数次倍音ばっかりです。<br>
+<br>
+・2SK30ATM-GR対称（ゲイン100倍くらいで測定）<br>
+<img alt="12_19_5FET.gif" border="0" height="243" src="img/12_19_5FET.gif" width="560"/><br>
+2SK30Aは一般的（と思う）JFETです。1S2076A対称の場合より波形が角ばってます。<br>
+<br>
+・1S2076A×2と1S2076A非対称（ゲイン100倍くらいで測定）<br>
+<img alt="12_19_6SIL2.gif" border="0" height="243" src="img/12_19_6SIL2.gif" width="560"/><br>
+当たり前ですが波形が非対称になりました。偶数次倍音が出てます。<br>
+<br>
+・1S2076A+1N60と1S2076A非対称（ゲイン100倍くらいで測定）<br>
+<img alt="12_19_7SILGE.gif" border="0" height="243" src="img/12_19_7SILGE.gif" width="560"/><br>
+偶数次倍音が若干減ったような感じです。<br>
+<br>
+・総評（のようなもの）<br>
+歪みといってもいろいろな波形や倍音の出方があることがわかりました。私の耳では大して違いがわからないんですが、強いて言えばクリッピングなしが好みです。このコンテンツの意味ナシ（笑）。真空管の歪みがどんなものなのか、いつか測定してみたいものです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

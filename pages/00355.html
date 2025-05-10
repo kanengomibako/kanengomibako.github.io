@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>HOTONE XTOMP 修理・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>HOTONE XTOMP 修理・特性測定</h1>
+  <p align="right">2024年09月20日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_355_01_xt_pic1.jpg" target="_blank"><img border="0" height="320" src="img/09_355_01_xt_pic1.jpg" width="380"/></a><br>
+エフェクト音が出ないジャンク状態の<a href="https://allaccess.co.jp/hotone/xtomp/" target="_blank">HOTONE XTOMP</a>を手に入れたので、修理し特性を測定しました。<br>
+<br>
+<hr size="1"/><br>
+【修理】<br>
+<br>
+<a href="img/09_355_02_xt_pic2.jpg" target="_blank"><img border="0" height="320" src="img/09_355_02_xt_pic2.jpg" width="320"/></a><br>
+フットスイッチが機能しておらず、基板同士を繋ぐケーブル（フレキシブル基板）の導通が一部ありませんでした。フレキシブル基板を発注することも考えましたが、コネクタの信頼性が疑わしかったので、ポリウレタン銅線（UEW）で直接接続しました。これでスイッチが機能しエフェクト音が出るようになって修理完了です。接続部分はマジックハンダ（ハックルー）で固めて動かないようにしておきました。<br>
+<br>
+XTOMP自体は生産完了品ですが、PC用のソフトは<a href="https://allaccess.co.jp/hotone/xtomp/" target="_blank">公式サイト</a>からダウンロードできます。Android用アプリは検索しても出てきませんでしたが、<a href="https://apkpure.com/jp/xtomp/com.hotoneaudio.xtomp/download/2.0.6" target="_blank">APKファイル</a>からインストールすれば使うことができました（Android14）。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_355_03_xt_pic3.jpg" target="_blank"><img border="0" height="320" src="img/09_355_03_xt_pic3.jpg" width="570"/></a><br>
+<a href="img/09_355_04_xt_pic4.jpg" target="_blank"><img border="0" height="256" src="img/09_355_04_xt_pic4.jpg" width="300"/></a><br>
+＜主なIC等＞<br>
+TMS320C6720: DSP 200MHz<br>
+NANO120LD2BN:マイコン Arm Cortex-M0 42MHz<br>
+NT5SV8M16FS-6K: DRAM<br>
+W25Q64FV: フラッシュメモリ<br>
+TLC2262: オペアンプ<br>
+CS4272-CZZ: コーデック<br>
+CC2540: Bluetooth ワイヤレス・マイコン<br>
+TPS62162: 降圧スイッチングレギュレータ<br>
+HFD4/9: リレー<br>
+<br>
+薄型の筐体で、内部はほとんど隙間がありません。スイッチはシーソー状の独特な構造です。リレーによりLチャンネルのみトゥルーバイパスが可能となっています。<br>
+<br>
+<a href="https://www.ti.com/product/ja-jp/TMS320C6720" target="_blank">TMS320C6720</a>の最大動作周波数は200MHzで、<a href="00340.html" target="_blank">MS-50G+</a>で使われている<a href="https://www.ti.com/product/ja-jp/TMS320C6745" target="_blank">TMS320C6745</a>の半分以下です。XTOMPはエフェクトが一つなので、十分なスペックでしょう。<br>
+<br>
+▽バイパス音<br>
+<br>
+・周波数特性 ※±1dBに拡大（DIRECT：測定に使用している<a href="00261.html" target="_blank">オーディオインターフェースUR22C</a>の入出力を直結）<br>
+<a href="img/09_355_11_xt_f.png" target="_blank"><img border="0" height="209" src="img/09_355_11_xt_f.png" width="477"/></a><br>
+高音域側はカットされておらず、わずかに歪みが出ています。<br>
+<br>
+・正弦波 約1kHz 330mVpp<br>
+<a href="img/09_355_12_xt_1k.png" target="_blank"><img border="0" height="209" src="img/09_355_12_xt_1k.png" width="477"/></a><br>
+歪率が高いように見えますが、0.04%程度なので問題ないでしょう。<br>
+<br>
+<hr size="1"/><br>
+＜実機比較＞<br>
+Green 9とTS9実機とを比較しました。TONEを変化させています。<br>
+<a href="img/09_355_13_xt_ts.png" target="_blank"><img border="0" height="209" src="img/09_355_13_xt_ts.png" width="477"/></a><br>
+<a href="00345.html" target="_blank">HX Stomp</a>と同様、高音域が下がった特性になっています。TONEポットのカーブは概ね合っているようです。なぜか4kHzあたりが少し下がっています。<br>
+<br>
+HOTONEでは「CDCM（Comprehensive Dynamic Circuit Modeling）」という、回路がダイナミックに変化した状態でモデリングを行っているそうです。静的な状態ではないので、周波数特性には現れない特別な処理となっている可能性があります。<br>
+<br>
+Green 9の倍音です。偶数次倍音がそれなりに出ています。<br>
+<a href="img/09_355_14_xt_tsh.png" target="_blank"><img border="0" height="209" src="img/09_355_14_xt_tsh.png" width="477"/></a><br>
+<br>
+<hr size="1"/><br>
+Fender Twin Reverbのモデリング、Preampのみでの周波数特性です。<br>
+<a href="img/09_355_15_xt_tw.png" target="_blank"><img border="0" height="209" src="img/09_355_15_xt_tw.png" width="477"/></a><br>
+TREBLE、MIDDLE、BASSをうまく調整すると似た形になりました。<br>
+<br>
+Twin Reverbのモデリングに設定されているスピーカーの周波数特性です。<br>
+<a href="img/09_355_16_xt_cab.png" target="_blank"><img border="0" height="209" src="img/09_355_16_xt_cab.png" width="477"/></a><br>
+XTOMPはマイクの種類や位置を変更できないので、あまり比較にならないかと思います。形が複雑になっていないため、他のデジタルエフェクターとは違う処理なのかもしれません。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

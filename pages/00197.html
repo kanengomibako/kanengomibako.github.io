@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>各種フィルター/パラメトリックイコライザ（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>各種フィルター/パラメトリックイコライザ（Pure Data パッチ）</h1>
+  <p align="right">2017年09月16日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data(Pd)で簡単に使えるフィルターとしては[hip~][lop~][bp~]があります。それぞれの特性を下図に示します。<table border="0"><tr><td valign="top"><img alt="03p_197_1hpf.png" border="0" height="200" src="img/03p_197_1hpf.png" width="300"/></td><td valign="top">＜[hip~] ハイパスフィルター(HPF)＞<br>
+カットオフ周波数を高くした場合は微妙に効きが鋭くなっているようです。ただ高いカットオフ周波数に設定することはあまりなさそうなので、実用上問題ないと思います。<br>
+</td></tr><br>
+<tr><td valign="top"><img alt="03p_197_2lpf.png" border="0" height="200" src="img/03p_197_2lpf.png" width="300"/></td><td valign="top">＜[lop~] ローパスフィルター(LPF)＞<br>
+<strong>カットオフ周波数を高くすると効きが悪くなり、7020Hz以上に設定するとフィルターが無効</strong>となってしまいます（44100サンプリング時）。→<a href="https://www.mail-archive.com/pd-list@lists.iem.at/msg00027.html" target="_blank">こちらのメールアーカイブ</a>に詳細が載っています。<br>
+代替手段としては、後述の[biquad~][rpole~]等のフィルターを用いるしかないと思われます。<br>
+</td></tr><br>
+<tr><td valign="top"><img alt="03p_197_3bpf.png" border="0" height="200" src="img/03p_197_3bpf.png" width="300"/></td><td valign="top">＜[bp~] バンドパスフィルター(BPF)＞<br>
+変な特性に見えますが、縦軸をdB、横軸（周波数）を対数表示にするとこのような形なります。ワウ等の中心周波数を揺らすエフェクトの場合は、[vcf~]を使います。<br>
+</td></tr></table><br>
+＜その他のフィルターオブジェクト＞<br>
+[biquad~][rpole~][cpole~]等のフィルターがありますが、数値の計算が複雑なため、外部ライブラリ「ggee」に頼ることにします。[biquad~]用係数計算オブジェクト8種類（[bandpass][equalizer][highpass][highshelf][hlshelf][lowpass][lowshelf][notch]）が使用可能になります。<br>
+<br>
+例として[equalizer]を利用したパラメトリックイコライザを作りました。[equalizer]のヘルプファイルとほぼ同じですが、Q値を帯域幅（1オクターブ＝100）に変換する式を入れています。<br>
+<img alt="03p_197_4peq.png" border="0" height="340" src="img/03p_197_4peq.png" width="370"/>（<a href="https://drugscore.web.fc2.com/3p/02_peq.pd" target="_blank">このパッチをダウンロード</a>）<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

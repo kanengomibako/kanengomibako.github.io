@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>OSCによるPure DataとPythonの連携</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>OSCによるPure DataとPythonの連携</h1>
+  <p align="right">2018年05月10日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  Pure Data（Pd）とPythonを連携させる方法として、Open Sound Control（OSC）という通信方法を試しました。これによりRaspberrry Pi（RPi）上でPdから間接的にGPIOを操作し、スイッチやLED等を扱うことができるようになります。もちろん別のコンピュータとの通信を行うといったことも可能です。<br>
+<br>
+<hr size="1"/><br>
+Python側の準備として、<a href="https://das.nasophon.de/pyliblo/" target="_blank">pyliblo</a>を導入します。python-oscというものもあるようですが、試していません。<br>
+$ <strong>sudo apt-get install python-liblo</strong><br>
+参考ページ→<a href="https://blog.monophile.net/posts/20140717_pyliblo_osc.html" target="_blank">pylibloを使ってOSCメッセージを扱う</a><br>
+Pd側はversion 0.46以降であればOSC用オブジェクト[oscformat][oscparse]が使えます。<br>
+<br>
+▽テストプログラム<br>
+py_osc.py<br>
+<code><pre>#!/usr/bin/env python<br>
+# coding:utf-8<br>
+<br>
+import liblo<br>
+<br>
+server = liblo.Server(8000)<br>
+target = liblo.Address("127.0.0.1",8001)<br>
+<br>
+def callback(path, args, types, src):<br>
+    print "py got msg from pd:", args[0]<br>
+<br>
+server.add_method("/msg_from_pd","f", callback)<br>
+liblo.send(target,"/msg_to_pd", 4558)<br>
+server.recv(1)<br>
+</pre></code><br>
+pd_osc.pd<br>
+<img alt="03p_218_1osc.png" border="0" height="300" src="img/03p_218_1osc.png" width="210"/><br>
+<br>
+先にバックグラウンドでPdパッチを実行した後、Pythonプログラムを実行します。<br>
+$ <strong>pd pd_osc.pd &amp;</strong><br>
+$ <strong>python py_osc.py</strong><br>
+通信に成功すれば、以下のメッセージが表示されるはずです。<br>
+pd_got_msg_from_py: 4558<br>
+py got msg from pd: 4558.0<br>
+<br>
+Pythonプラグラムから送信された4558という数値をPdが受け取り、Pdから同じ数値が送信されてPythonが受け取ります。<a href="https://das.nasophon.de/pyliblo/examples.html" target="_blank">pylibloのExample Code</a>や[oscformat][oscparse]のヘルプを簡略化したものなので、特に難しいところはないでしょう。<br>
+<br>
+<hr size="1"/><br>
+Pdでスイッチ類を扱う他の方法についてメモしておきます。<br>
+<br>
+・pdsend、pdreceiveコマンド<br>
+　　pdsendは今まで使っていました。pdreceiveの方は詳細不明で通信成功に至りませんでした。<br>
+・Pduino<br>
+　　別途Arduinoが必要で、検証していません。<br>
+・<a href="https://nyu-waverlylabs.org/rpi-gpio/" target="_blank">Pd-wiringPi</a>（Pd外部オブジェクト）<br>
+　　Pdの実行にsudoが必要になります。GPIOの入力待ちがやりにくそうでしたが、使えないことはないと思います。<br>
+・<a href="https://grrrr.org/research/software/py/" target="_blank">py/pyext</a>（Pd外部オブジェクト）<br>
+　　Pdでpythonプログラムを動かします。導入が難しく、RPiではコンパイルが必要なようです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

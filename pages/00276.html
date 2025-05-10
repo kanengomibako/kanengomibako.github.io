@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>COOLMUSIC JAMMER Looper 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>COOLMUSIC JAMMER Looper 分解・特性測定</h1>
+  <p align="right">2021年11月12日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_276_1jaP.png" target="_blank"><img alt="09_276_1jaP.png" border="0" height="280" src="img/09_276_1jaP.png" width="280"/></a><br>
+現在、様々な格安エフェクターが販売されています。その中でルーパーはやや価格が高くなっており、中身が気になったので買ってみることにしました。選んだのは、独特の薄いケースが採用されている<a href="https://www.coolmusic-tech.com/shows/19/29.html" target="_blank">COOLMUSIC A-LP01 JAMMER Looper</a>です。分解・特性測定を行っておきます。<br>
+<br>
+<hr size="1"/><br>
+【分解】<br>
+<br>
+▽中身画像　COOLMUSIC A-LP01 JAMMER Looper Gut Shots<br>
+<a href="img/09_276_2jaI1.jpg" target="_blank"><img alt="09_276_2jaI1.jpg" border="0" height="280" src="img/09_276_2jaI1.jpg" width="299"/></a><a href="img/09_276_3jaI2.jpg" target="_blank"><img alt="09_276_3jaI2.jpg" border="0" height="280" src="img/09_276_3jaI2.jpg" width="185"/></a><br>
+ケースのみの大きさは縦114mm横60mm高さ21mmです。裏フタ固定ネジは六角穴付きボルト（キャップボルト）ですが、普通のM3ネジが使えます。フットスイッチやポットは通常より高さが低くなっており、特注なのかもしれません。アナログGNDとデジタルGNDは、電源部で接続されているように見えます。<br>
+<br>
+ICは以下の通りです。<br>
+・マイコン　STM32F205RBT6<br>
+・オーディオコーデック　TLV320AIC3104<br>
+・フラッシュメモリ　MKDV4GIL-AS<br>
+・オペアンプ　TL072<br>
+<br>
+<hr size="1"/><br>
+【特性測定】<br>
+<br>
+▽周波数特性・ノイズ・歪率<br>
+<a href="img/09_276_4jaF.png" target="_blank"><img border="0" height="450" src="img/09_276_4jaF.png" width="600"/></a><br>
+低音域が少しカットされているので、どこかのコンデンサを交換すれば改善するかもしれません。録音したものを再生した時、低音域側のノイズが多くなっていますが原因不明です。<br>
+<br>
+私が製作したデジタルエフェクター<a href="00265.html" target="_blank">Sodium</a>の方が可聴域内のノイズが少ないです。SodiumのオーディオコーデックPCM3060のSN比は99dB、TLV320AIC3104のSN比は92dBなので妥当な結果だと思います。<br>
+<br>
+<hr size="1"/><br>
+【内部プログラムの読み取り】<br>
+<br>
+STM32CubeProgrammerを使って基板上側のJ5からマイコンへ接続してみました。接続には成功しているようですが、読み取りや消去はできませんでした。もっと技術力があれば可能かもしれませんが、マイコンを新品にした方が簡単そうです。いつか半導体不足が解消し、STM32F205RBT6が手に入ったら交換してみたいと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

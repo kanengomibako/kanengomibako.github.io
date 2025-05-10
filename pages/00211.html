@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>オーバードライブ（Pure Data パッチ）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>オーバードライブ（Pure Data パッチ）</h1>
+  <p align="right">2018年01月19日　カテゴリー：<a href="00200.html">Pure Data</a></p>
+  <hr class="title"><br>
+  デジタルの歪みはなかなか自然な感じにするのが難しく、自分なりにいろいろと検討しました。詳細は<a href="00210.html">前回の記事（真空管風デジタル歪み）</a>をご覧ください。<br>
+<img alt="03p_211_1od.png" border="0" height="550" src="img/03p_211_1od.png" width="420"/>（<a href="https://drugscore.web.fc2.com/3p/11_overdrive.pd" target="_blank">このパッチをダウンロード</a>）<br>
+gain1では二次関数 f(x) = x<sup>2</sup> + x を使い、波形を非対称に変形させて浅い歪みを調整します。ただそのままでは x &lt; -0.5 のとき波形が折りたたまれる形になるため、[clip~ -0.5 100]を入れてそれを防いでいます。gain2は[tanh~]を使った対称ソフトクリップで、深い歪みを調整します。<br>
+<br>
+個人的に便利かなと思い組み込んだのが、右側に配置している音量調節機能です。弾きながらadjust_vol（フットスイッチを想定）を押すと、エフェクト音の音量が原音と同じになるように変更されます。原理は簡単で、原音とエフェクト音それぞれに繋がっている[env~ 32768]（左上と左下のあたりに配置）から出力される値の差を計算するだけです。<br>
+<br>
+トーン調整についてはとりあえず単純なハイパスフィルターとローパスフィルターにしていますが、私の感覚には結構合っている調整方法のようです。デジタルなので内容の変更や追加は簡単にできます。気が向いたらクリーンミックスやフェンダー型トーン回路等いろいろ試してみたいと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

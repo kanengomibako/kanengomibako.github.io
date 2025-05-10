@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS OD-1 Over Drive (Light)</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS OD-1 Over Drive (Light)</h1>
+  <p align="right">2020年08月27日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_257_1ods.jpg" target="_blank"><img alt="02_257_1ods.jpg" border="0" height="320" src="img/02_257_1ods.jpg" width="360"/></a><br>
+BOSS OD-1を簡略化したエフェクターです。なかなかケースを準備できず長い間基板だけ放置状態でしたが、ようやく完成させました。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/OD1Light" target="_blank">GitHub</a>へ）<br>
+<a href="img/02_257_3ods.png" target="_blank"><img alt="02_257_3ods.png" border="0" height="175" src="img/02_257_3ods.png" width="450"/></a><br>
+OD-1からの主な変更点は以下の通りです。<br>
+　・入出力のバッファ→省略し、<a href="00244.html" target="_blank">トゥルーバイパスリレーモジュール</a>を使用<br>
+　・出力反転→非反転<br>
+　・途中のローパスフィルタ　10kΩと18nF→18kΩと10nF<br>
+　・電源電圧→3.3V（レギュレータ使用）<br>
+　・バイアス電圧→1.8V（レギュレータ使用）<br>
+　・LEVELポット10kB→100kA、位置変更<br>
+<br>
+後から気づきましたが、入力のハイパスフィルタが元の回路では10kΩと0.047uFなので、それに合わせると1MΩと470pFという値の組み合わせになります。その場合は低音域が減るので、LEVELポットはBカーブの方が調整しやすいです。（内部写真はこの改造を施した後のものとなっています。）<br>
+<br>
+▽基板写真<br>
+<a href="img/02_257_2odi.jpg" target="_blank"><img alt="02_257_2odi.jpg" border="0" height="180" src="img/02_257_2odi.jpg" width="240"/></a><br>
+基板は<a href="https://www.fusionpcb.jp/" target="_blank">FusionPCB</a>（<a href="https://www.fusionpcb.jp/" target="_blank">https://www.fusionpcb.jp/</a>）に注文し、部品実装も頼みました。部品点数が少ないので部品を機械で載せていないかもしれませんが、ズレがなくてきれいです。ポットは私が型番を間違えてしまい自分で無理やり取り付けたため、汚いのが目立ちます…。（注文当時5枚実装無料サービス中でしたが、現在その無料サービスは行われていません。）<br>
+<br>
+レギュレータを使用しているため、たぶん電源についてはローノイズになっているでしょう。ただ音質に関してレギュレータの効果があるのかはイマイチよくわかりません。Zoom MS-50GのOverDriveと出音を比較すると、当たり前ですがよく似ています。TONE50では自作機の方がややブライトに感じられましたが、微妙な違いかなと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
