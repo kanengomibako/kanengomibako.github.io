@@ -14,7 +14,7 @@
   <p align="right">2017年10月12日　カテゴリー：<a href="00200.html">Pure Data</a></p>
   <hr class="title"><br>
   <a href="00199.html">ディレイ</a>の時には[delread~]からディレイ音を出力させましたが、ディレイタイムを連続的に変化させる場合は、[vd~](variable delay)を使います。LFOで周期的にディレイタイムを変化させると、ディレイ音の音程が揺れてビブラートがかかり、原音とビブラート音を足せばコーラスとなります。<br>
-<img alt="03p_202_1chorus.png" border="0" height="460" src="img/03p_202_1chorus.png" width="350"/>（<a href="https://drugscore.web.fc2.com/3p/06_chorus.pd" target="_blank">このパッチをダウンロード</a>）<br>
+<img alt="03p_202_1chorus.png" border="0" height="460" src="img/03p_202_1chorus.png" width="350"/>（<a href="Pd/06_chorus.pd" target="_blank">このパッチをダウンロード</a>）<br>
 LFOの出力は<a href="00201.html">トレモロ</a>の時と同じ三角波ですが、abs関数を使うと簡単になると気づいて式を変更しました。出力範囲は0～1で、[*~ ]により振幅が調整されます。[+~ 3]を入れているのは、[vd~]の最短ディレイタイムが64サンプル分（44100サンプリング時1.5ms）となっているためで、一応余裕をみて3ms足しています。<br>
 <br>
 ビブラート音をフィードバックさせればフランジャーとなりますが、いまいち数値の調整がうまくいきませんでした。今後使いたくなったときに作るかもしれません。<br>

@@ -1,0 +1,48 @@
+#N canvas 212 79 397 355 10;
+#X obj 26 289 dac~;
+#X obj 317 17 loadbang;
+#X msg 317 39 \; pd dsp 1;
+#X obj 73 17 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 27 36 spigot~;
+#X obj 27 15 adc~;
+#X floatatom 183 201 5 1 1000 1 bandwidth(1~1000) - -, f 5;
+#X obj 183 219 t b f;
+#X floatatom 183 161 6 0.01 100 0 - - -, f 6;
+#X obj 231 132 expr 664.4*log10(((1+sqrt(1+4*$f1*$f1))/2/$f1)), f
+21;
+#X floatatom 135 143 6 -15 15 0 - - -, f 6;
+#X obj 135 161 t b f;
+#X floatatom 87 125 6 20 20000 0 - - -, f 6;
+#X obj 87 54 vsl 15 64 20 20000 1 1 empty empty frequency(20~20kHz)
+0 -9 0 10 -203904 -1 -1 3568 1;
+#X obj 183 90 vsl 15 64 0.05 50 1 1 empty empty Q(0.05~50) 0 -9 0 10
+-261682 -1 -1 3048 1;
+#X obj 135 72 vsl 15 64 -15 15 0 1 empty empty gain(-15~+15dB) 0 -9
+0 10 -204786 -1 -1 3150 1;
+#X obj 87 240 equalizer 1000 15 100;
+#X obj 74 264 biquad~;
+#X text 22 309 [spigot~] needs two externals: libdir \, unauthorized
+[equalizer] needs two externals: libdir \, ggee;
+#X text 252 174 Q to bandwidth;
+#X connect 1 0 2 0;
+#X connect 3 0 4 1;
+#X connect 4 0 0 0;
+#X connect 4 0 0 1;
+#X connect 4 1 17 0;
+#X connect 5 0 4 0;
+#X connect 6 0 7 0;
+#X connect 7 0 16 0;
+#X connect 7 1 16 2;
+#X connect 8 0 9 0;
+#X connect 9 0 6 0;
+#X connect 10 0 11 0;
+#X connect 11 0 16 0;
+#X connect 11 1 16 1;
+#X connect 12 0 16 0;
+#X connect 13 0 12 0;
+#X connect 14 0 8 0;
+#X connect 15 0 10 0;
+#X connect 16 0 17 0;
+#X connect 17 0 0 0;
+#X connect 17 0 0 1;

@@ -15,7 +15,7 @@
   <hr class="title"><br>
   デジタルエフェクターの場合でも、物理的にトゥルーバイパスにするのも一つの手だと思います。しかし、それだとフットスイッチに別の機能を割り当てることができないので、Pure Data(Pd)のパッチ内でエフェクトオン・オフを切り替えることにします。<br>
 <br>
-<img alt="03p_195_1boostP.png" border="0" height="240" src="img/03p_195_1boostP.png" width="220"/>（<a href="https://drugscore.web.fc2.com/3p/00_boost.pd" target="_blank">このパッチをダウンロード</a>）<br>
+<img alt="03p_195_1boostP.png" border="0" height="240" src="img/03p_195_1boostP.png" width="220"/>（<a href="Pd/00_boost.pd" target="_blank">このパッチをダウンロード</a>）<br>
 エフェクトオン時（トグルスイッチが[×]の時）に[spigot~]の左アウトレットから右アウトレットに出力が切り替わります。右アウトレットからの出力に対し、様々なエフェクト処理を行っていく形になります。<br>
 <br>
 エフェクト切替時には下図のように、波形が途切れて雑音が出ます。[line~]で音量を滑らかに変化させれば雑音を消すこともできますが、ごくわずかなので気にしないことにします。<br>

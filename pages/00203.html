@@ -14,7 +14,7 @@
   <p align="right">2017年10月16日　カテゴリー：<a href="00200.html">Pure Data</a></p>
   <hr class="title"><br>
   Pure Data(Pd)でのオールパスフィルター(APF)は[rzero_rev~]と[rpole~]を組み合わせて作ります。原音とAPFを通した音を足せばフェイザーとなります。参考ページ→<a href="https://msp.ucsd.edu/techniques/v0.11/book-html/node161.html" target="_blank">Making and using all-pass filters</a><br>
-<img alt="03p_203_1phaser.png" border="0" height="360" src="img/03p_203_1phaser.png" width="360"/>（<a href="https://drugscore.web.fc2.com/3p/07_phaser.pd" target="_blank">このパッチをダウンロード</a>）<br>
+<img alt="03p_203_1phaser.png" border="0" height="360" src="img/03p_203_1phaser.png" width="360"/>（<a href="Pd/07_phaser.pd" target="_blank">このパッチをダウンロード</a>）<br>
 [rzero_rev~]と[rpole~]に入れる係数計算は、<a href="00198.html">1次ローパスフィルター</a>のときの[rpole~]用計算式をそのまま使うとうまくいきました。上側の[expr~]が2π*fc/fsの計算ですが、周波数はMXR Phase 90を参考に150～2250Hzで変化するようにしています。<br>
 <br>
 Uni-Vibeもフェイザーと似た仕組みなので再現できそうなのですが、いまいち係数の設定がうまくいきませんでした。今後使いたくなったときに作るかもしれません。<br>

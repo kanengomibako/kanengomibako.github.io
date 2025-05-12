@@ -1,0 +1,25 @@
+#N canvas 214 81 347 284 10;
+#X obj 26 194 dac~;
+#X obj 260 13 loadbang;
+#X msg 260 35 \; pd dsp 1;
+#X obj 73 17 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0 1
+;
+#X obj 27 36 spigot~;
+#X obj 27 15 adc~;
+#X obj 72 120 *~ 1;
+#X obj 97 99 dbtorms;
+#X floatatom 97 58 5 -20 20 1 GAIN_-20~+20dB - -, f 5;
+#X obj 97 77 + 100;
+#X text 22 214 [spigot~] needs two externals: libdir \, unauthorized
+, f 30;
+#X connect 1 0 2 0;
+#X connect 3 0 4 1;
+#X connect 4 0 0 0;
+#X connect 4 0 0 1;
+#X connect 4 1 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 0 0;
+#X connect 6 0 0 1;
+#X connect 7 0 6 1;
+#X connect 8 0 9 0;
+#X connect 9 0 7 0;

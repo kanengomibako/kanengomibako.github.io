@@ -15,7 +15,7 @@
   <hr class="title"><br>
   Pure Data(Pd)でのディレイは、[delwrite~]に信号を入力し、[delread~]から指定した時間遅延後出力させるというものです。リピートさせるには、ディレイ音を再び[delwrite~]に入力します。青枠内はタップテンポ入力[pd tap]の中身です。<br>
 <a href="img/03p_199_1delay.png" target="_blank"><img alt="03p_199_1delay.png" border="0" height="405" src="img/03p_199_1delay.png" width="540"/></a><br>
-（<a href="https://drugscore.web.fc2.com/3p/04_delay.pd" target="_blank">このパッチをダウンロード</a>）<br>
+（<a href="Pd/04_delay.pd" target="_blank">このパッチをダウンロード</a>）<br>
 <br>
 とりあえず適当に[hip~][lop~]を入れてディレイ音を劣化させています。また、入力部分の[spigot~]だけでエフェクトオフにした場合、ディレイ音が消えずに出力される（いわゆる「テイル」機能）ので、出力部分にも[spigot~]を入れてエフェクトオフ時ディレイ音を出力しないようにしています。<br>
 <br>
