@@ -48,7 +48,7 @@ cnt[0] = stop - start; // 処理にかかったサイクル数<br>
 C言語標準ライブラリmath.hにある数学の関数については以下の通りです。<br>
 <table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>sqrtf</td><td>51</td><td>16</td></tr><tr align="center"><td>logf</td><td>189</td><td>189</td></tr><tr align="center"><td>expf</td><td>216</td><td>207</td></tr><tr align="center"><td>powf</td><td>565</td><td>571</td></tr><tr align="center"><td>sinf</td><td>82</td><td>79</td></tr><tr align="center"><td>sinhf</td><td>286</td><td>283</td></tr><tr align="center"><td>atanf</td><td>189</td><td>178</td></tr></table>デシベル計算に使うpowfがかなり遅いので、ルックアップテーブルの利用を考える必要がありそうです。<br>
 <br>
-CMSIS-DSPライブラリを導入し、とりあえず2つの関数を使ってみました。（参考ページ→<a href="https://ioloa.com/?p=81">STM32 CubeIDE環境で、CMSIS-DSPを使う方法</a>）<br>
+CMSIS-DSPライブラリを導入し、とりあえず2つの関数を使ってみました。（参考ページ→<a href="https://web.archive.org/web/20241101233120/https://ioloa.com/blog/archives/81">STM32 CubeIDE環境で、CMSIS-DSPを使う方法</a>）<br>
 <table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>arm_sqrt_f32</td><td>91</td><td>13</td></tr><tr align="center"><td>arm_sin_f32</td><td>56</td><td>52</td></tr></table>今後、BiQuadフィルタやフーリエ変換等の活用について検討したいと思います。<br>
 <br>
 

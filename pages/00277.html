@@ -19,7 +19,7 @@
 <hr size="1"/><br>
 <strong><span style="font-size:large;">【修理】</span></strong><br>
 <br>
-<a href="https://www.stompboxzone.com/decoder/" target="_blank">Boss Pedal Serial Decoder</a>で調べると2010年製でした。そこまで古いものではなく、ジャックやポットは問題なさそうです。LEDのオンオフは機能していたので、アナログ部分の故障が予想されます。<br>
+<a href="https://web.archive.org/web/20231104174559/https://www.stompboxzone.com/decoder/" target="_blank">Boss Pedal Serial Decoder</a>で調べると2010年製でした。そこまで古いものではなく、ジャックやポットは問題なさそうです。LEDのオンオフは機能していたので、アナログ部分の故障が予想されます。<br>
 <br>
 <a href="img/09_277_2mlT.jpg" target="_blank"><img border="0" height="240" src="img/09_277_2mlT.jpg" width="450"/></a><br>
 電圧を調べていくと、NJM14558の電源ピンが0Vに近く、そこから原因をたどっていきました。すると電源部分のトランジスタが機能していませんでした（上写真赤丸のQ13）。このトランジスタは他のBOSSエフェクターの回路図でも出てくる電圧安定化用だと思われます。手持ちに同じ大きさのトランジスタがなかったので、普通サイズ（TO-92）の2SC1815に交換しました（ビアの穴に足がなんとか入りました）。これで問題なく電圧が出力され、音も無事に出るようになり修理完了です。動作確認後、交換したトランジスタ付近はホットボンドで固めて動かないようにしておきました。<br>
