@@ -14,7 +14,7 @@
   <p align="right">2019年05月20日　カテゴリー：<a href="00236.html">STM32</a></p>
   <hr class="title"><br>
   <a href="img/03s_242_1srempy.jpg" target="_blank"><img alt="03s_242_1srempy.jpg" border="0" height="284" src="img/03s_242_1srempy.jpg" width="320"/></a><br>
-デジタルエフェクターというとディスプレイをつけたくなるもので、ポットなしでスイッチのみを使って操作するというエフェクターを製作しました。精度よく角穴加工するのはかなり大変なので、<a href="https://twitter.com/Tabbys_kobo">Tabby's工房</a>さんにお願いしました。<br>
+デジタルエフェクターというとディスプレイをつけたくなるもので、ポットなしでスイッチのみを使って操作するというエフェクターを製作しました。精度よく角穴加工するのはかなり大変なので、<a href="https://x.com/Tabbys_kobo">Tabby's工房</a>さんにお願いしました。<br>
 <br>
 ▽ディスプレイ・スイッチ基板レイアウト<br>
 <a href="img/03s_242_2srempyL.png" target="_blank"><img alt="03s_242_2srempyL.png" border="0" height="209" src="img/03s_242_2srempyL.png" width="180"/></a><br>
@@ -30,7 +30,7 @@ DSP基板は<a href="00237.html">Owm Pedal</a>と同じものを使用してい�
 <br>
 <hr size="1"/><br>
 アナログ回路でのフィルタ設計は複雑になる場合が多く、コンデンサの容量値も限られています。また、リアルタイムに動かすとなると可変抵抗やフォトカプラを使うぐらいしか選択肢がありません。デジタル信号処理でのフィルタについては計算方法が確立しているため、専門知識がなくとも設計可能で、任意の定数を動かすこともできます。計算式は下記ページのものを利用させていただきました。<br>
-・<a href="https://vstcpp.wpblog.jp/">C++でVST作り</a> - <a href="https://vstcpp.wpblog.jp/?page_id=523">簡単なデジタルフィルタの実装</a><br>
+・<a href="https://www.utsbox.com/">C++でVST作り</a> - <a href="https://www.utsbox.com/?page_id=523">簡単なデジタルフィルタの実装</a><br>
 <br>
 フェイザーはノッチフィルタがかかったような周波数特性で、谷となる周波数が動いています（参考ページ→<a href="https://www.electrosmash.com/mxr-phase90">MXR Phase 90 Analysis</a>）。今回はこの特性をピーキングフィルタを使って再現、発展させたエフェクトを考えました。フェイザーとワウを合わせたような効果で、5つのモード（STD、SOFT、INV、HIGH、LOW）があります。名前の由来は3つ（Three）のピーキングフィルタ（Peaking Filter）です。<br>
 <br>

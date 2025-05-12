@@ -202,7 +202,7 @@ void dacB(int w) {<br>
   SPI.transfer(dacValueB[2] &amp; 0xff);<br>
   PORTB |= _BV(0);<br>
 }</pre></code>過去記事（→<a href="00229.html">ATtiny85 タップテンポ付LFO その2</a>）と同じようなスケッチで、割り込み時の処理がDAコンバータ制御に変わっています。MCP4922の使い方は下記ページを参考にしました。高速処理するため、今回はレジスタを直接変更しています。<br>
-<a href="https://zattouka.net/GarageHouse/micon/circuit/D_A.htm">きむ茶工房ガレージハウス - DAコンバータ　MCP4922(SPI)を利用しD/A変換を行う</a><br>
+<a href="http://zattouka.net/GarageHouse/micon/circuit/D_A.htm">きむ茶工房ガレージハウス - DAコンバータ　MCP4922(SPI)を利用しD/A変換を行う</a><br>
 <br>
 音については今までにない効果だと思うので、どう評価されるかわかりません。TREBLEのみ揺らす、MIDのみ揺らさない等、いろんなパターンを試せるので、誰でもきっと「お気に入りのトレモロ」が見つけられるんじゃないかと思います。<br>
 <br>
@@ -211,7 +211,7 @@ void dacB(int w) {<br>
 <br>
 ＜他のイコライザ回路＞<br>
 下記ページのような3バンドイコライザ回路があります。DJミキサーに使われているらしいです。<br>
-<a href="https://sound.whsites.net/articles/eq.htm#s9">Equalisers, The Various Types And How They Work - 9 - Frequency 'Isolators'</a><br>
+<a href="https://sound-au.com/articles/eq.htm#s9">Equalisers, The Various Types And How They Work - 9 - Frequency 'Isolators'</a><br>
 シミュレーションしてみたのですが、減衰時の特性がいまいち気に入りませんでした。<br>
 <br>
 ＜デジタルポテンショメータ（以下DPOT）＞<br>
