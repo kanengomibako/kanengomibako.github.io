@@ -26,7 +26,7 @@ BC108BのSPICEモデルは、<a href="https://forum.kicad.info/t/how-to-set-spic
 ▽回路図<br>
 <a href="img/09_310_04_Jim_Dunlop_FFM1_SILICON_FUZZ_FACE_MINI_Schematic.png" target="_blank"><img alt="Jim Dunlop FFM1 SILICON FUZZ FACE MINI Schematic" border="0" height="515" src="img/09_310_04_Jim_Dunlop_FFM1_SILICON_FUZZ_FACE_MINI_Schematic.png" width="465"/></a><br>
 REV.A3基板の中古個体も入手したのですが、REV.C1基板の新品個体の回路図・データを掲載しています。おそらく<a href="https://www.jimdunlop.com/germanium-fuzz-face-mini-distortion/" target="_blank">FFM2</a>と共用の基板で、PNPトランジスタ対応のため電源とグラウンドが入れ替えられるようになっていますが、基本的には伝統的なファズフェイスの回路です。バイパス関連部分は<a href="00302.html" target="_blank">Super Badass Distortion</a>と同様の回路で、FETスイッチで入出力をグラウンドに落としてあります。主要回路の解説については下記参考ページ等をご参照ください。<br>
-・GEO - <a href="https://www.geofex.com/article_folders/fuzzface/fftech.htm" target="_blank">The Technology of the Fuzz Face</a><br>
+・GEO - <a href="http://www.geofex.com/article_folders/fuzzface/fftech.htm" target="_blank">The Technology of the Fuzz Face</a><br>
 ・ElectroSmash - <a href="https://www.electrosmash.com/fuzz-face" target="_blank">Fuzz Face Analysis</a><br>
 <br>
 <a href="img/09_310_03_ffm1Tr.jpg" target="_blank"><img border="0" height="120" src="img/09_310_03_ffm1Tr.jpg" width="120"/></a><br>
@@ -57,7 +57,7 @@ Ib2は3.2uAを中心に0～40uAで変化しており、次段の増幅に関与�
 <br>
 ファズフェイスは、ギター直結でギターボリュームを絞ると鈴鳴り（Bell Tone）と呼ばれる煌びやかな音が出せることが知られています。一体どのような特性なのか、<a href="00307.html" target="_blank">ギター音再現機</a>を使って実測しました。歪まないように入力レベルをかなり下げています。<br>
 <a href="img/09_310_05_ffm1B1.png" target="_blank"><img border="0" height="183" src="img/09_310_05_ffm1B1.png" width="417"/></a><br>
-ギターボリュームを下げた時、高音域があまり下がらず残ったままの状態となっています。言い換えれば、ギターボリュームを上げると低音域を中心に増幅されるということです。これを説明するのに、<a href="https://bccweb.bai.ne.jp/ichian/analog/ecb/fuzzface/fuzzface1.htm" target="_blank">一庵堂 わかりやすいFUZZ FACEの読み方</a>というページが参考になります。このページでは、ファズフェイスの回路はオペアンプの反転増幅回路に似た動作で増幅していると解説されています（近似計算なので実際とズレはあります）。<br>
+ギターボリュームを下げた時、高音域があまり下がらず残ったままの状態となっています。言い換えれば、ギターボリュームを上げると低音域を中心に増幅されるということです。これを説明するのに、<a href="https://web.archive.org/web/20230526155224/https://bccweb.bai.ne.jp/ichian/analog/ecb/fuzzface/fuzzface1.htm" target="_blank">一庵堂 わかりやすいFUZZ FACEの読み方</a>というページが参考になります。このページでは、ファズフェイスの回路はオペアンプの反転増幅回路に似た動作で増幅していると解説されています（近似計算なので実際とズレはあります）。<br>
 <br>
 下図のような単純な反転増幅回路に置き換えて考えてみます。<br>
 <a href="img/09_310_06_ffm1B2.png" target="_blank"><img border="0" height="208" src="img/09_310_06_ffm1B2.png" width="450"/></a><br>

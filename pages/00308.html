@@ -14,7 +14,7 @@
   <p align="right">2023年02月04日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
   <hr class="title"><br>
   <a href="img/09_308_01_trfzP1.jpg" target="_blank"><img border="0" height="320" src="img/09_308_01_trfzP1.jpg" width="580"/></a><br>
-音が出ない状態の<a href="https://www.fender.com/ja-JP/effects-pedals/boost-gain/the-trapper-dual-fuzz/0234545000.html" target="_blank">Fender The Trapper Dual Fuzz</a>を手に入れたので、修理し解析しました。KiCadとLTspiceの回路図データ、基板画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Fender/TheTrapperDualFuzz" target="_blank">GitHub</a>にあります。<br>
+音が出ない状態の<a href="https://web.archive.org/web/20210928200313/https://www.fender.com/ja-JP/effects-pedals/boost-gain/the-trapper-dual-fuzz/0234545000.html" target="_blank">Fender The Trapper Dual Fuzz</a>を手に入れたので、修理し解析しました。KiCadとLTspiceの回路図データ、基板画像は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Fender/TheTrapperDualFuzz" target="_blank">GitHub</a>にあります。<br>
 <br>
 <hr size="1"/><br>
 【修理】<br>
@@ -32,7 +32,7 @@
 <a href="img/09_308_04_Fender_The_Trapper_Dual_Fuzz_Schematic.png" target="_blank"><img alt="Fender The Trapper Dual Fuzz Schematic" border="0" height="254" src="img/09_308_04_Fender_The_Trapper_Dual_Fuzz_Schematic.png" width="714"/></a><br>
 ファズなのでトランジスタが使われているのかと思いきや、オペアンプのみです。電源部にはフィルムコンデンサが多数あり、オペアンプの近くにバイパスコンデンサ（パスコン）として配置されています。<br>
 <br>
-FUZZ1は普通のダイオードクリップですが低音域がほとんどカットされておらず、ビッグマフ的な音色を狙ってあるのかもしれません。オクターブ音生成部は全波整流（絶対値）回路で、波形のマイナス側が反転する形になり、周波数が2倍になります（参考→<a href="https://infoseek_rip.g.ribbon.to/spectrum123.at.infoseek.co.jp/kenpa/zenpa/zenpa.htm" target="_blank">全波整流回路の動作原理</a>）。TONEはRATのFILTER、CONTOURはBIG MUFFのTONEと同じタイプとなっています。<br>
+FUZZ1は普通のダイオードクリップですが低音域がほとんどカットされておらず、ビッグマフ的な音色を狙ってあるのかもしれません。オクターブ音生成部は全波整流（絶対値）回路で、波形のマイナス側が反転する形になり、周波数が2倍になります（参考→<a href="https://web.archive.org/web/20240216164220/http://infoseek_rip.g.ribbon.to/spectrum123.at.infoseek.co.jp/kenpa/zenpa/zenpa.htm" target="_blank">全波整流回路の動作原理</a>）。TONEはRATのFILTER、CONTOURはBIG MUFFのTONEと同じタイプとなっています。<br>
 <br>
 FUZZ2側のIC3Aには帰還抵抗がなく、最大限の増幅をするということになります。すなわち、基準電圧（4.5V）より大きければ正電源（9V）付近に、小さければ負電源（0V）付近になるという矩形波が生まれます（参考→<a href="https://ja-support.renesas.com/knowledgeBase/17797912" target="_blank">コンパレータ</a>）。R9は、電位をズラしてノイズに反応しにくくするためのものだと思われます。<br>
 <br>

@@ -17,11 +17,11 @@
 <a href="https://moridaira.co.jp/posts/mxr-m169" target="_blank">MXR CARBON COPY</a>はかなりの数売れているためか、ジャンク品が多く出回っています。今回手に入れた個体はディレイ音が出ない状態で、回路図がなく故障箇所の特定が困難だったため、解析することにしました。KiCadとLTspiceのデータは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/CarbonCopy" target="_blank">GitHub</a>にあります。<strong>※このエフェクターの修理は表面実装のICや電解コンデンサの交換が必要となる場合があるため、初心者向きではありません。</strong><br>
 <ul>＜参考ページ＞<li><a href="https://umbrella-company.jp/contents/analog-delay/" target="_blank">アナログディレイとは？</a>…信号を遅延させる素子BBDについての基礎知識<br>
 </li><li><a href="https://electricdruid.net/noise-reduction-with-companders/" target="_blank">Noise Reduction with Companders</a>…コンパンダICの回路に関する説明<br>
-</li><li><a href="https://toshi.life.coocan.jp/review/diy_analog_delay.html" target="_blank">BBDを使用した300msアナログディレイBOSS DM-3 MOD 自作レポート</a>…アナログディレイの自作・トリマー調整方法についての解説<br>
+</li><li><a href="http://toshi.life.coocan.jp/review/diy_analog_delay.html" target="_blank">BBDを使用した300msアナログディレイBOSS DM-3 MOD 自作レポート</a>…アナログディレイの自作・トリマー調整方法についての解説<br>
 </li></ul><hr size="1"/><br>
 ▽回路図<br>
 <a href="img/09_324_02_MXR_M169_CARBON_COPY_ANALOG_DELAY_Schematic.png" target="_blank"><img alt="MXR CARBON COPY Schematic" border="0" height="248" src="img/09_324_02_MXR_M169_CARBON_COPY_ANALOG_DELAY_Schematic.png" width="685"/></a><br>
-<a href="https://www.hobby-hour.com/electronics/s/dm2-delay.php" target="_blank">BOSS DM-2</a>と似ていて、プリエンファシス・ディエンファシスやBBD前後のローパスフィルタ（LPF）は全く同じ定数です。BBD用のクロック生成には専用IC（MN3102等）ではなく、<a href="https://www.tonepad.com/project.asp?id=8" target="_blank">Small Clone Chorus</a>のようにCD4047が使われています。そして<a href="https://ja.wikipedia.org/wiki/LFO_(%E9%9B%BB%E5%AD%90%E6%A5%BD%E5%99%A8)" target="_blank">LFO</a>の回路を接続することによりモジュレーション機能を実現しています。電源部では、供給電圧が10Vを超えたあたりでQ4がオンになり電源供給が遮断されます。高い電圧を接続することにより電源部が故障する可能性は低そうです。<br>
+<a href="https://www.hobby-hour.com/electronics/s/dm2-delay.php" target="_blank">BOSS DM-2</a>と似ていて、プリエンファシス・ディエンファシスやBBD前後のローパスフィルタ（LPF）は全く同じ定数です。BBD用のクロック生成には専用IC（MN3102等）ではなく、<a href="http://www.tonepad.com/project.asp?id=8" target="_blank">Small Clone Chorus</a>のようにCD4047が使われています。そして<a href="https://ja.wikipedia.org/wiki/LFO_(%E9%9B%BB%E5%AD%90%E6%A5%BD%E5%99%A8)" target="_blank">LFO</a>の回路を接続することによりモジュレーション機能を実現しています。電源部では、供給電圧が10Vを超えたあたりでQ4がオンになり電源供給が遮断されます。高い電圧を接続することにより電源部が故障する可能性は低そうです。<br>
 <br>
 R48を外し、ディレイ音の周波数特性を測定しました。コンパンダのせいか周期スイープでは特性が乱れるため、ホワイトノイズを使用しています。<br>
 <a href="img/09_324_11_carco_F01.png" target="_blank"><img border="0" height="209" src="img/09_324_11_carco_F01.png" width="477"/></a><br>

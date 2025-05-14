@@ -14,7 +14,7 @@
   <p align="right">2024年10月25日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
   <hr class="title"><br>
   <a href="img/02_357_01_fv1_pic.jpg" target="_blank"><img border="0" height="320" src="img/02_357_01_fv1_pic.jpg" width="415"/></a><br>
-<a href="https://www.spinsemi.com/products.html" target="_blank">Spin Semiconductor SPN1001 FV-1</a>は2007年頃から使われているリバーブICです。空間系エフェクターの自作に使ってみたいという方がいらっしゃると思うので、私も一度作ってみることにしました。データシートにはリバーブと書いてありますが、様々なデジタル信号処理が可能です。カテゴリーは便宜上「自作エフェクター（アナログ）」にしています。<br>
+<a href="http://www.spinsemi.com/products.html" target="_blank">Spin Semiconductor SPN1001 FV-1</a>は2007年頃から使われているリバーブICです。空間系エフェクターの自作に使ってみたいという方がいらっしゃると思うので、私も一度作ってみることにしました。データシートにはリバーブと書いてありますが、様々なデジタル信号処理が可能です。カテゴリーは便宜上「自作エフェクター（アナログ）」にしています。<br>
 <br>
 2024年10月時点では、秋月電子でFV-1を入手できます。<a href="https://akizukidenshi.com/catalog/g/g115036/" target="_blank">FV-1単体（2480円）</a>より<a href="https://akizukidenshi.com/catalog/g/g115566/" target="_blank">DIP化モジュールキット（1480円）</a>の方が安いので、モジュールの方を利用することにしました。次のロットからはFV-1単体より高くなるのかもしれません。<br>
 <br>
@@ -33,7 +33,7 @@ PedalPCBの<a href="https://www.pedalpcb.com/product/fv1dev/" target="_blank">FV
 <a href="img/02_357_03_fv1_f.png" target="_blank"><img border="0" height="209" src="img/02_357_03_fv1_f.png" width="477"/></a><br>
 サンプリング周波数が32.768kHzなので、帯域幅が少し狭くなります。基本的に原音はアナログでミックスするので問題ないでしょう。<br>
 <br>
-水晶振動子を交換し、サンプリング周波数をもっと高くすることもできます。ただ48kHzの水晶振動子は流通していないようで、追加の回路が必要です（詳細：<a href="https://www.spinsemi.com/knowledge_base/xtal.html" target="_blank">The FV-1 Crystal Oscillator</a>）。<br>
+水晶振動子を交換し、サンプリング周波数をもっと高くすることもできます。ただ48kHzの水晶振動子は流通していないようで、追加の回路が必要です（詳細：<a href="http://www.spinsemi.com/knowledge_base/xtal.html" target="_blank">The FV-1 Crystal Oscillator</a>）。<br>
 <br>
 ・正弦波 約1kHz<br>
 <a href="img/02_357_04_fv1_1k.png" target="_blank"><img height="209" order="0" src="img/02_357_04_fv1_1k.png" width="477"/></a><br>
@@ -45,7 +45,7 @@ SN比はそこまで悪くないものの、ハイゲインなエフェクト処
 EEPROMにプログラムを書き込み、FV-1で実行できるようにします。下記参考ページとほぼ同じ内容をまとめています。<br>
 ・<a href="https://home-bake-instruments.localinfo.jp/posts/37592163/" target="_blank">HOME BAKE INSTRUMENTS　REVERBS/EFFECTS　日本語説明書</a><br>
 <ol><li>開発環境 ※Windowsのみ対応<br>
-<a href="https://www.spinsemi.com/products.html" target="_blank">公式ページ</a>下部のsoftware :: SpinAsm assembler for the SPN1001から、FV-1用プログラムの開発環境ソフトをダウンロード、インストールします。このソフトは管理者として実行する必要があるので、右クリック→『管理者として実行』とするか、プロパティ→互換性→『管理者としてこのプログラムを実行する』にチェックを入れておきます。<br>
+<a href="http://www.spinsemi.com/products.html" target="_blank">公式ページ</a>下部のsoftware :: SpinAsm assembler for the SPN1001から、FV-1用プログラムの開発環境ソフトをダウンロード、インストールします。このソフトは管理者として実行する必要があるので、右クリック→『管理者として実行』とするか、プロパティ→互換性→『管理者としてこのプログラムを実行する』にチェックを入れておきます。<br>
 </li><br>
 <li>エフェクトプログラムの準備<br>
 下記ページからエフェクトプログラム（spnファイル）をダウンロードします。<br>
@@ -71,7 +71,7 @@ EEPROMをFV-1の基板に移し、エフェクトが読み込まれれば成功�
 <hr size="1"/><br>
 【プログラミング】<br>
 <br>
-オリジナルのエフェクトをプログラミングすることも可能です。<a href="https://electric-canary.com/fv1start.html" target="_blank">Getting Started with the FV-1</a>というページや<a href="https://www.spinsemi.com/knowledge_base.html" target="_blank">公式サイト</a>に多くの情報があり参考になります。<br>
+オリジナルのエフェクトをプログラミングすることも可能です。<a href="https://electric-canary.com/fv1start.html" target="_blank">Getting Started with the FV-1</a>というページや<a href="http://www.spinsemi.com/knowledge_base.html" target="_blank">公式サイト</a>に多くの情報があり参考になります。<br>
 <br>
 基本的にはアセンブラというプログラミング言語を使う必要がありますが、グラフィカルなインターフェースでプログラミングできるようにした<a href="https://holy-city-audio.gitbook.io/spincad-designer" target="_blank">SpinCAD Designer</a>というツールがあるので紹介しておきます。<br>
 <br>

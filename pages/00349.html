@@ -21,7 +21,7 @@
 <a href="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" target="_blank"><img border="0" height="367" src="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" width="313"/></a><br>
 今後JLCPCBに実装を外注する可能性を考慮し、ラッチリレーはLCSCにある<a href="https://www.lcsc.com/product-detail/Magnetic-Latching-Relays_Omron-Electronics-G6KU-2F-Y-TR-DC5_C2153173.html" target="_blank">G6KU-2F-Y DC5</a>を選びました。マイコンは、使い慣れているSTM32ではなくAVRです。5V動作で40mAの電流出力が可能なので、リレーを直接駆動できると考えたためです。<br>
 <ul><li>リレーコイルのサージ電圧<br>
-リレーコイルの電流を止めた時には、瞬間的に逆の電圧が発生するため、通常は保護ダイオードが必要です（参考：<a href="https://ac-blog.panasonic.co.jp/ja/control/relay/mechanical/general/%E3%83%AA%E3%83%AC-%E3%82%B3%E3%82%A4%E3%83%AB%E3%81%AE%E3%82%B5-%E3%82%B8%E4%BF%9D%E8%AD%B7%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6-1" target="_blank">リレーコイルのサージ保護について</a>）。今回の回路でコイルの電圧を測定すると、瞬間的に最大5.3V、その後1.5msで4.1Vに下がりました。おそらくマイコン出力部のMOSFETや保護ダイオードが働いていると思われます。また、マイコンは出力電流増加に伴い出力電圧が落ちる問題もありますが、リレーの最低駆動電圧3.75Vはクリアしています。<br>
+リレーコイルの電流を止めた時には、瞬間的に逆の電圧が発生するため、通常は保護ダイオードが必要です（参考：<a href="https://faq.fa.omron.co.jp/tech/s/article/faq02804" target="_blank">リレーのコイルサージ対策について</a>）。今回の回路でコイルの電圧を測定すると、瞬間的に最大5.3V、その後1.5msで4.1Vに下がりました。おそらくマイコン出力部のMOSFETや保護ダイオードが働いていると思われます。また、マイコンは出力電流増加に伴い出力電圧が落ちる問題もありますが、リレーの最低駆動電圧3.75Vはクリアしています。<br>
 <br>
 </li><li>スイッチングノイズ<br>
 1kHz 100mVp-pの正弦波を発生させた状態でスイッチングした時、観測できた最大のノイズを示します。Alpha製の黒いフットスイッチとの比較です。※ノイズはバラつきがあり、常にこのスイッチングノイズが出るというわけではありません。<br>
@@ -178,7 +178,7 @@ void loop() {<br>
 ATtiny202の1MHz動作時の消費電流は1mAで、スリープ状態だと4μAになりました（参考：<a href="https://qiita.com/ricelectric/items/875cde9004cce4803ca9" target="_blank">ATtiny202のスリープ機能を試す</a>）。しかしながらレギュレータの消費電流が2mAで、あまりスリープ機能の意味がないと考え結局実装していません。<br>
 </li><br>
 <li>EEPROM<br>
-機能設定を保存します。検索すると<a href="https://okiraku346.sblo.jp/article/188372228.html" target="_blank">ATtiny202のEEPROM</a>というページがヒットしますが、eeprom_busy_wait()がコンパイルエラーになります。<a href="https://garretlab.web.fc2.com/arduino.cc/docs/learn/built-in-libraries/eeprom/" target="_blank">通常のEEPROMライブラリ</a>で問題ないようです。<br>
+機能設定を保存します。検索すると<a href="http://okiraku346.sblo.jp/article/188372228.html" target="_blank">ATtiny202のEEPROM</a>というページがヒットしますが、eeprom_busy_wait()がコンパイルエラーになります。<a href="https://garretlab.web.fc2.com/arduino.cc/docs/learn/built-in-libraries/eeprom/" target="_blank">通常のEEPROMライブラリ</a>で問題ないようです。<br>
 </li><br>
 <li>Brown-Out Detector（BOD）<br>
 電源電圧の低下時にリセット状態になります。EEPROMのデータ保護に必要な機能です（参考：<a href="https://gaje.jp/2022/05/09/4164/" target="_blank">AVR の EEPROM データが壊れるのを防ぐには</a>）。それと、Voltage Level Monitor（VLM）というBODの閾値電圧より高い電圧で割り込みを起こす機能があります。なかなか情報が少なく、関数等は<a href="https://github.com/SpenceKonde/megaTinyCore/discussions/947" target="_blank">こちらのページ</a>を参考にしました。今回は約4.6Vでこの割り込みが起こり、バイパス状態になります。急なトラブル等で電源が遮断されたとき、最低限バイパス音が出るようにするという措置です。電源のコンデンサ容量を大きめ（100uF）にし、できるだけ速く出力操作をしていますが、実測では2ms程度しかリレー駆動できていないので確実性は不明です。今のところ（2000回程度）はバイパスに失敗したことはないので、リレーの駆動時間は短くてもよいのかもしれません。<br>

@@ -14,7 +14,7 @@
   <p align="right">2023年09月07日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
   <hr class="title"><br>
   <a href="img/09_325_01_hod_pic.jpg" target="_blank"><img border="0" height="320" src="img/09_325_01_hod_pic.jpg" width="365"/></a><br>
-<a href="https://www.fender.com/ja-JP/effects-pedals/hammertone/" target="_blank">Fender Hammertoneシリーズ</a>のエフェクターは表面実装部品が使われているため、なかなか解析する人がいないようです。しかしながら1種類くらいは回路を見てみたいと思い、<a href="https://www.fender.com/ja-JP/effects-pedals/boost-gain/hammertone-overdrive/0234571000.html" target="_blank">Overdrive</a>を中古で入手し解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Fender/HammertoneOverdrive" target="_blank">GitHub</a>にあります。<br>
+<a href="https://jp.fender.com/collections/effects-pedals" target="_blank">Fender Hammertoneシリーズ</a>のエフェクターは表面実装部品が使われているため、なかなか解析する人がいないようです。しかしながら1種類くらいは回路を見てみたいと思い、<a href="https://jp.fender.com/products/hammertone-overdrive" target="_blank">Overdrive</a>を中古で入手し解析しました。KiCadとLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/Fender/HammertoneOverdrive" target="_blank">GitHub</a>にあります。<br>
 <br>
 <a href="img/09_325_05_hod_p2.jpg" target="_blank"><img border="0" height="267" src="img/09_325_05_hod_p2.jpg" width="150"/></a><a href="img/09_325_06_hod_p3.jpg" target="_blank"><img border="0" height="150" src="img/09_325_06_hod_p3.jpg" width="150"/></a><br>
 ケースの設計や内部の配線がしっかりしていて、低価格とは思えない作りだと感じました。ただノブは金属部が薄く、取り外す場合は注意が必要です。LEDの輝度調整トリマーを付けられる部分が見えますが、利用するには内部のジャンパー抵抗を取り外す必要があります。<br>
@@ -22,7 +22,7 @@
 <hr size="1"/><br>
 ▽回路図<br>
 <a href="img/09_325_02_Fender_Hammertone_Overdrive_Schematic.png" target="_blank"><img alt="Fender Hammertone Overdrive Schematic" border="0" height="220" src="img/09_325_02_Fender_Hammertone_Overdrive_Schematic.png" width="640"/></a><br>
-ミッドブーストにはジャイレータ（シミュレーテッドインダクタ）が使われています。設計者のこだわりなのか、バイアス電圧が5Vになっていたり、4.5Vが2ヶ所分けてあったりします。バイパス方式はMOSFETを使った<a href="https://www.geofex.com/article_folders/millenium/millen.htm" target="_blank">Millenium 2バイパス</a>です。<br>
+ミッドブーストにはジャイレータ（シミュレーテッドインダクタ）が使われています。設計者のこだわりなのか、バイアス電圧が5Vになっていたり、4.5Vが2ヶ所分けてあったりします。バイパス方式はMOSFETを使った<a href="http://www.geofex.com/article_folders/millenium/millen.htm" target="_blank">Millenium 2バイパス</a>です。<br>
 <br>
 ダイオードクリッピングは、ソフトクリッピングとハードクリッピングを組み合わせたタイプです。下記ページで2ステージ回路として紹介されています。<br>
 ・<a href="https://allaccess.co.jp/blog/strymon/692/" target="_blank">シングルステージ vs マルチステージ・ゲイン・トポロジー</a><br>

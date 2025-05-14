@@ -14,7 +14,7 @@
   <p align="right">2023年03月15日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
   <hr class="title"><br>
   <a href="img/02_307_01_gtsimP1.jpg" target="_blank"><img border="0" height="270" src="img/02_307_01_gtsimP1.jpg" width="360"/></a><br>
-ファズは入力インピーダンスが低いものが多く、ギターを直結した場合とバッファーを通して接続した場合で音が違います。音質を比較する際は再現性のあるギター出力が必要と考え、以前作った「<a href="00160.html" target="_blank">擬似ギター出力</a>」を改良したものを製作しました。本機に録音したギター音源を入力し、ピックアップから実際にギターを弾いた時とほぼ同じ状態の音を出力させます。出力のピックアップは<a href="https://www.fender.com/ja-JP/parts/pickups-preamps/custom-shop-twisted-tele-pickup-set/0992215000.html" target="_blank">Custom Shop Twisted Tele Pickup</a>のブリッジ側です。<br>
+ファズは入力インピーダンスが低いものが多く、ギターを直結した場合とバッファーを通して接続した場合で音が違います。音質を比較する際は再現性のあるギター出力が必要と考え、以前作った「<a href="00160.html" target="_blank">擬似ギター出力</a>」を改良したものを製作しました。本機に録音したギター音源を入力し、ピックアップから実際にギターを弾いた時とほぼ同じ状態の音を出力させます。出力のピックアップは<a href="https://jp.fender.com/products/custom-shop-twisted-tele-pickup-set" target="_blank">Custom Shop Twisted Tele Pickup</a>のブリッジ側です。<br>
 <br>
 最初はピックアップを使わずに、シミュレーテッドインダクタ（ジャイレータ）を検討しました。<a href="https://www.slideserve.com/denim/floating-inductors" target="_blank" title="Floating Inductors">Floating Inductors</a>にある回路を組んでみましたが、思うような特性が得られませんでした。うまくいけば簡単にピックアップの特性がシミュレートできるのですが、やはり実際にピックアップを使った方が説得力がある気がします。<br>
 <br>
@@ -57,7 +57,7 @@ LPFありの特性データを元に作った補正フィルタが下図です�
 ▽シミュレーション<br>
 出力ピックアップの測定値は4.4H、11.8kΩ、130pFでした（LCRメーター DE-5000で測定）。このデータを使ってシミュレーションしてみます。R97、C98はオーディオインターフェースの入力部です。<br>
 <a href="img/02_307_06_gtsimFsim.png" target="_blank"><img border="0" height="208" src="img/02_307_06_gtsimFsim.png" width="450"/></a><br>
-実測とは少しズレが生じます。これはピックアップ本体に生じる「渦電流（Eddy currents）」の影響が考えられます（参考ページ→<a href="https://www.buildyourguitar.com/resources/lemme/" target="_blank">The Secrets of Electric Guitar Pickups</a>）。<a href="https://www.tdpri.com/threads/physically-based-eddy-current-equivalent-circuit.846745/page-3" target="_blank" title="参考">こちらのページ</a>では渦電流用コイルを付けたシミュレーションが検討されています。ただ、そこまで厳密なシミュレーションが必要になることはほとんどないでしょう。<br>
+実測とは少しズレが生じます。これはピックアップ本体に生じる「渦電流（Eddy currents）」の影響が考えられます（参考ページ→<a href="http://www.buildyourguitar.com/resources/lemme/" target="_blank">The Secrets of Electric Guitar Pickups</a>）。<a href="https://www.tdpri.com/threads/physically-based-eddy-current-equivalent-circuit.846745/page-3" target="_blank" title="参考">こちらのページ</a>では渦電流用コイルを付けたシミュレーションが検討されています。ただ、そこまで厳密なシミュレーションが必要になることはほとんどないでしょう。<br>
 <br>
 制限抵抗や絶縁抵抗と呼ばれる抵抗成分（R98）も存在しています。これは測定できないので真の値はわかりませんが、1.2MΩにすると共振のピークの形が合います。通常はギター本体のボリュームポットがあるため、この抵抗の影響は少ないです。普段のシミュレーションでは省いても問題ないと思います。<br>
 <br>
