@@ -1,211 +1,211 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>True Bypass Relay Module Micro</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+<meta charset="utf-8"/>
+<title>True Bypass Relay Module Micro</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
 </head>
 <body>
 <header>
 </header>
 <main>
-  <h1>True Bypass Relay Module Micro</h1>
-  <p align="right">2024年07月13日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
-  <hr class="title"><br>
-  <a href="img/02_349_01_tbrmm_pic.jpg" target="_blank"><img border="0" height="190" src="img/02_349_01_tbrmm_pic.jpg" width="320"/></a><br>
-以前製作した<a href="00244.html" target="_blank">True Bypass Relay Module</a>の小型・機能強化版です。最初はNE555を使ったものを試作したのですが難点（記事最下部に記載）があったため、マイコンを使用しました。<a href="https://kanengomibako.booth.pm/items/5899370" target="_blank">BOOTHにて販売中</a>です。データ・説明書は<a href="https://github.com/kanengomibako/TrueBypassRelayModule/tree/master/Micro" target="_blank">GitHub</a>にあります。<br>
-<br>
-<hr size="1"/><br>
-▽回路図<br>
-<a href="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" target="_blank"><img border="0" height="367" src="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" width="313"/></a><br>
-今後JLCPCBに実装を外注する可能性を考慮し、ラッチリレーはLCSCにある<a href="https://www.lcsc.com/product-detail/Magnetic-Latching-Relays_Omron-Electronics-G6KU-2F-Y-TR-DC5_C2153173.html" target="_blank">G6KU-2F-Y DC5</a>を選びました。マイコンは、使い慣れているSTM32ではなくAVRです。5V動作で40mAの電流出力が可能なので、リレーを直接駆動できると考えたためです。<br>
-<ul><li>リレーコイルのサージ電圧<br>
-リレーコイルの電流を止めた時には、瞬間的に逆の電圧が発生するため、通常は保護ダイオードが必要です（参考：<a href="https://faq.fa.omron.co.jp/tech/s/article/faq02804" target="_blank">リレーのコイルサージ対策について</a>）。今回の回路でコイルの電圧を測定すると、瞬間的に最大5.3V、その後1.5msで4.1Vに下がりました。おそらくマイコン出力部のMOSFETや保護ダイオードが働いていると思われます。また、マイコンは出力電流増加に伴い出力電圧が落ちる問題もありますが、リレーの最低駆動電圧3.75Vはクリアしています。<br>
-<br>
-</li><li>スイッチングノイズ<br>
-1kHz 100mVp-pの正弦波を発生させた状態でスイッチングした時、観測できた最大のノイズを示します。Alpha製の黒いフットスイッチとの比較です。※ノイズはバラつきがあり、常にこのスイッチングノイズが出るというわけではありません。<br>
-<a href="img/02_349_05_tbrm_noise.png" target="_blank"><img border="0" height="301" src="img/02_349_05_tbrm_noise.png" width="298"/></a><br>
-大きさは同じくらいで、リレーの方が無音の時間が短い傾向があります。聴感上許容範囲のレベルだと感じたので、スイッチング時のミュート機能は実装していません。もしミュート機能を実装するなら、余っているPA6ピンにフォトリレー等を接続するとよいでしょう。<br>
-</li></ul><hr size="1"/><br>
-▽Arduinoスケッチ<br>
-<code><pre>/*<br>
-True Bypass Relay Module Micro<br>
-v1.0 20240709<br>
-https://github.com/kanengomibako<br>
-<br>
-ヒューズビット設定<br>
-BOD Mode when Active/Sleeping: Enabled/Enabled<br>
-BOD Voltage Level: 3.7V (Unofficial)<br>
-Chip: ATtiny202<br>
-Clock: 1 MHz internal<br>
-Save EEPROM: EEPROM retained<br>
-*/<br>
-<br>
-#include &lt;EEPROM.h&gt;<br>
-<br>
-#define SHORT_PUSH_MSEC 10                         // スイッチ短押し時間 ミリ秒<br>
-#define RELAY_DRIVE_MSEC 11                        // リレーコイル駆動時間 ミリ秒 16まで<br>
-const long shortPushCount = 10 * SHORT_PUSH_MSEC;  // 10カウントで1ms<br>
-<br>
-bool fxState = true;    // エフェクトオンオフ状態 true: オン<br>
-long swOnCnt = 0;       // スイッチを押している間カウントアップ<br>
-long swOffCnt = 0;      // スイッチを押していない間カウントアップ<br>
-int onStart = 1;        // 起動時エフェクトオン設定<br>
-int momentaryMode = 0;  // モーメンタリモード設定<br>
-const int addr0 = 0;    // EEPROM 起動時オンオフ設定書き込み先アドレス<br>
-const int addr1 = 1;    // EEPROM モーメンタリモード設定書き込み先アドレス<br>
-<br>
-// エフェクトオン動作<br>
-void fxOn() {<br>
-  digitalWrite(PIN_PA7, LOW);<br>
-  digitalWrite(PIN_PA1, HIGH);<br>
-  delayMicroseconds(1000 * RELAY_DRIVE_MSEC);<br>
-  digitalWrite(PIN_PA1, LOW);<br>
-  digitalWrite(PIN_PA3, HIGH);  // LED<br>
-  fxState = true;<br>
-}<br>
-<br>
-// エフェクトオフ動作<br>
-void fxOff() {<br>
-  digitalWrite(PIN_PA1, LOW);<br>
-  digitalWrite(PIN_PA7, HIGH);<br>
-  delayMicroseconds(1000 * RELAY_DRIVE_MSEC);<br>
-  digitalWrite(PIN_PA7, LOW);<br>
-  digitalWrite(PIN_PA3, LOW);  // LED<br>
-  fxState = false;<br>
-}<br>
-<br>
-// LED点滅<br>
-void blink(int n) {<br>
-  for (int i = 0; i &lt; n; i++) {<br>
-    digitalWrite(PIN_PA3, HIGH);<br>
-    delay(50);<br>
-    digitalWrite(PIN_PA3, LOW);<br>
-    delay(150);<br>
-  }<br>
-}<br>
-<br>
-// 電源電圧低下時割り込み<br>
-ISR(BOD_VLM_vect) {<br>
-  PORTA.OUTCLR = PIN3_bm;       // 高速 PA3 LOW (LED)<br>
-  PORTA.OUTSET = PIN7_bm;       // 高速 PA7 HIGH<br>
-  fxOff();                      // エフェクトオフ発動<br>
-  BOD.INTFLAGS = BOD_VLMIF_bm;  // 割り込みフラグクリア<br>
-}<br>
-<br>
-void setup() {<br>
-  delay(100);  // 電源立ち上がり待機<br>
-<br>
-  // ピン設定<br>
-  pinMode(PIN_PA1, OUTPUT);        // PA1: リレーセット エフェクトオン<br>
-  pinMode(PIN_PA2, INPUT_PULLUP);  // PA2: スイッチ読み取り 内部プルアップ<br>
-  pinMode(PIN_PA3, OUTPUT);        // PA3: LED出力<br>
-  pinMode(PIN_PA6, OUTPUT);        // PA6: 不使用<br>
-  pinMode(PIN_PA7, OUTPUT);        // PA7: リレーリセット エフェクトバイパス<br>
-  digitalWrite(PIN_PA1, LOW);<br>
-  digitalWrite(PIN_PA3, LOW);<br>
-  digitalWrite(PIN_PA6, LOW);<br>
-  digitalWrite(PIN_PA7, LOW);<br>
-<br>
-  // 設定読み込み<br>
-  onStart = EEPROM.read(addr0);<br>
-  momentaryMode = EEPROM.read(addr1);<br>
-<br>
-  // スイッチを押しながら起動<br>
-  while (digitalRead(PIN_PA2) == LOW) {<br>
-    swOnCnt++;<br>
-    delay(1);<br>
-    if (swOnCnt == 20) {  // 短押し時 起動時オンオフ設定変更<br>
-      onStart = !onStart;<br>
-      EEPROM.write(addr0, onStart);<br>
-      blink(2);<br>
-    }<br>
-    if (swOnCnt == 3000) {  // 長押し時 モーメンタリモード設定変更<br>
-      momentaryMode = !momentaryMode;<br>
-      onStart = 0;  // 起動時オフ設定にする（スイッチを押している間だけエフェクトオン）<br>
-      EEPROM.write(addr0, onStart);<br>
-      EEPROM.write(addr1, momentaryMode);<br>
-      blink(3);<br>
-    }<br>
-  }<br>
-  swOnCnt = 0;<br>
-<br>
-  // 起動時オンオフ実行<br>
-  if (onStart) fxOn();<br>
-  else fxOff();<br>
-<br>
-  // 電源電圧低下時割り込み設定<br>
-  BOD.VLMCTRLA = BOD_VLMLVL_25ABOVE_gc;              // VLM閾値 3.7V * 1.25 = 4.6V<br>
-  BOD.INTCTRL = BOD_VLMIE_bm | BOD_VLMCFG_BELOW_gc;  // VLM割り込み有効 閾値を下回った時発動<br>
-}<br>
-<br>
-void loop() {<br>
-  if (digitalRead(PIN_PA2) == LOW) {<br>
-    swOnCnt++;  // スイッチを押した時カウントアップ<br>
-    swOffCnt = 0;<br>
-  } else {<br>
-    swOffCnt++;  // スイッチを離した時カウントアップ<br>
-    swOnCnt = 0;<br>
-  }<br>
-<br>
-  if (momentaryMode) {  // モーメンタリーモード<br>
-    if (onStart) {      // 起動時エフェクトオン → フットスイッチ押下時にエフェクトオフ<br>
-      if (swOnCnt == shortPushCount) fxOff();<br>
-      if (swOffCnt == shortPushCount) fxOn();<br>
-    } else {  // 起動時エフェクトオフ → フットスイッチ押下時にエフェクトオン<br>
-      if (swOnCnt == shortPushCount) fxOn();<br>
-      if (swOffCnt == shortPushCount) fxOff();<br>
-    }<br>
-  } else {  // オルタネートモード<br>
-    if (swOnCnt == shortPushCount) {<br>
-      fxState = !fxState;<br>
-      if (fxState) fxOn();<br>
-      else fxOff();<br>
-    }<br>
-  }<br>
-<br>
-  delayMicroseconds(20);  // ループ一回が0.1msになるよう調整<br>
-  //PORTA.OUTTGL = PIN3_bm;  // 高速LEDトグル ループ時間確認用<br>
-}<br>
-</pre></code>ATtiny202の開発環境については、下記ページを参考にしました。UPDIという1本の信号線で書き込みできる方式です。<br>
-・<a href="https://burariweb.info/electronic-work/attiny202-arduinoide-enviroment.html" target="_blank">【電子工作 / Arduino】ATtiny202をArduino IDEで使う環境メモ！</a><br>
-※ボードマネージャのURL「https://drazzy.com/package_drazzy.com_index.json」にはアクセスできないようなので、「https://raw.githubusercontent.com/SpenceKonde/ReleaseScripts/master/package_drazzy.com_index.json」を使用します。<br>
-<ul><li>スイッチのチャタリング対策<br>
-<a href="00224.html" target="_blank">2ループスイッチャー</a>等で行っていた、スイッチを押している間カウントを増やすという方式です。より確実にするため、ループの間隔を0.1msに調整しています。別のチャタリング対策として、<a href="https://garretlab.web.fc2.com/arduino/examples/02.Digital/Debounce.html" target="_blank">Arduinoのスケッチ例Debounce</a>があります。そちらではmillis()関数が使ってあり、時間の管理が簡単です。ただ個人的にプログラムが読みにくく感じたため、採用しませんでした。<br>
-</li><br>
-<li>スリープ機能<br>
-ATtiny202の1MHz動作時の消費電流は1mAで、スリープ状態だと4μAになりました（参考：<a href="https://qiita.com/ricelectric/items/875cde9004cce4803ca9" target="_blank">ATtiny202のスリープ機能を試す</a>）。しかしながらレギュレータの消費電流が2mAで、あまりスリープ機能の意味がないと考え結局実装していません。<br>
-</li><br>
-<li>EEPROM<br>
-機能設定を保存します。検索すると<a href="http://okiraku346.sblo.jp/article/188372228.html" target="_blank">ATtiny202のEEPROM</a>というページがヒットしますが、eeprom_busy_wait()がコンパイルエラーになります。<a href="https://garretlab.web.fc2.com/arduino.cc/docs/learn/built-in-libraries/eeprom/" target="_blank">通常のEEPROMライブラリ</a>で問題ないようです。<br>
-</li><br>
-<li>Brown-Out Detector（BOD）<br>
-電源電圧の低下時にリセット状態になります。EEPROMのデータ保護に必要な機能です（参考：<a href="https://gaje.jp/2022/05/09/4164/" target="_blank">AVR の EEPROM データが壊れるのを防ぐには</a>）。それと、Voltage Level Monitor（VLM）というBODの閾値電圧より高い電圧で割り込みを起こす機能があります。なかなか情報が少なく、関数等は<a href="https://github.com/SpenceKonde/megaTinyCore/discussions/947" target="_blank">こちらのページ</a>を参考にしました。今回は約4.6Vでこの割り込みが起こり、バイパス状態になります。急なトラブル等で電源が遮断されたとき、最低限バイパス音が出るようにするという措置です。電源のコンデンサ容量を大きめ（100uF）にし、できるだけ速く出力操作をしていますが、実測では2ms程度しかリレー駆動できていないので確実性は不明です。今のところ（2000回程度）はバイパスに失敗したことはないので、リレーの駆動時間は短くてもよいのかもしれません。<br>
-</li></ul><hr size="1"/><br>
-<strong>【動作チェック基板】</strong><br>
-<br>
-動作チェック用基板も製作しました。Nucleoボードに取り付けて使います。<br>
-<a href="img/02_349_10_tbrmmtest.jpg" target="_blank"><img border="0" height="280" src="img/02_349_10_tbrmmtest.jpg" width="240"/></a><a href="img/02_349_11_tbrmmtest-sch.png" target="_blank"><img border="0" height="280" src="img/02_349_11_tbrmmtest-sch.png" width="259"/></a><br>
-テストとしては多少スイッチのチャタリングがあった方がよいので、リードリレー（<a href="https://akizukidenshi.com/catalog/g/g104328/" target="_blank">SS1A05D</a>）を使いました。片方のリードリレーが2000回程度で故障するトラブルがあり、リードリレーの動作チェックもプログラムに組み込んであります。EEPROMの読み書きテスト、電源遮断時のバイパステスト、1000回のスイッチングテストを出荷前に行っています。<br>
-<br>
-<hr size="1"/><br>
-<strong>【失敗編】</strong><br>
-<br>
-リレーモジュール用にロジックIC 4069よりもピン数の少ないICが使えないか探していると、<a href="https://dreamoftransister.blog.fc2.com/00017.html" target="_blank">NE555を使ったトグル・フリップフロップの記事</a>を見つけました。それと、<a href="https://eu11.stripper.jp/pulcino/blog/archives/000581.html" target="_blank">１巻線ラッチングリレー使用法</a>の記事に、コンデンサの充放電でリレーを駆動する回路がありました。これらを組み合わせ、下図の回路のモジュールを製作しました（不採用となったのでバツ印を入れています）。<br>
-<a href="img/02_349_21_tbrmmxxx-sch.png" target="_blank"><img border="0" height="341" src="img/02_349_21_tbrmmxxx-sch.png" width="281"/></a><br>
-NE555は9Vで駆動し、リレーコイルの最大電圧を超えないようにツェナーダイオードを入れています。うまくいっているように見えましたが……<br>
-<br>
-問題点は、エフェクトオンのまま電源を切った時、バイパス状態に切り替わらないことがあるという点です。この場合通電なしでもエフェクトオンの状態が保持されており、次に電源を入れた時はLEDが光っていないのにエフェクトオンの状態となります。スイッチを一度踏めば大丈夫ですが、やはりトラブルの原因になりかねません。あらためて回路を考え直してもあまり小型にならないだろうし、確実なのは起動時に一度リレーを駆動することなので、マイコンを使う方針にしました。<br>
-※<a href="00244.html" target="_blank">以前の4069を使ったモジュール</a>では起動時にリレー駆動が起こるため問題ありません。<br>
-<br>
-手に入りやすく安価なICであるNE555は何とか活用したいものです。消費電流が気にならない場合、ラッチリレーではない普通のリレーでよいので簡単になります（参考：<a href="https://www.zorgeffects.com/index.php/en/blog/143-true-relay-bypass-with-ne555-flip-flop" target="_blank">True relay bypass with NE555 Flip-Flop</a>）。また、バッファードバイパスの場合にロジックICの代わりとしてNE555を使ってみるのもよさそうです。<br>
-<br>
+<h1>True Bypass Relay Module Micro</h1>
+<p align="right">2024年07月13日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_349_01_tbrmm_pic.jpg" target="_blank"><img border="0" height="190" src="img/02_349_01_tbrmm_pic.jpg" width="320"/></a><br/>
+以前製作した<a href="00244.html" target="_blank">True Bypass Relay Module</a>の小型・機能強化版です。最初はNE555を使ったものを試作したのですが難点（記事最下部に記載）があったため、マイコンを使用しました。<a href="https://kanengomibako.booth.pm/items/5899370" target="_blank">BOOTHにて販売中</a>です。データ・説明書は<a href="https://github.com/kanengomibako/TrueBypassRelayModule/tree/master/Micro" target="_blank">GitHub</a>にあります。<br/>
+<br/>
+<hr size="1"><br/>
+▽回路図<br/>
+<a href="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" target="_blank"><img border="0" height="367" src="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" width="313"/></a><br/>
+今後JLCPCBに実装を外注する可能性を考慮し、ラッチリレーはLCSCにある<a href="https://www.lcsc.com/product-detail/Magnetic-Latching-Relays_Omron-Electronics-G6KU-2F-Y-TR-DC5_C2153173.html" target="_blank">G6KU-2F-Y DC5</a>を選びました。マイコンは、使い慣れているSTM32ではなくAVRです。5V動作で40mAの電流出力が可能なので、リレーを直接駆動できると考えたためです。<br/>
+<ul><li>リレーコイルのサージ電圧<br/>
+リレーコイルの電流を止めた時には、瞬間的に逆の電圧が発生するため、通常は保護ダイオードが必要です（参考：<a href="https://faq.fa.omron.co.jp/tech/s/article/faq02804" target="_blank">リレーのコイルサージ対策について</a>）。今回の回路でコイルの電圧を測定すると、瞬間的に最大5.3V、その後1.5msで4.1Vに下がりました。おそらくマイコン出力部のMOSFETや保護ダイオードが働いていると思われます。また、マイコンは出力電流増加に伴い出力電圧が落ちる問題もありますが、リレーの最低駆動電圧3.75Vはクリアしています。<br/>
+<br/>
+</li><li>スイッチングノイズ<br/>
+1kHz 100mVp-pの正弦波を発生させた状態でスイッチングした時、観測できた最大のノイズを示します。Alpha製の黒いフットスイッチとの比較です。※ノイズはバラつきがあり、常にこのスイッチングノイズが出るというわけではありません。<br/>
+<a href="img/02_349_05_tbrm_noise.png" target="_blank"><img border="0" height="301" src="img/02_349_05_tbrm_noise.png" width="298"/></a><br/>
+大きさは同じくらいで、リレーの方が無音の時間が短い傾向があります。聴感上許容範囲のレベルだと感じたので、スイッチング時のミュート機能は実装していません。もしミュート機能を実装するなら、余っているPA6ピンにフォトリレー等を接続するとよいでしょう。<br/>
+</li></ul><hr size="1"/><br/>
+▽Arduinoスケッチ<br/>
+<code><pre>/*
+True Bypass Relay Module Micro
+v1.0 20240709
+https://github.com/kanengomibako
 
-</main>
+ヒューズビット設定
+BOD Mode when Active/Sleeping: Enabled/Enabled
+BOD Voltage Level: 3.7V (Unofficial)
+Chip: ATtiny202
+Clock: 1 MHz internal
+Save EEPROM: EEPROM retained
+*/
+
+#include &lt;EEPROM.h&gt;
+
+#define SHORT_PUSH_MSEC 10                         // スイッチ短押し時間 ミリ秒
+#define RELAY_DRIVE_MSEC 11                        // リレーコイル駆動時間 ミリ秒 16まで
+const long shortPushCount = 10 * SHORT_PUSH_MSEC;  // 10カウントで1ms
+
+bool fxState = true;    // エフェクトオンオフ状態 true: オン
+long swOnCnt = 0;       // スイッチを押している間カウントアップ
+long swOffCnt = 0;      // スイッチを押していない間カウントアップ
+int onStart = 1;        // 起動時エフェクトオン設定
+int momentaryMode = 0;  // モーメンタリモード設定
+const int addr0 = 0;    // EEPROM 起動時オンオフ設定書き込み先アドレス
+const int addr1 = 1;    // EEPROM モーメンタリモード設定書き込み先アドレス
+
+// エフェクトオン動作
+void fxOn() {
+  digitalWrite(PIN_PA7, LOW);
+  digitalWrite(PIN_PA1, HIGH);
+  delayMicroseconds(1000 * RELAY_DRIVE_MSEC);
+  digitalWrite(PIN_PA1, LOW);
+  digitalWrite(PIN_PA3, HIGH);  // LED
+  fxState = true;
+}
+
+// エフェクトオフ動作
+void fxOff() {
+  digitalWrite(PIN_PA1, LOW);
+  digitalWrite(PIN_PA7, HIGH);
+  delayMicroseconds(1000 * RELAY_DRIVE_MSEC);
+  digitalWrite(PIN_PA7, LOW);
+  digitalWrite(PIN_PA3, LOW);  // LED
+  fxState = false;
+}
+
+// LED点滅
+void blink(int n) {
+  for (int i = 0; i &lt; n; i++) {
+    digitalWrite(PIN_PA3, HIGH);
+    delay(50);
+    digitalWrite(PIN_PA3, LOW);
+    delay(150);
+  }
+}
+
+// 電源電圧低下時割り込み
+ISR(BOD_VLM_vect) {
+  PORTA.OUTCLR = PIN3_bm;       // 高速 PA3 LOW (LED)
+  PORTA.OUTSET = PIN7_bm;       // 高速 PA7 HIGH
+  fxOff();                      // エフェクトオフ発動
+  BOD.INTFLAGS = BOD_VLMIF_bm;  // 割り込みフラグクリア
+}
+
+void setup() {
+  delay(100);  // 電源立ち上がり待機
+
+  // ピン設定
+  pinMode(PIN_PA1, OUTPUT);        // PA1: リレーセット エフェクトオン
+  pinMode(PIN_PA2, INPUT_PULLUP);  // PA2: スイッチ読み取り 内部プルアップ
+  pinMode(PIN_PA3, OUTPUT);        // PA3: LED出力
+  pinMode(PIN_PA6, OUTPUT);        // PA6: 不使用
+  pinMode(PIN_PA7, OUTPUT);        // PA7: リレーリセット エフェクトバイパス
+  digitalWrite(PIN_PA1, LOW);
+  digitalWrite(PIN_PA3, LOW);
+  digitalWrite(PIN_PA6, LOW);
+  digitalWrite(PIN_PA7, LOW);
+
+  // 設定読み込み
+  onStart = EEPROM.read(addr0);
+  momentaryMode = EEPROM.read(addr1);
+
+  // スイッチを押しながら起動
+  while (digitalRead(PIN_PA2) == LOW) {
+    swOnCnt++;
+    delay(1);
+    if (swOnCnt == 20) {  // 短押し時 起動時オンオフ設定変更
+      onStart = !onStart;
+      EEPROM.write(addr0, onStart);
+      blink(2);
+    }
+    if (swOnCnt == 3000) {  // 長押し時 モーメンタリモード設定変更
+      momentaryMode = !momentaryMode;
+      onStart = 0;  // 起動時オフ設定にする（スイッチを押している間だけエフェクトオン）
+      EEPROM.write(addr0, onStart);
+      EEPROM.write(addr1, momentaryMode);
+      blink(3);
+    }
+  }
+  swOnCnt = 0;
+
+  // 起動時オンオフ実行
+  if (onStart) fxOn();
+  else fxOff();
+
+  // 電源電圧低下時割り込み設定
+  BOD.VLMCTRLA = BOD_VLMLVL_25ABOVE_gc;              // VLM閾値 3.7V * 1.25 = 4.6V
+  BOD.INTCTRL = BOD_VLMIE_bm | BOD_VLMCFG_BELOW_gc;  // VLM割り込み有効 閾値を下回った時発動
+}
+
+void loop() {
+  if (digitalRead(PIN_PA2) == LOW) {
+    swOnCnt++;  // スイッチを押した時カウントアップ
+    swOffCnt = 0;
+  } else {
+    swOffCnt++;  // スイッチを離した時カウントアップ
+    swOnCnt = 0;
+  }
+
+  if (momentaryMode) {  // モーメンタリーモード
+    if (onStart) {      // 起動時エフェクトオン → フットスイッチ押下時にエフェクトオフ
+      if (swOnCnt == shortPushCount) fxOff();
+      if (swOffCnt == shortPushCount) fxOn();
+    } else {  // 起動時エフェクトオフ → フットスイッチ押下時にエフェクトオン
+      if (swOnCnt == shortPushCount) fxOn();
+      if (swOffCnt == shortPushCount) fxOff();
+    }
+  } else {  // オルタネートモード
+    if (swOnCnt == shortPushCount) {
+      fxState = !fxState;
+      if (fxState) fxOn();
+      else fxOff();
+    }
+  }
+
+  delayMicroseconds(20);  // ループ一回が0.1msになるよう調整
+  //PORTA.OUTTGL = PIN3_bm;  // 高速LEDトグル ループ時間確認用
+}
+</pre></code>ATtiny202の開発環境については、下記ページを参考にしました。UPDIという1本の信号線で書き込みできる方式です。<br/>
+・<a href="https://burariweb.info/electronic-work/attiny202-arduinoide-enviroment.html" target="_blank">【電子工作 / Arduino】ATtiny202をArduino IDEで使う環境メモ！</a><br/>
+※ボードマネージャのURL「https://drazzy.com/package_drazzy.com_index.json」にはアクセスできないようなので、「https://raw.githubusercontent.com/SpenceKonde/ReleaseScripts/master/package_drazzy.com_index.json」を使用します。<br/>
+<ul><li>スイッチのチャタリング対策<br/>
+<a href="00224.html" target="_blank">2ループスイッチャー</a>等で行っていた、スイッチを押している間カウントを増やすという方式です。より確実にするため、ループの間隔を0.1msに調整しています。別のチャタリング対策として、<a href="https://garretlab.web.fc2.com/arduino/examples/02.Digital/Debounce.html" target="_blank">Arduinoのスケッチ例Debounce</a>があります。そちらではmillis()関数が使ってあり、時間の管理が簡単です。ただ個人的にプログラムが読みにくく感じたため、採用しませんでした。<br/>
+</li><br/>
+<li>スリープ機能<br/>
+ATtiny202の1MHz動作時の消費電流は1mAで、スリープ状態だと4μAになりました（参考：<a href="https://qiita.com/ricelectric/items/875cde9004cce4803ca9" target="_blank">ATtiny202のスリープ機能を試す</a>）。しかしながらレギュレータの消費電流が2mAで、あまりスリープ機能の意味がないと考え結局実装していません。<br/>
+</li><br/>
+<li>EEPROM<br/>
+機能設定を保存します。検索すると<a href="http://okiraku346.sblo.jp/article/188372228.html" target="_blank">ATtiny202のEEPROM</a>というページがヒットしますが、eeprom_busy_wait()がコンパイルエラーになります。<a href="https://garretlab.web.fc2.com/arduino.cc/docs/learn/built-in-libraries/eeprom/" target="_blank">通常のEEPROMライブラリ</a>で問題ないようです。<br/>
+</li><br/>
+<li>Brown-Out Detector（BOD）<br/>
+電源電圧の低下時にリセット状態になります。EEPROMのデータ保護に必要な機能です（参考：<a href="https://gaje.jp/2022/05/09/4164/" target="_blank">AVR の EEPROM データが壊れるのを防ぐには</a>）。それと、Voltage Level Monitor（VLM）というBODの閾値電圧より高い電圧で割り込みを起こす機能があります。なかなか情報が少なく、関数等は<a href="https://github.com/SpenceKonde/megaTinyCore/discussions/947" target="_blank">こちらのページ</a>を参考にしました。今回は約4.6Vでこの割り込みが起こり、バイパス状態になります。急なトラブル等で電源が遮断されたとき、最低限バイパス音が出るようにするという措置です。電源のコンデンサ容量を大きめ（100uF）にし、できるだけ速く出力操作をしていますが、実測では2ms程度しかリレー駆動できていないので確実性は不明です。今のところ（2000回程度）はバイパスに失敗したことはないので、リレーの駆動時間は短くてもよいのかもしれません。<br/>
+</li></ul><hr size="1"/><br/>
+<strong>【動作チェック基板】</strong><br/>
+<br/>
+動作チェック用基板も製作しました。Nucleoボードに取り付けて使います。<br/>
+<a href="img/02_349_10_tbrmmtest.jpg" target="_blank"><img border="0" height="280" src="img/02_349_10_tbrmmtest.jpg" width="240"/></a><a href="img/02_349_11_tbrmmtest-sch.png" target="_blank"><img border="0" height="280" src="img/02_349_11_tbrmmtest-sch.png" width="259"/></a><br/>
+テストとしては多少スイッチのチャタリングがあった方がよいので、リードリレー（<a href="https://akizukidenshi.com/catalog/g/g104328/" target="_blank">SS1A05D</a>）を使いました。片方のリードリレーが2000回程度で故障するトラブルがあり、リードリレーの動作チェックもプログラムに組み込んであります。EEPROMの読み書きテスト、電源遮断時のバイパステスト、1000回のスイッチングテストを出荷前に行っています。<br/>
+<br/>
+<hr size="1"/><br/>
+<strong>【失敗編】</strong><br/>
+<br/>
+リレーモジュール用にロジックIC 4069よりもピン数の少ないICが使えないか探していると、<a href="https://dreamoftransister.blog.fc2.com/00017.html" target="_blank">NE555を使ったトグル・フリップフロップの記事</a>を見つけました。それと、<a href="https://eu11.stripper.jp/pulcino/blog/archives/000581.html" target="_blank">１巻線ラッチングリレー使用法</a>の記事に、コンデンサの充放電でリレーを駆動する回路がありました。これらを組み合わせ、下図の回路のモジュールを製作しました（不採用となったのでバツ印を入れています）。<br/>
+<a href="img/02_349_21_tbrmmxxx-sch.png" target="_blank"><img border="0" height="341" src="img/02_349_21_tbrmmxxx-sch.png" width="281"/></a><br/>
+NE555は9Vで駆動し、リレーコイルの最大電圧を超えないようにツェナーダイオードを入れています。うまくいっているように見えましたが……<br/>
+<br/>
+問題点は、エフェクトオンのまま電源を切った時、バイパス状態に切り替わらないことがあるという点です。この場合通電なしでもエフェクトオンの状態が保持されており、次に電源を入れた時はLEDが光っていないのにエフェクトオンの状態となります。スイッチを一度踏めば大丈夫ですが、やはりトラブルの原因になりかねません。あらためて回路を考え直してもあまり小型にならないだろうし、確実なのは起動時に一度リレーを駆動することなので、マイコンを使う方針にしました。<br/>
+※<a href="00244.html" target="_blank">以前の4069を使ったモジュール</a>では起動時にリレー駆動が起こるため問題ありません。<br/>
+<br/>
+手に入りやすく安価なICであるNE555は何とか活用したいものです。消費電流が気にならない場合、ラッチリレーではない普通のリレーでよいので簡単になります（参考：<a href="https://www.zorgeffects.com/index.php/en/blog/143-true-relay-bypass-with-ne555-flip-flop" target="_blank">True relay bypass with NE555 Flip-Flop</a>）。また、バッファードバイパスの場合にロジックICの代わりとしてNE555を使ってみるのもよさそうです。<br/>
+<br/>
+</hr></main>
 <footer>
-  <p><a href="../">ホーム</a></p>
-  <p>Copyright &copy; 可燃ごみ箱</p>
+<p><a href="../">ホーム</a></p>
+<p>Copyright © 可燃ごみ箱</p>
 </footer>
 </body>
 </html>
