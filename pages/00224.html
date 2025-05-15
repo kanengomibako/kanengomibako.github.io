@@ -1,181 +1,181 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>2ループスイッチャー＋絶縁型パワーサプライ</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+<meta charset="utf-8"/>
+<title>2ループスイッチャー＋絶縁型パワーサプライ</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
 </head>
 <body>
 <header>
 </header>
 <main>
-  <h1>2ループスイッチャー＋絶縁型パワーサプライ</h1>
-  <p align="right">2018年06月28日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
-  <hr class="title"><br>
-  <a href="img/02_224_1lpswp.jpg" target="_blank"><img alt="02_224_1lpswp.jpg" border="0" height="133" src="img/02_224_1lpswp.jpg" width="480"/></a><br>
-<a href="00085.html">直列可2ループボックス+パワーサプライ</a>のスイッチが経年劣化のためか接触不良となっていました。もう一度配線をやり直す気にはなれなかったので、AVRマイコンを使ったスイッチャーとして生まれ変わらせました。当初はアナログスイッチICを使おうと思っていましたが、バッファーが必要で複雑になりすぎるようです。普通にメカニカルリレーを使うことにして、ついでにパワーサプライ部分はなんとなく絶縁型へと変更しました。<br>
-<br>
-▽回路図<br>
-<a href="img/02_224_2lpsws.png" target="_blank"><img alt="02_224_2lpsws.png" border="0" height="148" src="img/02_224_2lpsws.png" width="484"/></a><br>
-マイコンはATtiny13Aだとプログラムメモリが足りないので、ATtiny85です。<a href="00221.html">ATtiny13Aの使用方法</a>と同様に、Arduino IDEをATtiny85にも対応させます。参考ページ→<a href="https://make.kosakalab.com/make/electronic-work/arduino-ide-dev/">Arduino IDE で ATtiny 他の開発</a><br>
-<br>
-5Vレギュレーターは念のため78M05としていますが、9V入力であれば78L05でも大丈夫でしょう。リレー941H-2C-5Dのコイル駆動電流は30mAで、マイコンから直接流し続けるのは無理があるため、トランジスタを使用します。<br>
-<br>
-▽レイアウト（KiCadデータは<a href="02_224_2loop_KiCad.zip">こちら</a>）<br>
-<a href="img/02_224_3lpswl.png" target="_blank"><img alt="02_224_3lpswl.png" border="0" height="294" src="img/02_224_3lpswl.png" width="308"/></a><br>
-パワーサプライ部分は別基板となっています。絶縁型DC-DCコンバータが大きいので内部がかなり窮屈になってしまいました。<br>
-<br>
-▽Arduinoスケッチ（133行）<br>
-<code><pre>const int L_SW_PIN = 4;<br>
-const int R_SW_PIN = 3;<br>
-const int A_PIN = 1;<br>
-const int B_PIN = 2;<br>
-const int LED_PIN = 0;<br>
-int mode = 0; // 0→マニュアル 1→ex1 2→ex2<br>
-int L_sw_value = 0;<br>
-long L_sw_count = 0;<br>
-int R_sw_value = 0;<br>
-long R_sw_count = 0;<br>
-boolean A_state = false;<br>
-boolean B_state = false;<br>
-<br>
-void setup() {<br>
-  pinMode(L_SW_PIN, INPUT_PULLUP);<br>
-  pinMode(R_SW_PIN, INPUT_PULLUP);<br>
-  pinMode(A_PIN, OUTPUT);<br>
-  pinMode(B_PIN, OUTPUT);<br>
-  pinMode(LED_PIN, OUTPUT);<br>
-  digitalWrite(A_PIN, HIGH); // 電源オン時LED点灯<br>
-  delay(300);<br>
-  digitalWrite(LED_PIN, HIGH);<br>
-  delay(300);<br>
-  digitalWrite(B_PIN, HIGH);<br>
-  delay(300);<br>
-  digitalWrite(A_PIN, LOW);    <br>
-  digitalWrite(LED_PIN, LOW);<br>
-  digitalWrite(B_PIN, LOW);    <br>
-}<br>
- // ループをオン<br>
-void on_A() {<br>
-  A_state = true;<br>
-  digitalWrite(A_PIN, HIGH);<br>
-}<br>
-void on_B() {<br>
-  B_state = true;<br>
-  digitalWrite(B_PIN, HIGH);<br>
-}<br>
- // ループをオフ<br>
-void off_A() {<br>
-  A_state = false;<br>
-  digitalWrite(A_PIN, LOW);<br>
-}<br>
-void off_B() {<br>
-  B_state = false;<br>
-  digitalWrite(B_PIN, LOW);<br>
-}<br>
- // ループのオンオフ切替<br>
-void chg_A() {<br>
-  if(A_state) {<br>
-    off_A();<br>
-  } else {<br>
-    on_A();<br>
-  }<br>
-}<br>
-void chg_B() {<br>
-  if(B_state) {<br>
-    off_B();<br>
-  } else {<br>
-    on_B();<br>
-  }<br>
-}<br>
-void loop() {<br>
-  // 中央LEDの処理<br>
-  if (mode == 0) {<br>
-    digitalWrite(LED_PIN, LOW);<br>
-  } else {<br>
-    digitalWrite(LED_PIN, HIGH);<br>
-  }<br>
-  <br>
-  L_sw_value = digitalRead(L_SW_PIN);<br>
-  if (L_sw_value == LOW) {<br>
-      L_sw_count += 1;<br>
-  } else {<br>
-    L_sw_count = 0;<br>
-  }<br>
-  <br>
-  R_sw_value = digitalRead(R_SW_PIN);<br>
-  if (R_sw_value == LOW) {<br>
-      R_sw_count += 1;<br>
-  } else {<br>
-    R_sw_count = 0;<br>
-  }<br>
-  <br>
-   // 左フットスイッチ短押<br>
-   if (L_sw_count == 10) {<br>
-    if (mode == 0) {<br>
-      chg_B();<br>
-    } else if (mode == 1) {<br>
-      mode = 2;<br>
-      on_A();<br>
-      on_B();<br>
-    } else {<br>
-      mode = 1;<br>
-      off_A();<br>
-      on_B();<br>
-    }<br>
-  }<br>
-  // 右フットスイッチ短押<br>
-  if (R_sw_count == 10) {<br>
-    if (mode == 0) {<br>
-      chg_A();<br>
-    } else if (mode == 1) {<br>
-      chg_A();<br>
-      chg_B();<br>
-    } else {<br>
-      mode = 1;<br>
-      on_A();<br>
-      off_B();<br>
-    }<br>
-  }<br>
-  // 左フットスイッチ長押<br>
-  if (L_sw_count == 1000) {<br>
-    if (mode == 0) {<br>
-      mode = 1;<br>
-      if(A_state) {<br>
-        off_B();<br>
-      } else {<br>
-        on_B();<br>
-      }<br>
-    }<br>
-  }<br>
-  // 右フットスイッチ長押<br>
-  if (R_sw_count == 1000) {<br>
-    if (mode == 0) {<br>
-    } else {<br>
-      mode = 0;<br>
-      off_A();<br>
-      off_B();<br>
-    } <br>
-  }<br>
-  delay(1);<br>
-}<br>
-</pre></code>スイッチに関する部分は<a href="00223.html">MOSリレーバイパス</a>と同じで、長押しの判定はsw_countを増やすだけです。メインループが1msごとなので長押しは1秒となるはずですが、処理に時間がかかるので実測では1.8秒ぐらいでした。<br>
-<br>
-▽操作方法<br>
-　・マニュアルモード（中央LED消灯）<br>
-　　　左スイッチ：　ループBのオンオフ切替、長押しで特殊モードへ<br>
-　　　右スイッチ：　ループAのオンオフ切替<br>
-　・特殊モード（中央LED点灯）<br>
-　　　左スイッチ：　ループA→ループBの順で直列接続<br>
-　　　　※直列切替後は右スイッチでAのみ、左スイッチでBのみオンの状態に戻る<br>
-　　　右スイッチ：　ループAのみオンとループBのみオンを切り替え、長押しでマニュアルモードへ<br>
-<br>
+<h1>2ループスイッチャー＋絶縁型パワーサプライ</h1>
+<p align="right">2018年06月28日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_224_1lpswp.jpg" target="_blank"><img alt="02_224_1lpswp.jpg" border="0" height="133" src="img/02_224_1lpswp.jpg" width="480"/></a><br/>
+<a href="00085.html">直列可2ループボックス+パワーサプライ</a>のスイッチが経年劣化のためか接触不良となっていました。もう一度配線をやり直す気にはなれなかったので、AVRマイコンを使ったスイッチャーとして生まれ変わらせました。当初はアナログスイッチICを使おうと思っていましたが、バッファーが必要で複雑になりすぎるようです。普通にメカニカルリレーを使うことにして、ついでにパワーサプライ部分はなんとなく絶縁型へと変更しました。<br/>
+<br/>
+▽回路図<br/>
+<a href="img/02_224_2lpsws.png" target="_blank"><img alt="02_224_2lpsws.png" border="0" height="148" src="img/02_224_2lpsws.png" width="484"/></a><br/>
+マイコンはATtiny13Aだとプログラムメモリが足りないので、ATtiny85です。<a href="00221.html">ATtiny13Aの使用方法</a>と同様に、Arduino IDEをATtiny85にも対応させます。参考ページ→<a href="https://make.kosakalab.com/make/electronic-work/arduino-ide-dev/">Arduino IDE で ATtiny 他の開発</a><br/>
+<br/>
+5Vレギュレーターは念のため78M05としていますが、9V入力であれば78L05でも大丈夫でしょう。リレー941H-2C-5Dのコイル駆動電流は30mAで、マイコンから直接流し続けるのは無理があるため、トランジスタを使用します。<br/>
+<br/>
+▽レイアウト（KiCadデータは<a href="02_224_2loop_KiCad.zip">こちら</a>）<br/>
+<a href="img/02_224_3lpswl.png" target="_blank"><img alt="02_224_3lpswl.png" border="0" height="294" src="img/02_224_3lpswl.png" width="308"/></a><br/>
+パワーサプライ部分は別基板となっています。絶縁型DC-DCコンバータが大きいので内部がかなり窮屈になってしまいました。<br/>
+<br/>
+▽Arduinoスケッチ（133行）<br/>
+<code><pre>const int L_SW_PIN = 4;
+const int R_SW_PIN = 3;
+const int A_PIN = 1;
+const int B_PIN = 2;
+const int LED_PIN = 0;
+int mode = 0; // 0→マニュアル 1→ex1 2→ex2
+int L_sw_value = 0;
+long L_sw_count = 0;
+int R_sw_value = 0;
+long R_sw_count = 0;
+boolean A_state = false;
+boolean B_state = false;
 
+void setup() {
+  pinMode(L_SW_PIN, INPUT_PULLUP);
+  pinMode(R_SW_PIN, INPUT_PULLUP);
+  pinMode(A_PIN, OUTPUT);
+  pinMode(B_PIN, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
+  digitalWrite(A_PIN, HIGH); // 電源オン時LED点灯
+  delay(300);
+  digitalWrite(LED_PIN, HIGH);
+  delay(300);
+  digitalWrite(B_PIN, HIGH);
+  delay(300);
+  digitalWrite(A_PIN, LOW);    
+  digitalWrite(LED_PIN, LOW);
+  digitalWrite(B_PIN, LOW);    
+}
+ // ループをオン
+void on_A() {
+  A_state = true;
+  digitalWrite(A_PIN, HIGH);
+}
+void on_B() {
+  B_state = true;
+  digitalWrite(B_PIN, HIGH);
+}
+ // ループをオフ
+void off_A() {
+  A_state = false;
+  digitalWrite(A_PIN, LOW);
+}
+void off_B() {
+  B_state = false;
+  digitalWrite(B_PIN, LOW);
+}
+ // ループのオンオフ切替
+void chg_A() {
+  if(A_state) {
+    off_A();
+  } else {
+    on_A();
+  }
+}
+void chg_B() {
+  if(B_state) {
+    off_B();
+  } else {
+    on_B();
+  }
+}
+void loop() {
+  // 中央LEDの処理
+  if (mode == 0) {
+    digitalWrite(LED_PIN, LOW);
+  } else {
+    digitalWrite(LED_PIN, HIGH);
+  }
+  
+  L_sw_value = digitalRead(L_SW_PIN);
+  if (L_sw_value == LOW) {
+      L_sw_count += 1;
+  } else {
+    L_sw_count = 0;
+  }
+  
+  R_sw_value = digitalRead(R_SW_PIN);
+  if (R_sw_value == LOW) {
+      R_sw_count += 1;
+  } else {
+    R_sw_count = 0;
+  }
+  
+   // 左フットスイッチ短押
+   if (L_sw_count == 10) {
+    if (mode == 0) {
+      chg_B();
+    } else if (mode == 1) {
+      mode = 2;
+      on_A();
+      on_B();
+    } else {
+      mode = 1;
+      off_A();
+      on_B();
+    }
+  }
+  // 右フットスイッチ短押
+  if (R_sw_count == 10) {
+    if (mode == 0) {
+      chg_A();
+    } else if (mode == 1) {
+      chg_A();
+      chg_B();
+    } else {
+      mode = 1;
+      on_A();
+      off_B();
+    }
+  }
+  // 左フットスイッチ長押
+  if (L_sw_count == 1000) {
+    if (mode == 0) {
+      mode = 1;
+      if(A_state) {
+        off_B();
+      } else {
+        on_B();
+      }
+    }
+  }
+  // 右フットスイッチ長押
+  if (R_sw_count == 1000) {
+    if (mode == 0) {
+    } else {
+      mode = 0;
+      off_A();
+      off_B();
+    } 
+  }
+  delay(1);
+}
+</pre></code>スイッチに関する部分は<a href="00223.html">MOSリレーバイパス</a>と同じで、長押しの判定はsw_countを増やすだけです。メインループが1msごとなので長押しは1秒となるはずですが、処理に時間がかかるので実測では1.8秒ぐらいでした。<br/>
+<br/>
+▽操作方法<br/>
+　・マニュアルモード（中央LED消灯）<br/>
+　　　左スイッチ：　ループBのオンオフ切替、長押しで特殊モードへ<br/>
+　　　右スイッチ：　ループAのオンオフ切替<br/>
+　・特殊モード（中央LED点灯）<br/>
+　　　左スイッチ：　ループA→ループBの順で直列接続<br/>
+　　　　※直列切替後は右スイッチでAのみ、左スイッチでBのみオンの状態に戻る<br/>
+　　　右スイッチ：　ループAのみオンとループBのみオンを切り替え、長押しでマニュアルモードへ<br/>
+<br/>
 </main>
 <footer>
-  <p><a href="../">ホーム</a></p>
-  <p>Copyright &copy; 可燃ごみ箱</p>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
 </footer>
 </body>
 </html>

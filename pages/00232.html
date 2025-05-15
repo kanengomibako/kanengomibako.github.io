@@ -1,91 +1,91 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>STM32 NucleoボードのADCを使う</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+<meta charset="utf-8"/>
+<title>STM32 NucleoボードのADCを使う</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
 </head>
 <body>
 <header>
 </header>
 <main>
-  <h1>STM32 NucleoボードのADCを使う</h1>
-  <p align="right">2018年12月14日　カテゴリー：STM32 エフェクター</p>
-  <hr class="title"><br>
-  <a href="img/03s_232_1nuadc.jpg" target="_blank"><img border="0" height="180" src="img/03s_232_1nuadc.jpg" width="320"/></a><br>
-<a href="00231.html">前回Lチカを行ったNucleoボード</a>ですが、今度はエフェクターのパラメータ変更を想定してADC（アナログ・デジタル・コンバータ）を使ってみます。アナログ電圧値をデジタル数値に変換することにより、ポット（可変抵抗）をどれだけ回転させたか取得できます。<br>
-<br>
-実際の運用ではバックグラウンドで自動的に複数ポットの値を取得し続ける必要が出てくると思いますので、DMA（Direct Memory Access）を利用します。DMAとは、CPUを介さずデータ転送できるというよくわからないけど便利な機能らしいです。<br>
-<br>
-<hr size="1"/><br>
-Nucleoボード（NUCLEO-F303RE）とポットとの接続は下記の通りです。ポットは抵抗値5kΩ以上でBカーブのものがよいでしょう。<br>
-<br>
-ポットの1番ピン→NucleoボードのGND<br>
-ポットの2番ピン→NucleoボードのA0<br>
-ポットの3番ピン→Nucleoボードの3V3（5Vと間違えないように！）<br>
-<br>
-ポットは1つですが、2チャネル分セットアップしていきます。ソフトの基本操作については<a href="00231.html">前回記事</a>をご参照ください。変更する箇所を記載していますが、ソフトのバージョンによりデフォルト値が違うかもしれませんので、スクリーンショットも確認した方がよいだろうと思います。<br>
-<br>
-<hr size="1"/><br>
-＜STM32CubeMX（5.0.0）　Pinout &amp; Configurationタブ＞<br>
-左側列のAnalog→ADC1を開く<br>
-<br>
-・中央列上側 Mode<br>
-　IN1 : IN1 Single-ended<br>
-　IN2 : IN2 Single-ended<br>
-　→右側IC画像の14番ピン（PA0）と15番ピン（PA1）が自動的に切り替わる<br>
-<br>
-・中央列下側 Configuration→Parameter Settingsタブ<br>
-<a href="img/03s_232_2nuadcss1.png" target="_blank"><img border="0" height="564" src="img/03s_232_2nuadcss1.png" width="435"/></a><br>
-Clock Prescaler : Syncronous clock mode divided by 4<br>
-Continuous Conversion Mode : Enabled<br>
-DMA Continous Request : Enabled<br>
-Number Of Conversion : 2<br>
-　→Scan Conversion Mode がEnableに切り替わり、Rank 2 が追加される<br>
-Rank 1 Sampling Time : 19.5 Cycles<br>
-Rank 2 Channel : Channel 2<br>
-Rank 2 Sampling Time : 19.5 Cycles<br>
-<br>
-・中央列下側 Configuration→DMA Settingsタブ<br>
-<a href="img/03s_232_3nuadcss2.png" target="_blank"><img border="0" height="185" src="img/03s_232_3nuadcss2.png" width="435"/></a><br>
-Addボタンで行が追加される<br>
-　DMA Request : ADC1<br>
-　Mode : Circular　※Normalの場合ADC値取得が1回だけとなる<br>
-<br>
-<hr size="1"/><br>
-＜TrueSTUDIO（9.1.0）＞<br>
-main.cに2箇所追加記載する<br>
-<br>
-/* USER CODE BEGIN 0 */の下　ADC値を格納する配列を定義<br>
-<code><pre>uint16_t adcValue[2];<br>
-</pre></code><br>
-/* USER CODE BEGIN 2 */の下　ADC値取得開始<br>
-<code><pre>HAL_ADC_Start_DMA(&amp;hadc1, (uint32_t *)adcValue, 2);<br>
-</pre></code><br>
-デバッグ画面で一時停止中adcValueにマウスカーソルを合わせると、取得したADC値が確認できます。<br>
-<a href="img/03s_232_4nuadcss3.png" target="_blank"><img border="0" height="140" src="img/03s_232_4nuadcss3.png" width="525"/></a><br>
-ポットのシャフトを動かし、再開と一時停止をするとadcValue[0]が0～4095の間で変化します。ポットの2番ピンをNucleoボードのA1につないだ場合は、adcValue[1]が変化します。細かい設定はまた別の機会に見直すとして、とりあえず値を取得できているようなのでOKでしょう。<br>
-<br>
-<hr size="1"/><br>
-＜補足情報＞<br>
-・設定したチャネル数のADC値取得後に何かしらの処理を行う場合、/* USER CODE BEGIN 4 */の下に以下のように記載する<br>
-<code><pre>void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){<br>
-  // 処理<br>
-}</pre></code><br>
-・ADC値取得を中止する場合は下記関数を使う<br>
-HAL_ADC_Stop_DMA(&amp;hadc1);<br>
-<br>
-<hr size="1"/><br>
-＜参考ページ＞<br>
-・<a href="https://gsmcustomeffects.hatenablog.com/entry/2017/04/09/050353">STM32でADCをやってみる2（DMAを使ったレギュラ変換）</a> - ガレスタさんのDIY日記<br>
-・<a href="https://jp7fkf.hatenablog.jp/entry/2018/01/08/234513">STM32マイコンでADCを使ってみる話</a> - JP7FKFの備忘録<br>
-<br>
-
-</main>
+<h1>STM32 NucleoボードのADCを使う</h1>
+<p align="right">2018年12月14日　カテゴリー：STM32 エフェクター</p>
+<hr class="title"/><br/>
+<a href="img/03s_232_1nuadc.jpg" target="_blank"><img border="0" height="180" src="img/03s_232_1nuadc.jpg" width="320"/></a><br/>
+<a href="00231.html">前回Lチカを行ったNucleoボード</a>ですが、今度はエフェクターのパラメータ変更を想定してADC（アナログ・デジタル・コンバータ）を使ってみます。アナログ電圧値をデジタル数値に変換することにより、ポット（可変抵抗）をどれだけ回転させたか取得できます。<br/>
+<br/>
+実際の運用ではバックグラウンドで自動的に複数ポットの値を取得し続ける必要が出てくると思いますので、DMA（Direct Memory Access）を利用します。DMAとは、CPUを介さずデータ転送できるというよくわからないけど便利な機能らしいです。<br/>
+<br/>
+<hr size="1"><br/>
+Nucleoボード（NUCLEO-F303RE）とポットとの接続は下記の通りです。ポットは抵抗値5kΩ以上でBカーブのものがよいでしょう。<br/>
+<br/>
+ポットの1番ピン→NucleoボードのGND<br/>
+ポットの2番ピン→NucleoボードのA0<br/>
+ポットの3番ピン→Nucleoボードの3V3（5Vと間違えないように！）<br/>
+<br/>
+ポットは1つですが、2チャネル分セットアップしていきます。ソフトの基本操作については<a href="00231.html">前回記事</a>をご参照ください。変更する箇所を記載していますが、ソフトのバージョンによりデフォルト値が違うかもしれませんので、スクリーンショットも確認した方がよいだろうと思います。<br/>
+<br/>
+<hr size="1"/><br/>
+＜STM32CubeMX（5.0.0）　Pinout &amp; Configurationタブ＞<br/>
+左側列のAnalog→ADC1を開く<br/>
+<br/>
+・中央列上側 Mode<br/>
+　IN1 : IN1 Single-ended<br/>
+　IN2 : IN2 Single-ended<br/>
+　→右側IC画像の14番ピン（PA0）と15番ピン（PA1）が自動的に切り替わる<br/>
+<br/>
+・中央列下側 Configuration→Parameter Settingsタブ<br/>
+<a href="img/03s_232_2nuadcss1.png" target="_blank"><img border="0" height="564" src="img/03s_232_2nuadcss1.png" width="435"/></a><br/>
+Clock Prescaler : Syncronous clock mode divided by 4<br/>
+Continuous Conversion Mode : Enabled<br/>
+DMA Continous Request : Enabled<br/>
+Number Of Conversion : 2<br/>
+　→Scan Conversion Mode がEnableに切り替わり、Rank 2 が追加される<br/>
+Rank 1 Sampling Time : 19.5 Cycles<br/>
+Rank 2 Channel : Channel 2<br/>
+Rank 2 Sampling Time : 19.5 Cycles<br/>
+<br/>
+・中央列下側 Configuration→DMA Settingsタブ<br/>
+<a href="img/03s_232_3nuadcss2.png" target="_blank"><img border="0" height="185" src="img/03s_232_3nuadcss2.png" width="435"/></a><br/>
+Addボタンで行が追加される<br/>
+　DMA Request : ADC1<br/>
+　Mode : Circular　※Normalの場合ADC値取得が1回だけとなる<br/>
+<br/>
+<hr size="1"/><br/>
+＜TrueSTUDIO（9.1.0）＞<br/>
+main.cに2箇所追加記載する<br/>
+<br/>
+/* USER CODE BEGIN 0 */の下　ADC値を格納する配列を定義<br/>
+<code><pre>uint16_t adcValue[2];
+</pre></code><br/>
+/* USER CODE BEGIN 2 */の下　ADC値取得開始<br/>
+<code><pre>HAL_ADC_Start_DMA(&amp;hadc1, (uint32_t *)adcValue, 2);
+</pre></code><br/>
+デバッグ画面で一時停止中adcValueにマウスカーソルを合わせると、取得したADC値が確認できます。<br/>
+<a href="img/03s_232_4nuadcss3.png" target="_blank"><img border="0" height="140" src="img/03s_232_4nuadcss3.png" width="525"/></a><br/>
+ポットのシャフトを動かし、再開と一時停止をするとadcValue[0]が0～4095の間で変化します。ポットの2番ピンをNucleoボードのA1につないだ場合は、adcValue[1]が変化します。細かい設定はまた別の機会に見直すとして、とりあえず値を取得できているようなのでOKでしょう。<br/>
+<br/>
+<hr size="1"/><br/>
+＜補足情報＞<br/>
+・設定したチャネル数のADC値取得後に何かしらの処理を行う場合、/* USER CODE BEGIN 4 */の下に以下のように記載する<br/>
+<code><pre>void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+  // 処理
+}</pre></code><br/>
+・ADC値取得を中止する場合は下記関数を使う<br/>
+HAL_ADC_Stop_DMA(&amp;hadc1);<br/>
+<br/>
+<hr size="1"/><br/>
+＜参考ページ＞<br/>
+・<a href="https://gsmcustomeffects.hatenablog.com/entry/2017/04/09/050353">STM32でADCをやってみる2（DMAを使ったレギュラ変換）</a> - ガレスタさんのDIY日記<br/>
+・<a href="https://jp7fkf.hatenablog.jp/entry/2018/01/08/234513">STM32マイコンでADCを使ってみる話</a> - JP7FKFの備忘録<br/>
+<br/>
+</hr></main>
 <footer>
-  <p><a href="../">ホーム</a></p>
-  <p>Copyright &copy; 可燃ごみ箱</p>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
 </footer>
 </body>
 </html>

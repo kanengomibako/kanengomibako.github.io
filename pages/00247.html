@@ -1,61 +1,61 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>STM32 計算速度データ</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+<meta charset="utf-8"/>
+<title>STM32 計算速度データ</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
 </head>
 <body>
 <header>
 </header>
 <main>
-  <h1>STM32 計算速度データ</h1>
-  <p align="right">2019年09月12日　カテゴリー：STM32 エフェクター</p>
-  <hr class="title"><br>
-  デジタルエフェクターでリアルタイムにデジタル信号処理をする場合、計算が間に合わずまともな音が出なくなるという可能性があります。そこで、様々な計算方法についてどの程度処理時間がかかるのか確認しておくことにしました。使ったのはNUCLEO-F401REで、FPU（浮動小数点演算処理装置）を備えています。開発環境はSTM32CubeIDE(1.0.2)です。<br>
-<br>
-<hr size="1"/><br>
-経過時間を確認するには、CPUのクロックサイクルのカウント数（以下サイクル数）を利用すると便利です。下記の記載をしておくと、サイクル数を確認できるようになります。（参考ページ→<a href="https://gsmcustomeffects.hatenablog.com/entry/2017/10/06/010321">ARMのData Watchpoint and Trace Unitを使って処理時間計測をしてみよう</a>）<br>
-<code><pre>CoreDebug-&gt;DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;<br>
-DWT-&gt;CTRL |= DWT_CTRL_CYCCNTENA_Msk;<br>
-</pre></code><br>
-そして下記のようにコードを書きます。「DWT-&gt;CYCCNT」に現在のサイクル数が入ります。コンパイル時に最適化されないように、volatileを入れ、サイクル数を変数として使うことにします。<br>
-<code><pre>volatile uint32_t start = 0;<br>
-volatile uint32_t stop = 0;<br>
-volatile uint32_t ivar[50] = {};<br>
-volatile uint32_t cnt[50] = {};<br>
-<br>
-start = DWT-&gt;CYCCNT;   // 開始時サイクル数<br>
-ivar[0] = start;       // 計測したい処理<br>
-stop = DWT-&gt;CYCCNT;    // 終了時サイクル数<br>
-cnt[0] = stop - start; // 処理にかかったサイクル数<br>
-</pre></code><br>
-上記「変数の代入」を基準として、処理を追加した場合にどのぐらいサイクル数が増えるかを確認しました。例えば乗算の場合、「ivar[1] = start * stop;」のようにして、変数の乗算を1つ追加するといった具合です。定数を使うと事前に計算されてしまう場合があるため、全て変数を使います。<br>
-<br>
-コンパイル時の最適化オプション「O0（最適化なし）」と「Ofast（最速最適化）」での違いも確認します。1000回平均値ですが結果が結構変わるときがあり、あまり正確ではなさそうです。<br>
-<br>
-<hr size="1"/><br>
-＜32ビット整数（uint32_t）＞<br>
-<br>
-<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>何もしない</td><td>8</td><td>4</td></tr><tr align="center"><td>代入（=）※基準</td><td>16</td><td>7</td></tr><tr align="center"><td>加算（+）　減算（-）　乗算（*）</td><td>5</td><td>3</td></tr><tr align="center"><td>除算（/）</td><td>9</td><td>7</td></tr><tr align="center"><td>剰余演算（%）</td><td>11</td><td>8</td></tr><tr align="center"><td>各ビット演算（&amp;　|　!　^　&gt;&gt;　&lt;&lt;）</td><td>5</td><td>3</td></tr></table>変数の呼び出しに数サイクル必要なのか、代入だけで結構時間がかかるようです。剰余演算がそんなに遅くないというのが意外でした。<br>
-<br>
-<hr size="1"/><br>
-＜32ビット浮動小数点数（float）＞<br>
-<br>
-<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>代入（=）※基準</td><td>16</td><td>7</td></tr><tr align="center"><td>加算（+）　減算（-）　乗算（*）</td><td>5</td><td>4</td></tr><tr align="center"><td>除算（/）</td><td>17</td><td>17</td></tr></table>定数での除算の場合は最適化で乗算と同じ速さになりますが、変数だと遅いままとなってしまいます。<br>
-<br>
-C言語標準ライブラリmath.hにある数学の関数については以下の通りです。<br>
-<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>sqrtf</td><td>51</td><td>16</td></tr><tr align="center"><td>logf</td><td>189</td><td>189</td></tr><tr align="center"><td>expf</td><td>216</td><td>207</td></tr><tr align="center"><td>powf</td><td>565</td><td>571</td></tr><tr align="center"><td>sinf</td><td>82</td><td>79</td></tr><tr align="center"><td>sinhf</td><td>286</td><td>283</td></tr><tr align="center"><td>atanf</td><td>189</td><td>178</td></tr></table>デシベル計算に使うpowfがかなり遅いので、ルックアップテーブルの利用を考える必要がありそうです。<br>
-<br>
-CMSIS-DSPライブラリを導入し、とりあえず2つの関数を使ってみました。（参考ページ→<a href="https://web.archive.org/web/20241101233120/https://ioloa.com/blog/archives/81">STM32 CubeIDE環境で、CMSIS-DSPを使う方法</a>）<br>
-<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>arm_sqrt_f32</td><td>91</td><td>13</td></tr><tr align="center"><td>arm_sin_f32</td><td>56</td><td>52</td></tr></table>今後、BiQuadフィルタやフーリエ変換等の活用について検討したいと思います。<br>
-<br>
+<h1>STM32 計算速度データ</h1>
+<p align="right">2019年09月12日　カテゴリー：STM32 エフェクター</p>
+<hr class="title"/><br/>
+  デジタルエフェクターでリアルタイムにデジタル信号処理をする場合、計算が間に合わずまともな音が出なくなるという可能性があります。そこで、様々な計算方法についてどの程度処理時間がかかるのか確認しておくことにしました。使ったのはNUCLEO-F401REで、FPU（浮動小数点演算処理装置）を備えています。開発環境はSTM32CubeIDE(1.0.2)です。<br/>
+<br/>
+<hr size="1"><br/>
+経過時間を確認するには、CPUのクロックサイクルのカウント数（以下サイクル数）を利用すると便利です。下記の記載をしておくと、サイクル数を確認できるようになります。（参考ページ→<a href="https://gsmcustomeffects.hatenablog.com/entry/2017/10/06/010321">ARMのData Watchpoint and Trace Unitを使って処理時間計測をしてみよう</a>）<br/>
+<code><pre>CoreDebug-&gt;DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+DWT-&gt;CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+</pre></code><br/>
+そして下記のようにコードを書きます。「DWT-&gt;CYCCNT」に現在のサイクル数が入ります。コンパイル時に最適化されないように、volatileを入れ、サイクル数を変数として使うことにします。<br/>
+<code><pre>volatile uint32_t start = 0;
+volatile uint32_t stop = 0;
+volatile uint32_t ivar[50] = {};
+volatile uint32_t cnt[50] = {};
 
-</main>
+start = DWT-&gt;CYCCNT;   // 開始時サイクル数
+ivar[0] = start;       // 計測したい処理
+stop = DWT-&gt;CYCCNT;    // 終了時サイクル数
+cnt[0] = stop - start; // 処理にかかったサイクル数
+</pre></code><br/>
+上記「変数の代入」を基準として、処理を追加した場合にどのぐらいサイクル数が増えるかを確認しました。例えば乗算の場合、「ivar[1] = start * stop;」のようにして、変数の乗算を1つ追加するといった具合です。定数を使うと事前に計算されてしまう場合があるため、全て変数を使います。<br/>
+<br/>
+コンパイル時の最適化オプション「O0（最適化なし）」と「Ofast（最速最適化）」での違いも確認します。1000回平均値ですが結果が結構変わるときがあり、あまり正確ではなさそうです。<br/>
+<br/>
+<hr size="1"/><br/>
+＜32ビット整数（uint32_t）＞<br/>
+<br/>
+<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>何もしない</td><td>8</td><td>4</td></tr><tr align="center"><td>代入（=）※基準</td><td>16</td><td>7</td></tr><tr align="center"><td>加算（+）　減算（-）　乗算（*）</td><td>5</td><td>3</td></tr><tr align="center"><td>除算（/）</td><td>9</td><td>7</td></tr><tr align="center"><td>剰余演算（%）</td><td>11</td><td>8</td></tr><tr align="center"><td>各ビット演算（&amp;　|　!　^　&gt;&gt;　&lt;&lt;）</td><td>5</td><td>3</td></tr></table>変数の呼び出しに数サイクル必要なのか、代入だけで結構時間がかかるようです。剰余演算がそんなに遅くないというのが意外でした。<br/>
+<br/>
+<hr size="1"/><br/>
+＜32ビット浮動小数点数（float）＞<br/>
+<br/>
+<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>代入（=）※基準</td><td>16</td><td>7</td></tr><tr align="center"><td>加算（+）　減算（-）　乗算（*）</td><td>5</td><td>4</td></tr><tr align="center"><td>除算（/）</td><td>17</td><td>17</td></tr></table>定数での除算の場合は最適化で乗算と同じ速さになりますが、変数だと遅いままとなってしまいます。<br/>
+<br/>
+C言語標準ライブラリmath.hにある数学の関数については以下の通りです。<br/>
+<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>sqrtf</td><td>51</td><td>16</td></tr><tr align="center"><td>logf</td><td>189</td><td>189</td></tr><tr align="center"><td>expf</td><td>216</td><td>207</td></tr><tr align="center"><td>powf</td><td>565</td><td>571</td></tr><tr align="center"><td>sinf</td><td>82</td><td>79</td></tr><tr align="center"><td>sinhf</td><td>286</td><td>283</td></tr><tr align="center"><td>atanf</td><td>189</td><td>178</td></tr></table>デシベル計算に使うpowfがかなり遅いので、ルックアップテーブルの利用を考える必要がありそうです。<br/>
+<br/>
+CMSIS-DSPライブラリを導入し、とりあえず2つの関数を使ってみました。（参考ページ→<a href="https://web.archive.org/web/20241101233120/https://ioloa.com/blog/archives/81">STM32 CubeIDE環境で、CMSIS-DSPを使う方法</a>）<br/>
+<table border="1"><tr align="center"><td></td><td>サイクル数（O0）</td><td>サイクル数（Ofast）</td></tr><tr align="center"><td>arm_sqrt_f32</td><td>91</td><td>13</td></tr><tr align="center"><td>arm_sin_f32</td><td>56</td><td>52</td></tr></table>今後、BiQuadフィルタやフーリエ変換等の活用について検討したいと思います。<br/>
+<br/>
+</hr></main>
 <footer>
-  <p><a href="../">ホーム</a></p>
-  <p>Copyright &copy; 可燃ごみ箱</p>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
 </footer>
 </body>
 </html>

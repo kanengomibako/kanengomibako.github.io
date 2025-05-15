@@ -1,112 +1,112 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>STM32 内蔵フラッシュメモリへのデータ保存</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+<meta charset="utf-8"/>
+<title>STM32 内蔵フラッシュメモリへのデータ保存</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
 </head>
 <body>
 <header>
 </header>
 <main>
-  <h1>STM32 内蔵フラッシュメモリへのデータ保存</h1>
-  <p align="right">2019年12月23日　カテゴリー：<a href="00236.html">STM32</a></p>
-  <hr class="title"><br>
-  HALライブラリを利用し、STM32の内蔵フラッシュメモリへデータを保存します。これにより電源を切ってもデータを残したままにすることができます。下記参考ページにも詳細な内容がありますので、併せてご参照ください。<br>
-・<a href="https://garberas.com/archives/362">STM32 + HAL Flashの書き込み・読み込み</a><br>
-<br>
-<hr size="1"/><br>
-フラッシュメモリへのデータ保存時には、単純に書き込み関数を呼び出せばよいわけではなく、あらかじめ書き込む場所を消去しておく必要があります。さらに、消去等の操作前にはロックを解除しなければいけません。つまり下記の流れとなります。<br>
-・ロック解除→消去→書き込み→再度ロック<br>
-<br>
-フラッシュメモリはセクタという単位に分割されており、消去操作時にはセクタごとに消去します。STM32F401REのセクタ7の場合、フラッシュメモリの終わり側128kB分が全て消えることになります。<br>
-<br>
-<strong>＜STM32F4、F7での書き込みサンプルコード＞</strong><br>
-テストとして配列を書き込みます。NUCLEO-F401REで動作確認しました。セクタの開始アドレスはそれぞれのICのリファレンスマニュアルをご確認ください。<br>
-<code><pre>const uint32_t flash_addr = 0x08060000; // データ保存先（セクタ7）開始アドレス<br>
-uint16_t testData[8] = {1, 3, 5, 7, 2, 4, 6, 8}; // 書き込むデータ<br>
-<br>
-void saveData()<br>
-{<br>
-  /* フラッシュ ロック解除 */<br>
-  HAL_FLASH_Unlock();<br>
-<br>
-  /* フラッシュ 消去 */<br>
-  FLASH_EraseInitTypeDef erase;               // 消去に関する構造体を定義<br>
-  uint32_t error = 0;                         // エラーコードを格納する変数<br>
-  erase.TypeErase = FLASH_TYPEERASE_SECTORS;  // 消去方法: セクタ消去<br>
-  erase.Sector = FLASH_SECTOR_7;              // 消去するセクタ: セクタ7<br>
-  erase.NbSectors = 1;                        // 消去するセクタの数: 1<br>
-  erase.VoltageRange = FLASH_VOLTAGE_RANGE_3; // 電圧設定<br>
-  HAL_FLASHEx_Erase(&amp;erase, &amp;error);          // 消去<br>
-<br>
-  /* フラッシュ 書き込み */<br>
-  uint32_t addr = flash_addr; // 書き込み先アドレスを代入<br>
-  for (int i = 0; i &lt; 8; i++)<br>
-  {<br>
-    HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, addr, testData[i]); // 書き込み<br>
-    addr += 2; // 2バイト(16ビット)分アドレスを進める<br>
-  }<br>
-<br>
-  /* フラッシュ ロック */<br>
-  HAL_FLASH_Lock();<br>
-}<br>
-</pre></code>今回は16ビットのデータを書き込んでいますが、8ビットであれば「FLASH_TYPEPROGRAM_BYTE」を使い、アドレスは1バイトずつ進めます（32ビットであれば「FLASH_TYPEPROGRAM_WORD」を使い、アドレスは4バイトずつ進めます）。<br>
-<br>
-<strong>＜データ読み出し＞</strong><br>
-保存したデータを読み出す場合は特別な操作は必要なく、下記のように記載します。<br>
-<code><pre>uint32_t addr = flash_addr;<br>
-testData[0] = *((uint16_t*)addr);<br>
-</pre></code>「(uint16_t*)」で書き込み先アドレスをポインタ型へキャストし、そのポインタ（アドレス）にあるデータを「*」で読み出しています。何も書き込まれていない場合は、ビットが全て1のデータ（uint16_tなら65535）が読み出されます。<br>
-<br>
-<hr size="1"/><br>
-<strong>＜STM32H7での書き込みサンプルコード＞</strong><br>
-セクタの他にバンク1と2があるため、バンク指定が追加になっています。また、書き込みはFLASHWORD（256ビット）単位限定で、256ビットのデータを準備しなければいけないようです。データ読み出しについては上記と同じです。NUCLEO-H743ZI2で動作確認しました。<br>
-<code><pre>const uint32_t flash_addr = 0x081E0000; // データ保存先（バンク2 セクタ7）開始アドレス<br>
-uint16_t testData[16] = {1, 3, 5, 7, 2, 4, 6, 8, 9, 7, 5, 3, 0, 8, 6, 4}; // 書き込むデータ<br>
-<br>
-void saveData()<br>
-{<br>
-  /* フラッシュ ロック解除 */<br>
-  HAL_FLASH_Unlock();<br>
-<br>
-  /* フラッシュ 消去 */<br>
-  FLASH_EraseInitTypeDef erase;               // 消去に関する構造体を定義<br>
-  uint32_t error = 0;                         // エラーコードを格納する変数<br>
-  erase.TypeErase = FLASH_TYPEERASE_SECTORS;  // 消去方法: セクタ消去<br>
-  erase.Banks = FLASH_BANK_2;                 // 消去するバンク: バンク2<br>
-  erase.Sector = FLASH_SECTOR_7;              // 消去するセクタ: セクタ7<br>
-  erase.NbSectors = 1;                        // 消去するセクタの数: 1<br>
-  erase.VoltageRange = FLASH_VOLTAGE_RANGE_3; // 電圧設定<br>
-  HAL_FLASHEx_Erase(&amp;erase, &amp;error);          // 消去<br>
-<br>
-  /* フラッシュ 書き込み */<br>
-  uint32_t addr = flash_addr; // 書き込み先アドレスを代入<br>
-  HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, (uint32_t)testData); // 書き込み<br>
-  addr += 32; // 続けて他のデータを書き込む場合は32バイト(256ビット)分アドレスを進める<br>
-<br>
-  /* フラッシュ ロック */<br>
-  HAL_FLASH_Lock();<br>
-}<br>
-</pre></code><br>
-<hr size="1"/><br>
-<strong>＜リンカスクリプトについて＞</strong><br>
-内蔵フラッシュメモリにはプログラムが書き込まれています。万が一大きなプログラムとなった場合には、データ保存したいフラッシュ領域と重なってしまうおそれがあります。そこで、プログラムの領域とデータ保存の領域を分けておきます。<br>
-<br>
-STM32CubeIDEのプロジェクトフォルダ内に、リンカスクリプトと呼ばれるSTM32○○○○_FLASH.ldというファイルがあります。このファイル内のMEMORYの記述を変更すればOKです。例えばSTM32F401REのセクタ7（開始アドレス0x08060000）をデータ保存領域（DATA）とする場合は下記の記述とします。<br>
-<code><pre>MEMORY<br>
-{<br>
-  RAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 96K<br>
-  FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 384K<br>
-  DATA (rx)  : ORIGIN = 0x08060000, LENGTH = 128K<br>
-}<br>
-</pre></code><br>
+<h1>STM32 内蔵フラッシュメモリへのデータ保存</h1>
+<p align="right">2019年12月23日　カテゴリー：<a href="00236.html">STM32</a></p>
+<hr class="title"/><br/>
+  HALライブラリを利用し、STM32の内蔵フラッシュメモリへデータを保存します。これにより電源を切ってもデータを残したままにすることができます。下記参考ページにも詳細な内容がありますので、併せてご参照ください。<br/>
+・<a href="https://garberas.com/archives/362">STM32 + HAL Flashの書き込み・読み込み</a><br/>
+<br/>
+<hr size="1"><br/>
+フラッシュメモリへのデータ保存時には、単純に書き込み関数を呼び出せばよいわけではなく、あらかじめ書き込む場所を消去しておく必要があります。さらに、消去等の操作前にはロックを解除しなければいけません。つまり下記の流れとなります。<br/>
+・ロック解除→消去→書き込み→再度ロック<br/>
+<br/>
+フラッシュメモリはセクタという単位に分割されており、消去操作時にはセクタごとに消去します。STM32F401REのセクタ7の場合、フラッシュメモリの終わり側128kB分が全て消えることになります。<br/>
+<br/>
+<strong>＜STM32F4、F7での書き込みサンプルコード＞</strong><br/>
+テストとして配列を書き込みます。NUCLEO-F401REで動作確認しました。セクタの開始アドレスはそれぞれのICのリファレンスマニュアルをご確認ください。<br/>
+<code><pre>const uint32_t flash_addr = 0x08060000; // データ保存先（セクタ7）開始アドレス
+uint16_t testData[8] = {1, 3, 5, 7, 2, 4, 6, 8}; // 書き込むデータ
 
-</main>
+void saveData()
+{
+  /* フラッシュ ロック解除 */
+  HAL_FLASH_Unlock();
+
+  /* フラッシュ 消去 */
+  FLASH_EraseInitTypeDef erase;               // 消去に関する構造体を定義
+  uint32_t error = 0;                         // エラーコードを格納する変数
+  erase.TypeErase = FLASH_TYPEERASE_SECTORS;  // 消去方法: セクタ消去
+  erase.Sector = FLASH_SECTOR_7;              // 消去するセクタ: セクタ7
+  erase.NbSectors = 1;                        // 消去するセクタの数: 1
+  erase.VoltageRange = FLASH_VOLTAGE_RANGE_3; // 電圧設定
+  HAL_FLASHEx_Erase(&amp;erase, &amp;error);          // 消去
+
+  /* フラッシュ 書き込み */
+  uint32_t addr = flash_addr; // 書き込み先アドレスを代入
+  for (int i = 0; i &lt; 8; i++)
+  {
+    HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, addr, testData[i]); // 書き込み
+    addr += 2; // 2バイト(16ビット)分アドレスを進める
+  }
+
+  /* フラッシュ ロック */
+  HAL_FLASH_Lock();
+}
+</pre></code>今回は16ビットのデータを書き込んでいますが、8ビットであれば「FLASH_TYPEPROGRAM_BYTE」を使い、アドレスは1バイトずつ進めます（32ビットであれば「FLASH_TYPEPROGRAM_WORD」を使い、アドレスは4バイトずつ進めます）。<br/>
+<br/>
+<strong>＜データ読み出し＞</strong><br/>
+保存したデータを読み出す場合は特別な操作は必要なく、下記のように記載します。<br/>
+<code><pre>uint32_t addr = flash_addr;
+testData[0] = *((uint16_t*)addr);
+</pre></code>「(uint16_t*)」で書き込み先アドレスをポインタ型へキャストし、そのポインタ（アドレス）にあるデータを「*」で読み出しています。何も書き込まれていない場合は、ビットが全て1のデータ（uint16_tなら65535）が読み出されます。<br/>
+<br/>
+<hr size="1"/><br/>
+<strong>＜STM32H7での書き込みサンプルコード＞</strong><br/>
+セクタの他にバンク1と2があるため、バンク指定が追加になっています。また、書き込みはFLASHWORD（256ビット）単位限定で、256ビットのデータを準備しなければいけないようです。データ読み出しについては上記と同じです。NUCLEO-H743ZI2で動作確認しました。<br/>
+<code><pre>const uint32_t flash_addr = 0x081E0000; // データ保存先（バンク2 セクタ7）開始アドレス
+uint16_t testData[16] = {1, 3, 5, 7, 2, 4, 6, 8, 9, 7, 5, 3, 0, 8, 6, 4}; // 書き込むデータ
+
+void saveData()
+{
+  /* フラッシュ ロック解除 */
+  HAL_FLASH_Unlock();
+
+  /* フラッシュ 消去 */
+  FLASH_EraseInitTypeDef erase;               // 消去に関する構造体を定義
+  uint32_t error = 0;                         // エラーコードを格納する変数
+  erase.TypeErase = FLASH_TYPEERASE_SECTORS;  // 消去方法: セクタ消去
+  erase.Banks = FLASH_BANK_2;                 // 消去するバンク: バンク2
+  erase.Sector = FLASH_SECTOR_7;              // 消去するセクタ: セクタ7
+  erase.NbSectors = 1;                        // 消去するセクタの数: 1
+  erase.VoltageRange = FLASH_VOLTAGE_RANGE_3; // 電圧設定
+  HAL_FLASHEx_Erase(&amp;erase, &amp;error);          // 消去
+
+  /* フラッシュ 書き込み */
+  uint32_t addr = flash_addr; // 書き込み先アドレスを代入
+  HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD, addr, (uint32_t)testData); // 書き込み
+  addr += 32; // 続けて他のデータを書き込む場合は32バイト(256ビット)分アドレスを進める
+
+  /* フラッシュ ロック */
+  HAL_FLASH_Lock();
+}
+</pre></code><br/>
+<hr size="1"/><br/>
+<strong>＜リンカスクリプトについて＞</strong><br/>
+内蔵フラッシュメモリにはプログラムが書き込まれています。万が一大きなプログラムとなった場合には、データ保存したいフラッシュ領域と重なってしまうおそれがあります。そこで、プログラムの領域とデータ保存の領域を分けておきます。<br/>
+<br/>
+STM32CubeIDEのプロジェクトフォルダ内に、リンカスクリプトと呼ばれるSTM32○○○○_FLASH.ldというファイルがあります。このファイル内のMEMORYの記述を変更すればOKです。例えばSTM32F401REのセクタ7（開始アドレス0x08060000）をデータ保存領域（DATA）とする場合は下記の記述とします。<br/>
+<code><pre>MEMORY
+{
+  RAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 96K
+  FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 384K
+  DATA (rx)  : ORIGIN = 0x08060000, LENGTH = 128K
+}
+</pre></code><br/>
+</hr></main>
 <footer>
-  <p><a href="../">ホーム</a></p>
-  <p>Copyright &copy; 可燃ごみ箱</p>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
 </footer>
 </body>
 </html>

@@ -1,73 +1,73 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>STM32 Nucleoボード スイッチ割り込み</title>
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="icon" href="img/favicon.png" type="image/png">
+<meta charset="utf-8"/>
+<title>STM32 Nucleoボード スイッチ割り込み</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
 </head>
 <body>
 <header>
 </header>
 <main>
-  <h1>STM32 Nucleoボード スイッチ割り込み</h1>
-  <p align="right">2018年12月18日　カテゴリー：<a href="00236.html">STM32</a></p>
-  <hr class="title"><br>
-  <a href="img/03s_233_1nuswp.jpg" target="_blank"><img border="0" height="240" src="img/03s_233_1nuswp.jpg" width="320"/></a><br>
-AVRマイコンでのスイッチ処理は、今までメインループの中で行っていました（→<a href="00223.html">MOSリレーバイパス</a>）。しかしながらメインループでは別の処理をしたい場合が出てくると思われるので、割り込みを使ってみます。<br>
-<br>
-スイッチが押されたときに指定した割り込み処理が起きるわけですが、スイッチのチャタリングにより割り込みが何度も発生してしまうことになります。今回は対策が楽なハードウェア（抵抗とコンデンサ）によるチャタリング除去を行うことにしました。テストとしてボード上のLEDの点滅速度をスイッチにより変更します。<br>
-<br>
-Nucleoボードにはすでに青いスイッチが付いており、さらにもう一つタクトスイッチを下図の通り接続します。コンデンサに直列に抵抗を入れるのはあまり見かけませんが、Nucleoボード上の青いスイッチ周辺に採用されていました。<br>
-<img border="0" height="211" src="img/03s_233_2nusws.png" width="241"/><br>
-<br>
-<hr size="1"/><br>
-＜STM32CubeMX（5.0.0）　Pinout &amp; Configurationタブ＞<br>
-右側IC画像<br>
-　14番ピン（PA0）にGPIO_EXTI0を設定<br>
-　2番ピン（PC13）がデフォルトでGPIO_EXTI13に設定済<br>
-　21番ピン（PA5）がデフォルトでGPIO_Outputに設定済<br>
-<br>
-左側列のSystem Core→GPIOを開く<br>
-・中央列下側 Configuration→GPIOタブ<br>
-<a href="img/03s_233_3nuswss1.png" target="_blank"><img border="0" height="150" src="img/03s_233_3nuswss1.png" width="435"/></a><br>
-　PA0 GPIO mode : External Interrupt Mode with Falling edge trigger detection<br>
-　PA0 GPIO Pull-up/Pull-down : Pull up<br>
-・中央列下側 Configuration→NVICタブ<br>
-<a href="img/03s_233_4nuswss2.png" target="_blank"><img border="0" height="49" src="img/03s_233_4nuswss2.png" width="435"/></a><br>
-　EXTI line0 interrupt : Enabledにチェックを入れる<br>
-　EXTI line[15:10] interrupts : Enabledにチェックを入れる<br>
-<br>
-<hr size="1"/><br>
-＜TrueSTUDIO（9.1.0）＞<br>
-main.cに3箇所追加記載する<br>
-<br>
-/* USER CODE BEGIN 0 */の下　変数（LED点滅間隔時間）を定義<br>
-<code><pre>volatile uint16_t interval = 200;<br>
-</pre></code><br>
-/* USER CODE BEGIN 3 */の下　LED点滅<br>
-<code><pre>HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);<br>
-HAL_Delay(interval);<br>
-</pre></code><br>
-/* USER CODE BEGIN 4 */の下　スイッチによりLED点滅間隔時間を変更<br>
-<code><pre>void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {<br>
-  if (GPIO_Pin == GPIO_PIN_13) interval = 2 * interval;<br>
-  if (GPIO_Pin == GPIO_PIN_0) interval =  interval / 2;<br>
-}<br>
-</pre></code><br>
-<hr size="1"/><br>
-＜参考ページ＞<br>
-<a href="https://web.archive.org/web/20210116182855/https://bfin.sakura.ne.jp/?p=1032">割り込みを使う</a> - DSP空挺団<br>
-<br>
-（ハードウェア以外でのチャタリング対策）<br>
-<a href="https://play-arduino.seesaa.net/article/423315979.html">割り込み処理 -第3回：チャタリング防止</a> - Arduinoで遊ぶブログ<br>
-<a href="https://gurochoro.blogspot.com/2017/08/debounce-in-a-microcomputer.html">マイコンにおけるチャタリング＆ノイズ対策</a> - 味わい尽くせ！<br>
-<br>
-
-</main>
+<h1>STM32 Nucleoボード スイッチ割り込み</h1>
+<p align="right">2018年12月18日　カテゴリー：<a href="00236.html">STM32</a></p>
+<hr class="title"/><br/>
+<a href="img/03s_233_1nuswp.jpg" target="_blank"><img border="0" height="240" src="img/03s_233_1nuswp.jpg" width="320"/></a><br/>
+AVRマイコンでのスイッチ処理は、今までメインループの中で行っていました（→<a href="00223.html">MOSリレーバイパス</a>）。しかしながらメインループでは別の処理をしたい場合が出てくると思われるので、割り込みを使ってみます。<br/>
+<br/>
+スイッチが押されたときに指定した割り込み処理が起きるわけですが、スイッチのチャタリングにより割り込みが何度も発生してしまうことになります。今回は対策が楽なハードウェア（抵抗とコンデンサ）によるチャタリング除去を行うことにしました。テストとしてボード上のLEDの点滅速度をスイッチにより変更します。<br/>
+<br/>
+Nucleoボードにはすでに青いスイッチが付いており、さらにもう一つタクトスイッチを下図の通り接続します。コンデンサに直列に抵抗を入れるのはあまり見かけませんが、Nucleoボード上の青いスイッチ周辺に採用されていました。<br/>
+<img border="0" height="211" src="img/03s_233_2nusws.png" width="241"/><br/>
+<br/>
+<hr size="1"><br/>
+＜STM32CubeMX（5.0.0）　Pinout &amp; Configurationタブ＞<br/>
+右側IC画像<br/>
+　14番ピン（PA0）にGPIO_EXTI0を設定<br/>
+　2番ピン（PC13）がデフォルトでGPIO_EXTI13に設定済<br/>
+　21番ピン（PA5）がデフォルトでGPIO_Outputに設定済<br/>
+<br/>
+左側列のSystem Core→GPIOを開く<br/>
+・中央列下側 Configuration→GPIOタブ<br/>
+<a href="img/03s_233_3nuswss1.png" target="_blank"><img border="0" height="150" src="img/03s_233_3nuswss1.png" width="435"/></a><br/>
+　PA0 GPIO mode : External Interrupt Mode with Falling edge trigger detection<br/>
+　PA0 GPIO Pull-up/Pull-down : Pull up<br/>
+・中央列下側 Configuration→NVICタブ<br/>
+<a href="img/03s_233_4nuswss2.png" target="_blank"><img border="0" height="49" src="img/03s_233_4nuswss2.png" width="435"/></a><br/>
+　EXTI line0 interrupt : Enabledにチェックを入れる<br/>
+　EXTI line[15:10] interrupts : Enabledにチェックを入れる<br/>
+<br/>
+<hr size="1"/><br/>
+＜TrueSTUDIO（9.1.0）＞<br/>
+main.cに3箇所追加記載する<br/>
+<br/>
+/* USER CODE BEGIN 0 */の下　変数（LED点滅間隔時間）を定義<br/>
+<code><pre>volatile uint16_t interval = 200;
+</pre></code><br/>
+/* USER CODE BEGIN 3 */の下　LED点滅<br/>
+<code><pre>HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+HAL_Delay(interval);
+</pre></code><br/>
+/* USER CODE BEGIN 4 */の下　スイッチによりLED点滅間隔時間を変更<br/>
+<code><pre>void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+  if (GPIO_Pin == GPIO_PIN_13) interval = 2 * interval;
+  if (GPIO_Pin == GPIO_PIN_0) interval =  interval / 2;
+}
+</pre></code><br/>
+<hr size="1"/><br/>
+＜参考ページ＞<br/>
+<a href="https://web.archive.org/web/20210116182855/https://bfin.sakura.ne.jp/?p=1032">割り込みを使う</a> - DSP空挺団<br/>
+<br/>
+（ハードウェア以外でのチャタリング対策）<br/>
+<a href="https://play-arduino.seesaa.net/article/423315979.html">割り込み処理 -第3回：チャタリング防止</a> - Arduinoで遊ぶブログ<br/>
+<a href="https://gurochoro.blogspot.com/2017/08/debounce-in-a-microcomputer.html">マイコンにおけるチャタリング＆ノイズ対策</a> - 味わい尽くせ！<br/>
+<br/>
+</hr></main>
 <footer>
-  <p><a href="../">ホーム</a></p>
-  <p>Copyright &copy; 可燃ごみ箱</p>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
 </footer>
 </body>
 </html>
