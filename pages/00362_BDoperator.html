@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BD Operator</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>BD Operator</h1>
+<p align="right">2025年03月22日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"><br>
+<p><img src="img/02_362_01_bdop.jpg" width="70%"><br></p>
+<p>以前製作した<a href="00297.html">オペアンプバージョンのBOSS BD-2</a>を、トゥルーバイパス用に簡略化したエフェクターです。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/6718691">基板販売ページはこちら</a></p>
+<hr />
+<h3>▽回路図</h3>
+<p><img src="img/02_362_02_BDoperator_schematic.png" width="90%"><br><a href="00297.html">OpAmp Blues Driver</a>と基本的に同じで、入手しやすい100kAデュアルポットを使用するようにしました。部品点数を減らすため、入出力バッファをなくし、シミュレーテッドインダクタをオペアンプからトランジスタに戻してあります。</p>
+<h3>【基板】</h3>
+<p><img src="img/02_362_03_BDoperator_pcb.png" width="80%"><br></p>
+<p>VR1（GAINポット）の3番端子と6番端子については、配線なしでもOKです。C11（2.2μF）は電解コンデンサではなくフィルムコンデンサを使う方が精度がよいですが、スペース・高さに余裕がなく入らないかもしれません。オペアンプでの歪みがあるので、他の2回路入り（デュアル）オペアンプに差し替えて好みのものを探すのもよいかと思います。</p>
+<h4>＜発振について＞</h4>
+<p>出力された音がスイッチの寄生容量等で再び入力に戻り過度に増幅されると、発振の可能性が出てきます。BOSSのペダルでは入力バッファやバイパス経路のバッファがあり、発振を防いでいます。トゥルーバイパス、特にギター直結では発振しやすくなるため、<a href="https://kanengomibako.github.io/pages/00274.html">以前製作したBOSS MT-2</a>では入力バッファを入れました。</p>
+<p>ハイゲインエフェクターで問題になることが多い発振ですが、高音域が出やすいBD-2でも注意が必要となります。今回最初に設計した基板では、LEVELが低くてもGAINを70%程度に上げただけで発振する状態でした。おそらく入力部の近くにGAINポットが配置されているというレイアウトが原因だったと思われます。修正後の基板（Rev.B、販売用のもの）では、問題はなくなりました。しかしながらGAINとLEVELが<strong>両方とも</strong>フルに近い状態では発振するので、念のため注意が必要となります。</p>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
