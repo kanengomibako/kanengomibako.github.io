@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ORIGIN EFFECTS RevivalDRIVE Compact 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ORIGIN EFFECTS RevivalDRIVE Compact 解析</h1>
+  <p align="right">2025年03月01日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+<a href="img/09_363_01_revdrc_pic1.jpg"><img src="img/09_363_01_revdrc_pic1.jpg" height="360"></a>
+<p><a href="https://miyaji.co.jp/MID/product.php?item=Revival%20DRIVE%20Compact">ORIGIN EFFECTS RevivalDRIVE</a>は、真空管アンプの音を再現したペダルです。おそらく今までにない回路が使われているのだろうと考え、Compactバージョンを解析してみることにしました。</p>
+<p>※ <a href="https://x.com/kanengomibako">X</a>にていただいたコメント、情報提供についても参考にさせていただいております。誠にありがとうございます。</p>
+<hr />
+<h3>【基板】</h3>
+<a href="img/09_363_02_revdrc_pic2.jpg"><img src="img/09_363_02_revdrc_pic2.jpg" height="300"></a><a href="img/09_363_03_revdrc_pic3.jpg"><img src="img/09_363_03_revdrc_pic3.jpg" height="300"></a>
+<p>4層基板が2枚という構成です。グラウンドがいくつかに分離されています。内層を見るには、基板を削るしかありません。実際削ってみると、内層は電源とグラウンド層だけで、隠れた配線はありませんでした。<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/OriginEffects/RevivalDriveCompact/KiCad8">KiCadデータ</a>にはそれぞれの層の画像データを埋め込んであるため、かなり容量が大きくなっています。</p>
+<h3>▽回路図</h3>
+<a href="img/09_363_04_ORIGIN_EFFECTS_RevivalDRIVE_Compact_schematic.png"><img src="img/09_363_04_ORIGIN_EFFECTS_RevivalDRIVE_Compact_schematic.png" height="640"></a>
+<p>かなり部品数が多く、ポットには特殊な値のものが使われているため、クローンを作るのは難しいでしょう。目安として、実測した電圧を記載しています。</p>
+<h3>【電源】</h3>
+<p>高い電圧入力への対策のため、レギュレータが入っています。LT1054で負電圧が生成されていますが、オペアンプは正負電源ではなく単電源駆動です。真空管アンプのような電圧降下（サグ）も再現してあるらしいですが、回路からはそのような特性を読み取ることはできそうにありません。</p>
+<ul>
+<li><p>LT1054</p>
+<p>倍電圧を生成する場合、C77がCAP+ピンに接続されることが多いですが、CAP-ピンでも問題ないようです。C74（10pF）の役割はデータシートに記載があり、発振周波数が25kHzから45kHzに上がります。発振周波数が最悪の15kHzの個体でも、可聴域内のノイズを避けることができます。</p></li>
+<li><p>正電源部フィルタ（Q6）</p>
+<p>通常のトランジスタのリプルフィルタでは見られない抵抗R75とR78が挿入されています。これらの抵抗は定格の大きなものが採用されており、大電流からの保護の目的があると考えられます。タンタルコンデンサの故障等による電源の短絡に備えてあるのかもしれません。</p></li>
+<li><p>負電源部フィルタ（Q7）</p>
+<p>JFET増幅部（Q11・Q12）用の負のバイアス電圧が生成されています。ダイオード（D5）が挿入されていますが、役割は不明です。</p></li>
+</ul>
+<h3>【入力バッファ】</h3>
+<p>BOSSのバッファ（下図）に似ており、JFETのソースに定電流回路があります。RevivalDrive CompactではさらにトランジスタQ2が追加されている上、オペアンプのバッファもあります。</p>
+<a href="img/09_363_10_revdrc_sd.png"><img src="img/09_363_10_revdrc_sd.png" alt="boss_buf" height="200"></a>
+<h3>【プリアンプ】</h3>
+<p>主な増幅は、トランジスタQ115とQ116のエミッタ接地回路です。</p>
+<ul>
+<li><p>バイアス電圧</p>
+<p>バイアス電圧は他の部分より低く（1.8V）、トランジスタ（Q101）が使われています。抵抗を使った場合とシミュレーション比較をしましたが、電圧の揺れ方の差はわずか（0.1mV程度）でした。</p></li>
+<li><p>HIGHS</p>
+<a href="img/09_363_20_revdrc_s20.png"><img src="img/09_363_20_revdrc_s20.png" height="215"></a>
+<p>一般的なパッシブのトーンスタック回路ではなく、トランジスタQ115のエミッタ抵抗を減らすことで高音域をブーストする仕組みとなっています。</p>
+<p>この部分は正帰還のようになっているのが特徴的で、単純化しシミュレーションしました。</p>
+<a href="img/09_363_21_revdrc_s21.png"><img src="img/09_363_21_revdrc_s21.png" height="201"></a>
+<p>帰還があることにより低音域の増幅がみられます。同様の回路の真空管アンプは見つけられず、よく使われている回路というわけではなさそうです。</p></li>
+<li><p>LOWS</p>
+<a href="img/09_363_30_revdrc_s30.png"><img src="img/09_363_30_revdrc_s30.png" height="215"></a>
+<p>ハイパスフィルタにより、低音域が減少します。</p></li>
+</ul>
+<h3>【位相反転段・パワーアンプ】</h3>
+<p>真空管アンプの位相反転段（差動増幅）とプッシュプル回路の部分を模していると思われます。トランジスタ・JFETによる歪みだけでなく、ツェナーダイオード（ZD2・ZD3）でもクリッピングが起こるようです。</p>
+<ul>
+<li><p>バイアス設定</p>
+<p>トリマー（VR1・VR2）によりJFET（Q11・Q12）のゲート電圧が設定されます。テストポイントはドレインにあるので、ドレインでの電圧や出力振幅がQ11とQ12で同じになるように調整されている可能性があります。ゲートからはC29・C30を介してトランスの電源へと接続されていますが、何らかのフィードバックがあるのか、意図はわかりません。</p></li>
+<li><p>MORE/PRES</p>
+<p>真空管アンプのPRESENCEのように、負帰還を制限することにより高音域が増幅されます。</p>
+<a href="img/09_363_60_revdrc_s60.png"><img src="img/09_363_60_revdrc_s60.png" height="420"></a>
+<p>50%で最も増幅が少なくなります。PRES側よりMORE側（反時計周り）の方が幅広い帯域を増幅しています。</p></li>
+<li><p>周波数特性（MORE/PRES：50%）</p>
+<p>いくつかのコンデンサやトランスを変更した場合に、周波数特性がどうなるかシミュレーションしました。トランスは、<a href="http://daisan-y.private.coocan.jp/homepage2/html/20170914.html">LCRメータでトランスモデルを作る</a>というページを参考に実測しパラメータ設定しました。</p>
+<a href="img/09_363_50_revdrc_s50.png"><img src="img/09_363_50_revdrc_s50.png" height="210"></a>
+<p>コンデンサによる低音域・高音域の変化がありますが、特にトランスによる中音域の変化が大きくなっています。</p></li>
+</ul>
+<h3>【POST-DRIVE EQ】</h3>
+<a href="img/09_363_70_revdrc_s70.png"><img src="img/09_363_70_revdrc_s70.png" height="215"></a>
+<p>EQ1はフェンダーアンプ向け、EQ2はマーシャルアンプ向けとされています。EQ1の方がハイカットが大きいです。時計周りに回すと、低音域側が大きくなっていきます。P/AMPの時も、少し低音域の増幅があります。</p>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
