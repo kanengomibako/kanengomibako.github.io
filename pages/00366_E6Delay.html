@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>E6 Delay</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>E6 Delay</h1>
+<p align="right">2025年07月04日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_366_01_e6d_pic.jpg"><img src="img/02_366_01_e6d_pic.jpg" height="320"></a><br>
+<p><a href="http://www.tonepad.com/project.asp?id=51">Tonepad Rebote 2.5 Delay</a>をベースに、<a href="https://detail-infomation.com/e-series/">E6系列</a>の部品を用いて製作しやすくしたエフェクターです。<a href="00365_DropInTapPT2399.html">DropInTap PT2399</a>を使用し、タップテンポ入力に対応しています。PT2399の解説については<a href="https://www.electrosmash.com/pt2399-analysis">ElectroSmash - PT2399 Analysis</a>や過去記事（<a href="00268.html">PT2399 周辺コンデンサ検討</a>）をご参照ください。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/7034304">基板販売ページはこちら</a> ※<a href="00365_DropInTapPT2399.html">DropInTap PT2399</a>は別売りです。</p>
+<hr />
+<h3>ケース</h3>
+<p><a href="https://www.taydaelectronics.com/">Tayda Electronics</a>の125Bタイプ（Matte Violet）を使用しています。サイズは122mm x 66mm x 39.5mmで、HAMMOND 1590N1と同等です。BOSSのコンパクトペダル（底面120mm x 65mm）に近いサイズ感で、使いやすいと思います。高さがあるため、トグルスイッチやデュアルポットを使っても余裕があります。フットスイッチの間隔は約44mmで、ジャックをトップ面寄りに配置すれば電池の収納もできそうです。</p>
+<hr />
+<h3>回路図</h3>
+<a href="img/02_366_02_E6Delay_schematic.png"><img src="img/02_366_02_E6Delay_schematic.png" height="450"></a><br>
+<ul>
+<li><p>入力</p>
+<p><a href="00270.html">Reincarnation Chorus</a>と同様、非反転バッファとしました。最終的に出力は反転しますが、実用上問題ないと考えています。他のPT2399を使ったディレイエフェクターでは、出力が反転するのを避けるためなのか、入力に反転バッファを用いる設計が多く見られます。</p></li>
+<li><p>出力</p>
+<p>マスターボリュームを設けました。回路としてはゲイン調節のポットとなっています。このポットを省く場合、R19を22kΩに変更してポットの1-2番間をジャンパー（0Ω）で接続してください。</p></li>
+<li><p>最短ディレイタイム</p>
+<p>R8の値を小さくすると最短ディレイタイムを30msまで短縮可能ですが、追加の回路が必要となります。詳細は<a href="https://www.electrosmash.com/pt2399-analysis">PT2399 Analysis</a>を参照してください。</p></li>
+<li><p>最大入出力電圧</p>
+<p>SN比をよくするには、できるだけ大きい音量でPT2399に入力します。ただし、PT2399の最大入出力電圧は3.5Vp-pと低めです。入力のローパスフィルター（LPF）部分で増幅しすぎるとクリッピングの可能性がありますが、高音域がカットされているため多少歪んでも目立ちにくいです。</p></li>
+<li><p>ディレイ音の周波数特性（<a href="00324.html">Carbon Copy</a>と比較）</p>
+<a href="img/02_366_10_e6d_f.png"><img src="img/02_366_10_e6d_f.png" height="200"></a><br>
+<p>Carbon Copyはディレイタイムによって周波数特性が変わります。一方、PT2399は入力音量が大きいほど高音域が減衰する特性があります（→ <a href="00268.html">PT2399 周辺コンデンサ検討</a>）。</p>
+<p>好みの音質にするには、PT2399の前後の3次LPFを調整します。Deep Blue Delayのような2次LPFでもよいですが、ノイズが目立つ可能性があります。</p>
+<p>→ <a href="https://github.com/kanengomibako/EffectsPedals/tree/main/E6Delay">LTspiceの回路データはこちら</a></p></li>
+</ul>
+<hr />
+<h3>基板</h3>
+<a href="img/02_366_20_E6Delay_pcb.png"><img src="img/02_366_20_E6Delay_pcb.png" height="480"></a><br>
+<p>C6、C9、C10（全て100nF）は、積層セラミックコンデンサでも大丈夫です。ポットは基板に直付け可能な設計で、左右間隔30mm、上下間隔23mmです。</p>
+<p>→ <a href="https://github.com/kanengomibako/EffectsPedals/tree/main/E6Delay">KiCadデータはこちら</a></p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
