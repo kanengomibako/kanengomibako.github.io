@@ -18,7 +18,7 @@
 <br>
 筐体として強度を得るため、何層にも基板を重ねます。ノイズ対策として、表面と裏面は基板の銅箔面でシールドしますが、側面は基板の取付に手間がかかり過ぎるためなしにします。なのでトゥルーバイパス方式ではシールドされていない経路が長くなり、ノイズ的に不利になります。そこでバッファありのエフェクターが候補になりますが、その中で最も一般的と思われるBOSS DS-1を選びました。<br>
 <br>
-▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/DS1Op" target="_blank">GitHub</a>へ）<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/DS1Op" target="_blank">GitHub</a>へ）<br>
 <a href="img/02_256_7ds1s.png" target="_blank"><img border="0" height="213" src="img/02_256_7ds1s.png" width="640"/></a><br>
 パーツ点数を減らすため、クワッド（4回路入り）オペアンプとし、JKフリップフロップというロジックICを使いました。この4027というICはARIONのエフェクター（<a href="00037.html" target="_blank">ARION SCH-Z</a>）で使用されていたので、その回路をそのまま拝借しています（47nFのコンデンサが使ってある所は0.1μFを1個でも問題なさそうです）。<br>
 ※元のDS-1回路では250pF、68nFのコンデンサがありますが、あまり使わない値なので別の値を並列にしています。<br>
@@ -30,7 +30,7 @@
 下写真のように厚さ1.6mmの基板を16枚重ね合わせています。<br>
 <a href="img/02_256_5ds1p5.jpg" target="_blank"><img border="0" height="240" src="img/02_256_5ds1p5.jpg" width="420"/></a><br>
 <a href="img/02_256_6ds1p6.jpg" target="_blank"><img border="0" height="240" src="img/02_256_6ds1p6.jpg" width="320"/></a><br>
-中間層はすべて同じ形でも大丈夫ですが、せっかくなので3パターンに分けています。この形状のノブは表側への出っ張りが少なくてもつまみやすいです。ただノブの周りの隙間が狭すぎたので、回すときに引っかかりを感じるときがあります（<a href="https://github.com/kanengomibako/DS1Op" target="_blank">GitHub</a>のデータは修正済）。<br>
+中間層はすべて同じ形でも大丈夫ですが、せっかくなので3パターンに分けています。この形状のノブは表側への出っ張りが少なくてもつまみやすいです。ただノブの周りの隙間が狭すぎたので、回すときに引っかかりを感じるときがあります（<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/DS1Op" target="_blank">GitHub</a>のデータは修正済）。<br>
 <br>
 フレームの幅は3mmですが思ったよりも強度があり、普通に踏んで壊れることはまずないでしょう。インプットジャックから最初のバッファまで、最短で到達するようにレイアウトしており、ノイズも特に問題ないと思います。丸い筐体など、いろいろな形を考えてみるのも楽しそうです。<br>
 <br>

@@ -18,7 +18,7 @@
 <br>
 メイン基板は製造費用が上がらないように10cm以内に納め、小さい基板を繋ぎ合わせてうまく筐体にはまるようにしました。基板上の部品は何となく表面実装で統一したい気持ちがあります。ただ表面実装のフィルムコンデンサは高価なため、C0G特性の積層セラミックコンデンサ（MLCC）を使っています。これならば<a href="https://lcsc.com/" target="_blank">LCSC Electronics</a>でそれなりに安く買うことができます。<br>
 <br>
-▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/misc/tree/main/BD2wazaLite" target="_blank">GitHub</a>へ）<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/BD2wazaLite" target="_blank">GitHub</a>へ）<br>
 <a href="img/09_295_02_bdlS.png" target="_blank"><img border="0" height="329" src="img/09_295_02_bdlS.png" width="690"/></a><br>
 バッファ等をオペアンプへと変更してあります。Liteバージョンのつもりでしたが、あまり簡略化されていません。秋月電子にあるマイコンSTM32L010F4P6を使っており、それに伴う3.3V→9Vへのレベル変換を行っています。ピンが余っていたので、起動時のモード設定やエフェクトオンオフ状態を内部DIPスイッチで選べるようにしました。念のため基板左下にモード切替スイッチを接続できるようにしていましたが、使用していません（内部プログラムも未対応）。消費電流は実測15mAで、意外と少なく済みました。<br>
 <br>
