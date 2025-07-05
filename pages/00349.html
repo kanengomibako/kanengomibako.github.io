@@ -15,11 +15,11 @@
 <p align="right">2024年07月13日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
 <hr class="title"/><br/>
 <a href="img/02_349_01_tbrmm_pic.jpg" target="_blank"><img border="0" height="190" src="img/02_349_01_tbrmm_pic.jpg" width="320"/></a><br/>
-以前製作した<a href="00244.html" target="_blank">True Bypass Relay Module</a>の小型・機能強化版です。最初はNE555を使ったものを試作したのですが難点（記事最下部に記載）があったため、マイコンを使用しました。<a href="https://kanengomibako.booth.pm/items/5899370" target="_blank">BOOTHにて販売中</a>です。データ・説明書は<a href="https://github.com/kanengomibako/TrueBypassRelayModule/tree/master/Micro" target="_blank">GitHub</a>にあります。<br/>
+以前製作した<a href="00244.html" target="_blank">True Bypass Relay Module</a>の小型・機能強化版です。最初はNE555を使ったものを試作したのですが難点（記事最下部に記載）があったため、マイコンを使用しました。<a href="https://kanengomibako.booth.pm/items/5899370" target="_blank">BOOTHにて販売中</a>です。データ・説明書は<a href="https://github.com/kanengomibako/Modules/tree/main/TrueBypassRelayModuleMicro" target="_blank">GitHub</a>にあります。<br/>
 <br/>
 <hr size="1"><br/>
 ▽回路図<br/>
-<a href="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" target="_blank"><img border="0" height="367" src="https://raw.githubusercontent.com/kanengomibako/TrueBypassRelayModule/master/Micro/TrueBypassRelayModuleMicro_Schematic.png" width="313"/></a><br/>
+<a href="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/TrueBypassRelayModuleMicro/TrueBypassRelayModuleMicro_RevB_Schematic.png" target="_blank"><img border="0" height="367" src="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/TrueBypassRelayModuleMicro/TrueBypassRelayModuleMicro_RevB_Schematic.png" width="313"/></a><br/>
 今後JLCPCBに実装を外注する可能性を考慮し、ラッチリレーはLCSCにある<a href="https://www.lcsc.com/product-detail/Magnetic-Latching-Relays_Omron-Electronics-G6KU-2F-Y-TR-DC5_C2153173.html" target="_blank">G6KU-2F-Y DC5</a>を選びました。マイコンは、使い慣れているSTM32ではなくAVRです。5V動作で40mAの電流出力が可能なので、リレーを直接駆動できると考えたためです。<br/>
 <ul><li>リレーコイルのサージ電圧<br/>
 リレーコイルの電流を止めた時には、瞬間的に逆の電圧が発生するため、通常は保護ダイオードが必要です（参考：<a href="https://faq.fa.omron.co.jp/tech/s/article/faq02804" target="_blank">リレーのコイルサージ対策について</a>）。今回の回路でコイルの電圧を測定すると、瞬間的に最大5.3V、その後1.5msで4.1Vに下がりました。おそらくマイコン出力部のMOSFETや保護ダイオードが働いていると思われます。また、マイコンは出力電流増加に伴い出力電圧が落ちる問題もありますが、リレーの最低駆動電圧3.75Vはクリアしています。<br/>
