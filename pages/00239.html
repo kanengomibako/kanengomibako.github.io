@@ -12,7 +12,7 @@
 </header>
 <main>
 <h1>HAL_I2SEx_TransmitReceive_DMA使用時の割り込み修正</h1>
-<p align="right">2019年03月24日　カテゴリー：STM32 エフェクター</p>
+<p align="right">2019年03月24日　カテゴリー：<a href="00236.html">STM32</a></p>
 <hr class="title"/><br/>
 <a href="00238.html">Owm Pedal ソフトウェア編</a>で書いていた通り、「HAL_I2SEx_TransmitReceive_DMA」使用時に「HAL_I2SEx_TxRxCpltCallback」が起こらないというバグがあります。<a href="https://community.st.com/s/question/0D50X0000AAJFwVSQX/bug-hali2sextxrxcpltcallback-never-fire-in-dma-circular-mode">STM32のコミュニティで質問されていました</a>がその後のバージョンでも修正されていないので、自力で修正することにします。<br/>
 <br/>

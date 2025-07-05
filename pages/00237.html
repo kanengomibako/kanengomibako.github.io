@@ -11,7 +11,7 @@
 </header>
 <main>
   <h1>Owm Pedal ハードウェア編</h1>
-  <p align="right">2019年02月08日　カテゴリー：STM32 エフェクター</p>
+  <p align="right">2019年02月08日　カテゴリー：<a href="00236.html">STM32</a></p>
   <hr class="title"><br>
   <a href="img/03s_237_1owmp.jpg" target="_blank"><img alt="03s_237_1owmp.jpg" border="0" height="266" src="img/03s_237_1owmp.jpg" width="400"/></a><br>
 STM32F405という32ビットマイコンを搭載した自作デジタルエフェクター「Owm Pedal」です。名前は同じマイコンを搭載した既存のペダル「<a href="https://www.rebeltech.org/product/owl-pedal/">OWL Pedal</a>」をもじってつけました。（<a href="00238.html">Owm Pedal ソフトウェア編はこちら</a>）<br>
@@ -32,7 +32,7 @@ V4220Mのデータシートでは音量等をコントロールできそうに�
 ・OPA1678×3用→アナログ5V(20mA)<br>
 アナログ5V電源は通常分離する必要はありませんが、万一問題があったとき基板発注し直すのが嫌なので分けています。<br>
 <br>
-▽DSP基板（Owm Board）レイアウトについて（KiCadデータは<a href="https://github.com/kanengomibako/OwmPedal">GitHub</a>へ）<br>
+▽DSP基板（Owm Board）レイアウトについて（KiCadデータは<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/OwmPedal">GitHub</a>へ）<br>
 真ん中あたりに電源、上側がデジタル、下側がアナログという配置となっています。GNDは裏面を一面プレーンにしました。入力のカップリングコンデンサは<a href="https://www.rubycon.co.jp/products/pmlcap/">PMLCAP</a>を使っており、やや大きくて高価ですが歪率は下がるでしょう。残念ながらBIASに接続すべきところをGNDにつなぐというありがちな間違いをしてしまいましたので、内部写真では妙なジャンパー線が写っています（KiCadデータは修正済）。<br>
 <br>
 ピン間隔が狭いICはパッドを1mm程度長くすると半田付けしやすいです。マイコンのピンはほとんど使えるように引き出しました。一応I2C用にプルアップ抵抗の取り付けもできます。マイコン上側のLEDはデバッグ用のつもりです。水晶振動子周りのパターン設計は下記ページを参考にしました。<br>

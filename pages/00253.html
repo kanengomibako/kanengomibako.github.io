@@ -11,7 +11,7 @@
 </header>
 <main>
   <h1>Owm Pedal H7 ハードウェア編</h1>
-  <p align="right">2020年01月23日　カテゴリー：STM32 エフェクター</p>
+  <p align="right">2020年01月23日　カテゴリー：<a href="00236.html">STM32</a></p>
   <hr class="title"><br>
   <a href="img/03s_253_1owmHp.jpg" target="_blank"><img alt="03s_253_1owmHp.jpg" border="0" height="320" src="img/03s_253_1owmHp.jpg" width="475"/></a><br>
 STM32F405を搭載した「<a href="00237.html">Owm Pedal</a>」に引き続き、STM32H753とタッチパネル付ディスプレイを備えたデジタルエフェクターを製作しました。今回も穴加工は<a href="https://x.com/Tabbys_kobo">Tabby's工房</a>さんにお願いしました。（<a href="00254.html">Owm Pedal H7 ソフトウェア編はこちら</a>）<br>
@@ -24,7 +24,7 @@ STM32F405を搭載した「<a href="00237.html">Owm Pedal</a>」に引き続き�
 <a href="img/03s_253_3owmHds.png" target="_blank"><img alt="03s_253_3owmHds.png" border="0" height="300" src="img/03s_253_3owmHds.png" width="443"/></a><br>
 当初はSTM32F722を使っていたのですが、さらなる発展を見据えSTM32H7を使うことにしました。注文時の在庫の関係でSTM32H753にしましたが、STM32H743でも問題ないと思います。今回はオーディオサンプリングレート44.1kHzで、SAIペリフェラルを使います。<br>
 <br>
-▽基板レイアウトについて（KiCadデータは<a href="https://github.com/kanengomibako/OwmPedalH7">GitHub</a>へ）<br>
+▽基板レイアウトについて（KiCadデータは<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/OwmPedalH7">GitHub</a>へ）<br>
 上側のマイコン基板は4層にしてみました。JLCPCBの場合、50mm×50mm以内であれば4層でも13ドルで済みます。マイコンは可能な限りピンを引き出していますが、全部は使わないので内側は小さいパッドです。GNDは基本一面プレーンで、基板が2枚に分かれているのでコネクタ部分でGNDを接続することになります。DC-DCコンバータは高さを低くするため寝かせて配置しました。<br>
 <br>
 ▽ディスプレイ・スイッチ基板レイアウト<br>
