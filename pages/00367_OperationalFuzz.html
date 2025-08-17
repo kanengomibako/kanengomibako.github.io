@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Operational Fuzz</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Operational Fuzz</h1>
+<p align="right">2025年08月18日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_367_01_opfz_pic1.jpg"><img src="img/02_367_01_opfz_pic1.jpg" height="320"><br></a>
+<p><a href="https://kanengomibako.github.io/pages/00310.html">Fuzz Face</a>の音を追求する場合、トランジスタの選別やトリマーの調整がありなかなか容易ではありません（→ <a href="https://kanengomibako.github.io/pages/00311.html">FFM1</a>、<a href="https://kanengomibako.github.io/pages/00329.html">FFM2</a>）。そこで今回はトランジスタではなくオペアンプを使用し、製作・調整がしやすいファズを目指しました。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/7272280">基板販売ページはこちら</a></p>
+<hr />
+<h3>回路図</h3>
+<a href="img/02_367_02_OperationalFuzz_schematic.png"><img src="img/02_367_02_OperationalFuzz_schematic.png" height="360"><br></a>
+<p>2段の反転増幅回路で構成されています。D3～D8は未実装です。完成後にいただいた情報で、<a href="https://stompboxschematics.com/circuits/greeny-fuzz-face-opamp-emulator-project-by-implex/">TrueVAL Greeny</a>という似た回路のペダルがあることがわかりました。「Fuzz Face OpAmp Emulator」と記載があるので、おそらく同じような方針で設計してあると思われます。</p>
+<ul>
+<li><p>入力インピーダンス</p>
+<p>ギターボリューム操作での音質変化を実現するためには、入力インピーダンスを低くします（→ <a href="https://kanengomibako.github.io/pages/00312.html">BOSS FZ-1W</a>）。ただ、今回の回路でのギターボリュームによるコントロールはあまりスムーズにならないかなという印象でした。ピックアップとの相性も関係すると思われます。</p>
+<p>R2を0Ωジャンパーにしてギターを直結しても動作します。しかしながらギター以外の機器が接続されることも考えると、保護の意味で1kΩ以上の抵抗値は必要でしょう。</p></li>
+<li><p>クリッピングダイオード</p>
+<p>1段目の反転増幅部で片側にだけショットキーバリアダイオードを用い、偏ったクリッピングを行います。<a href="https://kanengomibako.github.io/pages/00310.html">Fuzz Face</a>のような極度に偏ったクリッピングを目指すなら、さらにバイアス電圧をずらす必要がありそうです。ショットキーバリアダイオードは端子間容量の違いが大きく（BAT43は7pF、1N5819は110pF）、高音域の減衰に影響するため注意が必要です。</p>
+<p>2段目の反転増幅部にはダイオードを入れず、オペアンプでの歪みとしています。他の2回路入り（デュアル）オペアンプに差し替えて好みのものを探すのもよいでしょう。もちろんダイオードを実装しても問題ありませんが、その場合は音量が下がるためR6の値を適宜小さくします。</p></li>
+</ul>
+<hr />
+<h3>基板</h3>
+<a href="img/02_367_03_opfz_pcb.png"><img src="img/02_367_03_opfz_pcb.png" height="480"><br></a>
+<p>C1とC5は、電解コンデンサまたはボックス型のフィルムコンデンサどちらでも取り付け可能です。0Ω（ジャンパー）は、部品の足（リード線）の切った残りを取り付けます。ポットの左右間隔は30mmです。</p>
+<p>→ <a href="https://github.com/kanengomibako/EffectsPedals/tree/main/OperationalFuzz">KiCadデータはこちら</a></p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
