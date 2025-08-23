@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Boots Up Buffer</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Boots Up Buffer</h1>
+<p align="right">2025年08月23日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<h1></h1>
+<a href="img/02_369_01_btupP.jpg"><img src="img/02_369_01_btupP.jpg" height="300"></a><br>
+ブートストラップという回路を使用したバッファーです。電源の昇圧も行っています。</p>
+<p>→ <a href="https://github.com/kanengomibako/EffectsPedals/tree/main/BootsUpBuffer">KiCadデータはこちら</a></p>
+<hr />
+<h3>【ブートストラップ】</h3>
+<p>ブートストラップは出力から入力への正帰還のことで、<a href="https://aionfx.com/news/tracing-journal-cornish-cc-1/">Pete Cornish CC-1</a>や<a href="https://kanengomibako.github.io/pages/00322.html">FREE THE TONE IRON FOREST</a>、ORIGIN EFFECTS
+Halcyon Green Overdriveのバッファ部で使われています。下記ページに解説があります。</p>
+<ul>
+<li><a href="https://cc.cqpub.co.jp/system/contents/3073/">ブートストラップがあるエミッタ・フォロワの特性</a></li>
+<li><a href="https://cc.cqpub.co.jp/system/contents/1225/">前段の回路の影響を受けにくい入力インピーダンスの大きい回路はどっち？</a></li>
+</ul>
+<p>動作がわかりにくいため、下図に回路例を示します。</p>
+<a href="img/02_369_02_btupS.png"><img src="img/02_369_02_btupS.png" height="320"></a><br>
+<p>A点とB点はオペアンプのバーチャルショートにより等電位です。入力電圧が1Vのとき、C点はR1とR2の並列抵抗値909ΩとR3で分圧された電圧となるので、0.99Vです。A-C間の電位差が少なくなってR1の電流が減少し、抵抗値が100倍になったような効果が得られます。もし正帰還を使わずR1を1000kΩとした場合、熱雑音が大きくなるためノイズ的に不利となることが考えられます（参考：<a href="https://cc.cqpub.co.jp/system/contents/1930/">抵抗から発生する熱雑音と抵抗値の関係</a>）。</p>
+<p>C1の値が小さい場合、前段の出力インピーダンス {r} が高いときに低音域がカットされる効果があります。また、C2により高音域がカットされます（ただし、これは容量を17pFにしてグラウンドに接続した場合とほぼ同じ周波数特性です）。このため、外来ノイズの低減が期待できます。</p>
+<hr />
+<h3>【回路図】</h3>
+<a href="img/02_369_03_BootsUpBuffer_schematic.png"><img src="img/02_369_03_BootsUpBuffer_schematic.png" height="420"><br></a>
+<p>バッファとしての使用を想定していますが、1/2～2倍のゲイン調節ができるようにポット（トリマー使用可）を設けています。</p>
+<ul>
+<li><p>低音域カット</p>
+<p>C3については、ギター本体のボリュームを絞ったときでも低音域のカットが生じないよう充分大きい値を設定しました。</p></li>
+<li><p>高音域カット</p>
+<p>C4を加えることで、より高音域のノイズを低減する効果を狙っています。</p></li>
+<li><p>チャージポンプ</p>
+<p>チャージポンプによる昇圧では、負荷により電圧が変動しやすくなる、スイッチングノイズが加わるといった問題があり、音質面では不利なように思います。しかしながら、入力できる電圧が上がる（ヘッドルームが高くなる）のは大きな利点です。チャージポンプ専用ICの中では、12Vまで使えて発振周波数を可聴域外にできる<a href="https://akizukidenshi.com/catalog/g/g131109/">TC1044SCPA</a>が使いやすいでしょう。</p>
+<p>入手しやすいICであるNE555で倍電圧や負電圧生成を行っている例があり、今回はそれを用いました。発振周波数を設定でき安価で済む利点がありますが、電圧降下が大きくならないように低消費電力のオペアンプを使う必要があります。NE555はバイポーラタイプとCMOSタイプがあり、後者の方が出力電圧が高くなりました。TL072の入力電圧範囲は3V～電源電圧なので、バイアス電圧を高めに設定してあります。ノイズについては、スイッチングノイズ（実測96kHz）はどうしても避けられませんが、その他は問題ありませんでした。</p></li>
+</ul>
+<hr />
+<h3>【外来ノイズ測定】</h3>
+<p>ブレッドボード上に下図の回路を組み、ギターをシールドケーブルで接続します。そして、ホワイトノイズを出力した状態のフォンプラグをブレッドボードに近づけてノイズを拾わせました。ギターのボリューム（A500kΩ）は100%と75%（ノイズが最大になる状態）の2パターンです。</p>
+<a href="img/02_369_04_btupN.png"><img src="img/02_369_04_btupN.png" height="360"><br></a>
+<p>高音域で-2～-1dB程度のノイズ低減が確認できました。しかし、通常は外来ノイズがそれほど多くない上にシールドケースに入っているため、ほとんど差が出ません。ブートストラップには、特別大きな利点があるとは考えにくいようです。</p></main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
