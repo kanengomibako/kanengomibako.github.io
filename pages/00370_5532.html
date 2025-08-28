@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>オペアンプの入力抵抗調査</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>オペアンプの入力抵抗調査</h1>
+<p align="right">2025年08月28日　カテゴリー：<a href="00166.html">実験等</a></p>
+<hr class="title"/>
+<p>バイポーラトランジスタ入力のオペアンプの中には、入力バイアス電流が大きく入力抵抗が低いものがあります。なんとなくこういったオペアンプはエフェクターの入力部に使うのを避けていましたが、実際に問題があるのかどうかNJM5532を代表例として調査することにしました。</p>
+<hr />
+<h3>【入力抵抗】</h3>
+<p><a href="https://www.nisshinbo-microdevices.co.jp/ja/pdf/datasheet/NJM5532_J.pdf">NJM5532のデータシート</a>には入力抵抗300kΩと記載があります。この入力抵抗は差動入力抵抗のことです。</p>
+<ul>
+<li><p>差動入力抵抗</p>
+<p>実際の非反転増幅回路では反転入力と非反転入力がほぼ同電位となるため、差動入力抵抗は300kΩよりはるかに高くなります（→ <a href="https://www.nisshinbo-microdevices.co.jp/ja/faq/10008.html">オペアンプの差動入力抵抗を計算で求めることはできますか？</a>）。</p></li>
+<li><p>同相入力抵抗</p>
+<p>同相入力抵抗はデータシートに記載がありませんが、基本的には非常に高い値（数十MΩ以上）と考えてよいようです（→ <a href="https://electronics.stackexchange.com/questions/559135/common-mode-impedance-in-operational-amplifier">Common mode impedance in operational amplifier</a>）</p></li>
+</ul>
+<p>最終的に非反転増幅回路の入力抵抗は以下の式で表され、高い値となります。</p>
+<p>Rc // A×β×Rd　（Rc：同相入力抵抗　A：オープン・ループ・ゲイン　β：帰還率　Rd：差動入力抵抗）</p>
+<p>詳細は下記参考ページをご参照ください。</p>
+<ul>
+<li><a href="https://cc.cqpub.co.jp/system/contents/2137/">非反転アンプの入力抵抗</a></li>
+<li><a href="https://cc.cqpub.co.jp/system/contents/3155/">信号の減衰を防ぐ入力抵抗</a></li>
+</ul>
+<hr />
+<h3>【測定】</h3>
+<p>下図の回路で音量変化を確認します。NJM5532DDとTL072（UNISONIC製）との比較です。もしNJM5532の入力インピーダンスが低くなれば、TL072より音量が低くなります。</p>
+<a href="img/14_370_01_5532s.png"><img src="img/14_370_01_5532s.png" height="200"></a><br>
+<p>※ NJM5532ではバイアス電圧にずれが生じます（入力バイアス電流200nA × 2.2MΩ = 0.44V）。</p>
+<ul>
+<li><p>ボルテージフォロワ</p>
+<a href="img/14_370_11_5532f1.png"><img src="img/14_370_11_5532f1.png" height="240"></a><br>
+<p>ほぼ同じ音量です。本題からは外れますが、TL072の方が低ノイズなのは意外でした。</p></li>
+<li><p>約1000倍増幅</p>
+<p>発振防止用の147pFのコンデンサがあり高音域が下がるため、約100Hzでの測定としました。</p>
+<a href="img/14_370_12_5532f2.png"><img src="img/14_370_12_5532f2.png" height="240"></a><br>
+<p>ごくわずかに音量低下があります。帰還率βが低い影響が出ているのかもしれません。また、周波数が高いとオープン・ループ・ゲインが低いため影響が出る可能性があります。</p></li>
+</ul>
+<hr />
+<p>増幅率が極度に高い場合とバイアス電圧のずれに注意すれば、特に問題はなさそうだとわかりました。他のバイポーラ入力オペアンプでも同様だと考えられるので、オペアンプ選択の参考になればと思います。</p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
