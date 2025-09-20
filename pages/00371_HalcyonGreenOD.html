@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ORIGIN EFFECTS Halcyon Green Overdrive 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ORIGIN EFFECTS Halcyon Green Overdrive 解析</h1>
+  <p align="right">2025年09月20日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+<a href="img\09_371_01_halgrodP1.jpg"><img src="img\09_371_01_halgrodP1.jpg" height="360"><br></a>
+<p><a href="https://miyaji.co.jp/MID/product.php?item=Halcyon%20Green%20Overdrive">ORIGIN EFFECTS Halcyon Green Overdrive</a>は、<a href="https://kanengomibako.github.io/pages/00336.html">Tube Screamer</a>（以下TS）を元にしたペダルです。アダプティブ回路というオリジナル回路がどのようなものか気になったため、解析してみることにしました。KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/OriginEffects/HalcyonGreenOverdrive">GitHub</a>にあります。</p>
+<hr />
+<h3>【基板】</h3>
+<a href="img/09_371_02_halgrodP2.jpg"><img src="img/09_371_02_halgrodP2.jpg" height="360"><br></a>
+<p>4層基板で、<a href="https://kanengomibako.github.io/pages/00363_RevivalDriveCompact.html">RevivalDRIVE Compact</a>とは違い内層にも配線がありました。グラウンドは入出力部分のみ分離されています。何も装着されていないコネクター（CON2）は、動作確認用と思われます。</p>
+<hr />
+<h3>【回路図】</h3>
+<a href="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/OriginEffects/HalcyonGreenOverdrive/ORIGIN_EFFECTS_Halcyon_Green_Overdrive_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/OriginEffects/HalcyonGreenOverdrive/ORIGIN_EFFECTS_Halcyon_Green_Overdrive_schematic.png" height="640"><br></a>
+<p>一部のオペアンプは正負電源駆動が検討されていたようですが、結局正電源のみで使用されています。負電源は、スイッチ部分にしか使用されていません。</p>
+<ul>
+<li><p>クリッピングダイオード</p>
+<p>GAINポットには50kΩが採用されており、これはTSの1/10の値です。ダイオードを10個並列にして電流を約10倍にし、クリッピングの仕方を同じにする意図がありそうです。C125は、TSの10倍の510pFではなく470pFです。これは、ダイオード20個分の端子間容量を考慮した可能性があります。</p></li>
+
+<li><p>スイッチ周辺</p>
+<p>JFETのゲートへ、信号を通すような接続があります。高抵抗で接続した場合とスイッチングの様子を比較しました。</p>
+<a href="img/09_371_16_halgrodS6.png"><img src="img/09_371_16_halgrodS6.png" height="360"><br></a>
+<p>若干立ち上がりが緩やかになっているように見えますが、そこまで有用とも思えず、意図は不明です。</p></li>
+
+<li><p>入力バッファ</p>
+<p>ブートストラップが使われています。ブートストラップについての詳細は<a href="https://kanengomibako.github.io/pages/00369_BootsUpBuffer.html">Boots Up Buffer</a>の記事をご参照ください。ブレッドボード上に下図の回路を組み、ノイズを比較しました。</p>
+<a href="img/09_371_17_halgrodS7.png"><img src="img/09_371_17_halgrodS7.png" height="360"><br></a>
+<p>わずかに低音域のノイズを減弱する効果が見られました。ただし、シールドされたケース内では差はありません。</p></li>
+
+<li><p>DRY</p>
+<a href="img/09_371_11_halgrodS1.png"><img src="img/09_371_11_halgrodS1.png" height="220"><br></a>
+<p>50～100%では最大3倍の非反転出力、0～50%では最大1倍の反転出力です。TSのようなオペアンプの帰還部分のクリッピングでは、ダイオードが導通しているときはボルテージフォロワの状態とみなせるため、原音が含まれていると解釈できます。反転出力によりこの原音を打ち消す動作を行っています。</p></li>
+
+<li><p>DRIVE 808 → MOD（増幅部分のみ）</p>
+<a href="img\09_371_15_halgrodS5.png"><img src="img\09_371_15_halgrodS5.png" height="240"><br></a>
+<p>高音域が強調されています。<a href="https://miyaji.co.jp/MID/product.php?item=Halcyon%20Green%20Overdrive">公式の説明</a>によると、ハイゲイントーンをタイトにしたり、ハムバッカーにバイト感をプラスしたい場合に適したボイシング設定だそうです。</p></li>
+
+<li><p>TONE（ADAPT O）</p>
+<a href="img/09_371_12_halgrodS2.png"><img src="img/09_371_12_halgrodS2.png" height="240"><br></a>
+<p>TSとの比較です。3系統のミックスも兼ねているので、ゲインを合わせるためにR159とC112を入れてあるようです。中間点は少しずれがあり、ポットがWカーブではなくBカーブなので変化の仕方もTSとは違ってきます。</p></li>
+
+<li><p>ADAPT O → I → II</p>
+<p>＜TONE 50%固定 GAIN 0% → 50% → 100%＞</p>
+<a href="img\09_371_13_halgrodS3.png"><img src="img\09_371_13_halgrodS3.png" height="240"><br></a>
+<p>＜GAIN 50%固定  TONE 0% → 50% → 100%＞</p>
+<a href="img\09_371_14_halgrodS4.png"><img src="img\09_371_14_halgrodS4.png" height="240"><br></a>
+<p>ADAPTスイッチにより、出力からの負帰還とクリーン音の減衰が追加されています。周波数特性は、平坦な形へと変化しています。</p>
+<p><a href="https://miyaji.co.jp/MID/product.php?item=Halcyon%20Green%20Overdrive">公式</a>のアダプティブ回路の説明は、「ギター本体のボリュームを下げたりソフトにピッキングする時に、トーンやドライブをソフトに表現しながらも、輪郭のはっきりしたコシのあるサウンドを維持します。」となっています。シミュレーションでは音量を変えても周波数特性の形は変化しないため、アダプティブ回路の特徴を捉えることはできないと思われます。</p></li>
+</ul></main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
