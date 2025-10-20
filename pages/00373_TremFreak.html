@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Trem Freak</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Trem Freak</h1>
+<p align="right">2025年10月20日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_373_01_trfr_pic.jpg"><img src="img/02_373_01_trfr_pic.jpg" height="320"></a><br>
+以前製作した<a href="https://kanengomibako.github.io/pages/00243.html">Tremolec</a>を簡略化し、高音域側の音量が揺れるようにしたトレモロエフェクターです。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/7545019">基板販売ページはこちら</a></p>
+<hr />
+<h3>【回路図】</h3>
+<a href="img/02_373_02_TremFreak_schematic.png"><img src="img/02_373_02_TremFreak_schematic.png" height="480"></a><br>
+<ul>
+<li><p>音量調節素子</p>
+<p>電圧により音量やゲインを変化させる方法としては、JFET（→ <a href="https://kandr.biz/hiyokopage/sub_tremolo.html">ひよこのページ トレモロ</a>）、CA3080等のOTA（→ <a href="https://odinhg.wordpress.com/2013/08/18/ca3080-tremolo-effect/">CA3080 Tremolo effect</a>）、フォトカプラ（→ <a href="https://www.tonepad.com/project.asp?id=42">Tonepad Tremulus Lune</a>）があります。
+フォトカプラはほぼ純粋な抵抗として扱えるので最も使いやすいです。
+手に入りやすいのは<a href="https://akizukidenshi.com/catalog/g/g105864/">LCR0203</a>で、<a href="https://nobulabo.com/cds-analog-photocoupler-lcr0203/">こちらのページ</a>で特性が測定されており参考になります。
+LTspiceのシミュレーションでは、<a href="https://www.youtube.com/watch?v=3nPLUAu4iBs">こちら</a>のデータを使用させていただきました。
+抵抗値が高いところは少しの電流変化で大きく抵抗値が変わってしまい安定した動作が望めないので、数kΩ程度までが実用範囲と考えました。</p></li>
+<li><p>フィルタ回路</p>
+<p>最初はパラメトリックイコライザやグラフィックイコライザの回路を用いたピーキングタイプのフィルタを検討しました。しかし、妥当なゲインやQ値となるシミュレーション結果は得られませんでした。そこで採用したのがローパスフィルタとハイパスフィルタをかけた音をミックスする回路です。
+ハイシェルフタイプのイコライザのような動作で、周波数のコントロールが容易です。ノブを時計回りで周波数を上げる動作にしたかったのですが、Cカーブの2連ポットは入手しづらいため、Aカーブで逆の動作としました。最も低いカットオフ周波数は70Hzで、ほぼ全周波数帯にかかるため通常のトレモロに近くなります。</p></li>
+<li><p>LFO（Low Frequency Oscillator）</p>
+<p>フェイザーでよく見かける、三角波に近い形のLFOです。後段では、2.5Vを中心として非対称な増幅を行っています。
+中心より下側では、フォトカプラのLEDの順電圧に近づくため振幅を少なくします。中心より上側では、電流をより流したいので振幅を大きくします。
+トリマーは、揺れの中心（2.5V）でフラットな特性となるようにフォトカプラの個体差に合わせて調整するためのものです。
+オペアンプは低消費電力のものが適しており、低価格なLM358を使用しました（TL072はグラウンド側がクリップする可能性があるため不適）。</p></li>
+</ul>
+<hr />
+<h3>【基板】</h3>
+<a href="img/02_373_10_TremFreak_pcb.png"><img src="img/02_373_10_TremFreak_pcb.png" height="560"></a><br>
+<p>ポットは左右間隔30mm、上下間隔23mmで配置してあります。</p>
+<ul>
+<li><p>トリマー調整</p>
+<p>DEPTH 0%、RATE 50%、FREQ DOWN 50%とし、揺れが起こらないようにします。この状態で、音色にほぼ変化がないフラットな特性となるように調整します。厳密でなくても問題ありません。</p></li>
+</ul>
+<p>→ <a href="https://github.com/kanengomibako/EffectsPedals/tree/main/TremFreak">KiCadデータはこちら</a></p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
