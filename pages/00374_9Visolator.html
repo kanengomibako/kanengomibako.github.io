@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>9V Isolator</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>9V Isolator</h1>
+<p align="right">2025年11月04日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_374_01_pic_9Visolator_RevE.jpg"><img src="img/02_374_01_pic_9Visolator_RevE.jpg" height="240"><br></a>
+<p>9V電源入力から、アイソレートされた9V電源を出力するモジュールです。
+電源を分岐ケーブルで接続している場合（→ <a href="https://kanengomibako.github.io/pages/00354.html">電源分岐接続時のノイズ測定</a>）のグラウンド分離や、ファズ等に使う負電源の生成を手軽に行うことができます。
+KiCadデータ・説明書は<a href="https://github.com/kanengomibako/Modules/tree/main/9VIsolator">GitHub</a>にあります。</p>
+<p>→ 販売ページは<a href="https://kanengomibako.booth.pm/items/7272339">こちら</a>。</p>
+<hr />
+<h3>開発記録</h3>
+<p>グラウンドの分離には絶縁型DC-DCコンバータを使います。そしてノイズ低減と出力電圧調整のため、可変リニアレギュレータを搭載します。
+出力電圧は、多くのパワーサプライで標準的な9.3Vに設定し、出荷前に9.2V～9.3Vの範囲内であることを確認しています。</p>
+<ul>
+<li><p>レギュレータの検討</p>
+<p>最初はJLCPCBで標準在庫しているLM317（1.5A出力）を使いました。充分低ノイズのように思われましたが、さらに低ノイズなレギュレータを検討することにしました。</p>
+<p><a href="https://ww1.microchip.com/downloads/en/DeviceDoc/20005785A.pdf">MIC5205</a>と<a href="https://www.maxlinear.com/ds/spx5205.pdf">SPX5205</a>を試しました。
+データシートにはローノイズと記載がありますが、10dB以上ノイズが多いという結果となりました。また、LM350やLM317（100mA出力）でもノイズが増えました。
+LT3045といった高価なレギュレータであれば超低ノイズが望めますが、販売価格が上がり過ぎます。</p>
+<p><a href="https://akizukidenshi.com/catalog/g/g117078/">LM1117</a>（1A出力）は低ドロップ電圧でも低ノイズだった（→ <a href="https://kanengomibako.github.io/pages/00317.html">CP-205 改造</a>）ので、これの小型パッケージのものを探し、最終的にUTC製のLD1117を採用しました。</p></li>
+<li><p>トランジスタのフィルタ</p>
+<p>低ノイズなトランジスタを使ったフィルタ（→ <a href="https://sound-au.com/project15.htm">Capacitance Multiplier</a>）を後段に入れると、さらにノイズが低減できることを確認しました。
+ただしこの場合、負荷の変動に対して電圧が変化しやすくなるので（ロードレギュレーション悪化）、採用しませんでした。</p></li>
+</ul>
+<p>出力部にはコンデンサを追加できるようにスルーホールパッドがあります。ただノイズレベルとしてはほとんど変わりがないため、コンデンサを追加する必要性はほとんどありません。他のパワーサプライとのノイズ比較データを下図に示します（出力30mA）。</p>
+<a href="img/02_374_03_iso_noise.png"><img src="img/02_374_03_iso_noise.png" height="240"><br></a>
+<p>電池ほどの低ノイズではありませんが、特に問題ないレベルだと思います。ファズ等でどうしてもノイズが気になる場合は、ローパスフィルタを追加するとよいでしょう。</p>
+<hr />
+<h3>回路図</h3>
+<a href="img/02_374_02_9Visolator_schematic.png"><img src="img/02_374_02_9Visolator_schematic.png" height="200"><br></a>
+<p>絶縁型DC-DCコンバータやレギュレータには最低負荷電流が必要で、R1を小さくして約8mAの電流を流しています。R2の消費電力が約60mWなので、念のため2012Mサイズ（125mW）としました。
+下写真の通り、最もレギュレータの発熱が大きく56℃（出力70mA、気温25℃付近で測定）でした。動作には問題ないものの、取り扱いに注意が必要となります。</p>
+<a href="img/02_374_04_iso_heat.jpg"><img src="img/02_374_04_iso_heat.jpg" height="240"><br></a>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
