@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Dist+ Remote Flash</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Dist+ Remote Flash</h1>
+<p align="right">2025年12月27日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+<hr class="title"/><br/>
+<a href="img/09_375_01_DpRF_pic1.jpg"><img src="img/09_375_01_DpRF_pic1.jpg" height="320"></a><a href="img/09_375_02_DpRF_pic2.jpg"><img src="img/09_375_02_DpRF_pic2.jpg" height="240"><br></a>
+<p><a href="https://tcgakki.com/pages/modified-effector-contest-2025">第3回改造エフェクターコンテスト</a>に向け、リモコン操作とレベルメーター表示ができるDistortion+を製作しました。
+今回は無線通信というのが自分の中でのテーマで、一度やってみたいと思っていたことでした。最初は安価な赤外線リモコンを考えていましたが、見た目のインパクトをよくするためにリモコン側にレベルメーターを表示することにし、通信はBluetoothを使うことにしました。
+マイコンは、無線通信で使われることが多いESP32を選びました。</p>
+<p>改造元は、たまたま手ごろな価格で手に入ったMXR Distortion+です。
+ついでに回路をトレースしています（KiCadデータは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/MXR_Dunlop_WayHuge/DistortionPlus">GitHub</a>へ）。
+中身はほぼ入れ替わっていて、改造と呼べるかどうかは微妙なところです。オペアンプとゲルマニウムダイオードは元々ついていたものを使用しています。</p>
+<hr />
+<h3>【回路図】</h3>
+<a href="img/09_375_03_DistPlusRemoteFlash_schematic.png"><img src="img/09_375_03_DistPlusRemoteFlash_schematic.png" height="700"><br></a>
+<p>本体は、マイコンのADCで音量データを取得しリモコンへ送信します。そしてリモコンからのデータを受信しパラメータを変更します。
+リモコンは、ボタン操作データを本体へ送信します。また、受信した音量データに合わせてレベルメーターを表示します。電源スイッチ周辺は、<a href="00342.html">amPlug2</a>を真似しました。</p>
+<p>LCSCで手に入る適切なデジタルポテンショメーターが50kΩだったので、それに合わせて周辺部品の値を変更してあります。C6は元の回路にはありませんが、周波数特性を合わせるため追加しました。音量が小さい場合があるため、後段に増幅段も追加しました。</p>
+<p>バイパス時もレベルメーターを表示したかったため、必然的にバッファードバイパスとなりました。しかし入力のC2（1nF）が音色に関わってくるため、リレーを使った変則的なバイパスとなっています。</p>
+<ul>
+<li><p>開発環境</p>
+<p>ESP32は初めて使うマイコンで、それなりに苦労しました。
+<a href="https://akizukidenshi.com/catalog/g/g117493/">ESP32-C3-WROOM-02-N4</a>単体に<a href="https://akizukidenshi.com/catalog/g/g117240/">ESP32ダウンローダキット</a>で書き込むのがうまくいかず、USBで書き込んでいます（→<a href="https://qiita.com/ricelectric/items/17f8aedb972e5898a8bc">ESP32-C3-WROOM-02の開発環境を構築する</a>）。
+Arduino IDEではコンパイルに時間がかかりすぎるため、途中でVisual Studio Code + PlatformIOへ変更しました。コード生成にはAIを適宜利用しています。</p>
+<p>後からわかったのが、電源が貧弱だと電圧降下でマイコンのリセットがかかることがあるということです。そのため、いくつか電源にコンデンサを後付けしてあります。</p></li>
+<li><p>消費電流</p>
+<p>本体は9Vで消費電流100mA程度ですが、リモコンは電池（3V）だと350mA程度です。マイコンでこれほど電力が必要となるのは今までなかったことでした。
+緊急時のため、リモコンも9V電源で動かせるようDCジャックを設けています。</p></li>
+<li><p>デジタルポテンショメーター</p>
+<p>最初はPWMとアナログフォトカプラによる制御を検討しました。<a href="00365_DropInTapPT2399.html">DropInTap PT2399</a>で採用していたデューティ比の高精度制御を試しましたが、抵抗値が安定しませんでした。
+結局1024タップ、リニアテーパーのデジタルポテンショメーターを用い、DISTORTIONポットは疑似的なCカーブで動かしています。</p></li>
+<li><p>ADC</p>
+<p>ESP32のADCは多少クセがあることが報告されています。今回は無音時のADC値が4096の半分にならない状態（実測2285程度）だったため、実測値に合わせてゼロ補正しています。</p></li>
+<li><p>Bluetooth Low Energy（BLE）</p>
+<p>BLEは定期的通信を行っているらしく、ノイズが25msごとに乗っていました。これについては電波強度を弱くし問題ないレベルになりました。
+シールドケースなので通信がうまくいくか心配でしたが、問題ないようです。レイテンシーは測定していませんが、明らかにメーターの反応は遅い印象です。
+市販のワイヤレスシステムは低レイテンシー、低消費電力ということで、独自の通信方式だと思われます。</p></li>
+<li><p>LEDドライバ <a href="https://akizukidenshi.com/catalog/g/g109678/">MY9221TE</a></p>
+<p>MY9221TEが採用されている<a href="https://wiki.seeedstudio.com/ja/Grove-LED_Bar/">Grove LED Bar</a>モジュールのライブラリを一部変更して利用しました。</p></li>
+</ul>
+<hr />
+<h3>【取扱説明書】</h3>
+<p>コンテスト応募時に同封した説明書です。</p>
+<a href="img/09_375_10_DpRF_manual.png"><img src="img/09_375_10_DpRF_manual.png" height="500"><br></a>
+<p><a href="https://www.youtube.com/watch?v=iyn7kMddLvA">第３回改造エフェクターコンテスト第１次審査突破作品紹介動画</a>の9番目（26:33）で本機が紹介されています。残念ながら入賞はなりませんでした。</p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
