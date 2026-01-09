@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>POS DT-1 DISTORTION 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>POS DT-1 DISTORTION 解析</h1>
+  <p align="right">2026年01月09日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+<a href="img/09_376_01_dt1_pic.jpg"><img src="img/09_376_01_dt1_pic.jpg" height="320"><br></a>
+<p>POS DT-1（以下POS）は低価格なエフェクターの中で特に知名度が高く、同人誌（→ <a href="https://daretokupedals.booth.pm/items/1913257">POSCOLLECTORBOOK</a>、以下POS本）も発刊されています。
+数年前、その同人誌の企画者の方からPOSを譲り受けました。今回、その方の許可を得て解析記事を掲載することにしました。
+KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/POS/DT-1">GitHub</a>にあります。</p>
+<hr />
+<h3>【回路図】</h3>
+<a href="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/POS/DT-1/POS_DT-1_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/POS/DT-1/POS_DT-1_schematic.png" height="320"><br></a>
+<p>POS本でのPOSの分類は最初期型／前期型／後期型／最終期型とされています。
+記事先頭にある写真は最初期型、回路をトレースしたのは前期型です。最終期型でBOSS DS-1のコピーとなるまで、基本的には同じ回路のようです。
+HCF4007でスイッチを構成し、バッファー無しのバイパスとなっているのが特徴的です。</p>
+<ul>
+<li><p>設計意図が不明な部分</p>
+<ul><li><p>D1、D2</p>
+<p>ダイオードが向かい合って接続されており、クリッピングは行われません。
+ツェナーダイオードであれば、このような接続をすることがあります（→ <a href="https://kanengomibako.github.io/pages/00284.html">SansAmp Bass Driver DI V1後期型</a>）。
+強いて言えば、ダイオードの端子間容量の数pFが付加される意味合いはあります。</p></li>
+<li><p>R6、C3</p>
+<p>10kΩと330pFで、カットオフ周波数が48kHzに設定されています。
+可聴域にほぼ影響はなく、発振防止という目的かもしれません。</p></li>
+<li><p>C6</p>
+<p>オペアンプの出力の負荷として抵抗なしでコンデンサを入れると、発振の原因となります。</p></li>
+<li><p>R20、C14</p>
+<p>オペアンプの出力と反転入力を直結したボルテージフォロワーと同じとなるため、R20とC14の意味はほぼありません。</p></li></ul>
+</li>
+<li><p>バイパス</p>
+<a href="img/09_376_05_dt1_sim1.png"><img src="img/09_376_05_dt1_sim1.png" height="320"><br></a>
+<p>ギター直結の場合で、一般的なオペアンプのバッファとの比較です。POSでは入力部のC2の影響が大きく、大幅に高音域が低下しています。また、C23やC25の容量値が大きくないため、低音域も少し低下が見られます。</p></li>
+<li><p>DIST 0% → 50% → 100%</p>
+<a href="img/09_376_06_dt1_sim2.png"><img src="img/09_376_06_dt1_sim2.png" height="320"><br></a>
+<p>クリッピングの前までの回路で、DS-1との比較です。POSは低音域側の方が大きく増幅されるため、ファズに近い音色に感じられます。</p></li>
+<li><p>TONE 0% → 50% → 100%</p>
+<a href="img/09_376_07_dt1_sim3.png"><img src="img/09_376_07_dt1_sim3.png" height="320"><br></a>
+<p>DS-1との比較です。Big Muffでも用いられている、ハイパスフィルターとローパスフィルターを組み合わせたトーン回路です。POSの場合はポットのつなぎ方が独特になっていて、高音域（ハイパスフィルター側の影響）が出やすくなっています。</p></li>
+</ul>
+<hr />
+<h3>【元になったエフェクター】</h3>
+<p>通常、安価なエフェクターは他の回路のコピーとなっていることが多く、POSの回路も何か別のエフェクターが元になっていると思われます。Xでの<a href="https://x.com/pedakichi/status/1951565705834279238">ペダ吉氏の研究発表「POS DT-1の回路はどこから来たのか」</a>によると、Coron DC-809 Super Distortionが挙げられていました。そこで、検索で見つかったDC-809の基板画像から回路図を起こしてみました。</p>
+<a href="img/09_376_11_Coron_DC-809_schematic.png"><img src="img/09_376_11_Coron_DC-809_schematic.png" height="320"><br></a>
+<p>コンデンサの値は不明ですが抵抗値は一致するものが多く、バイパス方式も同じです。確かにPOSの元になっていると考えてよいでしょう。ただ、トーン回路は全く違っており、コントロール名がWAVEとなっています。シミュレーションすると、ミッドカット周波数を変化させているようです。</p>
+<a href="img/09_376_12_DC809_sim.png"><img src="img/09_376_12_DC809_sim.png" height="320"><br></a>
+<p>DC-809から別のメーカーにコピーされる過程の中のどこかで、WAVE → TONEへと回路が変更されたと考えられます。</p>
+<hr />
+<h3>【クローン製作 】</h3>
+<a href="img/09_376_21_dt1tb_pic.jpg"><img src="img/09_376_21_dt1tb_pic.jpg" height="320"><br></a>
+<p>POSのクローンを製作しました。バイパス音を改善するには前段にバッファーを置くことが有効ですが、歪みエフェクトの方も元の音から離れてしまうため、トゥルーバイパスとしました。基板右下のジャンパーピンを付け替えると、エフェクト音がPOSのバイパス音になります。</p>
+<p>→ <a href="https://github.com/kanengomibako/EffectsPedals/tree/main/DT1TB">KiCadデータはこちら</a></p>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
