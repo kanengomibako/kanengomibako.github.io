@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ProCo RAT2 オペアンプ・JFETの検討</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+ <h1>ProCo RAT2 オペアンプ・JFETの検討</h1>
+ <p align="right">2026年01月17日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+ <hr class="title"><br>
+<a href="img/09_377_01_rat2_pic.jpg"><img src="img/09_377_01_rat2_pic.jpg" height="320"><br></a>
+<p>古いProCo RATにはオペアンプ LM308とJFET 2N5458が使われています。これらの代替品としてどのようなものが適切か検討しました。RATの歴史や回路解析については下記ページをご参照ください。</p>
+<ul>
+<li>JHS Pedals - <a href="https://jhspedals.info/blogs/news/proco-rat-pedal-myths-history-and-timeline">PROCO RAT PEDAL MYTHS, HISTORY, AND TIMELINE</a></li>
+<li>ElectroSmash - <a href="https://www.electrosmash.com/proco-rat">ProCo Rat Analysis</a></li>
+</ul>
+<hr />
+<h3>【回路図】</h3>
+<a href="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/ProCo/RAT2/ProCo_RAT2_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/ProCo/RAT2/ProCo_RAT2_schematic.png" height="360"><br></a>
+<p>一般的なDCジャックが使われている、現行品をトレースしました。KiCadデータ（基板画像入り）は<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/ProCo/RAT2">GitHub</a>にあります。</p>
+<p><a href="img/09_377_02_rat2_parts.jpg"><img src="img/09_377_02_rat2_parts.jpg" alt="09_377_02_rat2_parts" height="200"><br></a>OP07はTexas Instruments（TI）製です。2SK30ATMはAmazonで販売されているものに似ていますが、メーカーは不明です。</p>
+<ul>
+<li><p>FILTER用コンデンサ C11</p>
+<p>出回っている回路図では3.3nFとされているC11ですが、中国製になったあたりから2.7nFが使われている報告がありました（→ <a href="https://www.diystompboxes.com/smfforum/index.php?topic=91080.0">2011年</a>、<a href="https://www.thefretboard.co.uk/discussion/comment/1075590/#Comment_1075590">2018年</a>）。
+ポットの抵抗値のカーブは10Aや15Aといった種類があり、CTS製のポットは10Aです。それが別の15Aのポットへ変わった時に、操作感を似せるため2.7nFへ変更された可能性があります。</p></li>
+</ul>
+<hr />
+<h3>【オペアンプ】</h3>
+<a href="img/09_377_11_lm308.jpg"><img src="img/09_377_11_lm308.jpg" height="240"><br></a>
+<p>LM308は現在生産されておらず、入手困難です。信頼できる電子部品店で売られているもの以外は偽物と考えてよいでしょう。
+LM108（LM308の高信頼品）は、在庫限りですが<a href="https://www.rocelec.com/part/01t4w00000PPHXmAAP-LM108LB">Rochester Electronics</a>にあります。
+<a href="https://www.analog.com/jp/products/LM108A/sample-buy.html">Analog DevicesのLM108A</a>は1個52ドルで、現実的な価格ではありません。
+今回は、Guyatone PS-031とPS-032から取り外したLM308N、ProCo BRATから取り外したLM308AN、トランスミット・サウンズで購入したLM308AHを準備しました。</p>
+<div style="padding: 10px; border: 1px dashed #333333;">
+<b>LM308の簡易的真贋判定</b><br>
+<a href="img/09_377_12_fakelm308.jpg"><img src="img/09_377_12_fakelm308.jpg" height="120"><br></a>
+ICの表面を削り、偽のマーキングが施してあるリマーク品が出回っています。現在DIPパッケージで生産されている安価なシングルオペアンプは、UA741、TL071、OP07、NE5534があり、LM308の偽物はこれらのリマーク品である可能性が高いです。
+UA741やTL071（TL061やTL081も同様)は、オフセット調整が1番ピンと5番ピンなので、このピン間の抵抗値を測定すると数k～十数kΩとなります。
+同様にOP07やNE5534では、1番と8番ピン間が数k～数十kΩとなります。
+これらに当てはまる場合は偽物なので、もし購入される場合は、開封から測定まで証拠動画を撮っておくとよいです。
+※ LM308の場合、テスターの種類によっては1番と8番ピン間が数MΩと出ることがあります。
+</div>
+<p>オペアンプのスルーレート（SR）と利得帯域幅積（GBW）は、高音域の低下に関わる重要なパラメーターです。<a href="https://www.analog.com/media/en/technical-documentation/data-sheets/lt0108.pdf">LM308のデータシート</a>の図ではSRは0.25V/us、GBWは500kHz程度に見えますが、はっきりとわからないので実測しました。<strong>±15V電源</strong>、1番と8番ピン間のコンデンサ容量 Cf = <strong>30pF</strong>としています。※ LM308はCfの値によってSRやGBWが変化します。</p>
+<ul>
+<li><p>SR</p>
+<p><a href="img/09_377_21_SR30V.png"><img src="img/09_377_21_SR30V.png" height="320"><br></a>LM308Nは約0.17V/usで、どの個体も同じくらいの値でした。下がる方が少し速い傾向にあります。</p></li>
+<li><p>GBW</p>
+<p>+40dB（100倍）の増幅を行い、周波数特性を測定します。SRの影響を受けないように、充分に低い音量にします（→ <a href="https://techweb.rohm.co.jp/product/opamps-arithmetic-circuits/opamps/23788/">オペアンプ｜基礎編　スルーレート</a>）。</p>
+<p><a href="img/09_377_22_GBW30V.png"><img src="img/09_377_22_GBW30V.png" height="240"><br></a>10028.3Hzが+33.67dB（48.25倍)なので、GBWは484kHzと計算できます。</p></li>
+</ul>
+<p>SRやGBWは電源電圧によって変動します。以下では<strong>±4.5V電源</strong>で測定した各オペアンプのデータを示します。</p>
+<table border="1">
+<thead>
+<tr>
+<th>OpAmp</th>
+<th>SR(V/us)</th>
+<th>GBW(kHz)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LM308N</td>
+<td>0.16</td>
+<td>457</td>
+</tr>
+<tr>
+<td>LM308AN</td>
+<td>0.16</td>
+<td>434</td>
+</tr>
+<tr>
+<td>LM308AH</td>
+<td>0.18</td>
+<td>482</td>
+</tr>
+<tr>
+<td>LM358</td>
+<td>0.26</td>
+<td>608</td>
+</tr>
+<tr>
+<td>OP07CP（TI製）</td>
+<td>0.18</td>
+<td>482</td>
+</tr>
+<tr>
+<td>OP07N（HTC製）</td>
+<td>0.21</td>
+<td>566</td>
+</tr>
+<tr>
+<td>TL061CP</td>
+<td>1.53</td>
+<td>610</td>
+</tr>
+<tr>
+<td>UA741CP</td>
+<td>0.34</td>
+<td>521</td>
+</tr>
+<tr>
+<td>OP297</td>
+<td>0.19</td>
+<td>418</td>
+</tr>
+<tr>
+<td>TLV2221</td>
+<td>0.26</td>
+<td>503</td>
+</tr>
+</tbody>
+</table>
+<p>OP07CP（TI製）はLM308AHと一致し、LM308NやLM308ANにも近い値となっています。LM308の個体差がどの程度かはわかりませんが、OP07CP（TI製）が代替品として最も適切と思われます。</p>
+<p>オペアンプ出力以降の回路をバイパスしたRAT2本体を用い、LM308NとOP07CP（TI製）の周波数特性を測定しました。OP07CPは電源電圧を6Vに下げた場合も測定しました。C8の実測値は31.8pFです。</p>
+<ul>
+<li><p>DISTORTION 0%（入力 約0.83Vpp）</p>
+<p><a href="img/09_377_23_fd000.png"><img src="img/09_377_23_fd000.png" height="240"><br></a></p>
+<p>SRが低いため、高音域が下がり歪んでいます。LM308Nの方が影響が大きいようです。</p></li>
+<li><p>DISTORTION 100%（入力 約0.7mVpp）</p>
+<p><a href="img/09_377_24_fd100.png"><img src="img/09_377_24_fd100.png" height="240"><br></a></p>
+<p>高音域が大きく低下するのは主にGBWの影響です。電源電圧を下げるとGBWが下がり、特性が変化します。音色調整方法の一つとして頭に入れておいてもよいかもしれません。</p></li>
+</ul>
+<hr />
+<h3>【JFET】</h3>
+<a href="img/09_377_13_2n5458.jpg"><img src="img/09_377_13_2n5458.jpg" height="200"><br></a>
+<p>ProCo BRATから取り外したMotorola製2N5458を3個準備しました。Central製の2N5458は<a href="https://www.taydaelectronics.com/2n5458-jfet-n-channel-transistor-central.html">TaydaElectronics</a>で購入可能です。</p>
+<p>JFETのゲートをグラウンドに接続するソースフォロワ回路は、エフェクターでよく使われています。この回路では、入力電圧が大きいとクリッピングする懸念があります。下記ページも合わせてご参照ください。</p>
+<ul>
+<li><a href="https://mrotqch.web.fc2.com/stomp/Dscrt/RAT_Buff.html">RAT の終段バッファに少し思うこと</a></li>
+</ul>
+<p>RATではJFETの入力前にダイオードでクリッピングされるため、電圧は最大で約1.35Vppになります。この電圧の正弦波を各JFETのソースフォロワ回路に通し、歪率を測定しました。</p>
+<a href="img/09_377_31_jfet.png"><img src="img/09_377_31_jfet.png" height="250"><br></a>
+<table border="1">
+<thead>
+<tr>
+<th>JFET</th>
+<th>ソース電圧(V)</th>
+<th>歪率(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2N5458</td>
+<td>2.8</td>
+<td>0.23</td>
+</tr>
+<tr>
+<td>2N5458</td>
+<td>2.6</td>
+<td>0.28</td>
+</tr>
+<tr>
+<td>2N5458</td>
+<td>2.9</td>
+<td>0.25</td>
+</tr>
+<tr>
+<td>2N5457</td>
+<td>1.2</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td>2SK30ATM-GR（東芝製）</td>
+<td>1.9</td>
+<td>0.44</td>
+</tr>
+<tr>
+<td>2SK303L-V3</td>
+<td>0.54</td>
+<td>7.01</td>
+</tr>
+<tr>
+<td>2SK880-GR</td>
+<td>0.54</td>
+<td>7.73</td>
+</tr>
+<tr>
+<td>2SK2881-E</td>
+<td>0.80</td>
+<td>1.60</td>
+</tr>
+<tr>
+<td>J112</td>
+<td>3.2</td>
+<td>0.08</td>
+</tr>
+<tr>
+<td>MMBFJ201</td>
+<td>0.49</td>
+<td>8.85</td>
+</tr>
+<tr>
+<td>CMPF4393</td>
+<td>1.8</td>
+<td>0.29</td>
+</tr>
+</tbody>
+</table>
+<p>2N5458はわずかにクリッピングが発生しています。同じくらいの歪率で、入手性がよいスルーホール部品はなさそうです。歪率を気にしないのであれば、<a href="https://akizukidenshi.com/catalog/g/g109722/">J112</a>を使うとよいでしょう。</p>
+<p>RAT2本体（DISTORTION 0%）での波形・倍音を確認しました。</p>
+<p><a href="img/09_377_32_2n5458.png"><img src="img/09_377_32_2n5458.png" height="250"></a><a href="img/09_377_33_j112.png"><img src="img/09_377_33_j112.png" height="250"></a></p>
+<p>判別するのは難しいかもしれませんが、J112よりも2N5458の方が少し偶数次倍音が多いのが確認できました。</p>
+</main>
+<footer>
+ <p><a href="../">ホーム</a></p>
+ <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
