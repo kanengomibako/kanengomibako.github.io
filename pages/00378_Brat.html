@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ProCo BRAT 修理・解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+ <h1>ProCo BRAT 修理・解析</h1>
+ <p align="right">2026年01月23日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+ <hr class="title"><br>
+<a href="img/09_378_01_brat_pic.jpg"><img src="img/09_378_01_brat_pic.jpg" height="320"><br></a>
+<p>ジャンク品として手に入れたProCo BRATを修理、解析しました。
+KiCadデータ（基板画像入り）とLTspiceの回路図データは<a href="https://github.com/kanengomibako/ReverseEngineering/tree/main/ProCo/BRAT">GitHub</a>にあります。
+RATの歴史や回路解析については下記リンクをご参照ください。</p>
+<ul>
+<li>JHS Pedals - <a href="https://jhspedals.info/blogs/news/proco-rat-pedal-myths-history-and-timeline">PROCO RAT PEDAL MYTHS, HISTORY, AND TIMELINE</a></li>
+<li>ElectroSmash - <a href="https://www.electrosmash.com/proco-rat">ProCo Rat Analysis</a></li>
+</ul>
+<hr />
+<h3>【回路図】</h3>
+<a href="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/ProCo/BRAT/ProCo_BRAT_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/ReverseEngineering/refs/heads/main/ProCo/BRAT/ProCo_BRAT_schematic.png" height="420"><br></a>
+<p>すでに出回っている回路図とほぼ同じです。予算が限られていたらしくケースにプラスチックの部分がありますが、基板上の部品点数は多くなっています。オペアンプの帰還内にクリッピングダイオードが配置されているのが特徴的です。</p>
+<ul>
+<li><p>入出力部のJFET</p>
+<p>ソースフォロワではなく、ドレインからの出力です。増幅率は実測でほぼ1倍で、バッファとして働いています。バッファがない通常のRATではC4（1nF）による音色変化がありますが、バッファがあるBRATの場合は可聴域外の高音域カットになります。</p></li>
+<li><p>TONE</p>
+<p>TONEノブを時計回りに回すと高音域がカットされなくなり、フラットな特性に近づきます。この場合のポットはAカーブではなくCカーブを使う方が適切と思われます。ケースの表記はFLAT→FATなので、ポット接続のミスかもしれません。後段にすぐVOLUMEポットがあるため、TONEポットの抵抗値が大きくなると音量が下がる特徴もあります。</p></li>
+<li><p>JFETスイッチ</p>
+<p>通常、JFETのドレイン側とソース側どちらか（もしくは両方）がバイアス電圧に接続されますが、BRATでは接続されていません。シミュレーションしてみると、電源電圧付近にバイアスされるようです。この場合、入力電圧が大きいと歪みが生じます。</p></li>
+</ul>
+<hr />
+<h3>【修理・改造】</h3>
+<a href="img/09_378_11_brat_mod.jpg"><img src="img/09_378_11_brat_mod.jpg" height="320"><br></a>
+<p>以下の修理・改造を行いました。</p>
+<ul>
+<li>ジャック交換</li>
+<li>ネジ穴にインサートナットを挿入</li>
+<li>ケースの金属板全てをグラウンドへ接続</li>
+<li>トゥルーバイパス化</li>
+<li>インジケーターLED追加</li>
+<li>電解コンデンサ交換</li>
+<li>TONEポットの端子接続を変え、時計回りで高音域カットへ変更</li>
+<li>DCジャック増設（電池使用不可）</li>
+</ul></main>
+<footer>
+ <p><a href="../">ホーム</a></p>
+ <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
