@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>10V Blocker</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>10V Blocker</h1>
+<p align="right">2026年02月13日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<a href="img/02_374_01_10VBlocker.jpg"><img src="img/02_374_01_10VBlocker.jpg" height="200"><br></a>
+<p>10V以上の電圧が入力されると、電源供給を遮断するモジュールです。誤って高い電圧をエフェクターに接続した場合に、回路を保護することができます。KiCadデータ・説明書は<a href="https://github.com/kanengomibako/Modules/tree/main/10VBlocker">GitHub</a>にあります。</p>
+<p>→ 販売ページは<a href="https://kanengomibako.booth.pm/items/7901843">こちら</a>。</p>
+<hr />
+<h3>開発記録</h3>
+<p>現在普及しているパワーサプライは、多くの機種で電圧を上げる機能が搭載されており、簡単に12Vや18Vを供給することが可能になりました。ただ、定格電圧が低い部品が使われているエフェクターに高い電圧が供給されると故障してしまいます。こうしたケースを防止するための対策を考えることにしました。</p>
+<p>まず、単純に定格電圧が高い部品を使用するという対策が考えられます。コンデンサは、多少大きいものが必要になることがあります。オペアンプは、低電圧向けのものが採用できなくなります。また、回路方式によっては電圧の違いにより音が変わってしまいます。よって、コストはかかりますが電源部に何かしらの回路を追加する方針で以下のものを考えました。</p>
+<ul>
+<li><p>低ドロップアウト（LDO）レギュレータ</p>
+<p><a href="00363_RevivalDriveCompact.html">ORIGIN EFFECTS RevivalDRIVE Compact 解析</a>や<a href="00302.html">MXR Super Badass Distortion</a>で採用されています。わずかながら電圧が下がるのが気になります。また、LDOだと安価で入力電圧が高いものがなかなかありません。</p></li>
+<li><p>汎用部品の組み合わせ</p>
+<p><a href="00312.html">BOSS FZ-1W</a>や<a href="00324.html">MXR CARBON COPY</a>で採用されています。部品数が多く、あまりコンパクトにはなりません。また、ツェナーダイオードのツェナー電圧やトランジスタのベース・エミッタ間電圧が基準なので、精度がよくありません。</p></li>
+<li><p>専用IC（Voltage Detector/Reset IC、eFuse）</p>
+<p>価格が高くなったり製造終了したりする問題が考えられますが、高精度で省スペースになることが期待できます。TPS3701（MOSFETと組み合わせ）、TPS25961、MX25947が候補となりましたが、最終的に30Vまで対応でオン抵抗が低いMX25947を採用することにしました。</p></li>
+</ul>
+<hr />
+<h3>回路図</h3>
+<a href="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/10VBlocker/10VBlocker_RevB_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/10VBlocker/10VBlocker_RevB_schematic.png"  height="200"><br></a>
+<p>過電圧検出電圧がデータシート記載の1.34Vとは違い、実測1.42Vでした。個体差とは思えない値なので、データシートのミスかもしれません。内蔵MOSFETのオフ時の抵抗値はデータシートになく、数百kΩとそこまで高くないようです。消費電流がかなり低い場合は注意が必要ですが、エフェクターの場合には問題ないでしょう。</p>
+<p>出荷前に10V～10.3Vで遮断されることを確認しています。抵抗値を変えると遮断電圧を調整できます。</p>
+<ul>
+<li><p>新品の電池</p>
+<p>消費電流が小さい場合、電圧が10Vを超える可能性があります。過去に測定した中では、GPマンガン乾電池で10mA以下の場合が該当しました。R103を小さく（220kΩ抵抗を並列にする等）し、遮断電圧を上げると対応できます。</p></li>
+<li><p>昇圧IC MAX1044の保護</p>
+<p>絶対最大定格電圧が10.5Vなので、R101を小さく（2.2MΩ抵抗を並列にする等）し遮断電圧を下げる方が安心です。ただし、9.6Vといった高めの電圧が供給されるパワーサプライに注意が必要となります。</p></li>
+</ul></main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
