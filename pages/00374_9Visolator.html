@@ -13,7 +13,7 @@
 <h1>9V Isolator</h1>
 <p align="right">2025年11月04日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
 <hr class="title"/><br/>
-<a href="img/02_374_01_pic_9Visolator_RevE.jpg"><img src="img/02_374_01_pic_9Visolator_RevE.jpg" height="240"><br></a>
+<a href="img/02_374_01_pic_9Visolator_RevF.jpg"><img src="img/02_374_01_pic_9Visolator_RevF.jpg" height="240"><br></a>
 <p>9V電源入力から、アイソレートされた9V電源を出力するモジュールです。
 電源を分岐ケーブルで接続している場合（→ <a href="https://kanengomibako.github.io/pages/00354.html">電源分岐接続時のノイズ測定</a>）のグラウンド分離や、ファズ等に使う負電源の生成を手軽に行うことができます。
 KiCadデータ・説明書は<a href="https://github.com/kanengomibako/Modules/tree/main/9VIsolator">GitHub</a>にあります。</p>
@@ -42,6 +42,10 @@ LT3045といった高価なレギュレータであれば超低ノイズが望�
 <p>絶縁型DC-DCコンバータやレギュレータには最低負荷電流が必要で、R1を小さくして約8mAの電流を流しています。R2の消費電力が約60mWなので、念のため2012Mサイズ（125mW）としました。
 下写真の通り、最もレギュレータの発熱が大きく56℃（出力70mA、気温25℃付近で測定）でした。動作には問題ないものの、取り扱いに注意が必要となります。</p>
 <a href="img/02_374_04_iso_heat.jpg"><img src="img/02_374_04_iso_heat.jpg" height="240"><br></a>
+<hr />
+<h3>回路変更</h3>
+<a href="img/02_374_02_9Visolator_schematicF.png"><img src="img/02_374_02_9Visolator_schematicF.png" height="231"><br></a>
+<p>販売開始後、レギュレータが故障する個体が出てきました。原因は特定できませんでしたが、念のため回路を変更しました。LM1117のデータシートの通り、出力コンデンサには22μFのタンタルコンデンサを使用しています。</p>
 </main>
 <footer>
 <p><a href="../">ホーム</a></p>
