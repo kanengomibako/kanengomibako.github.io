@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MXRサイズに関するメモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>MXRサイズに関するメモ</h1>
+  <p align="right">2008年04月01日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  私は大抵GarrettaudioのsizeA（61×112×31）のケースを使ってるのでそれに関するメモ。一応『MXR"Phase 90"などと同等サイズ(Hammond 1590B　近似サイズ)』らしいけど、若干誤差などはありえる。ネジがバカになりやすい気がする。すべてのネジに言えるけど、ネジはいったん左に回し、ストンと落ちる感覚があってから右に回す。<br>
+<br>
+※以下ケースを縦に使う場合<br>
+<br>
+<hr size="1"/><br>
+<strong>基板の大きさに関して</strong><br>
+ユニバーサル基板の場合、横22穴×縦20穴まで可能（縦はがんばればもうちょいいけるかも）。ただしフォンジャックはマル信無線の小さいやつ、DCジャックも内側から取り付けの小さいものを使って、ギリギリのジャック位置にする必要がある（下図参照）。適用例：<a href="00015.html" title="HAT（Modified BOSS AC-2）">HAT</a>（Modified BOSS AC-2）<br>
+<img alt="20_41_1knob.gif" border="0" height="351" src="img/20_41_1knob.gif" width="189"/><br>
+（JWCADというフリーソフトで作成）<br>
+<br>
+横を22穴にする場合、基板の穴と穴の間でカットする必要がある。または穴に沿って切った後削る必要がある。下写真参照。<br>
+<img alt="20_41_3kibcut2.jpg" border="0" height="120" src="img/20_41_3kibcut2.jpg" width="120"/><br>
+※端がケースに触れるおそれがあるため、レイアウトの端がアースでないときはやらないほうがよい。逆に横22穴でレイアウトを作る場合は端っこはアースにすべき。<br>
+<br>
+縦は16穴ぐらいだとSwitchcraftのフォンジャックでも余裕がある。ネジ穴があるため角を切る必要があるが、ギリギリに切った方が多少余裕が出る。下写真参照。<br>
+<img alt="20_41_2kibcut1.jpg" border="0" height="120" src="img/20_41_2kibcut1.jpg" width="120"/><br>
+※やはり端がケースに接触するおそれがある。<br>
+<br>
+<hr size="1"/><br>
+<strong>ケースの厚み（高さ）に関して</strong><br>
+ポット厚みデータ<br>
+16mm/シングル（Garrettaudio）：9.3mm<br>
+9.5mm/シングル（Garrettaudio）：6.8mm<br>
+16mm（東京コスモス製？）：8mm<br>
+<br>
+[Garrettaudio 16mm/シングルのポットを用いる場合]<br>
+あまり大きな電解コンデンサだとフタがしまらない。一般的電解コンデンサ（高さ11ミリ程度）は大丈夫。また、レイアウト上の端に電解コンデンサがあると、裏フタのでっぱりにあたってフタがしまりにくくなることがある。特に横22穴のレイアウトでは端に電解コンデンサを配置しない方がよい。はんだ面を裏フタ側にするならば大丈夫かもしれない（未確認）。<br>
+<br>
+[ミニスイッチをつける場合]<br>
+ミニスイッチ（普通のミニトグルスイッチ）をつける位置に電解コンデンサがあるとフタがしまらない。ICソケット+ICの高さぐらいだと裏フタの出っ張りを削れば（下写真参照）なんとか入る。でもおとなしくフットスイッチの横につけるかsizeAAにした方が無難。横21穴のレイアウトならいけるかもしれない（未確認）。Ginga Dropsの超小型トグルスイッチなら大丈夫かもしれない（未確認）。<br>
+<img alt="20_41_4SADu.jpg" border="0" height="80" src="img/20_41_4SADu.jpg" width="120"/><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

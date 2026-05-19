@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>歪みと波形・倍音その6（ダイオードの位置）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>歪みと波形・倍音その6（ダイオードの位置）</h1>
+  <p align="right">2017年08月10日　カテゴリー：<a href="00165.html">歪みと波形・倍音</a></p>
+  <hr class="title"><br>
+  歪み系エフェクターでは多くの場合、波形クリップのためにダイオードが使われます。ダイオードクリッパーとかクリッピングダイオードという呼び方があるようです。このダイオードの回路上の位置を変更し、波形・倍音の違いを調べました。<br>
+<br>
+<a href="00165.html">歪みと波形・倍音 記事一覧</a><br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<img alt="12_193_1diodeppxc.png" border="0" height="259" src="img/12_193_1diodeppxc.png" width="389"/><br>
+非反転増幅回路の帰還部分にダイオードを入れる場合をODタイプ、出力にダイオードを入れる場合をDSタイプと勝手に呼ぶことにします。偶数次倍音も出るように、非対称クリッピングにしました。入力は1kHzサイン波、約0.14Vrmsです。音量はDSタイプの方が小さくなるため、各タイプ録音後ノーマライズしています。<br>
+※Twitterにて指摘をいただき、回路図左上にコンデンサを追加しました。増幅率を変更し、全データを差し替えています。（2017年8月12日）<br>
+<br>
+▽11倍増幅<br>
+<a href="img/12_193_2diodepg11x.png" target="_blank"><img alt="12_193_2diodepg11x.png" border="0" height="313" src="img/12_193_2diodepg11x.png" width="420"/></a><br>
+ODタイプの方が倍音が多そうに見えますが、なんともいえない感じです。聴感上は、ODタイプの方が高域が出ているように感じました。<br>
+<br>
+▽21倍増幅<br>
+<a href="img/12_193_3diodepg21x.png" target="_blank"><img alt="12_193_3diodepg21x.png" border="0" height="313" src="img/12_193_3diodepg21x.png" width="420"/></a><br>
+2～6次倍音はDSタイプの方が多く、7次倍音以降はODタイプの方が多いです。聴感上も、ODタイプの方が高域が出ているように感じました。<br>
+<br>
+▽34倍増幅<br>
+<a href="img/12_193_4diodepg34x.png" target="_blank"><img alt="12_193_4diodepg34x.png" border="0" height="313" src="img/12_193_4diodepg34x.png" width="420"/></a><br>
+DSタイプの方が歪率が高く、全体的に倍音が多いです。聴感上はあまり違いがわかりません。波形については、どの増幅率でもODタイプの方が丸みを帯びた形になっています。<br>
+<br>
+さらに増幅率を上げていくと、ODタイプは歪率が31%程度で頭打ちになったので、深い歪みは得にくいようです。DSタイプは歪率が上がり続けましたが、波形の角が鋭くなるので、ICの歪みが混ざっていると思います。<br>
+<br>
+<hr size="1"/><br>
+・総評（のようなもの）<br>
+<br>
+ODタイプは高次倍音が出やすい（クリアな音に感じる）、DSタイプは低次倍音が出やすい（太い音に感じる）というような傾向がわかりました。LED対称クリッピングでも測定しましたが、同じ傾向のようです。丸い波形になるODタイプの方がなんとなく低域寄りな音になるイメージがあったので、意外な結果となりました。<br>
+<br>
+---以下2017年8月20日追記---<br>
+<br>
+▽LTspiceでのシミュレーション結果（21倍増幅）<br>
+<a href="img/12_193_5diodepg21xs.png" target="_blank"><img alt="12_193_5diodepg21xs.png" border="0" height="313" src="img/12_193_5diodepg21xs.png" width="420"/></a><br>
+入力電圧は0.12Vrmsで同じぐらいの歪率になりました。実測と違う部分はあるものの、倍音の出方の傾向は大体同じといってよいと思います。シミュレーションでも歪みの特徴は充分参考になるようです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Easy Tester</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Easy Tester</h1>
+<p align="right">2026年05月11日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/EasyTester/img/pic_EasyTester_RevE.jpg"><img src="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/EasyTester/img/pic_EasyTester_RevE.jpg" height="280"></a></p>
+<p>普段作業中に行うのは、直流電圧測定、抵抗測定、導通チェックがほとんどです。市販のデジタルマルチメーターでこれらを行う場合、スイッチの操作が必要であったり、反応が鈍かったりして使い勝手があまりよくないと感じていました。そこで、常に机上に置いておき、思い立ったときに素早く使えるテスターを考えました。KiCadデータおよびソースコードは<a href="https://github.com/kanengomibako/Modules/tree/main/EasyTester">GitHub</a>にあります。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/8090588">販売ページはこちら</a></p>
+<hr />
+<h3>■ 回路図</h3>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/EasyTester/img/EasyTester_RevE_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/Modules/refs/heads/main/EasyTester/img/EasyTester_RevE_schematic.png" height="400"></a></p>
+<p><a href="00365_DropInTapPT2399.html">DropInTap PT2399</a>と同様、低価格なCH32マイコンを使うことにしました。最初はCH32V003を使いましたが、途中からメモリ容量が大きいCH32V006へと変更しました。価格はほぼ同じで、測定精度向上も見込めます（ADC 10bit → 12bit）。</p>
+<ul>
+<li><p>電圧測定</p>
+<p>高い電圧に対応するため、抵抗分圧で0.16倍にしています。入力インピーダンスは他のデジタルマルチメーターを参考に10MΩとしました。</p>
+<p>MOSFET側の保護として、ダイオードD4が入れてあります。ADCの電圧範囲を広く取るため、このダイオードはできれば順方向電圧が低い方が望ましいです。ただ、ショットキーバリアダイオードだと逆方向のリーク電流が大きいので測定値に影響が出てしまい不適となります。ADCのピンの保護については、高抵抗が挿入されているためマイコン内蔵の保護ダイオードで問題ないでしょう。</p>
+<p>基本は電圧測定状態となっていて、電圧が0.2V未満の場合に抵抗測定に切り替わります。抵抗計をオフにすると、0.2V未満でも電圧が表示されます。</p></li>
+<li><p>抵抗測定</p>
+<p>単純な抵抗分圧に基づいて測定する方法（→ <a href="https://www.jh4vaj.com/rmee01-01">RMEE01 – E24系列に基づく抵抗計</a>）がありますが、マイコンのADCで精度が出せそうな定電流方式としました。マイコン内蔵のオペアンプを使っています（→ <a href="https://ameblo.jp/denshi-1996/entry-12752263152.html">MOSFETで定電流回路を作る</a>）。</p>
+<p>最初は電圧測定と抵抗測定を別々のピンで読み取るようにしていました。ADCで読み取る電圧範囲を広く取る方が精度が良くなるためです。しかしAD変換の回数を多くすればそれなりに精度が出せることがわかったため、共通のピンにすることができました。ただし回数を多くしすぎると測定のタイムラグが出てくるので、反応が遅く感じないよう調整しています。</p>
+<p>R0～R4をGPIOで切り替えることで測定レンジが変わります。0Ω抵抗がありますが、実際はマイコンの内部抵抗が20Ω程度あるため問題ありません。MOSFETの寄生容量があるため、切り替え時にある程度の充放電時間を設けないと、測定値がずれてしまいます。</p></li>
+<li><p>補正</p>
+<p>ADCで得られる値と実際の値にずれが生じるので、オフセット値と傾きを算出することで補正できます。電圧についてはこの補正方法で問題ありませんでした。抵抗値はこの補正に加えて各レンジの補正係数をかける処理も行いましたが、最悪で3%程度ずれてしまう状態でした。抵抗値が低いときは測定電圧が低いので、誤差が大きくなると思われます。そこでレンジ内の最低値と最高値に近い2点を使った直線の式により補正し、できるだけ誤差を少なくしています。</p></li>
+<li><p>導通チェック</p>
+<p>導通判定の閾値を細かく調節できるテスターは少ないため、設定できるようにしました。抵抗値が少ない方が周波数が上がるといった使い方もできます。</p></li>
+<li><p>OLED</p>
+<p><a href="https://github.com/rotura/CH32V003-SSD1306-OLED-Library">こちらのライブラリ</a>の初期化コードとフォントを利用しました。視認性向上のため、大きいフォントは自作です。</p></li>
+<li><p>DMA</p>
+<p>ADCのDMA転送を有効にすると、測定ができなくなりました。オペアンプの動作がうまくいっていないようでしたが、はっきりとした原因はわかりません。I2C（OLEDとの通信）のDMAは成功したものの、ディスプレイ表示のデータ転送時間を電圧安定までの待機時間として利用したため、DMAは不採用としました。</p></li>
+<li><p>未解決の不具合</p>
+<p>リセット時や電源を入れ直したとき、たまに抵抗値が正しく取得できない不具合に遭遇しました。レジスタを確認すると、OPA_CFGR1（オペアンプの非反転入力のポーリングに関わるレジスタ）が書き換わっていました。再度書き換えることで対処しましたが、配列の範囲外アクセスといったミスがどこかにあるのかもしれません。</p></li>
+</ul>
+<hr />
+<h3>■ 実測データ</h3>
+<p>電圧はデジタルマルチテスター DE-200A、抵抗値はLCRメーター DE-5000を基準として使用しています。ADCのキャリブレーションには5V±0.025%の基準電圧IC REF5050EIを、抵抗値のキャリブレーションには誤差±0.02%の抵抗器を使用しました。温度は23℃付近です。温度変化により多少ずれが大きくなると思われます。</p>
+<ul>
+<li><p>電圧値</p>
+<table border="1">
+<thead>
+<tr>
+<th>DE-200A</th>
+<th>Easy Tester</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.50V</td>
+<td>2.50V</td>
+</tr>
+<tr>
+<td>5.00V</td>
+<td>5.00V</td>
+</tr>
+<tr>
+<td>7.50V</td>
+<td>7.50V</td>
+</tr>
+<tr>
+<td>10.00V</td>
+<td>10.00V</td>
+</tr>
+<tr>
+<td>15.00V</td>
+<td>15.01V</td>
+</tr>
+<tr>
+<td>20.0V</td>
+<td>20.02V</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>抵抗値</p>
+<table border="1">
+<thead>
+<tr>
+<th>DE-5000</th>
+<th>Easy Tester</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>98.96Ω</td>
+<td>99Ω</td>
+</tr>
+<tr>
+<td>996.3Ω</td>
+<td>994Ω</td>
+</tr>
+<tr>
+<td>9.993kΩ</td>
+<td>9.96kΩ</td>
+</tr>
+<tr>
+<td>99.23kΩ</td>
+<td>98.8kΩ</td>
+</tr>
+<tr>
+<td>997.4kΩ</td>
+<td>993kΩ</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ADALM2000 ファームウェアアップデート方法 メモ</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>ADALM2000 ファームウェアアップデート方法 メモ</h1>
+  <p align="right">2024年06月28日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  SCOPYがやたらクラッシュするのでアップデート<br>
+<br>
+公式ページ→<a href="https://wiki.analog.com/university/tools/m2k/common/firmware" target="_blank">ADALM2000 (M2K) Firmware Updates</a><br>
+<br>
+Windows 11でMass Storage UpdateしようとしたがLED1が高速点滅に変わらない→DFU Updateで<br>
+<br>
+ADALM2000本体USB端子横のボタンを針金等で押しながらUSBプラグを挿し込む→DFUモードで起動（LED1が常時点灯）<br>
+<br>
+<a href="https://raw.githubusercontent.com/analogdevicesinc/plutosdr_scripts/master/UPDATE.BAT" target="_blank">UPDATE.BAT</a>を ダウンロード、C:\tmpに保存<br>
+<br>
+<a href="https://github.com/analogdevicesinc/m2k-fw/releases/latest" target="_blank">最新ファームウェア</a>をダウンロード、C:\tmpに解凍<br>
+<br>
+コマンドプロンプト立ち上げ<br>
+C:\tmp&gt;UPDATE.BAT c:\tmp\m2k.dfu<br>
+（別の場所に保存した場合、ファイルパスを適宜修正すること）<br>
+<br>
+PlutoSDR-M2k-USB-Driversがインストールされていないと出た場合、<a href="https://github.com/analogdevicesinc/plutosdr-m2k-drivers-win/releases" target="_blank">ここ</a>からダウンロード、インストール
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

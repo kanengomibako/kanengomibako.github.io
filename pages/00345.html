@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>LINE 6 HX Stomp 分解・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>LINE 6 HX Stomp 分解・特性測定</h1>
+  <p align="right">2024年08月24日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_345_01_hxst_pic01.jpg" target="_blank"><img border="0" height="261" src="img/09_345_01_hxst_pic01.jpg" width="720"/></a><br>
+<a href="00340.html" target="_blank">ZOOM MS-50G+</a>に引き続き、<a href="https://line6.jp/hx-stomp/" target="_blank">LINE 6 HX Stomp</a>を分解、特性測定しました。<br>
+<br>
+<hr size="1"/><br>
+▽基板画像<br>
+<a href="img/09_345_02_hxst_pic02.jpg" target="_blank"><img border="0" height="225" src="img/09_345_02_hxst_pic02.jpg" width="338"/></a><a href="img/09_345_03_hxst_pic03.jpg" target="_blank"><img border="0" height="225" src="img/09_345_03_hxst_pic03.jpg" width="315"/></a><br>
+<a href="img/09_345_04_hxst_pic04.jpg" target="_blank"><img border="0" height="160" src="img/09_345_04_hxst_pic04.jpg" width="200"/></a><a href="img/09_345_05_hxst_pic05.jpg" target="_blank"><img border="0" height="160" src="img/09_345_05_hxst_pic05.jpg" width="200"/></a><br>
+<a href="img/09_345_06_hxst_pic06.jpg" target="_blank"><img border="0" height="225" src="img/09_345_06_hxst_pic06.jpg" width="300"/></a><a href="img/09_345_07_hxst_pic07.jpg" target="_blank"><img border="0" height="225" src="img/09_345_07_hxst_pic07.jpg" width="300"/></a><br>
+<a href="img/09_345_08_hxst_pic08.jpg" target="_blank"><img alt="09_345_08_hxst_pic08.jpg" border="0" height="170" src="img/09_345_08_hxst_pic08.jpg" width="420"/></a><br>
+＜主なIC等＞<br>
+ADSP-21469: SHARC DSP 450MHz<br>
+LPC4350FET256: マイコン Arm Cortex-M4/M0 204 MHz<br>
+NT5TU64M16HG-AC: SDRAM<br>
+EMMC04G-M627: フラッシュメモリ<br>
+W9812G6JB-6I: SDRAM<br>
+W25Q80DVSNIG: フラッシュメモリ<br>
+AT88SC153: EEPROM<br>
+EA2-5NU: リレー<br>
+6N137: フォトカプラ<br>
+CS4272-CZZ: オーディオコーデック<br>
+OPA134UA、TL074C、NE5532: オペアンプ<br>
+MAX97220A: ヘッドフォンアンプ<br>
+MC14051B: アナログスイッチ<br>
+SN74HCT14: シュミット・トリガ入力インバータ<br>
+ADP5071: 昇圧・反転スイッチングレギュレータ<br>
+MP2314: 降圧スイッチングレギュレータ<br>
+CY8C4246AZI: マイコン ARM Cortex-M0 48MHz<br>
+<br>
+<a href="https://www.analog.com/jp/products/adsp-21469.html" target="_blank">ADSP-21469</a>の演算能力は<a href="00340.html" target="_blank">MS-50G+</a>の<a href="https://www.ti.com/product/ja-jp/TMS320C6745" target="_blank">TMS320C6745</a>と同じくらいのようです。スペックが高めのLPCマイコンも搭載されており、何かしら処理を分担して行っていると思われます。<br>
+<br>
+入力部には高価なシングルオペアンプOPA134UAがあり、アナログ部分へのこだわりが見受けられます。アナログスイッチMC14051Bと周辺の抵抗が入力インピーダンス切替に使われており、『ファズが先頭でオンの時に入力インピーダンスが下がる』といった設定にすることができます。また、リレーによるバイパスが可能で、電源オフ時にバイパス音が出ます。<br>
+<br>
+▽バイパス音（DSP Bypass） <br>
+<ul><li>周波数特性 ※±1dBに拡大（DIRECT：測定に使用している<a href="00261.html" target="_blank">オーディオインターフェースUR22C</a>の入出力を直結）<br>
+<a href="img/09_345_09_hxstf.png" target="_blank"><img border="0" height="209" src="img/09_345_09_hxstf.png" width="477"/></a><br>
+ごくわずかですが、低音域・高音域のカットは<a href="00340.html" target="_blank">MS-50G+</a>より大きいです。<br>
+</li><br>
+<li>正弦波 約1kHz 330mVpp<br>
+<a href="img/09_345_09_hxst1ka.png" target="_blank"><img border="0" height="209" src="img/09_345_09_hxst1ka.png" width="477"/></a><br>
+HX Stompは歪率が低く、ノイズも測定限界に近いです。レイテンシーは、約1.5msでした。<br>
+</li></ul><hr size="1"/><br>
+＜実機比較＞<br>
+Scream 808と<a href="00336.html" target="_blank">TS9</a>実機とを比較しました。DRIVEとTONEを変化させています。<br>
+<a href="img/09_345_11_hxst_tsg.png" target="_blank"><img border="0" height="153" src="img/09_345_11_hxst_tsg.png" width="350"/></a><a href="img/09_345_12_hxst_tst.png" target="_blank"><img border="0" height="153" src="img/09_345_12_hxst_tst.png" width="350"/></a><br>
+Scream 808では、7kHzあたりから高音域が下がった特性になっています。以前<a href="00198.html" target="_blank">BiQuadフィルタで1次ローパスフィルターを再現</a>した時と同じで、ナイキスト周波数（サンプリング周波数の1/2）に近づくにつれて下がっていく形です。これは意図的というより、デジタルフィルターの処理上やむを得ずこうなったのではないかと思います。<br>
+<br>
+前述の高音域低下を除けば、正確に再現されているように見えます。しかしながら、コントロールの割合をみるとわかる通りパラメータの変化の仕方が違っており、特にTONEポットのWカーブは再現されていません。<br>
+<br>
+さらに倍音について調べました。同じくらいの歪率になるよう入力音量を調整してあります。<br>
+<a href="img/09_345_13_hxst_ts8.png" target="_blank"><img border="0" height="195" src="img/09_345_13_hxst_ts8.png" width="350"/></a><a href="img/09_345_14_hxst_ts9.png" target="_blank"><img border="0" height="195" src="img/09_345_14_hxst_ts9.png" width="350"/></a><br>
+通常対称クリッピングでは奇数次倍音が出やすいです。TS9では部品の誤差・個体差があるため、少しだけ非対称になり偶数次倍音も出ます。Scream 808は理想的なデータでクリッピングしていると思われ、完全な対称クリッピングとなり偶数次倍音が現れません。また、歪み始める音量が異なるので、ダイオードの閾値電圧も違っているようです。<br>
+<br>
+SansAmp Bass Driver DI（以下BDDI）でのデータです。<br>
+設定：PRESENCE 0% DRIVE 0% BLEND 100% BASS 50% TREBLE 50%<br>
+<a href="img/09_345_15_hxst_bddi.png" target="_blank"><img border="0" height="209" src="img/09_345_15_hxst_bddi.png" width="477"/></a><br>
+<a href="00288.html" target="_blank">自作BDDIの記事</a>で報告した通り、本家BDDIはコンデンサの容量変化で特性がズレています。ZeroAmp Bass DIは自作BDDIに近く、コンデンサの容量変化までは再現されていないことがわかります。<br>
+<br>
+US Double Nrm（Fender Twin Reverb） Preampのみでの周波数特性です。<br>
+<a href="img/09_345_16_hxst_twinRx.png" target="_blank"><img border="0" height="209" src="img/09_345_16_hxst_twinRx.png" width="477"/></a><br>
+Twin Reverbのトーンスタック部分だけでシミュレーションし比較しました。おおよそ同じ特性になっています。（2024年8月28日 Amp→Preampのデータに差し替え、記述変更）<br>
+<br>
+<a href="https://www.miroc.co.jp/rock-on/line6_helix_interview/" target="_blank">Line 6 Helix 開発者インタビュー</a>記事によると、開発時はモデリングと実機に違いがないように聞こえるかブラインドテストで確認しているそうです。しかしながら100%完璧なモデリングとは言えない部分もあるようなので、アンプ実機やアナログエフェクターの出番はまだまだあるのかなと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

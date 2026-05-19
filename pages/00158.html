@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>DIY Layout Creator 3.x 非公式日本語簡易マニュアル</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>DIY Layout Creator 3.x 非公式日本語簡易マニュアル</h1>
+  <p align="right">2016年09月17日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  誠に勝手ながら、DIY Layout Creator 3.xの簡易マニュアルを記載させていただきます。<br>
+この記事を書いている時点の最新バージョンは3.31.0です。<br>
+<br>
+<a href="https://code.google.com/archive/p/diy-layout-creator/wikis/Manual.wiki" target="_blank">もっと詳しい英語マニュアルはこちら</a><br>
+<br>
+<hr size="1"/><br>
+【導入方法】<br>
+<a href="https://java.com/" target="_blank">https://java.com/</a>からJAVAをダウンロード、インストール（ソフトを動かすために必要）<br>
+↓<br>
+サイト<a href="https://diy-fever.com/" target="_blank">DIY Fever</a>→<a href="https://diy-fever.com/software/diylc/" target="_blank">DIY Layout Creator</a>→<a href="https://github.com/bancika/diy-layout-creator/releases" target="_blank">Download Page</a>から最新バージョンのzipファイル（diylc-3.31.0.zip）をダウンロードし、CドライブProgram Filesフォルダ等に解凍<br>
+※どのフォルダでもいいですが、フォルダ名に日本語があると起動しない場合があります。<br>
+↓<br>
+（Windowsの場合）解凍したフォルダ内のdiylc.exeを実行<br>
+（Linux、Unix、Macの場合）ターミナルを起動し、「cd &lt;解凍したフォルダのパス&gt;」を入力後「./run.sh」を入力<br>
+※起動時にテンプレート呼出画面が出てきますが、×で閉じてOKです。<br>
+<br>
+<hr size="1"/><br>
+【操作方法】<br>
+例として抵抗を配置します。<br>
+(1)Passiveタブを選択 (2)Resistorをクリック (3)配置したい位置2箇所をクリック<br>
+※配置するときに1箇所クリックだけでよい部品もあります。<br>
+<a href="img/20_158_1DLC01.png" target="_blank"><img alt="20_158_1DLC01.png" border="0" height="158" src="img/20_158_1DLC01.png" width="506"/></a><br>
+<br>
+配置後すぐ（またはダブルクリックで）編集ダイアログが表示されます。Alpha（透過度）・色・抵抗値や大きさ等を編集できます。右側の四角にチェックを入れるとその部品のデフォルトの値として保存できます。<br>
+<a href="img/20_158_2DLC02.png" target="_blank"><img alt="20_158_2DLC02.png" border="0" height="300" src="img/20_158_2DLC02.png" width="269"/></a><br>
+<br>
+右クリックでコピーや回転もできます。Save as Templateで、部品テンプレートとして名前をつけて保存できます。部品テンプレートは右クリックメニュー内のApply Templateで適用するか、ツールボックスの部品画像横の▼から呼び出せます。<br>
+<a href="img/20_158_3DLC03.png" target="_blank"><img alt="20_158_3DLC03.png" border="0" height="293" src="img/20_158_3DLC03.png" width="182"/></a><br>
+<br>
+部品を移動するときは部品本体をドラッグします。部品を選択した状態で緑色になっている点はその点単独で動かすことができます。<br>
+<a href="img/20_158_4DLC04.png" target="_blank"><img alt="20_158_4DLC04.png" border="0" height="97" src="img/20_158_4DLC04.png" width="163"/></a><br>
+<br>
+<hr size="1"/><br>
+【Configの内容】<br>
+・Anti-Aliasing: 画像のギザギザがきれいになりますが、ソフトの動作は遅くなります。<br>
+・Auto-Create Pads: 部品を配置したときに、ソルダーパッド（丸い円）が自動的に追加されます。<br>
+・Auto-Edit Mode: 部品を配置したときに、部品編集ダイアログがすぐに表示されます。<br>
+・Continuous Creation: 同じ部品を連続して配置します。<br>
+・Export Grid: 印刷や画像出力の際、グリッド線も出力します。<br>
+・Hi-Quality Rendering: 画質が上がりますが、ソフトの動作は遅くなります。<br>
+・Mouse Wheel Zoom: マウスホイールで拡大縮小できます。<br>
+・Outline Mode: 抵抗・コンデンサ等のパーツのみが透過されます。<br>
+・Snap to Grid: 部品がグリッドに合わせて配置されます。<br>
+・Sticky Points: 移動時に部品同士がくっついた状態になります。※この機能は、Ctrlキーを押している間有効と無効が切り替わります。<br>
+・Theme: 画面色を変更できます。<br>
+<br>
+<hr size="1"/><br>
+【その他の機能】<br>
+・マウスで範囲選択すると部品を複数選択できるので、まとめて移動や回転ができます。<br>
+・Fileメニューから各種画像・pdf・部品リスト出力や印刷等ができます。<br>
+・ステータスバー左に現在の選択状態等が表示されます。<br>
+・表示倍率を右下のZoom:で変更できます。<br>
+・解凍したフォルダ内のtemplatesフォルダにdiyファイルを保存しておくと、起動時に呼び出すことができます。私は下図のようなファイルを作っています。<br>
+<a href="img/20_158_5DLC05.png" target="_blank"><img alt="20_158_5DLC05.png" border="0" height="200" src="img/20_158_5DLC05.png" width="400"/></a><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

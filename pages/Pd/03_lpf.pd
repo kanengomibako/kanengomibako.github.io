@@ -1,0 +1,55 @@
+#N canvas 210 77 561 389 10;
+#X obj 25 356 dac~;
+#X obj 476 20 loadbang;
+#X msg 476 42 \; pd dsp 1;
+#X obj 25 144 adc~;
+#X obj 377 57 samplerate~;
+#X floatatom 89 146 5 0 0 1 a1 - -, f 5;
+#X obj 107 193 expr 1-$f1;
+#X floatatom 314 39 5 1 200 1 - - -, f 5;
+#X floatatom 314 167 5 0 0 1 --a1 - -, f 5;
+#X floatatom 385 214 5 0 0 1 b0_b1 - -, f 5;
+#X obj 314 235 pack f 0 f f 0;
+#X obj 50 172 rpole~;
+#X obj 50 193 *~ 1;
+#X obj 47 235 fexpr~ (1-$f2)*$x1[0]+$f2*$y1[-1];
+#X obj 44 277 biquad~;
+#X obj 41 319 fexpr~ $f3*$x1[0]+$f3*$x1[-1]+$f2*$y1[-1];
+#X obj 314 120 expr (1-tan(3.1416*$f1/$f2))/(1+tan(3.1416*$f1/$f2))
+, f 24;
+#X obj 385 167 expr tan(3.1416*$f1/$f2)/(1+tan(3.1416*$f1/$f2)), f
+22;
+#X obj 317 20 hsl 128 15 100 10000 1 1 empty empty fc(100~10kHz) -2
+8 0 10 -203904 -1 -1 6350 1;
+#X obj 314 57 t f f b;
+#X obj 89 99 expr 2-cos(6.2832*$f1/$f2)-sqrt(pow((2-cos(6.2832*$f1/$f2))
+\, 2)-1), f 31;
+#X connect 1 0 2 0;
+#X connect 3 0 11 0;
+#X connect 3 0 13 0;
+#X connect 3 0 14 0;
+#X connect 3 0 15 0;
+#X connect 4 0 16 1;
+#X connect 4 0 17 1;
+#X connect 4 0 20 1;
+#X connect 5 0 6 0;
+#X connect 5 0 13 1;
+#X connect 5 0 11 1;
+#X connect 6 0 12 1;
+#X connect 7 0 19 0;
+#X connect 8 0 10 0;
+#X connect 8 0 15 1;
+#X connect 9 0 10 3;
+#X connect 9 0 10 2;
+#X connect 9 0 15 2;
+#X connect 10 0 14 0;
+#X connect 11 0 12 0;
+#X connect 15 0 0 0;
+#X connect 16 0 8 0;
+#X connect 17 0 9 0;
+#X connect 18 0 7 0;
+#X connect 19 0 16 0;
+#X connect 19 0 20 0;
+#X connect 19 1 17 0;
+#X connect 19 2 4 0;
+#X connect 20 0 5 0;

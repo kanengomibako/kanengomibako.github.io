@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>FF1815G（FFM2風ファズフェイス）</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>FF1815G（FFM2風ファズフェイス）</h1>
+  <p align="right">2023年10月23日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <a href="img/02_329_01_ffg_pic.jpg" target="_blank"><img border="0" height="320" src="img/02_329_01_ffg_pic.jpg" width="490"/></a><br>
+<a href="00311.html" target="_blank">FF108B &amp; FF1815</a>に引き続き、無選別の2SC1815-GRを使ったファズフェイスを製作しました。今回は、ゲルマニウムトランジスタが使われているファズフェイスFFM2（<a href="https://www.jimdunlop.com/germanium-fuzz-face-mini-distortion/" target="_blank">Jim Dunlop GERMANIUM FUZZ FACE MINI</a>）の音に近づけられるのかどうか検証してみます。<br>
+<br>
+<hr size="1"/><br>
+▽回路図<br>
+<a href="img/02_329_02_ffg_sch.png" target="_blank"><img border="0" height="324" src="img/02_329_02_ffg_sch.png" width="304"/></a><br>
+FFM2実機を分解するの少し大変なので、<a href="https://www.thegearpage.net/board/index.php?threads/dunlop-fuzz-face-mini-ge-muddy-sounding-change-output-cap.2093447/" target="_blank">こちらのページ</a>の内部写真を参考にしました。<a href="00311.html" target="_blank">FF1815</a>と同様、トランジスタは2SC1815-GR（JCET製）です。周波数特性を合わせるため、コレクタ-ベース間のコンデンサ容量が大きめの値となっています。<br>
+<br>
+<a href="00311.html" target="_blank">FF108B &amp; FF1815</a>の記事で記載した通り、hFEを同じにしないと厳密に同じ音にすることはできないと思われます。ゲルマニウムトランジスタはhFEが低いものが多いため、それに合わせるためにトランジスタ2個と抵抗器1個を組み合わせる方法があります（参考ページ→<a href="https://www.freestompboxes.org/viewtopic.php?t=2674" target="_blank">Piggyback Si transistors to simulate Ger ???</a>）。ただ、今回は手軽さを重視してトランジスタは単体で使用し、歪率や倍音構成が近くなるようにトリマーを調整しました。<br>
+<br>
+▽周波数特性（VOLUME 100% FUZZ 100% 気温24℃）<br>
+<a href="img/02_329_03_ffg_f.png" target="_blank"><img border="0" height="201" src="img/02_329_03_ffg_f.png" width="444"/></a><br>
+FFM2では入出力のカップリングコンデンサの容量が大きく、低音域があまりカットされません。また、ゲルマニウムトランジスタはコレクタ-ベース間の寄生容量が大きく、高音域が下がっています。<br>
+<br>
+▽波形・倍音<br>
+＜FFM2＞<br>
+<a href="img/02_329_04_ffm2_w1.png" target="_blank"><img border="0" height="187" src="img/02_329_04_ffm2_w1.png" width="335"/></a><a href="img/02_329_05_ffm2_w2.png" target="_blank"><img border="0" height="187" src="img/02_329_05_ffm2_w2.png" width="335"/></a><br>
+<br>
+＜FF1815G hFE(Q1)=312 hFE(Q2)=312 Vc1=1.71V Vc2=4.04V＞<br>
+<a href="img/02_329_06_ffg_w1.png" target="_blank"><img border="0" height="187" src="img/02_329_06_ffg_w1.png" width="335"/></a><a href="img/02_329_07_ffg_w2.png" target="_blank"><img border="0" height="187" src="img/02_329_07_ffg_w2.png" width="335"/></a><br>
+<br>
+歪率が低い時、FFM2のクリッピングは丸みを帯びた形です。倍音構成がキレイに斜めに並び、ややこもったように聞こえます。このあたりがゲルマニウムトランジスタらしさの要因ではないかと考えられます。動画でも注意深く聞くとこの特徴がわかるかと思います。<br>
+<br>
+<iframe allowfullscreen="" data-id="AxgJmFuZW0E" frameborder="0" height="180" src="//www.youtube.com/embed/AxgJmFuZW0E" width="320"></iframe><br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

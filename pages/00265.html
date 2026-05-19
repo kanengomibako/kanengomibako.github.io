@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Sodium</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Sodium</h1>
+  <p align="right">2021年01月12日　カテゴリー：<a href="00236.html">STM32</a></p>
+  <hr class="title"><br>
+  <a href="img/03s_265_1sodP.jpg" target="_blank"><img alt="03s_265_1sodP.jpg" border="0" height="300" src="img/03s_265_1sodP.jpg" width="300"/></a><br>
+自分でプログラミング可能なエフェクターは高価なものが多く（2～3万円）、デジタルエフェクターを始める上でのハードルの一つとなっていると思います。そこで、低価格なデジタルエフェクター入門機の販売に向けて製作したのがこのペダルです。<br>
+→<strong><a href="https://kanengomibako.booth.pm/items/2635788" target="_blank">【販売ページはこちら】</a></strong><br>
+<br>
+金属ケースの加工は自分で行うには大変すぎるし、外注すると高額になってしまうので、Elecrowのアクリル加工サービスを利用した筐体となっています。本体は下写真のように基板とアクリル板計7枚から構成されています。アクリルのデータもKiCadで作成しました。（図面データは<a href="https://github.com/kanengomibako/Sodium" target="_blank">GitHub</a>へ）<br>
+<a href="img/03s_265_4sodP3.jpg" target="_blank"><img alt="03s_265_4sodP3.jpg" border="0" height="250" src="img/03s_265_4sodP3.jpg" width="400"/></a><a href="img/03s_265_3sodP2.jpg" target="_blank"><img alt="03s_265_3sodP2.jpg" border="0" height="250" src="img/03s_265_3sodP2.jpg" width="188"/></a><br>
+メイン基板は表面実装部品のみElecrowのPCBA（部品実装）サービスを利用しました。詳細は別記事にまとめる予定です。<br>
+<br>
+▽回路図（KiCadデータは<a href="https://github.com/kanengomibako/Sodium" target="_blank">GitHub</a>へ）<br>
+<a href="img/03s_265_2sod.png" target="_blank"><img alt="03s_265_2sod.png" border="0" height="360" src="img/03s_265_2sod.png" width="600"/></a><br>
+最低限の機能ということで、ステレオ不可、入出力は単純な1次ローパスフィルタとなっています。レギュレータはそれなりの発熱が予想されたため、抵抗器を入れるといった対策を行っていますが、実測では消費電流150mA程度だったのであまり要らない心配だったかもしれません。<br>
+<br>
+操作系は以前製作した<a href="00242.html" target="_blank">Srempy</a>と同じで、ディスプレイとスイッチ5つという構成です。ポットだとどうしてもフットスイッチとの干渉が気になりますし、ディスプレイを付けたかったのでこの形になりました。<br>
+<br>
+オペアンプは<a href="00237.html" target="_blank">Owm Pedal</a>ではOPA1678でしたが、入力がRail to Railでないことに気づいていませんでした。やはり許容入力が大きい方がよいので、TLV9062（5V駆動可、入出力Rail to Rail）を使っています。未検証ですがGS8632もよいかもしれません。（TL072等を9V駆動で使い、オーディオコーデックの入出力にカップリングコンデンサを入れる方式が標準的だと思います。少しスペース的に厳しくなりますが…）<br>
+<br>
+オーディオコーデックICはPCM3060を採用しました。CS4270、ES8388を使ったプロトタイプとのノイズ比較データは下図の通りです。GNDにスリットを入れてみましたが、効果の程はわかりません。概ねICのスペック通りの結果なのかなと思います。<br>
+<a href="img/03s_265_5sodN.png" target="_blank"><img alt="03s_265_5sodN.png" border="0" height="260" src="img/03s_265_5sodN.png" width="600"/></a><br>
+コーデックICの検討を進めている時、旭化成の工場火災の影響かコーデックIC全体が品薄となりました。CS4270を使いたかったのですが、入手が難しく採用をあきらめました。PCM3060はリードタイムが比較的短く、ある程度供給は大丈夫だろうと思います。ES8388もコストパフォーマンスがよいので別の機会に使ってみたいところです。<br>
+<br>
+マイコンはSTM32F722で、処理能力やメモリ容量を考えるとそれなりの価格になってしまいますが、ここは妥協できないところです。SAIペリフェラルを使いこなすのはあまり自信がなかったので、いつも通りI2Sを2つ使う方式で通信しています。<br>
+<br>
+見た目はあまり気にしていないのですが、アクリルを使っているおかげで暗いところでは目立ちそうです。赤LEDにPWM出力が設定できないピンを選んでしまったので、ここは変更するかもしれません。<br>
+<a href="img/03s_265_5sodP4.jpg" target="_blank"><img alt="03s_265_5sodP4.jpg" border="0" height="240" src="img/03s_265_5sodP4.jpg" width="240"/></a><br>
+<br>
+<hr size="1"/><br>
+そもそもデジタルエフェクターのプログラミングをやってみたいという人はそんなに多くはないと思います。それでもデジタルエフェクター普及を進めたいので、ほとんど利益はない価格設定です。私自身プログラミングは初心者に毛が生えたようなものなので、うまくいかない部分も出てくるかもしれませんが、できるだけ継続販売していきたいと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

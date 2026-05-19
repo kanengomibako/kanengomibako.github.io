@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BOSS DS-1X Distortion 修理・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>BOSS DS-1X Distortion 修理・特性測定</h1>
+  <p align="right">2022年08月23日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_300_01_dsxP.jpg" target="_blank"><img border="0" height="320" src="img/09_300_01_dsxP.jpg" width="425"/></a><br>
+音が出ないジャンク状態のBOSS DS-1X Distortionを手に入れたので、修理し特性を測定しました。色は違いますが、<a href="00289.html" target="_blank">OD-1X</a>と全く同じ基板のようです。<br>
+<br>
+<hr size="1"/><br>
+<strong>【修理】</strong><br>
+<br>
+<a href="img/09_300_02_dsxI.jpg" target="_blank"><img border="0" height="185" src="img/09_300_02_dsxI.jpg" width="400"/></a><br>
+何やらカラカラと音がしており中を見てみると、電源部のインダクタが端子部分から外れていました。前の持ち主は半田付けで修理を試みたようです。現在は生産終息品のインダクタ（型番ELL6UH221M）だったので、大きさが違う別のもの（型番SHP0745P-F221A）を何とか取り付けました。これでOD-1Xと同じ3.2Vが出力され、音も無事に出るようになり修理完了です。動作確認後、交換したインダクタ付近はホットボンドで固めて動かないようにしておきました。インダクタは漏れ磁束があるので本来は取り付ける向きも同じにした方がいいのですが、磁気シールド構造になっているので大丈夫でしょう。<br>
+<br>
+<hr size="1"/><br>
+<strong>【特性測定】</strong>※各ノブの設定は最大を100として記載<br>
+<br>
+<a href="https://www.boss.info/jp/products/ds-1x/" target="_blank">BOSS公式サイト</a>には、多次元的信号処理技術「MDP」を用いていると記載があり、複雑な信号処理が施されていると思われます。単純な特性測定ではあまり意味がないかもしれません。<br>
+<br>
+▽波形・倍音（LOW 0 HIGH 0 DIST 50）<br>
+<a href="img/09_300_11_dsxFh.png" target="_blank"><img border="0" height="209" src="img/09_300_11_dsxFh.png" width="477"/></a><br>
+対称な波形で、奇数次倍音が多いです。<br>
+<br>
+▽DIST変化時の周波数特性（LOW 50 HIGH 50）<br>
+<a href="img/09_300_12_dsxFd.png" target="_blank"><img border="0" height="209" src="img/09_300_12_dsxFd.png" width="477"/></a><br>
+設定値0～100で約40dB変化します。ゲインを上げたとき高音域が微妙に変化するようです。<br>
+<br>
+▽LOW変化時の周波数特性（HIGH 50 DIST 0）<br>
+<a href="img/09_300_13_dsxFl.png" target="_blank"><img border="0" height="300" src="img/09_300_13_dsxFl.png" width="400"/></a><br>
+100Hz付近を増幅しますが、そこまで特殊な動きではありません。<br>
+<br>
+▽HIGH変化時の周波数特性（LOW 50 DIST 0）<br>
+<a href="img/09_300_14_dsxFhi.png" target="_blank"><img border="0" height="300" src="img/09_300_14_dsxFhi.png" width="400"/></a><br>
+<a href="00289.html" target="_blank">OD-1X</a>より高音域側が動いています。0～25と50以降では、4kHz付近がほとんど上がらないよう調節されています。<br>
+<br>
+▽GT-1000CORE内蔵X-DISTとの比較（DIST 0）※GT-1000COREの設定値-50～+50は0～100として記載<br>
+<a href="img/09_300_15_dsxFg.png" target="_blank"><img border="0" height="300" src="img/09_300_15_dsxFg.png" width="400"/></a><br>
+5kHz以降の高音域の出方が違っており、内部処理が変更されているということがわかります。ただDS-1Xの内部プログラムがアップデートされている可能性があるため、現在はどうなっているのか不明です。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

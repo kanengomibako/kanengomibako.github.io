@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>DEMETER Opto Compulator改</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>DEMETER Opto Compulator改</h1>
+  <p align="right">2012年11月03日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <img alt="02_115_1optcompP.jpg" border="0" height="240" src="img/02_115_1optcompP.jpg" width="360"/><br>
+今回はフォトカプラを使ったオプティカル（光学式）コンプレッサー、DEMETER Opto Compulatorです。いろんなコンプレッサーを試してみたいということで作ってみました。<br>
+<br>
+▽回路図<br>
+<a href="img/02_115_2optcompSch.gif" target="_blank"><img alt="02_115_2optcompSch.gif" border="0" height="225" src="img/02_115_2optcompSch.gif" width="450"/></a><br>
+▽レイアウト<br>
+<a href="img/02_115_3optcompL.png" target="_blank"><img alt="02_115_3optcompL.png" border="0" height="383" src="img/02_115_3optcompL.png" width="285"/></a><br>
+▽PCB（横55.9mm縦40.6mm）<br>
+<a href="img/02_115_4optcompPL.gif" target="_blank"><img alt="02_115_4optcompPL.gif" border="0" height="77" src="img/02_115_4optcompPL.gif" width="106"/></a><br>
+「改」といっても大した変更ではありません。コンデンサの値を大きくしたり、抵抗の値を手持ちに合わせたりしています。元の回路図に出てくる619Ωとかいう中途半端な値の抵抗にどこまで意味があるのかわからないのですが、一応フォトカプラにつながる抵抗は620Ωにしておきました。680Ωとか、1kΩと2.2kΩの並列（=687.5Ω）とかでも大丈夫だと思います。Volumeは100kB、Compressに100kAのポットを使いましたが特に問題ありません。<br>
+<br>
+回路としては周波数特性を変化させずにゲインを変えているだけなので、やはり自然なかかり方だと思います。フォトカプラVTL5C10のおかげなのか反応時間が速いようです。OTA（LM3080等）を使ったコンプレッサーとはそういった部分で音に違いが出てくるのかもしれません（私にはいまいちわかりませんが…）。フォトカプラはGarrettaudioで通販可能ですが、値段が高いのが難です。自作のフォトカプラでもよかったのですが、定数の調整が面倒になりそうなのでやめておきました。<br>
+<br>
+ケースは<a href="00111.html">以前作ったコンプレッサー</a>のものを使っています。そんなに不満はなかったのですが、今回作ったコンプレッサーの方が回路が簡単で操作性がよいかなと思います。<br>
+<br>
+（2016年11月9日回路図・部品リスト・レイアウト・PCB追加）<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

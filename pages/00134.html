@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>PINK LLAMA</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>PINK LLAMA</h1>
+  <p align="right">2014年07月01日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+  <hr class="title"><br>
+  <img alt="02_134_1pinkllP.jpg" border="0" height="240" src="img/02_134_1pinkllP.jpg" width="360"/><br>
+Red LlamaというエフェクターはCD4049というデジタル回路用のロジックICを使われています。この種類のICの歪みがどういうものか気になり製作してみることにしました。（名前はLlamaですが、ひよこのページのクランチドライブを元にしています。）<br>
+<br>
+▽回路図<br>
+<a href="img/02_134_2pinkllsch.gif" target="_blank"><img alt="02_134_2pinkllsch.gif" border="0" height="250" src="img/02_134_2pinkllsch.gif" width="600"/></a><br>
+バッファー→トーン回路→増幅（歪み）という構成になっています。74HCU04もCD4049と似たようなICです。MOS-FETが入っていて、真空管に比較的近い特性を持っているらしいです。<br>
+トーン回路は通常歪ませた後に入っていることが多いですが、今回は歪ませる前に持ってくるようにしました。ギターアンプのパワーアンプ部で歪ませるイメージです。またもSansampのトーン回路を流用しました。操作した感じでは特に低音の調整がしやすくなった気がします。<br>
+74HCU04は動作電圧が2～6Vなので電圧を9Vから下げなければいけません。単に下げるだけでは面白くないので、LM317を使って電圧を可変にしました。当初は外部ポットで電圧を変更して歪み調整しようとしましたが、操作性がイマイチだったので結局トリマーにしました。とりあえず私は3.5Vに調整しましたが、もっと低くすれば深く歪みます。<br>
+<br>
+▽レイアウト<br>
+<a href="img/02_134_3pinkllL.png" target="_blank"><img alt="02_134_3pinkllL.png" border="0" height="630" src="img/02_134_3pinkllL.png" width="432"/></a><br>
+▽PCB（横55.9mm縦45.7mm）<br>
+<a href="img/02_134_4pinkllLP.gif" target="_blank"><img alt="02_134_4pinkllLP.gif" border="0" height="54" src="img/02_134_4pinkllLP.gif" width="66"/></a><br>
+LM317が大きいですが意外と余裕があるレイアウトになりました。最近は無理せずジャンパーを使うようにしています。シルバーマイカコンデンサが余っていたので使いましたが、やっぱりデカ過ぎです…<br>
+<br>
+電源電圧の調節は思ったより応用が利きそうです。使用するギターの出力に合わせて変更したり、歪みの可変幅を変更したりできます。ただ肝心の歪みの違いは私の耳ではあまりわかりませんでした。<br>
+<br>
+（2016年11月9日部品リスト・PCB追加）<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

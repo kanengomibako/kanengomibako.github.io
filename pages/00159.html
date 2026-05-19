@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>歪率・周波数特性　測定環境</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>歪率・周波数特性　測定環境</h1>
+  <p align="right">2016年09月29日　カテゴリー：<a href="00164.html">○○で音は変わるのか</a></p>
+  <hr class="title"><br>
+  自分のパソコンがどのような特性か調べました。ヘッドフォン出力からマイク入力へケーブルを接続して測定するだけです。WaveGene、WaveSpectraの設定もメモしておきます。（2016年11月13日 設定少し変更、画像差し替え）<br>
+<br>
+【PC】<br>
+メインボリューム：100　録音ボリューム：5<br>
+【WaveGene】<br>
+[歪率測定]　サイン波　100Hz 1kHz 10kHz　FFT用に最適化　FFTサンプル周波数16384　0dB<br>
+[周波数特性測定]　ユーザー波形　FLATSWEEP_016384　0dB<br>
+【WaveSpectra】<br>
+FFT　サンプルデータ数16384　窓関数"なし（矩形）"<br>
+<br>
+測定結果は下図です。波形が見やすいようにサンプルデータ数は少なめにしています。青い線が周波数特性です。<br>
+<a href="img/10_159_1PC_THD_F.gif" target="_blank"><img alt="10_159_1PC_THD_F.gif" border="0" height="157" src="img/10_159_1PC_THD_F.gif" width="435"/></a><br>
+THD 0.004%、THD+N 0.009%程度となりました（100Hzと10kHzは結果のみ表示）。オーディオインターフェースを使えばもっとよくなると思いますが、私にはこれで充分です。周波数特性はほぼフラット特性です。±1dBまで拡大してみます。<br>
+<a href="img/10_159_2PC_Fb.gif" target="_blank"><img alt="10_159_2PC_Fb.gif" border="0" height="157" src="img/10_159_2PC_Fb.gif" width="435"/></a><br>
+聞き取るのは無理だと思いますが、0.1dBぐらい変化しているようです。<br>
+<br>
+<hr size="1"/><br>
+パソコンの出力電圧と入出力インピーダンスがどのくらいかも調べておきました。<br>
+<br>
+【WaveGene】<br>
+サイン波　50Hz　0dB<br>
+【デジタルマルチメータ】<br>
+MotherTool MT-4510　家庭用コンセントでAC100V測定確認済<br>
+【PC】<br>
+メインボリューム→電圧<br>
+10→26mV　20→72mV　30→142mV　40→225mV　50→319mV<br>
+60→447mV　70→566mV　80→715mV　90→897mV　100→1.01V<br>
+<br>
+出力インピーダンス 約83Ω（1kHz）<br>
+入力インピーダンス 約5kΩ（1kHz）<br>
+<br>
+-2dB、PCボリューム30で私のギターと同じぐらいの出力電圧（110mV）となります。<br>
+<br>
+<hr size="1"/><br>
+測定に使うバッファーの特性を調べました。<a href="00113.html">回路実験器その2（オペアンプ版）</a>の前半部分です。<br>
+<br>
+【PC】<br>
+メインボリューム：30　録音ボリューム：45<br>
+<a href="img/10_159_3buffer_THD_F.gif" target="_blank"><img alt="10_159_3buffer_THD_F.gif" border="0" height="157" src="img/10_159_3buffer_THD_F.gif" width="435"/></a><br>
+100Hzの歪率が少し悪くなりました。録音ボリュームを上げたせいかノイズも増えていますが、まぁ問題ないレベルだろうと思います。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

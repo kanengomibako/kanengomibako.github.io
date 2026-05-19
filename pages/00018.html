@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>DIY Layout Creator 1.x Tips</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>DIY Layout Creator 1.x Tips</h1>
+  <p align="right">2007年07月28日　カテゴリー：<a href="00141.html">メモ・雑記</a></p>
+  <hr class="title"><br>
+  DIY Feverというサイトにあるフリーソフト「DIY Layout Creator」についていろいろ書いていきます。<br>
+※この記事は旧バージョン（DIY Layout Creator 1.x）に関する記事です。<br>
+<br>
+<hr size="1"/><br>
+・動作が遅い…<br>
+<br>
+部品を配置するとか選択するとかのときいちいち遅くなるんですが私のPCだけでしょうか…<br>
+この点さえ改善されればすごくいいんですけど（ただの文句だ…）。<br>
+<br>
+<hr size="1"/><br>
+・間違い？<br>
+<br>
+部品と部品をつなぐ線をジャンパーで描いてあるレイアウトがたまにあります（本家サイトのアップロードされたファイルとかにも）。私も最初やりました。<br>
+部品と部品をつなぐ線は左側のToolBoxではなく下側のToolboxにTraceというのがありますのでそれを使った方がいいと思います。ちなみにSolder Padも下側のToolboxにあります。<br>
+左側のメニューのBoard PropertiesからLayout typeをPCBにすると、左側のToolBoxにもSolder PadとTraceが出てきます。<br>
+<br>
+<hr size="1"/><br>
+・Traceを見やすくする<br>
+<br>
+チュートリアルを見たら載ってます。スペースキーを押すと部品が薄くなってトレースが見やすくなります。もう一度スペースキーを押すと元に戻ります。<br>
+<br>
+<hr size="1"/><br>
+・全体の位置を移動<br>
+<br>
+<img alt="20_18_1DLC.gif" border="0" height="51" src="img/20_18_1DLC.gif" width="201"/><br>
+チュートリアルを見たら載ってます。ソフト起動時、ウインドウの右下に上の図の左側のようにボタンがあるはずです（私のPCでは右側のように文字化けしてました）。↑↓←→のボタンで部品を動かせます。右上のボタンは「すべての部品を選択」で、左上のボタンは90度回転です。<br>
+<br>
+<hr size="1"/><br>
+・PCBで編集<br>
+<br>
+左側のメニューのBoard PropertiesからLayout typeをPCBにすると、部品を置いたときもれなくSolder Padが付いてきます。移動させても付いたままです。向きが関係するものは四角のSolder Padが付きます。私は後から気付いて損した気分です。<br>
+<br>
+<hr size="1"/><br>
+・TraceやSolder Padの太さや色ををまとめて編集<br>
+<br>
+DIY Layout Creatorのファイル「.diy」はテキストファイルがベースで、テキストエディタでも開けます。このとき文字列の置換ができるMicrosoft Wordなどのソフトを使って開きます（私の場合TeraPadとそのツールを使っています）。そして検索文字列に「"5px"」、置換する文字列に「"9px"」と入れてすべて置換すると、5ピクセルの太さのトレースが9ピクセルになるといった具合です。同様にして色を「"Black"」から「"Blue"」に変えたりできます。この方法はいろいろと応用できそうです。<br>
+<br>
+<hr size="1"/><br>
+・部品表の順番を変える<br>
+<br>
+部品番号（R1とか）を後から割り振った場合は、部品表の順番がデタラメになることがあります。<br>
+上記と同様にテキストエディタで「.diy」ファイルを開きます。部品表はテキストファイルの上から順に表示してるみたいで、行を入れ替えれば部品表の位置も変わります。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

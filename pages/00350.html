@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>VITAL AUDIO POWER CARRIER VA-05 Mk-II 分解・測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>VITAL AUDIO POWER CARRIER VA-05 Mk-II 分解・測定</h1>
+  <p align="right">2024年07月20日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title"><br>
+  <a href="img/09_350_01_va05_pic.jpg" target="_blank"><img border="0" height="180" src="img/09_350_01_va05_pic.jpg" width="320"/></a><br>
+以前、<a href="00317.html" target="_blank">いろいろな電源のノイズ測定やCaline CP-205の改造</a>を行いました。今回は、割と最近（2023年6月）発売された<a href="https://hookup.co.jp/products/vital-audio/va-05mk2" target="_blank">VITAL AUDIO POWER CARRIER VA-05 Mk-II</a>についてどのようになっているか調べました。<br>
+<br>
+<hr size="1"/><br>
+▽旧機種VA-05 ADJ　基板画像（今は手元になく低解像度写真です。）<br>
+<a href="img/09_350_04_va05o1.jpg" target="_blank"><img border="0" height="140" src="img/09_350_04_va05o1.jpg" width="280"/></a><a href="img/09_350_05_va05o2.jpg" target="_blank"><img border="0" height="140" src="img/09_350_05_va05o2.jpg" width="240"/></a><br>
+9V固定ポートはトランス→リニアレギュレータ、可変ポートはトランス→非絶縁型DC-DCコンバータ→トランジスタのリップルフィルタという形式のようです。<br>
+<br>
+▽VA-05 Mk-II　基板画像<br>
+<a href="img/09_350_02_va05i1.jpg" target="_blank"><img border="0" height="320" src="img/09_350_02_va05i1.jpg" width="320"/></a><a href="img/09_350_03_va05ic.jpg" target="_blank"><img border="0" height="240" src="img/09_350_03_va05ic.jpg" width="240"/></a><br>
+＜主なIC＞<br>
+<a href="https://www.lcsc.com/product-detail/MOSFETs_HUAYI-HYG110P04LQ2C2_C2891580.html" target="_blank">HYG110P04</a>：P-Channel MOSFET<br>
+<a href="https://www.lcsc.com/product-detail/Bipolar-BJT_Jiangsu-Changjing-Electronics-Technology-Co-Ltd-D882M-RANGE-160-320_C141727.html" target="_blank">D882M</a>：NPNトランジスタ<br>
+<a href="https://www.lcsc.com/product-detail/Transistor-Photovoltaic-Output-Optoisolators_Everlight-Elec-EL3H7-C-TA-G_C92243.html" target="_blank">EL3H7</a>：フォトトランジスタ<br>
+VITOOS OV-2304：特注IC？<br>
+<a href="https://www.aliexpress.com/i/1005004192053447.html" target="_blank">OC6800B</a>：DC-DCコンバータ<br>
+<br>
+ICや基板に印字がある通り、製造は<a href="https://www.vitoos.com/" target="_blank">VITOOS</a>のようです。トランスが別々になり、全てのポートが同じ回路のように見えます。DC-DCコンバータにはいろいろな回路形式がありますが、おそらくフライバック式です。Strymon Ojaiを意識してあるのではないかと思います（参考：<a href="https://alfalfasprout69.wixsite.com/ojai/gut-shot-pictures" target="_blank">Strymon Ojai Gut Shot Pictures</a>）。出力部にはトランジスタのリップルフィルタがあります。<br>
+<br>
+<hr size="1"/><br>
+【電圧測定】<br>
+<table border="1"><tr align="center"><td>　</td><td>9V 30mA</td><td>9V 250mA</td><td>9V 500mA</td><td>12V 40mA</td><td>12V 333mA</td><td>18V 60mA</td></tr><tr align="center"><td> 1</td><td>9.16V</td><td>8.88V</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td> 2</td><td>9.16V</td><td>8.89V</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td> 3</td><td>9.18V</td><td>8.90V</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr align="center"><td> 4</td><td>9.27V</td><td>9.04V</td><td>8.82V</td><td>12.40V</td><td>12.16V</td><td>18.54V</td></tr><tr align="center"><td> 5</td><td>9.26V</td><td>9.01V</td><td>8.80V</td><td>12.38V</td><td>12.14V</td><td>18.52V</td></tr></table><br>
+同じ出力電流のポートであれば値はそろっており、この個体については<a href="00316.html" target="_blank">カレントダブラーケーブル</a>を使っても大丈夫でしょう。12Vや18V設定の時は少し高めの電圧が出ています。<br>
+<br>
+<hr size="1"/><br>
+【ノイズ測定】<br>
+<a href="00317.html" target="_blank">以前</a>と同様オーディオインターフェイスに接続して測定しています。<br>
+<a href="img/09_350_11_va05_1-5.png" target="_blank"><img border="0" height="209" src="img/09_350_11_va05_1-5.png" width="477"/></a><br>
+低音域のノイズは多めとなっていますが、全体としては充分低ノイズです。各ポートで微妙にノイズの差が出ており、なぜか2番ポートは消費電力が大きい機器（エアコン等）の影響を受けやすいようです。<br>
+<br>
+・電流、電圧を変更した場合<br>
+<a href="img/09_350_12_va05_A.png" target="_blank"><img border="0" height="157" src="img/09_350_12_va05_A.png" width="358"/></a><a href="img/09_350_13_va05_V.png" target="_blank"><img border="0" height="157" src="img/09_350_13_va05_V.png" width="358"/></a><br>
+電流が大きくなると、10kHz以降のノイズが増える傾向にあります。電圧を変えた場合のノイズ増加はわずかのようです。<br>
+<br>
+
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>

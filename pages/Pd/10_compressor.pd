@@ -1,0 +1,96 @@
+#N canvas 36 50 640 512 10;
+#X obj 15 485 dac~;
+#X obj 502 13 loadbang;
+#X msg 502 34 \; pd dsp 1;
+#X obj 14 34 spigot~;
+#X obj 60 15 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1 1
+;
+#X obj 62 443 *~ 1;
+#X obj 61 362 *~;
+#X obj 61 76 delwrite~ \$0-comp 10, f 10;
+#X obj 61 194 delread~ \$0-comp 3, f 9;
+#X obj 61 118 loadbang;
+#X obj 61 139 samplerate~;
+#X obj 87 422 dbtorms;
+#X obj 87 383 nbx 3 14 0 30 0 1 empty empty vol(0~30dB) 42 7 0 11 -204786
+-1 -1 0 256;
+#X obj 87 401 + 100;
+#X obj 460 86 nbx 3 14 20 100 0 1 empty empty threshold(20~100dB) 42
+7 0 11 -261234 -1 -1 70 256;
+#X obj 424 260 nbx 3 14 0 100 0 1 empty empty attack(0~100ms) 42 7
+0 11 -261682 -1 -1 10 256;
+#X obj 199 260 nbx 3 14 0 1000 0 1 empty empty release(0~1000ms) 42
+7 0 11 -262130 -1 -1 50 256;
+#X obj 470 169 nbx 3 14 1 100 1 1 empty empty ratio(1~100) 42 7 0 11
+-203904 -1 -1 5.04807 256;
+#X obj 146 76 moses;
+#X obj 146 55 env~ 256;
+#X obj 320 37 nbx 3 14 0 20 0 1 empty empty knee(0~20dB) 42 7 0 11
+-228856 -1 -1 0 256;
+#X obj 178 97 moses;
+#X obj 352 118 -;
+#X obj 364 55 t b f;
+#X obj 378 139 +;
+#X obj 371 278 pack f f;
+#X obj 178 139 t f f;
+#X obj 371 257 + 100;
+#X obj 178 215 expr ($f1-$f2)/$f3+$f2-$f1;
+#X obj 371 215 expr ($f1-$f2)/$f3+$f2-$f1;
+#X obj 146 320 line~;
+#X obj 61 160 expr 128000/$f1, f 10;
+#X obj 146 341 dbtorms~;
+#X msg 146 257 100;
+#X obj 146 278 pack f f;
+#X obj 210 160 expr ($f1-$f3)/2+sqrt(2*pow($f2 \, 2)-pow($f1-$f3 \,
+2))/2+$f3-$f2, f 32;
+#X text 61 472 [spigot~] needs two externals: libdir \, unauthorized
+, f 32;
+#X obj 14 13 adc~;
+#X connect 1 0 2 0;
+#X connect 3 0 0 0;
+#X connect 3 0 0 1;
+#X connect 3 1 7 0;
+#X connect 3 1 19 0;
+#X connect 4 0 3 1;
+#X connect 5 0 0 0;
+#X connect 5 0 0 1;
+#X connect 6 0 5 0;
+#X connect 8 0 6 0;
+#X connect 9 0 10 0;
+#X connect 10 0 31 0;
+#X connect 11 0 5 1;
+#X connect 12 0 13 0;
+#X connect 13 0 11 0;
+#X connect 14 0 22 0;
+#X connect 14 0 24 0;
+#X connect 14 0 29 1;
+#X connect 14 0 35 2;
+#X connect 15 0 25 1;
+#X connect 16 0 34 1;
+#X connect 17 0 29 2;
+#X connect 17 0 28 2;
+#X connect 18 0 33 0;
+#X connect 18 1 21 0;
+#X connect 19 0 18 0;
+#X connect 20 0 23 0;
+#X connect 20 0 35 1;
+#X connect 21 0 26 0;
+#X connect 21 1 29 0;
+#X connect 22 0 18 1;
+#X connect 23 0 14 0;
+#X connect 23 1 22 1;
+#X connect 23 1 24 1;
+#X connect 24 0 21 1;
+#X connect 25 0 30 0;
+#X connect 26 0 28 0;
+#X connect 26 1 35 0;
+#X connect 27 0 25 0;
+#X connect 28 0 27 0;
+#X connect 29 0 27 0;
+#X connect 30 0 32 0;
+#X connect 31 0 8 0;
+#X connect 32 0 6 1;
+#X connect 33 0 34 0;
+#X connect 34 0 30 0;
+#X connect 35 0 28 1;
+#X connect 37 0 3 0;
