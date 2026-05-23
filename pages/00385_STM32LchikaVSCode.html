@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>STM32 NucleoボードのLチカ VS Code編</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>STM32 NucleoボードのLチカ VS Code編</h1>
+<p align="right">2026年05月23日　カテゴリー：<a href="00236.html">STM32</a></p>
+<hr class="title"/>
+<p>STM32 Nucleoボードについて、STM32CubeMXでプロジェクトを生成し、Visual Studio Code（VS Code）と拡張機能でデバッグする方法をまとめました。STM32CubeMX 6.17.0、VS Code v1.121、Windows 11 Pro 25H2で動作確認しています。</p>
+<hr />
+
+<h3>■ 準備</h3>
+<ul>
+<li><p><a href="https://www.st.com/ja/development-tools/stm32cubemx.html">STM32CubeMX</a> をインストール</p>
+<p>※ st.com へのユーザー登録が必要</p></li>
+<li><p><a href="https://code.visualstudio.com/">Visual Studio Code</a> をインストール</p></li>
+</ul>
+<br>
+<h3>■ STM32CubeMX でプロジェクト生成</h3>
+<ol>
+<li><p>STM32CubeMXを起動</p></li>
+<li><p>中央のACCESS TO BOARD SELECTORを選択</p></li>
+<ul>
+<li><p>MCU・ボード一覧のダウンロードが自動で開始</p></li>
+<li><p>使用するNucleoボードを選択 → Start Project</p></li>
+<li><p>「Initialize all peripherals with their default Mode ?」はYesを選択</p></li>
+</ul>
+<li>Project Managerタブを開き以下を設定</li>
+<ul>
+<li><p>Project Name: プロジェクト名を入力</p></li>
+<li><p>Project Location: VS Codeで扱う任意のフォルダを選択</p></li>
+<li><p>Toolchain / IDE:「CMake」を選択</p></li>
+</ul>
+<li>「GENERATE CODE」ボタンでコード生成</li>
+<ul>
+<li><p>ファームウェアをダウンロードするか聞かれた場合はYesを選択</p>
+<p>※ ダウンロード、解凍に時間がかかります。</p></li>
+</ul>
+</ol>
+<p>生成が完了すると、プロジェクトのファイル一式がプロジェクトフォルダに作成されます。</p>
+<br>
+<h3>■ VS Code のセットアップ・デバッグ</h3>
+<ol>
+<li><p>VS Code を起動</p></li>
+<li><p>拡張機能インストール</p></li>
+<ul>
+<li><p>左側アクティビティバーのExtensions（拡張機能）を選択</p></li>
+<li><p>「STM32CubeIDE for Visual Studio Code」を検索・インストール</p></li>
+</ul>
+<li>プロジェクトフォルダの設定</li>
+<ul>
+<li><p>File → Open Folderで、STM32CubeMXで生成したプロジェクトフォルダを開く</p></li>
+<li><p>「About to install following cube bundle(s): rtos-proxy@…」はYesを選択</p></li>
+<li><p>「Configure discovered CMake project(s) as STM32Cube project(s)?」はYesを選択</p>
+<p>※ 自動設定に時間がかかります。「C/C++ Extension Pack」をインストールするか尋ねられた場合、Yes / NoどちらでもOKです。</p></li>
+</ul>
+<li>ボード上のLED点滅（Lチカ）のコードを追加</li>
+<ul>
+<li><p>Core/Srcフォルダ内のmain.cを開く</p></li>
+<li><p>102行目あたり <code>/* USER CODE BEGIN 3 */</code> の下に以下の記述を追加</p>
+<pre><code>HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+HAL_Delay(500);
+</code></pre>
+</li>
+</ul>
+<li>ビルド設定とビルド</li>
+<ul>
+<li><p>最下部ステータスバーの「Build（ビルド）」を実行</p></li>
+<li><p>画面上部のコンフィグ入力欄は「Debug」を選択</p></li>
+</ul>
+<li>ST-LINKドライバ導入（初回のみ）</li>
+<ul>
+<li><p>左側アクティビティバーのSTM32CUBEを選択</p></li>
+<li><p>サイドバー「STM32CUBE RESOURCES」から「Install STLINK USB DRIVERS」を実行</p></li>
+</ul>
+<li>ST-LINKファームウェア更新（初回のみ）</li>
+<ul>
+<li><p>NucleoボードをUSB接続</p></li>
+<li><p>左側アクティビティバーの「Run and Debug」を開く</p></li>
+<li><p>サイドバー「STM32CUBE DEVICE AND BOARDS」から「Upgrade ST-LINK firmware（↓アイコン）」を実行</p></li>
+</ul>
+<li>書き込み・デバッグ実行</li>
+<ul>
+<li><p>左側アクティビティバーの「Run and Debug」を開く</p></li>
+<li><p>サイドバー「RUN」の「Run and Debug」ボタンを押す</p></li>
+<li><p>デバッガに「ST-Link GDB server」を選択</p>
+<p>デバッグ画面に移行するので、Continue（F5）を押し、LEDが点滅すれば成功です。</p></li>
+</ul></ol>
+<br>
+<hr />
+<h3>■ C++言語への対応例</h3>
+<ol>
+<li>ファイル準備</li>
+<p>以下の内容の2つのファイルを準備します。user_main.hはCore/Incフォルダに、user_main.cppはCore/Srcフォルダに置きます。</p>
+<ul>
+<li><p>user_main.h</p>
+<pre><code>#ifndef USER_MAIN_H
+#define USER_MAIN_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void mainLoop();
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // USER_MAIN_H
+</code></pre>
+<li><p>user_main.cpp</p>
+<pre><code>#include "user_main.h"
+#include "main.h"
+
+void mainLoop()
+{
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    HAL_Delay(500);
+}
+</code></pre>
+</ul>
+<li>main.c 編集</li>
+<ul>
+<li><p>23行目 <code>/* USER CODE BEGIN Includes */</code> の下に以下の記述を追加</p>
+<pre><code>#include "user_main.h"
+</code></pre>
+</li>
+<li><p>103行目 <code>/* USER CODE BEGIN 3 */</code> の下のLチカのコードは削除し、以下の記述を追加</p>
+<pre><code>mainLoop();
+</code></pre>
+</li>
+</ul>
+<li><p>cmake/stm32cubemxフォルダ内のCMakeLists.txt 編集</p>
+<p>※ プロジェクトフォルダ直下のCMakeLists.txtではありません。</p></li>
+<ul>
+<li><p>3行目 <code>enable_language(C ASM)</code> を以下の記述に変更</p>
+<pre><code>enable_language(C CXX ASM)
+</code></pre>
+</li>
+<li><p>23行目 <code>${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/main.c</code> の下に以下の記述を追加</p>
+<pre><code>${CMAKE_CURRENT_SOURCE_DIR}/../../Core/Src/user_main.cpp
+</code></pre>
+</li>
+</ul></ol>
+<p>前述のビルド、デバッグが実行できれば成功です。</p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
