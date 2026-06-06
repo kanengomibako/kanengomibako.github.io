@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Buffer Variator</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Buffer Variator</h1>
+<p align="right">2026年06月06日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/>
+<p><a href="img/02_386_01_bv_pic.jpg"><img src="img/02_386_01_bv_pic.jpg" height="320"></a></p>
+<p>入力部にある抵抗とコンデンサの値を変更できるバッファーを製作しました。以前製作した<a href="00306.html">Rotary Buffer</a>とほぼ同じですが、抵抗値・容量値の範囲を広げたり、フットスイッチを追加したりしています。KiCadデータ、FreeCADデータは<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/BufferVariator">GitHub</a>にあります。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/8205446">販売ページはこちら</a></p>
+<hr />
+<h3>回路図</h3>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_RevB_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_RevB_schematic.png" height="360"></a></p>
+<p>位相反転させずに、増幅率を1未満にできるタイプの回路です。最大／最小増幅率がポットの抵抗値のバラつきに左右されない利点もあります。音量変化のカーブとしては通常の反転増幅回路の方がよいです。</p>
+<ul>
+<li><p>負電圧生成</p>
+<p>高抵抗時にバイアス電圧があると入力のコンデンサの充電に時間がかかるので、負電圧を生成して基準電位をグラウンドにします。<a href="00369_BootsUpBuffer.html">Boots Up Buffer</a>と同様に、安価に済むNE555を採用しました。負電圧は実測-6.7Vですが、実用上問題はないでしょう。</p>
+<p>市販のパワーサプライで18V設定にすると、18.5V程度出る場合があります。NE555DRの絶対最大定格18Vを超えるため、10V Blockerと同様の回路で過電圧保護しています。</p>
+<p>チャージポンプTC1044SCPAも検討しましたが、以前18kHz付近のノイズがあったため採用しませんでした。このノイズの原因ははっきり調査していませんが、空間に放射されているノイズを拾っていた可能性があります。</p></li>
+<li><p>オペアンプ</p>
+<p>コストパフォーマンスが高く負電源付近から入力可能なOPA1678を採用しました。TL072は安価で使いやすいのですが、負電源側の入力電圧範囲が小さいです（負電源+3V）。</p></li>
+<li><p>入力部の抵抗</p>
+<p>Empress Buffer+やHX Stompでも入力部の抵抗値を変更できるので、特に目新しい機能ではありません。ロータリースイッチはショートタイプの方が望ましいですが、入手性を重視しノンショートタイプを使いました。スイッチングノイズの対策として、常に10MΩの抵抗がついた状態にしましたが、それほど効果はないようでした。</p>
+<p>▼ マニュアルに掲載している周波数特性の変化例（RESISTANCE）</p>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_reg.png"><img src="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_reg.png" height="300"></a></p></li>
+<li><p>入力部のコンデンサ</p>
+<p>積層セラミックコンデンサ（MLCC）を使う場合、音響用途としては温度補償用（C0G/NP0特性）が望ましいです。JLCPCBの部品実装で追加料金がかからない温度補償用MLCCは限られています（下記参照）。これらの使用を前提とし、並列・直列を駆使して目的の容量値を作り出しています。ただし、ロータリースイッチやオペアンプ等の寄生容量は考慮していません。</p>
+<fieldset><p>＜JLCPCB Basic/Promotional Extended Parts C0G/NP0 MLCC 容量一覧 2026年5月時点＞</p>
+<p>1p 1.5p 2.2p 2.7p 3p 3.3p 4.7p 6p 6.8p 8.2p 10p 12p 15p 18p 20p 22p 27p 30p 33p 47p 56p 68p 100p 330p 2.2n</p></fieldset>
+<p>▼ マニュアルに掲載している周波数特性の変化例（CAPACITANCE）</p>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_cap.png"><img src="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_cap.png" height="300"></a></p>
+<p>ちなみにRESISTANCE 50kΩ、CAPACITANCE 4700pFにすると、<a href="00376_PosDT1.html">POS DT-1</a>のバイパス音を再現できます。</p></li>
+<li><p>フットスイッチ</p>
+<p>最低限ブースター機能は必要だろうと考え、フットスイッチを設けました。トゥルーバイパスにすると別途バッファーが必要になる可能性があるので、オフ時は一般的なバッファーとして機能させます。できるだけ簡便に済ませるため、入力部とゲインをスイッチで切り替える方式としました。</p>
+<p>演奏しながら切り替えるとスイッチングノイズがありますが、通常のトゥルーバイパスと同程度の大きさのノイズなのでそのままとしました。JFETやソリッドステートリレーでの切り替えも考えましたが、ハイインピーダンス条件なのでなかなか難しく、物理スイッチが妥当という結論になりました。 </p></li>
+<li><p>ケース</p>
+<p>JLCCNCの板金加工を利用しました。HAMMOND1590B（いわゆるMXRサイズ）と同等の大きさとなっています。ねじの位置は、敢えてトップ面にしました。底面だとフラットにならず、側面だとズレに弱いかもしれないと考えたためです。ねじはトップパネルを取り付けるのに利用しており、デザイン上のアクセントにもなっているかと思います。</p></li>
+</ul>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
