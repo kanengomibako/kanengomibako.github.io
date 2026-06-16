@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>Consistent Guitar Output</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>Consistent Guitar Output</h1>
+<p align="right">2026年06月16日　カテゴリー：<a href="00029.html">自作エフェクター（アナログ）</a></p>
+<hr class="title"/><br/>
+<p><a href="img/02_388_01_cgo.jpg"><img src="img/02_388_01_cgo.jpg" height="280"></a></p>
+<p>ギター・ベースのピックアップで拾った音は、楽器本体のボリューム・トーンやシールドケーブル、最初に接続する機器の入力部により音質変化が起こります。こういった音質変化を比較する際は再現性のあるギター出力が必要なため、以前<a href="00160.html">擬似ギター出力</a>や<a href="00307.html">ギター音再現機</a>を製作しました。今回もそれらと同様の機器ですが、小型で扱いやすいものとしました。KiCadデータは<a href="https://github.com/kanengomibako/EffectsPedals/tree/main/ConsistentGuitarOutput">GitHub</a>にあります。</p>
+<hr />
+<h3>回路図</h3>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/ConsistentGuitarOutput/ConsistentGuitarOutput_RevA_schematic.png"><img src="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/ConsistentGuitarOutput/ConsistentGuitarOutput_RevA_schematic.png" height="320"></a></p>
+<p>充分な出力を得るために、NJM4556Aを10回路並列にしました。ピックアップに磁束を与えるドライバーコイルは別途作らずに、ピックアップ本体に直接銅線を巻き付けることにしました。<a href="https://akizukidenshi.com/catalog/g/g110332/">外径0.29mmの2UEWポリウレタン銅線</a>を50回巻いています。</p>
+<p>下図は、<a href="00386_BufferVariator.html">Buffer Variator</a>のマニュアルに掲載している周波数特性データです。本機を使用することで、バッファ入力部の抵抗値や静電容量値による音質変化が確認しやすくなります。</p>
+<ul>
+<li><p>RESISTANCE</p>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_reg.png"><img src="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_reg.png" height="300"></a></p></li>
+<li><p>CAPACITANCE</p>
+<p><a href="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_cap.png"><img src="https://raw.githubusercontent.com/kanengomibako/EffectsPedals/refs/heads/main/BufferVariator/BufferVariator_cap.png" height="300"></a></p></li>
+</ul>
+<p>シールドケーブルの評価も行うことができます。CANARE GS-6の2mと5mの周波数特性を測定しました。<a href="00386_BufferVariator.html">Buffer Variator</a>で470pFの容量を足すことによって、2mのケーブルを5mのケーブルに近い特性にすることができました。</p>
+<p><a href="img/02_388_11_gs6.png"><img src="img/02_388_11_gs6.png" height="300"></a></p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
