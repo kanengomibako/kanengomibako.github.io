@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Universal Audio UAFX Dream '65 Reverb Amplifier 修理・特性測定</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+  <h1>Universal Audio UAFX Dream '65 Reverb Amplifier<br>修理・特性測定</h1>
+  <p align="right">2026年06月20日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+  <hr class="title">
+<p><a href="img/09_389_01_dreamP1.jpg"><img src="img/09_389_01_dreamP1.jpg" height="360"></a></p>
+<p>ノイズのみが出るジャンク品の<a href="https://hookup.co.jp/products/universal-audio/uafx-dream-65-reverb-amplifier">UAFX Dream '65</a>を手に入れたので、修理し特性を測定しました。</p>
+<br>
+<hr />
+<h3>■ 修理</h3>
+<p>起動時、SPEAKERのLED点灯位置の移動が繰り返されます。このとき、動作チェックを行っているようで、通常はすぐに動作可能な状態になります。今回は消費電流が600mA程度まで上がる異常な状態になり、そのせいで再起動を繰り返しているようでした。</p>
+<p>オペアンプの電源電圧を確認すると、負電源がショートに近い状態（数十Ω）で-2V程度しか出ていませんでした。ショートに近いということはどこかに異常な発熱がありそうなので、サーモグラフィーを使ってみました。</p>
+<p><a href="img/09_389_02_dream_th.jpg"><img src="img/09_389_02_dream_th.jpg" height="240"></a></p>
+<p>中央にある負電圧生成用のダイオードに発熱がありました。入力ジャック横のオペアンプにも発熱があったので、これを交換することにしました。</p>
+<p>このオペアンプは裏面にサーマルパッドがあるので、ホットエアーで取り外しました。横のリレーが邪魔でSONパッケージの取り付けは困難なので、VSSOPパッケージを立てて取り付け、後ほどハックルーで固めました。</p>
+<p><a href="img/09_389_03_dream_op1.jpg"><img src="img/09_389_03_dream_op1.jpg" height="240"></a></p>
+<p>これで電源の問題がなくなって無事に起動し、修理完了です。</p>
+<p>後日もう一台同機種のジャンク品を入手したのですが、それも同じ位置のオペアンプが故障していたので同様の修理を行いました。何か共通の故障原因があるのかもしれません。</p>
+<br>
+<hr />
+<h3>■ 基板画像</h3>
+<p><a href="img/09_389_04_dream_i1.jpg"><img src="img/09_389_04_dream_i1.jpg" height="360"></a><a href="img/09_389_05_dream_i2.jpg"><img src="img/09_389_05_dream_i2.jpg" height="320"></a></p>
+<p>＜主なIC等＞</p>
+<p>MIMX8MM5DVTLZAA: i.MXアプリケーション・プロセッサ 1800MHz<br>
+PCA9450: 電源管理<br>
+EMMC16G-TB29: フラッシュメモリ<br>
+nRF52810: Bluetooth SoC<br>
+CS4272: オーディオコーデック<br>
+MT53E128M32D2DS-053 WT:A: SDRAM<br>
+74LV08A: 4回路2入力ANDゲート<br>
+74AHC541: 8回路バッファ/ラインドライバ<br>
+UB2-5NEN: リレー<br>
+OPA1678: オペアンプ<br>
+OPA2156: オペアンプ<br>
+MP2314: 降圧スイッチングレギュレータ<br>
+TPS7A30: 負電圧リニアレギュレータ<br>
+STM32F072C8U6: マイクロコントローラ 48MHz</p>
+<br>
+<hr />
+<h3>■ 特性測定</h3>
+<h4>＜バイパス音＞</h4>
+<p>レイテンシーを測定すると、バイパス時は0、エフェクトオン時は約2.2msでした。バイパス時はアナログのバッファを通っているだけだと思われます。</p>
+<ul>
+<li><p>周波数特性 ※±1dBに拡大（DIRECT：測定に使用している<a href="00261.html">オーディオインターフェースUR22C</a>の入出力を直結）</p>
+<p><a href="img/09_389_11_dream_f.png"><img src="img/09_389_11_dream_f.png" height="300"></a></p>
+<p>低音域が全くカットされていないので、カップリングコンデンサが入っていないのかもしれません。基板上にもそれらしきコンデンサは見当たりません。</p></li>
+<li><p>正弦波 約283mVpp</p>
+<p><a href="img/09_389_12_dream_1k.png"><img src="img/09_389_12_dream_1k.png" height="300"></a></p>
+<p>ノイズレベルはHX Stompとほぼ同じですが、高音域にいくつかわずかなピークがあります。</p></li>
+</ul>
+<br>
+<h4>＜HX Stomp US Deluxe Vibとの比較＞</h4>
+<p>Fender Deluxe Reverbのモデリングとされている、HX StompのUS Deluxe Vibと比較します。</p>
+<ul>
+<li><p>周波数特性</p>
+<p><a href="img/09_389_21_dream_ff.png"><img src="img/09_389_21_dream_ff.png" height="300"></a></p>
+<p>HX StompのDriveを高めにすると、よく似た特性になります。VOLUME（Drive）にはハイパスコンデンサが効くため、動かすと高音域が相対的に変化した特性になることに注意が必要です。</p></li>
+<li><p>倍音（500Hz正弦波 歪率10%）</p>
+<p><a href="img/09_389_22_dream_thd.png"><img src="img/09_389_22_dream_thd.png" height="220"></a><a href="img/09_389_23_hx_thd.png"><img src="img/09_389_23_hx_thd.png" height="220"></a></p>
+<p>電源のフィルタリングが不十分だと元の音に変調が起こり、「サイドバンド」が見られるようになります（→ Valves - Clipping  <a href="https://sound-au.com/valves/clipping.html#s4">4 - Poor Filtering</a>）。今回は500Hzの基本波の両側（500±120Hz）にピークがあり、両機共にこういった特徴が再現されていることがわかります。Dream '65はサイドバンド成分が高音域に多く出ており、倍音構成は高音域の割合が高くなっています。</p></li>
+</ul>
+</main>
+<footer>
+  <p><a href="../">ホーム</a></p>
+  <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
