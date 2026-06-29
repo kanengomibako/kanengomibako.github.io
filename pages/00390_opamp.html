@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<title>オペアンプの許容入力電圧調査</title>
+<link href="../styles.css" rel="stylesheet"/>
+<link href="img/favicon.png" rel="icon" type="image/png"/>
+</head>
+<body>
+<header>
+</header>
+<main>
+<h1>オペアンプの許容入力電圧調査</h1>
+<p align="right">2026年06月29日　カテゴリー：<a href="00166.html">実験等</a></p>
+<hr class="title"/>
+<p>正負の電源電圧ギリギリまで入出力できるという特性は、レールtoレールやフルスイングと呼ばれます。この特性を持つオペアンプや、一般的なオペアンプの許容入力電圧がどのくらいか実測しました。</p>
+<p>＜回路図＞</p>
+<p><img src="img/14_390_01_opa.png"></p>
+<p>電源9V、バイアス電圧4.5Vの非反転バッファーとしています。1kHzの正弦波を入力し、歪率が0.1%または1%となる電圧を確認します。</p>
+<p>※ TL072は負電源側が歪みやすいので、バイアス電圧を少し上げる方が許容入力電圧が大きくなります。</p>
+<table border="1">
+<thead>
+<tr>
+<th>オペアンプ</th>
+<th>歪率0.1%<br>Vp-p</th>
+<th>歪率1%<br/>Vp-p</th>
+<th>参考価格</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NJM4558</td>
+<td>5.3</td>
+<td>5.7</td>
+<td>30円</td>
+<td></td>
+</tr>
+<tr>
+<td>NJM4580</td>
+<td>5.5</td>
+<td>5.9</td>
+<td>40円</td>
+<td></td>
+</tr>
+<tr>
+<td>NJM5532</td>
+<td>5.5</td>
+<td>5.8</td>
+<td>70円</td>
+<td></td>
+</tr>
+<tr>
+<td>TL072C（TI）</td>
+<td>2.4</td>
+<td>3.5</td>
+<td>$0.15</td>
+<td></td>
+</tr>
+<tr>
+<td>TL072C（ST）</td>
+<td>3.2</td>
+<td>4.0</td>
+<td>$0.16</td>
+<td></td>
+</tr>
+<tr>
+<td>TL072G（UTC）</td>
+<td>3.6</td>
+<td>4.3</td>
+<td>30円</td>
+<td></td>
+</tr>
+<tr>
+<td>COS9162</td>
+<td>3.6</td>
+<td>8.5</td>
+<td>$0.30</td>
+<td>電源電圧16Vまで　歪率2.9%＠9Vp-p</td>
+</tr>
+<tr>
+<td>COS2182</td>
+<td>7.1</td>
+<td>8.5</td>
+<td>$0.71</td>
+<td>入力が大きくなるにつれてノイズが増加</td>
+</tr>
+<tr>
+<td>COS2172</td>
+<td>8.2</td>
+<td>8.5</td>
+<td>$0.31</td>
+<td>歪率3.0%＠9Vp-p</td>
+</tr>
+<tr>
+<td>SGM8270</td>
+<td>8.3</td>
+<td>8.6</td>
+<td>$0.80</td>
+<td>歪率2.4%＠9Vp-p</td>
+</tr>
+<tr>
+<td>OPA2197</td>
+<td>8.3</td>
+<td>8.6</td>
+<td>$0.83</td>
+<td>歪率2.6%＠9Vp-p</td>
+</tr>
+</tbody>
+</table>
+<p>18V対応で入出力レールtoレールのオペアンプはそれなりに高価になります。COS2172は特にコストパフォーマンスが良いようです。<a href="https://www.cosine-ic.com/?_l=en">Cosine Nanoelectronics</a>は他社のICと型番の数字が同じものを製造していますが、スペックが違うので注意が必要です。</p>
+</main>
+<footer>
+<p><a href="../">ホーム</a></p>
+<p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
