@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Guyatone PS-031 DISTORTION PRO X-I PS-032 OVERDRIVE PRO Z-II 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+ <h1>Guyatone PS-031 DISTORTION PRO X-I<br>PS-032 OVERDRIVE PRO Z-II 解析</h1>
+ <p align="right">2026年07月11日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+ <hr class="title">
+<strong><p>本ページの情報および回路図はメーカーの公式情報ではなく、独自のリバースエンジニアリングに基づくものです。内容に誤りが含まれる場合があります。また、営利目的（商用）での利用を禁止します。</p>
+<p>The information and schematics on this page are unofficial and based on independent reverse engineering. They may contain inaccuracies. Commercial use is prohibited.</p></strong><hr>
+<p><a href="img/09_392_01_ps031.jpg"><img src="img/09_392_01_ps031.jpg" height="350"></a>
+<a href="img/09_392_02_ps032.jpg"><img src="img/09_392_02_ps032.jpg" height="350"></a></p>
+<p>Guyatone PS-031 DISTORTION PRO X-IとPS-032 OVERDRIVE PRO Z-IIを解析しました。</p>
+<hr />
+<h3>■ PS-031 回路図</h3>
+<p><a href="img/09_392_11_Guyatone_PS-031_DISTORTION_PRO_X-I_schematic.png"><img src="img/09_392_11_Guyatone_PS-031_DISTORTION_PRO_X-I_schematic.png" height="640"></a></p>
+<p>一部で「和製RAT」といわれているらしく、確かにRATを参考にしていると考えられる回路です。FILTERは、RATとは違い反時計回りで高音域が減衰します。MA522（D17）はラムダダイオードという特殊なダイオードです。電源電圧が下がるとインジケーターLEDの色が変わります。</p>
+<ul>
+<li><p>バッファの有無</p>
+<p>RATでは入力バッファがないため、ギターを直結したときにはC6（1nF）により帯域が狭まる作用が起こります（→ <a href="00386_BufferVariator.html">Buffer Variator</a>）。PS-031では前段にバッファがあるため、R10とC6は単純なローパスフィルターとなります。</p></li>
+</ul>
+<h3>■ PS-032 回路図</h3>
+<p><a href="img/09_392_12_Guyatone_PS-032_OVERDRIVE_PRO_Z-II_schematic.png"><img src="img/09_392_12_Guyatone_PS-032_OVERDRIVE_PRO_Z-II_schematic.png" height="640"></a></p>
+<p>PS-031と共用の基板です。クリッピングダイオードの位置が変わり、C8が2.2uF→4.7uFとなっています。PS-033 DISTORTION FOR BASS B-IIIも共用の基板で、定数違い＆クリーンミックスとなっているようです（→ <a href="https://www.youtube.com/watch?v=jbAdKHCc4ek">参考動画</a>）。</p>
+<ul>
+<li><p>増幅部シミュレーション（GAIN 50%）</p>
+<p><a href="img/09_392_21_gain.png"><img src="img/09_392_21_gain.png" height="320"></a></p>
+<p>RATはオペアンプの反転入力端子に560Ωの抵抗と4.7uFのコンデンサがあるため、低音域の出方が違っています。PS-032はC8が大きいため、低音域寄りの増幅となります。</p></li>
+<li><p>直列のダイオード</p>
+<p>D1、D2はクリッピングダイオードとは違い、直列に入っています。低電圧（微小信号）のときにインピーダンスが高くなるためノイズリダクションの働きがあり、<a href="https://aionfx.com/project/ember-metal-distortion/">Amptweaker Tight Metal</a>ではGATEコントロール部で用いられています。</p>
+<p>波形としては<a href="00208.html">クロスオーバー歪み</a>が生じる形です。</p><p><a href="img/09_392_22_1n60.png"><img src="img/09_392_22_1n60.png" height="320"></a></p>
+<p>ゲルマニウムダイオードを使う場合、後段の入力インピーダンスが低くないと歪みが大きくならないようです。今回のD1・D2はゲルマニウムダイオードなので、音への影響はあまり大きくないと思われます。</p></li>
+</ul>
+</main>
+<footer>
+ <p><a href="../">ホーム</a></p>
+ <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
