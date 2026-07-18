@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Photogenic DS-1000 Distortion 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+ <h1>Photogenic DS-1000 Distortion 解析</h1>
+ <p align="right">2026年07月18日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+ <hr class="title">
+<strong><p>本ページの情報および回路図はメーカーの公式情報ではなく、独自のリバースエンジニアリングに基づくものです。内容に誤りが含まれる場合があります。また、営利目的（商用）での利用を禁止します。</p>
+<p>The information and schematics on this page are unofficial and based on independent reverse engineering. They may contain inaccuracies. Commercial use is prohibited.</p></strong><hr>
+
+<p><a href="img/09_392_01_ds1000.jpg"><img src="img/09_392_01_ds1000.jpg" height="350"></a></p>
+<p>Photogenic DS-1000 Distortionは、キョーリツコーポレーションのPhotogenicブランドで販売されていたディストーションのようです。低価格なエフェクターは他の有名エフェクターと同じ回路となっていることが多いですが、トーンの動きが独特だったため回路を調べてみることにしました。</p>
+<hr />
+<h3>■ 回路図</h3>
+<p><a href="img/09_392_02_Photogenic_DS-1000_Distortion_schematic.png"><img src="img/09_392_02_Photogenic_DS-1000_Distortion_schematic.png" height="400"></a></p>
+<p>オペアンプの増幅率が固定され、TONEにブリッジTフィルターが使われている独特の回路となっています。<a href="https://www.effectsdatabase.com/model/photogenic/ds1000">Effects Database</a>には他のブランド名で同じ筐体のものが掲載されていますが、詳細は不明です。この回路の元になったエフェクターの情報をお持ちの方は、ご連絡いただけると助かります。</p>
+<h3>■ シミュレーション</h3>
+<ul>
+<li><p>増幅部（DIST 100%）</p>
+<p><a href="img/09_392_11_ds1000dist.png"><img src="img/09_392_11_ds1000dist.png" height="320"></a></p>
+<p>オペアンプによる増幅は極度に高いゲインに設定されていて、前段のポットで減衰させることにより歪みを調整します。オペアンプの利得帯域幅積（GBW）の影響で高音域が低下し、結果的にゲイン最大のRATと同様の中音域のピークとなっています。</p></li>
+<li><p>TONE</p>
+<p><a href="img/09_392_12_ds1000tone.png"><img src="img/09_392_12_ds1000tone.png" height="320"></a></p>
+<p>高音域と、谷となる周波数が変化します。同様の回路が<a href="https://www.muzique.com/lab/notch.htm">AMZに掲載されています</a>が、他に採用例は見かけません。後段では150Ωという小さい抵抗で信号が減衰し、オペアンプで大きく増幅されています。このようにするとSN比の悪化といった問題が起きてしまうため、通常はあまり推奨されない設計です。</p></li>
+</ul></main>
+<footer>
+ <p><a href="../">ホーム</a></p>
+ <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
