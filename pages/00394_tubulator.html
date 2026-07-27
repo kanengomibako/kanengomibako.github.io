@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ARION MTE-1 TUBULATOR 解析・改造</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+ <h1>ARION MTE-1 TUBULATOR 解析・改造</h1>
+ <p align="right">2026年07月27日　カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+ <hr class="title">
+<strong><p>本ページの情報および回路図はメーカーの公式情報ではなく、独自のリバースエンジニアリングに基づくものです。内容に誤りが含まれる場合があります。また、営利目的（商用）での利用を禁止します。</p>
+<p>The information and schematics on this page are unofficial and based on independent reverse engineering. They may contain inaccuracies. Commercial use is prohibited.</p></strong><hr>
+<p><a href="img/09_394_01_tubulator_pic.jpg"><img src="img/09_394_01_tubulator_pic.jpg" height="360"></a></p>
+<p>ARION MTE-1 TUBULATORのトゥルーバイパス化とリハウスを行いました。</p>
+<hr />
+<h3>■ 回路図</h3>
+<p><a href="img/09_394_02_ARION_MTE-1_TUBULATOR_schematic.png"><img src="img/09_394_02_ARION_MTE-1_TUBULATOR_schematic.png" height="400"></a></p>
+<p>古いARIONエフェクターはBOSSのACAアダプター（12V程度）が前提の仕様となっています。詳細は下記ページをご参照ください。</p>
+<ul>
+<li>こいち時間 - <a href="https://koichizikan.seesaa.net/article/arion_sch-z.html">ARION SCH-Z STEREO CHORUS（PSA仕様化・DRY KILL改造）</a></li>
+</ul>
+<p>今回は比較的新しい個体だったので、通常の9Vアダプターに対応しており、R1が0Ωとなっています。</p>
+<p>▽シミュレーション</p>
+<ul>
+<li><p>増幅部（DIST 0% → 50% → 100%）</p>
+<p><a href="img/09_394_05_tubulator_s1.png"><img src="img/09_394_05_tubulator_s1.png" height="320"></a></p>
+<p>チューブスクリーマーとの比較です。似ていますが、少し違いはあります。</p></li>
+<li><p>TONE（0% → 50% → 100%）</p>
+<p><a href="img/09_394_06_tubulator_s2.png"><img src="img/09_394_06_tubulator_s2.png" height="320"></a></p>
+<p>チューブスクリーマーとの比較で、音量が同じになるよう調節してあります。TUBULATORの方がわずかに可変幅が広いです。</p></li>
+</ul>
+<hr />
+<h3>■ トゥルーバイパス化・リハウス</h3>
+<p><a href="img/09_394_11_tubulator_tb.jpg"><img src="img/09_394_11_tubulator_tb.jpg" height="360"></a></p>
+<p>松美庵の<a href="http://www.matsumin.net/diy/modify/MTE-1/MTE-1_tlue.html">ARION MTE-1 トゥルーバイパス化</a>のページの通り、部品の除去とジャンパーの追加を行います。既存の配線パターンを一部利用し、配線が簡単になるようにしました。</p>
+<p><a href="img/09_394_12_arion_case.jpg"><img src="img/09_394_12_arion_case.jpg" height="320"></a></p>
+<p>ARIONエフェクターをリハウスできる専用ケースを設計し、JLCCNCの板金加工サービスに注文しました。</p>
+<p>→ <a href="https://kanengomibako.booth.pm/items/8549896">販売ページはこちら</a></p>
+<p>高さに余裕がないため、通常サイズの3PDTフットスイッチは端子を短く切る等の工夫が必要です。できれば小型のフットスイッチを使う方がよいでしょう。</p>
+<p><a href="img/09_394_13_sw_cut.jpg"><img src="img/09_394_13_sw_cut.jpg" height="240"></a></p>
+<p>他にもいくつかのペダルをリハウスしました。TUBULATOR以外はトゥルーバイパス化していません。</p>
+<p><a href="img/09_394_14_arions.jpg"><img src="img/09_394_14_arions.jpg" height="360"></a></p>
+<p><a href="https://x.com/pedakichi">ペダ吉</a>氏の情報によると、TUBULATORのフォントはFutura（太字）、SFL-1のフォントはOthello（クローンフォント：Velvet）とのことでした。上写真のラベルのフォントは、ITC Souvenir Std Bold（SCH-ZD）、<a href="https://www.fontspring.com/fonts/ae-type-inc/velvet">Velvet</a>（SFL-1、SOD-1）、Avenir Next Cyr Heavy（MTE-1）を使っています。</p>
+</main>
+<footer>
+ <p><a href="../">ホーム</a></p>
+ <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
