@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ProCo LIL' RAT 解析</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="img/favicon.png" type="image/png">
+</head>
+<body>
+<header>
+</header>
+<main>
+ <h1>ProCo LIL' RAT 解析</h1>
+ <p align="right">2026年11月10日 カテゴリー：<a href="00275.html">修理・改造・解析</a></p>
+ <hr class="title">
+<strong><p>本ページの情報および回路図はメーカーの公式情報ではなく、独自のリバースエンジニアリングに基づくものです。内容に誤りが含まれる場合があります。また、営利目的（商用）での利用を禁止します。</p>
+<p>The information and schematics on this page are unofficial and based on independent reverse engineering. They may contain inaccuracies. Commercial use is prohibited.</p></strong><hr>
+<p><a href="img/09_400_01_lilrat_pic.jpg"><img src="img/09_400_01_lilrat_pic.jpg" height="300"></a></p>
+<p>ProCo LIL' RATを解析しました。<a href="https://moridaira.jp/rat-distortion/lil-rat/">公式サイト</a>の説明では、「RAT2のサウンドをそのままコンパクトなボディに詰め込んだペダル」とされています。内部は3枚の基板と基板固定用パーツがあり、やや複雑です。</p>
+<hr />
+<h3>■ 回路図</h3>
+<p><a href="img/09_400_02_ProCo_LiL_RAT_schematuic.png"><img src="img/09_400_02_ProCo_LiL_RAT_schematuic.png" height="360"></a></p>
+<p><a href="https://kanengomibako.github.io/pages/00377_Rat2.html">以前解析したRAT2</a>と比較すると、電源部に逆接続保護のMOSFETが追加されていることがわかります。また、FILTERのコンデンサC11は2.7nFではなく3.3nFとなっています。</p>
+<p>いくつかのコンデンサには高誘電率系の積層セラミックコンデンサが使われています。このタイプのコンデンサは温度・電圧等での静電容量変化が大きいため、今までのRATとは音質が変わってしまいます。内部スペースが限られているため、やむを得ない部品選択だったのかもしれません。</p>
+</main>
+<footer>
+ <p><a href="../">ホーム</a></p>
+ <p>Copyright &copy; 可燃ごみ箱</p>
+</footer>
+</body>
+</html>
